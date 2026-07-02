@@ -1,5 +1,5 @@
-=== goBlocks – Advanced Block Library ===
-Contributors: goblockscontributors
+=== goBlocks – Blocks Anywhere ===
+Contributors: godevs
 Tags: blocks, page builder, full site editing, responsive, block editor
 Requires at least: 6.5
 Tested up to: 7.0
@@ -31,8 +31,11 @@ performance, and developer experience.
 * **Pagination** — Standard, load-more, and infinite scroll pagination modes
 * **Icon** — SVG icon block with stroke/fill control and size responsiveness
 * **Shape** — Decorative SVG shape dividers for section transitions
+* **Separator** — Styled horizontal rule with width, height, and colour control
+* **Spacer** — Fixed-height vertical spacer with responsive height per breakpoint
 * **Tabs** — ARIA-compliant tabbed content panels with keyboard navigation
 * **Accordion** — Native `<details>/<summary>` accordion with FAQ schema.org markup support
+* **Query No Results** — Customisable fallback content shown when a Query block returns zero posts
 
 = Design System Features =
 
@@ -68,7 +71,7 @@ performance, and developer experience.
 
 = Pattern Library =
 
-* 3 built-in block patterns (Hero Centered, Card Grid 3-Column, CTA with Image)
+* 15 built-in block patterns (Hero, Feature Cards, CTA Split, Stats Counter, Testimonial, Pricing Tiers, Newsletter, Team Grid, Blog Posts, FAQ Accordion, How It Works, Testimonials Grid, Logo Cloud, Contact CTA, Portfolio Grid)
 * Pattern browser in **GoBlocks → Patterns** admin page
 * All patterns available in the block editor pattern inserter
 
@@ -186,7 +189,7 @@ Schema**. GoBlocks will automatically add `schema.org/FAQPage`, `Question`, and
 * **Design Token System:** CSS custom properties with 6 breakpoints, RTL flip, minification, and deduplication.
 * **Dynamic Content System:** 15 built-in tags, loop/single/archive contexts, secure tag validation.
 * **Global Styles Framework:** Color palette editor, typography presets, container width, dark mode toggle, theme.json integration.
-* **Pattern Library:** 3 built-in patterns (Hero Centered, Card Grid 3-Column, CTA with Image) + pattern browser admin page.
+* **Pattern Library:** 15 built-in patterns (Hero, Feature Cards, CTA Split, Stats Counter, Testimonial, Pricing Tiers, Newsletter, Team Grid, Blog Posts, FAQ Accordion, How It Works, Testimonials Grid, Logo Cloud, Contact CTA, Portfolio Grid) + pattern browser admin page.
 * **Performance:** Per-page CSS file cache, delta regeneration, zero frontend JS for layout blocks.
 * **Accessibility:** WCAG 2.1 AA, ARIA roles, semantic HTML output.
 * **Developer:** TypeScript strict, Zustand, PSR-4, WPCS, PHPStan level 6, REST API.

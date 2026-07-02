@@ -1,19 +1,16 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import {
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ExternalLink,
-} from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
+import { LayoutPanel } from '../../../components/panels/LayoutPanel';
 import { TypographyPanel } from '../../../components/panels/TypographyPanel';
 import { SizingPanel } from '../../../components/panels/SizingPanel';
 import { SpacingPanel } from '../../../components/panels/SpacingPanel';
 import { BackgroundPanel } from '../../../components/panels/BackgroundPanel';
 import { BorderPanel } from '../../../components/panels/BorderPanel';
 import { EffectsPanel } from '../../../components/panels/EffectsPanel';
+import { GradientControl } from '../../../components/controls/GradientControl';
 import { useResponsiveStyles } from '../../../hooks/useResponsiveStyles';
 import type { BlockStyles } from '../../../types/styles';
 
@@ -27,6 +24,7 @@ interface HeadingAttributes {
 	link: string;
 	linkTarget: string;
 	linkRel: string;
+	textGradient: string;
 }
 
 interface HeadingInspectorProps {
@@ -64,15 +62,56 @@ export function HeadingInspector( {
 		linkTarget,
 		linkRel,
 		globalClasses,
+		textGradient,
 	} = attributes;
 
 	const responsive = useResponsiveStyles( styles, ( patch ) =>
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
+	const hasGradient = !! textGradient;
+
+	function onGradientToggle( on: boolean ) {
+		if ( ! on ) {
+			setAttributes( { textGradient: '' } );
+			responsive.setStyle( 'variables', '--gb-text-grad', '' );
+		} else {
+			const defaultGrad = 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)';
+			setAttributes( { textGradient: defaultGrad } );
+			responsive.setStyle( 'variables', '--gb-text-grad', defaultGrad );
+		}
+	}
+
+	function onGradientChange( value: string ) {
+		setAttributes( { textGradient: value } );
+		responsive.setStyle( 'variables', '--gb-text-grad', value );
+	}
+
 	const stylesContent = (
 		<>
+			<LayoutPanel styles={ styles } responsive={ responsive } />
 			<TypographyPanel styles={ styles } responsive={ responsive } />
+
+			{ /* Text Gradient — GenerateBlocks-parity feature */ }
+			<PanelBody
+				title={ __( 'Text Gradient', 'goblocks' ) }
+				initialOpen={ false }
+			>
+				<ToggleControl
+					label={ __( 'Enable gradient text', 'goblocks' ) }
+					help={ __( 'Applies a CSS gradient to the heading text.', 'goblocks' ) }
+					checked={ hasGradient }
+					onChange={ onGradientToggle }
+				/>
+				{ hasGradient && (
+					<GradientControl
+						label={ __( 'Gradient', 'goblocks' ) }
+						value={ textGradient }
+						onChange={ onGradientChange }
+					/>
+				) }
+			</PanelBody>
+
 			<SizingPanel styles={ styles } responsive={ responsive } />
 			<SpacingPanel styles={ styles } responsive={ responsive } />
 			<BackgroundPanel styles={ styles } responsive={ responsive } />
@@ -126,13 +165,7 @@ export function HeadingInspector( {
 					__nextHasNoMarginBottom
 				/>
 				{ anchor && (
-					<p
-						style={ {
-							marginTop: 8,
-							fontSize: 12,
-							color: '#757575',
-						} }
-					>
+					<p className="description">
 						{ __( 'Link to this heading: ', 'goblocks' ) }
 						<code>#{ anchor }</code>
 					</p>

@@ -14,13 +14,14 @@ import type { FlexValues } from '../controls/FlexControl';
 // ── Option sets ───────────────────────────────────────────────────────────
 
 const DISPLAY_OPTIONS = [
-	{ label: 'Block', value: 'block' },
-	{ label: 'Flex', value: 'flex' },
-	{ label: 'Grid', value: 'grid' },
-	{ label: 'Inline', value: 'inline' },
-	{ label: 'Inline-Flex', value: 'inline-flex' },
-	{ label: 'Inline-Grid', value: 'inline-grid' },
-	{ label: 'None', value: 'none' },
+	{ label: 'Block',        value: 'block' },
+	{ label: 'Inline',       value: 'inline' },
+	{ label: 'Inline-block', value: 'inline-block' },
+	{ label: 'Flex',         value: 'flex' },
+	{ label: 'Inline-flex',  value: 'inline-flex' },
+	{ label: 'Grid',         value: 'grid' },
+	{ label: 'Inline-grid',  value: 'inline-grid' },
+	{ label: 'None',         value: 'none' },
 ];
 
 const POSITION_OPTIONS = [
@@ -60,7 +61,8 @@ export function LayoutPanel( { responsive }: LayoutPanelProps ) {
 	const display =
 		get( 'display' ) ?? getInheritedValue( 'layout', 'display' );
 	const position = get( 'position' ) ?? getStyle( 'position', 'position' );
-	const isFlex = display === 'flex' || display === 'inline-flex';
+	const isFlex   = display === 'flex' || display === 'inline-flex';
+	const isGrid   = display === 'grid' || display === 'inline-grid';
 	const isNotStatic = position && position !== 'static';
 
 	const flexValues: FlexValues = {

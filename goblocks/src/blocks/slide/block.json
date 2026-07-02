@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/slide",
+	"version": "1.0.0",
+	"title": "Slide",
+	"category": "goblocks",
+	"description": "A single slide within a Slider block.",
+	"keywords": [ "slide", "carousel", "slider" ],
+	"textdomain": "goblocks",
+	"parent": [ "goblocks/slider" ],
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false,
+		"inserter":        false
+	},
+	"attributes": {
+		"uniqueId":      { "type": "string",  "default": "" },
+		"styles": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"paddingTop":    { "base": "48px" },
+					"paddingRight":  { "base": "2.5rem" },
+					"paddingBottom": { "base": "48px" },
+					"paddingLeft":   { "base": "2.5rem" }
+				},
+				"sizing": {
+					"minHeight": { "base": "420px" }
+				}
+			}
+		},
+		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":  { "type": "string",  "default": "" },
+		"blockVersion":  { "type": "integer", "default": 1 }
+	},
+	"editorScript": "file:./index.js"
+}

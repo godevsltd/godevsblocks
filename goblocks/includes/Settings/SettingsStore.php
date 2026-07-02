@@ -60,15 +60,34 @@ final class SettingsStore {
 	/**
 	 * Return a settings object formatted for the block editor via wp_localize_script().
 	 *
+	 * Keys must match the GoblocksEditorGlobals TypeScript interface in
+	 * src/types/block.ts — both flat camelCase keys AND the nested 'settings' bag.
+	 *
 	 * @return array<string, mixed>
 	 */
 	public static function for_editor(): array {
+		$all = self::all();
+
 		return array(
-			'settings'    => self::all(),
-			'nonce'       => wp_create_nonce( 'wp_rest' ),
-			'restUrl'     => rest_url(),
-			'version'     => defined( 'GOBLOCKS_VERSION' ) ? GOBLOCKS_VERSION : '',
-			'breakpoints' => (array) self::get( 'breakpoints', Defaults::get()['breakpoints'] ),
+			// Nested bag kept for backwards compat with any TS that reads settings.*.
+			'settings'           => $all,
+
+			// Flat camelCase keys that TypeScript reads directly from window.goblocksEditor.
+			'breakpoints'        => (array) ( $all['breakpoints'] ?? Defaults::get()['breakpoints'] ),
+			'containerWidth'     => absint( $all['container_width'] ?? 1200 ),
+			'syncResponsive'     => (bool) ( $all['sync_responsive'] ?? true ),
+			'disableGoogleFonts' => (bool) ( $all['disable_google_fonts'] ?? false ),
+			'enableDarkMode'     => (bool) ( $all['enable_dark_mode'] ?? false ),
+			'globalColorPalette' => (array) ( $all['global_color_palette'] ?? array() ),
+			'globalTypography'   => (array) ( $all['global_typography'] ?? array() ),
+			'cssPrintMethod'     => in_array( $all['css_print_method'] ?? 'file', array( 'file', 'inline' ), true )
+				? $all['css_print_method']
+				: 'file',
+
+			// Auth / REST context.
+			'nonce'   => wp_create_nonce( 'wp_rest' ),
+			'restUrl' => rest_url(),
+			'version' => defined( 'GOBLOCKS_VERSION' ) ? GOBLOCKS_VERSION : '',
 		);
 	}
 

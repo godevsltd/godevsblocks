@@ -78,13 +78,17 @@ export function DimensionsControl( {
 
 	return (
 		<div className="gb-dimensions-control">
+			{ /* W / H row */ }
 			<div className="gb-dimensions-control__row">
-				{ field( 'width', __( 'Width', 'goblocks' ) ) }
-				{ field( 'height', __( 'Height', 'goblocks' ) ) }
+				{ field( 'width', __( 'W', 'goblocks' ) ) }
+				{ field( 'height', __( 'H', 'goblocks' ) ) }
 			</div>
 
 			{ showMinMax && (
 				<div className="gb-dimensions-control__minmax">
+					<span className="gb-dimensions-control__section-label">
+						{ __( 'Min / Max', 'goblocks' ) }
+					</span>
 					{ field( 'minWidth', __( 'Min W', 'goblocks' ) ) }
 					{ field( 'maxWidth', __( 'Max W', 'goblocks' ) ) }
 					{ field( 'minHeight', __( 'Min H', 'goblocks' ) ) }
@@ -95,7 +99,7 @@ export function DimensionsControl( {
 			{ showAspectRatio &&
 				field(
 					'aspectRatio',
-					__( 'Aspect ratio', 'goblocks' ),
+					__( 'Ratio', 'goblocks' ),
 					'' as UnitOption
 				) }
 		</div>

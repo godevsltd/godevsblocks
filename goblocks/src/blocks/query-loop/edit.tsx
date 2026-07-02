@@ -15,7 +15,7 @@ interface QueryLoopBlockAttributes {
 // ── Default post template ──────────────────────────────────────────────────────
 
 const POST_TEMPLATE: [ string, Record< string, unknown > ][] = [
-	[ 'goblocks/box', {} ],
+	[ 'goblocks/group', {} ],
 ];
 
 // ── Edit component ─────────────────────────────────────────────────────────────

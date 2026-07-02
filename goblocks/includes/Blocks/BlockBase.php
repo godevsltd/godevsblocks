@@ -80,7 +80,12 @@ abstract class BlockBase {
 	 */
 	protected function get_unique_id( array $attributes ): string {
 		$id = $attributes['uniqueId'] ?? '';
-		return Sanitize::unique_id( is_string( $id ) ? $id : '' );
+		$id = Sanitize::unique_id( is_string( $id ) ? $id : '' );
+		if ( '' === $id ) {
+			// Deterministic fallback when uniqueId was not yet assigned by the editor.
+			$id = 'fb' . substr( md5( serialize( $attributes ) ), 0, 6 );
+		}
+		return $id;
 	}
 
 	/**
@@ -97,12 +102,15 @@ abstract class BlockBase {
 
 	/**
 	 * Return the CSS class name for this block instance.
-	 * Pattern: gb-{block-name}-{uniqueId}
+	 * Pattern: gb-{block-name}-{uniqueId}, or gb-{block-name} when uniqueId is empty.
 	 *
 	 * @param  string $unique_id Block unique ID.
 	 * @return string
 	 */
 	protected function get_block_class( string $unique_id ): string {
+		if ( '' === $unique_id ) {
+			return 'gb-' . $this->get_name();
+		}
 		return 'gb-' . $this->get_name() . '-' . $unique_id;
 	}
 

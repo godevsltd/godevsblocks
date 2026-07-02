@@ -2,49 +2,39 @@ import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import type { BlockEditProps } from '@wordpress/blocks';
 
+import { useCssEngine } from '../../hooks/useCssEngine';
 import { clsx } from '../../utils/classNames';
-import { ShapeInspector } from './components/Inspector';
+import {
+	ShapeInspector,
+	type ShapeAttributes,
+} from './components/Inspector';
 import { SHAPE_MAP, buildShapeSvg } from './shapes';
 import type { ShapeDefinition } from './shapes/index';
-
-// ── Attribute type ─────────────────────────────────────────────────────────────
-
-interface ShapeBlockAttributes {
-	uniqueId: string;
-	shapeSlug: string;
-	fillColor: string;
-	shapeHeight: number;
-	flipX: boolean;
-	flipY: boolean;
-	placement: string;
-	styles: Record< string, unknown >;
-	globalClasses: string[];
-	generatedCss: string;
-	blockVersion: number;
-}
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function makeUniqueId( clientId: string ): string {
 	return clientId.replace( /-/g, '' ).slice( 0, 8 );
 }
 
-// ── Edit component ─────────────────────────────────────────────────────────────
-
 export function Edit( {
 	attributes,
 	setAttributes,
 	clientId,
-}: BlockEditProps< ShapeBlockAttributes > ) {
+}: BlockEditProps< ShapeAttributes > ) {
 	const {
 		uniqueId,
 		shapeSlug,
 		fillColor,
+		fillType,
+		gradientFrom,
+		gradientTo,
+		gradientAngle,
+		shapeOpacity,
 		shapeHeight,
 		flipX,
 		flipY,
 		placement,
 		globalClasses,
+		styles,
 	} = attributes;
 
 	useEffect( () => {
@@ -53,8 +43,15 @@ export function Edit( {
 		}
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const shape = ( SHAPE_MAP[ shapeSlug ] ??
-		SHAPE_MAP.wave ) as ShapeDefinition;
+	useCssEngine( {
+		blockSlug: 'shape',
+		uniqueId,
+		styles,
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< ShapeAttributes > ),
+	} );
+
+	const shape = ( SHAPE_MAP[ shapeSlug ] ?? SHAPE_MAP.wave ) as ShapeDefinition;
 
 	const wrapperClass = clsx(
 		'gb-shape',
@@ -63,18 +60,25 @@ export function Edit( {
 		...( globalClasses ?? [] )
 	);
 
-	const blockProps = useBlockProps( {
-		className: wrapperClass,
-		style: { lineHeight: '0', display: 'block' },
-	} );
+	const blockProps = useBlockProps( { className: wrapperClass } );
+
+	const gradId = uniqueId ? `gb-grad-${ uniqueId }` : '';
 
 	const svgMarkup = buildShapeSvg(
 		shape,
 		fillColor,
 		shapeHeight,
 		flipX,
-		flipY
+		flipY,
+		fillType === 'gradient' ? gradientFrom : '',
+		fillType === 'gradient' ? gradientTo   : '',
+		gradientAngle,
+		gradId
 	);
+
+	const opacityStyle = ( shapeOpacity ?? 100 ) < 100
+		? { opacity: ( shapeOpacity ?? 100 ) / 100 }
+		: undefined;
 
 	return (
 		<>
@@ -83,10 +87,10 @@ export function Edit( {
 				setAttributes={ setAttributes }
 			/>
 
-			<div { ...blockProps }>
+			<div { ...blockProps } style={ { ...( blockProps.style as object ), ...opacityStyle } }>
 				<div
+					className="gb-shape__svg-wrapper"
 					dangerouslySetInnerHTML={ { __html: svgMarkup } }
-					style={ { pointerEvents: 'none', userSelect: 'none' } }
 				/>
 			</div>
 		</>

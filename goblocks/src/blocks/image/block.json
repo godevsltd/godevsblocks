@@ -4,38 +4,132 @@
 	"name": "goblocks/image",
 	"version": "1.0.0",
 	"title": "Image",
-	"category": "media",
-	"icon": "format-image",
+	"category": "goblocks",
 	"description": "Image block with media library, srcset, lazy loading, caption, and link wrapping.",
-	"keywords": [ "image", "photo", "picture", "figure", "media" ],
+	"keywords": [
+		"image",
+		"photo",
+		"picture",
+		"figure",
+		"media"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
-	"usesContext": [ "postId", "postType", "queryId" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"queryId"
+	],
 	"attributes": {
-		"uniqueId":     { "type": "string",  "default": "" },
-		"mediaId":      { "type": "integer", "default": 0 },
-		"mediaUrl":     { "type": "string",  "default": "" },
-		"mediaAlt":     { "type": "string",  "default": "" },
-		"mediaWidth":   { "type": "integer", "default": 0 },
-		"mediaHeight":  { "type": "integer", "default": 0 },
-		"sizeSlug":     { "type": "string",  "default": "large" },
-		"caption":      { "type": "string",  "default": "" },
-		"showCaption":  { "type": "boolean", "default": false },
-		"href":         { "type": "string",  "default": "" },
-		"target":       { "type": "string",  "default": "_self" },
-		"rel":          { "type": "string",  "default": "" },
-		"styles":       { "type": "object",  "default": {} },
-		"globalClasses": { "type": "array",  "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object", "default": {} },
-		"dynamicContent": { "type": "object", "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"mediaId": {
+			"type": "integer",
+			"default": 0
+		},
+		"mediaUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"mediaAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"mediaWidth": {
+			"type": "integer",
+			"default": 0
+		},
+		"mediaHeight": {
+			"type": "integer",
+			"default": 0
+		},
+		"sizeSlug": {
+			"type": "string",
+			"default": "large"
+		},
+		"caption": {
+			"type": "string",
+			"default": ""
+		},
+		"showCaption": {
+			"type": "boolean",
+			"default": false
+		},
+		"href": {
+			"type": "string",
+			"default": ""
+		},
+		"target": {
+			"type": "string",
+			"default": "_self"
+		},
+		"rel": {
+			"type": "string",
+			"default": ""
+		},
+		"objectFit": {
+			"type": "string",
+			"default": ""
+		},
+		"focalPointX": {
+			"type": "number",
+			"default": 0.5
+		},
+		"focalPointY": {
+			"type": "number",
+			"default": 0.5
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"lightbox": {
+			"type": "boolean",
+			"default": false
+		},
+		"lightboxCaption": {
+			"type": "boolean",
+			"default": true
+		},
+		"lightboxEffect": {
+			"type": "string",
+			"default": "zoom"
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"hoverEffect": {
+			"type": "string",
+			"default": "none"
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css"
+	"viewScript":   "file:./view.js",
+	"editorScript": "file:./index.js"
 }

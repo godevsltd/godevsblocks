@@ -4,34 +4,90 @@
 	"name": "goblocks/tabs",
 	"version": "1.0.0",
 	"title": "Tabs",
-	"category": "layout",
-	"icon": "table-col-before",
+	"category": "goblocks",
 	"description": "Accessible tabbed content panels with Arrow / Home / End keyboard navigation.",
-	"keywords": [ "tabs", "tabbed", "panels", "navigation" ],
+	"keywords": [
+		"tabs",
+		"tabbed",
+		"panels",
+		"navigation"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"tagName":        { "type": "string",  "default": "div" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"dynamicContent": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"orientation":    { "type": "string",  "default": "horizontal", "enum": [ "horizontal", "vertical" ] },
-		"defaultTab":     { "type": "integer", "default": 0 }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "div"
+		},
+		"styles": {
+			"type": "object",
+			"default": {
+				"variables": {
+					"--gb-tabs-active-color": {
+						"base": "#4f46e5"
+					},
+					"--gb-tabs-active-text": {
+						"base": "#ffffff"
+					},
+					"--gb-tabs-btn-color": {
+						"base": "#6b7280"
+					}
+				}
+			}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"orientation": {
+			"type": "string",
+			"default": "horizontal",
+			"enum": [ "horizontal", "vertical" ]
+		},
+		"tabStyle": {
+			"type": "string",
+			"default": "pill"
+		},
+		"tabsFullWidth": {
+			"type": "boolean",
+			"default": false
+		},
+		"defaultTab": {
+			"type": "integer",
+			"default": 0
+		}
 	},
 	"providesContext": {
 		"goblocks/tabsId": "uniqueId"
 	},
 	"viewScript": "file:./view.js",
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"style":        "file:./style-index.css"
+	"editorScript": "file:./index.js"
 }

@@ -183,6 +183,59 @@ final class SvgSanitizer {
 	);
 
 	/**
+	 * Sanitize an SVG inner-content string (path/shape elements without the outer <svg> tag).
+	 *
+	 * Wraps the input in a temporary <svg> root, runs the full sanitiser, then
+	 * extracts and returns only the serialised child nodes.
+	 *
+	 * @param  string $inner Raw inner SVG markup (no <svg> wrapper).
+	 * @return string Sanitized inner markup, or empty string on parse failure.
+	 */
+	public static function sanitize_inner( string $inner ): string {
+		$inner = trim( $inner );
+
+		if ( '' === $inner ) {
+			return '';
+		}
+
+		$wrapped = '<svg xmlns="http://www.w3.org/2000/svg">' . $inner . '</svg>';
+
+		$dom = new \DOMDocument();
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$dom->formatOutput = false;
+
+		$prev   = libxml_use_internal_errors( true );
+		$loaded = $dom->loadXML( $wrapped, LIBXML_NONET | LIBXML_NOERROR );
+		libxml_clear_errors();
+		libxml_use_internal_errors( $prev );
+
+		if ( ! $loaded ) {
+			return '';
+		}
+
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$root = $dom->documentElement;
+
+		if ( ! $root ) {
+			return '';
+		}
+
+		self::clean_node( $root );
+
+		$output = '';
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		foreach ( $root->childNodes as $child ) {
+			$serialized = $dom->saveXML( $child );
+
+			if ( $serialized ) {
+				$output .= $serialized;
+			}
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Sanitize an SVG string.
 	 *
 	 * @param  string $svg Raw SVG markup.

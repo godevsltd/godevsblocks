@@ -2,7 +2,7 @@
  * TypographyPanel — Font, size, weight, line-height, alignment, transform, color.
  */
 
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { Icon, alignLeft, alignCenter, alignRight, alignJustify } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { FontControl } from '../controls/FontControl';
@@ -15,15 +15,16 @@ import type { UseResponsiveStylesReturn } from '../../hooks/useResponsiveStyles'
 // ── Option sets ───────────────────────────────────────────────────────────
 
 const WEIGHT_OPTIONS = [
-	{ label: '100', value: '100' },
-	{ label: '200', value: '200' },
-	{ label: '300', value: '300' },
-	{ label: '400', value: '400' },
-	{ label: '500', value: '500' },
-	{ label: '600', value: '600' },
-	{ label: '700', value: '700' },
-	{ label: '800', value: '800' },
-	{ label: '900', value: '900' },
+	{ label: __( '— Default —', 'goblocks' ), value: '' },
+	{ label: __( 'Thin (100)', 'goblocks' ), value: '100' },
+	{ label: __( 'Extra Light (200)', 'goblocks' ), value: '200' },
+	{ label: __( 'Light (300)', 'goblocks' ), value: '300' },
+	{ label: __( 'Regular (400)', 'goblocks' ), value: '400' },
+	{ label: __( 'Medium (500)', 'goblocks' ), value: '500' },
+	{ label: __( 'SemiBold (600)', 'goblocks' ), value: '600' },
+	{ label: __( 'Bold (700)', 'goblocks' ), value: '700' },
+	{ label: __( 'Extra Bold (800)', 'goblocks' ), value: '800' },
+	{ label: __( 'Black (900)', 'goblocks' ), value: '900' },
 ];
 
 const ALIGN_OPTIONS = [
@@ -61,7 +62,7 @@ interface TypographyPanelProps {
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function TypographyPanel( { responsive }: TypographyPanelProps ) {
-	const { getStyle, getInheritedValue, setStyle } = responsive;
+	const { getStyle, getInheritedValue, setStyle, activeBreakpoint } = responsive;
 
 	function get( prop: string ) {
 		return getStyle( 'typography', prop );
@@ -91,12 +92,12 @@ export function TypographyPanel( { responsive }: TypographyPanelProps ) {
 				onChange={ set( 'fontSize' ) }
 				defaultUnit="rem"
 				units={ [ 'rem', 'em', 'px', '%', 'vw' ] }
-				breakpoint="base"
+				breakpoint={ activeBreakpoint }
 			/>
 
-			<ToggleGroupControl
+			<SelectControl
 				label={ __( 'Font weight', 'goblocks' ) }
-				value={ get( 'fontWeight' ) }
+				value={ get( 'fontWeight' ) ?? '' }
 				options={ WEIGHT_OPTIONS }
 				onChange={ set( 'fontWeight' ) }
 			/>
@@ -108,7 +109,7 @@ export function TypographyPanel( { responsive }: TypographyPanelProps ) {
 				onChange={ set( 'lineHeight' ) }
 				defaultUnit=""
 				units={ [ '' as any, 'em', 'px' ] }
-				breakpoint="base"
+				breakpoint={ activeBreakpoint }
 			/>
 
 			<UnitInput
@@ -118,7 +119,7 @@ export function TypographyPanel( { responsive }: TypographyPanelProps ) {
 				onChange={ set( 'letterSpacing' ) }
 				defaultUnit="em"
 				units={ [ 'em', 'px', 'rem' ] }
-				breakpoint="base"
+				breakpoint={ activeBreakpoint }
 			/>
 
 			<ToggleGroupControl
@@ -158,8 +159,33 @@ export function TypographyPanel( { responsive }: TypographyPanelProps ) {
 				value={ get( 'color' ) }
 				inheritedValue={ inh( 'color' ) }
 				onChange={ set( 'color' ) }
-				breakpoint="base"
+				breakpoint={ activeBreakpoint }
 			/>
+
+			<TextControl
+				label={ __( 'Text shadow', 'goblocks' ) }
+				value={ get( 'textShadow' ) ?? '' }
+				placeholder="0px 2px 8px rgba(0,0,0,0.25)"
+				onChange={ set( 'textShadow' ) }
+				help={ __( 'CSS text-shadow value', 'goblocks' ) }
+				// @ts-ignore
+				__nextHasNoMarginBottom
+			/>
+
+			{ /* Hover state */ }
+			<div className="gb-panel-state-section">
+				<p className="gb-panel-state-section__label">
+					{ __( ':hover state', 'goblocks' ) }
+				</p>
+				<ColorControl
+					label={ __( 'Hover color', 'goblocks' ) }
+					value={ responsive.getStyleState( 'typography', 'color', 'hover' ) }
+					onChange={ ( v ) =>
+						responsive.setStyleState( 'typography', 'color', 'hover', v )
+					}
+					breakpoint={ activeBreakpoint }
+				/>
+			</div>
 		</PanelBody>
 	);
 }

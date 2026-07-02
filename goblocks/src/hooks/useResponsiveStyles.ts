@@ -79,11 +79,53 @@ export interface UseResponsiveStylesReturn {
 	): string | undefined;
 
 	/**
+	 * Get the value for (category, property) at a specific pseudo-state.
+	 * Used by panel hover/focus state controls.
+	 */
+	getStyleState(
+		category: StyleCategory,
+		property: string,
+		state: PseudoState
+	): string | undefined;
+
+	/**
 	 * Set a style value for (category, property) at the active breakpoint.
 	 * Deep-merges into the existing styles object without clobbering other
 	 * categories, properties, or breakpoints.
 	 */
 	setStyle( category: StyleCategory, property: string, value: string ): void;
+
+	/**
+	 * Set multiple style values for (category) at the active breakpoint in a
+	 * single setAttributes call. Prevents the stale-closure clobber that occurs
+	 * when calling setStyle() multiple times synchronously (e.g. linked spacing).
+	 */
+	setStyleBatch(
+		category: StyleCategory,
+		updates: Record< string, string >
+	): void;
+
+	/**
+	 * Set a style value for (category, property) at a specific pseudo-state.
+	 * The CSS engine outputs this as a :hover/:focus/:active/::before/::after rule.
+	 */
+	setStyleState(
+		category: StyleCategory,
+		property: string,
+		state: PseudoState,
+		value: string
+	): void;
+
+	/**
+	 * Set multiple style values for (category) at a specific pseudo-state in a
+	 * single setAttributes call. Prevents the stale-closure clobber in linked
+	 * border-color hover updates.
+	 */
+	setStyleStateBatch(
+		category: StyleCategory,
+		updates: Record< string, string >,
+		state: PseudoState
+	): void;
 
 	/**
 	 * Clear the value for (category, property) at the active breakpoint.
@@ -176,11 +218,80 @@ export function useResponsiveStyles(
 		[ setStyle ]
 	);
 
+	const getStyleState = useCallback(
+		(
+			category: StyleCategory,
+			property: string,
+			state: PseudoState
+		): string | undefined => {
+			const categoryObj = styles[ category ] as
+				| Record< string, Partial< Record< string, string > > >
+				| undefined;
+			return categoryObj?.[ property ]?.[ state ];
+		},
+		[ styles ]
+	);
+
+	const setStyleBatch = useCallback(
+		( category: StyleCategory, updates: Record< string, string > ) => {
+			const categoryPatch = Object.fromEntries(
+				Object.entries( updates ).map( ( [ prop, val ] ) => [
+					prop,
+					{ [ activeBreakpoint ]: val },
+				] )
+			);
+			const patch: BlockStyles = { [ category ]: categoryPatch };
+			setAttributes( { styles: deepMerge( styles, patch ) } );
+		},
+		[ styles, setAttributes, activeBreakpoint ]
+	);
+
+	const setStyleState = useCallback(
+		(
+			category: StyleCategory,
+			property: string,
+			state: PseudoState,
+			value: string
+		) => {
+			const patch: BlockStyles = {
+				[ category ]: {
+					[ property ]: {
+						[ state ]: value,
+					},
+				},
+			};
+			setAttributes( { styles: deepMerge( styles, patch ) } );
+		},
+		[ styles, setAttributes ]
+	);
+
+	const setStyleStateBatch = useCallback(
+		(
+			category: StyleCategory,
+			updates: Record< string, string >,
+			state: PseudoState
+		) => {
+			const categoryPatch = Object.fromEntries(
+				Object.entries( updates ).map( ( [ prop, val ] ) => [
+					prop,
+					{ [ state ]: val },
+				] )
+			);
+			const patch: BlockStyles = { [ category ]: categoryPatch };
+			setAttributes( { styles: deepMerge( styles, patch ) } );
+		},
+		[ styles, setAttributes ]
+	);
+
 	return {
 		getStyle,
 		getInheritedValue,
 		getStyleAt,
+		getStyleState,
 		setStyle,
+		setStyleBatch,
+		setStyleState,
+		setStyleStateBatch,
 		resetStyle,
 		activeBreakpoint,
 	};

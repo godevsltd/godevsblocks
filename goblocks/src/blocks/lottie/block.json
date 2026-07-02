@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/lottie",
+	"version": "1.0.0",
+	"title": "Lottie Animation",
+	"category": "goblocks",
+	"description": "Embed a Lottie JSON animation with autoplay and loop controls.",
+	"keywords": [ "lottie", "animation", "json", "motion" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":      { "type": "string",  "default": "" },
+		"src":           { "type": "string",  "default": "" },
+		"srcId":         { "type": "integer", "default": 0 },
+		"loop":          { "type": "boolean", "default": true },
+		"speed":         { "type": "number",  "default": 1 },
+		"trigger":       { "type": "string",  "default": "auto" },
+		"direction":     { "type": "integer", "default": 1 },
+		"renderer":      { "type": "string",  "default": "svg" },
+		"styles":        { "type": "object",  "default": {} },
+		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":  { "type": "string",  "default": "" },
+		"blockVersion":  { "type": "integer", "default": 1 }
+	},
+	"viewScript": "file:./view.js",
+	"editorScript": "file:./index.js"
+}

@@ -11,6 +11,7 @@ import type { BlockEditProps } from '@wordpress/blocks';
 import { useCssEngine } from '../../hooks/useCssEngine';
 import { clsx } from '../../utils/classNames';
 import { ButtonInspector } from './components/Inspector';
+import { ICON_MAP } from '../icon/icons/index';
 import type { BlockStyles } from '../../types/styles';
 
 // ── Attribute type ────────────────────────────────────────────────────────
@@ -31,6 +32,10 @@ interface ButtonBlockAttributes {
 	download: boolean;
 	buttonType: string;
 	ariaLabel: string;
+	iconSlug: string;
+	iconSvg: string;
+	iconPosition: string;
+	iconSize: string;
 }
 
 // ── Unique ID generator ───────────────────────────────────────────────────
@@ -57,7 +62,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< ButtonBlockAttributes > ) {
-	const { uniqueId, tagName, text, styles, globalClasses } = attributes;
+	const { uniqueId, tagName, text, styles, globalClasses, iconSlug, iconSvg, iconPosition, iconSize, generatedCss } = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {
@@ -71,6 +76,7 @@ export function Edit( {
 		blockSlug: 'button',
 		uniqueId,
 		styles,
+		generatedCss,
 		setAttributes: ( patch ) =>
 			setAttributes( patch as Partial< ButtonBlockAttributes > ),
 	} );
@@ -109,12 +115,17 @@ export function Edit( {
 				setAttributes={ setAttributes as any }
 			/>
 
-			{ /*
-			 * Outer element carries blockProps (editor wrapper metadata).
-			 * No href in editor — prevents accidental navigation.
-			 * RichText inside span for clean BEM structure and future icon slots.
-			 */ }
+			{ /* Outer element carries blockProps. No href in editor — prevents accidental navigation. */ }
 			<Tag { ...blockProps }>
+				{ iconSlug && iconPosition === 'before' && (
+					<span
+						className="gb-button__icon gb-button__icon--before"
+						aria-hidden="true"
+						dangerouslySetInnerHTML={ {
+							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${ iconSize || '1em' }" height="${ iconSize || '1em' }" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ ICON_MAP[ iconSlug ]?.inner ?? '' }</svg>`,
+						} }
+					/>
+				) }
 				<RichText
 					tagName="span"
 					className="gb-button__text"
@@ -124,6 +135,15 @@ export function Edit( {
 					allowedFormats={ ALLOWED_FORMATS }
 					withoutInteractiveFormatting
 				/>
+				{ iconSlug && iconPosition === 'after' && (
+					<span
+						className="gb-button__icon gb-button__icon--after"
+						aria-hidden="true"
+						dangerouslySetInnerHTML={ {
+							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${ iconSize || '1em' }" height="${ iconSize || '1em' }" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ ICON_MAP[ iconSlug ]?.inner ?? '' }</svg>`,
+						} }
+					/>
+				) }
 			</Tag>
 		</>
 	);

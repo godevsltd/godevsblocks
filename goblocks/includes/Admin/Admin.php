@@ -5,6 +5,8 @@ defined( 'ABSPATH' ) || exit;
 
 use GoBlocks\Utils\Singleton;
 use GoBlocks\Settings\SettingsStore;
+use GoBlocks\GlobalStyles\GlobalStyles;
+use GoBlocks\Patterns\PatternLibrary;
 
 /**
  * Admin area controller.
@@ -24,16 +26,26 @@ class Admin extends Singleton {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		add_action( 'admin_menu', array( $this, 'add_menu_page' ) );
+		// Single callback registers parent + all submenus in guaranteed order.
+		// Splitting across separate hooks risks the parent not existing in
+		// $admin_page_hooks when a submenu calls get_plugin_page_hookname().
+		add_action( 'admin_menu', array( $this, 'register_all_menus' ), 9 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
 	/**
-	 * Register the GoBlocks top-level admin menu page.
+	 * Register the top-level menu then all submenus in a single callback.
+	 *
+	 * Must stay in one function: WordPress populates $admin_page_hooks
+	 * inside add_menu_page(), which add_submenu_page() reads to compute
+	 * the correct hook suffix. Splitting across separate hook callbacks
+	 * (even with priorities) can cause the suffix to be wrong if another
+	 * plugin fires in between.
 	 *
 	 * @return void
 	 */
-	public function add_menu_page(): void {
+	public function register_all_menus(): void {
+		// 1. Top-level page — populates $admin_page_hooks['goblocks-settings'].
 		$this->page_hook = add_menu_page(
 			__( 'GoBlocks Settings', 'goblocks' ),
 			__( 'GoBlocks', 'goblocks' ),
@@ -43,6 +55,10 @@ class Admin extends Singleton {
 			'dashicons-block-default',
 			80
 		);
+
+		// 2. Submenus — parent now exists so hook names compute correctly.
+		GlobalStyles::add_submenu_page();
+		PatternLibrary::add_submenu_page();
 	}
 
 	/**

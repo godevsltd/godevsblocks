@@ -18,24 +18,30 @@ import type { BlockStyles } from '../../types/styles';
 // ── Attribute type ────────────────────────────────────────────────────────
 
 interface ImageBlockAttributes {
-	uniqueId: string;
-	mediaId: number;
-	mediaUrl: string;
-	mediaAlt: string;
-	mediaWidth: number;
-	mediaHeight: number;
-	sizeSlug: string;
-	caption: string;
-	showCaption: boolean;
-	href: string;
-	target: string;
-	rel: string;
-	styles: BlockStyles;
-	globalClasses: string[];
-	htmlAttributes: Record< string, string >;
-	dynamicContent: Record< string, string >;
-	generatedCss: string;
-	blockVersion: number;
+	uniqueId:        string;
+	mediaId:         number;
+	mediaUrl:        string;
+	mediaAlt:        string;
+	mediaWidth:      number;
+	mediaHeight:     number;
+	sizeSlug:        string;
+	caption:         string;
+	showCaption:     boolean;
+	href:            string;
+	target:          string;
+	rel:             string;
+	lightbox:        boolean;
+	lightboxCaption: boolean;
+	lightboxEffect:  string;
+	styles:          BlockStyles;
+	globalClasses:   string[];
+	htmlAttributes:  Record< string, string >;
+	dynamicContent:  Record< string, string >;
+	generatedCss:    string;
+	blockVersion:    number;
+	objectFit?:      string;
+	focalPointX?:    number;
+	focalPointY?:    number;
 }
 
 // ── Media object shape from MediaUpload / MediaPlaceholder ────────────────
@@ -70,6 +76,7 @@ export function Edit( {
 		mediaHeight,
 		caption,
 		showCaption,
+		lightbox,
 		styles,
 		globalClasses,
 	} = attributes;
@@ -94,14 +101,24 @@ export function Edit( {
 	const wrapperClass = clsx(
 		'gb-image',
 		uniqueId && `gb-image-${ uniqueId }`,
+		attributes.objectFit && 'gb-image--has-focal',
 		...( globalClasses ?? [] )
 	);
 
 	const blockProps = useBlockProps( { className: wrapperClass } );
 
-	const hasMedia = !! ( mediaId || mediaUrl );
+	// Blob URLs are transient upload previews — treat the block as empty until
+	// a real media library URL (with mediaId) is confirmed.
+	const hasMedia = !! ( mediaId || ( mediaUrl && ! mediaUrl.startsWith( 'blob:' ) ) );
 
 	function onSelectMedia( media: WPMedia ) {
+		// Blob URLs are transient upload previews — WordPress will call onSelect
+		// again with the real media object once the upload finishes. Saving a
+		// blob URL here would persist a browser-only URL that the PHP render
+		// (and any other browser session) can never resolve.
+		if ( ! media.id && media.url?.startsWith( 'blob:' ) ) {
+			return;
+		}
 		setAttributes( {
 			mediaId: media.id ?? 0,
 			mediaUrl: media.url ?? '',
@@ -112,6 +129,9 @@ export function Edit( {
 	}
 
 	function onSelectURL( url: string ) {
+		if ( url.startsWith( 'blob:' ) ) {
+			return;
+		}
 		setAttributes( { mediaUrl: url, mediaId: 0, mediaAlt: '' } );
 	}
 
@@ -160,6 +180,15 @@ export function Edit( {
 
 			{ /* Block output */ }
 			<figure { ...blockProps }>
+				{ hasMedia && lightbox && (
+					<span className="gb-image__lightbox-badge" aria-hidden="true" title={ __( 'Lightbox enabled', 'goblocks' ) }>
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" strokeWidth="2"/>
+							<circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
+							<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+						</svg>
+					</span>
+				) }
 				{ hasMedia ? (
 					<>
 						<img

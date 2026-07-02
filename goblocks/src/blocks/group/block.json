@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "goblocks/group",
+  "version": "1.0.0",
+  "title": "Group",
+  "category": "goblocks",
+  "description": "Universal layout container — div, section, article, or any semantic tag. Full flexbox/grid, background, spacing, and border controls.",
+  "keywords": ["group", "container", "section", "wrapper", "layout", "div", "flex", "grid"],
+  "textdomain": "goblocks",
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "anchor": true,
+    "align": ["full", "wide"]
+  },
+  "usesContext": ["postId", "postType", "queryId"],
+  "providesContext": {
+    "goblocks/groupUniqueId": "uniqueId"
+  },
+  "attributes": {
+    "uniqueId":    { "type": "string",  "default": "" },
+    "tagName":     { "type": "string",  "default": "div" },
+    "styles": {
+      "type": "object",
+      "default": {}
+    },
+    "globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
+    "htmlAttributes": { "type": "object",  "default": {} },
+    "dynamicContent": { "type": "object",  "default": {} },
+    "generatedCss":   { "type": "string",  "default": "" },
+    "blockVersion":   { "type": "integer", "default": 1 },
+    "link":           { "type": "string",  "default": "" },
+    "linkTarget":     { "type": "string",  "default": "_self" },
+    "linkRel":        { "type": "string",  "default": "" },
+    "ariaLabel":      { "type": "string",  "default": "" },
+    "animationClass": { "type": "string",  "default": "" },
+    "layout":         { "type": "string",  "default": "default" },
+    "columns":        { "type": "integer", "default": 3 }
+  },
+  "editorScript": "file:./index.js",
+  "viewScript":   "file:./view.js"
+}

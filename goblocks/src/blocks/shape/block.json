@@ -4,31 +4,91 @@
 	"name": "goblocks/shape",
 	"version": "1.0.0",
 	"title": "Shape Divider",
-	"category": "design",
-	"icon": "image-flip-horizontal",
+	"category": "goblocks",
 	"description": "SVG shape divider — 12 preset shapes with color, height, flip, and responsive height controls.",
-	"keywords": [ "shape", "divider", "separator", "wave", "svg", "section" ],
+	"keywords": [
+		"shape",
+		"divider",
+		"separator",
+		"wave",
+		"svg",
+		"section"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":      { "type": "string",  "default": "" },
-		"shapeSlug":     { "type": "string",  "default": "wave" },
-		"fillColor":     { "type": "string",  "default": "#ffffff" },
-		"shapeHeight":   { "type": "number",  "default": 80 },
-		"flipX":         { "type": "boolean", "default": false },
-		"flipY":         { "type": "boolean", "default": false },
-		"placement":     { "type": "string",  "default": "bottom" },
-		"styles":        { "type": "object",  "default": {} },
-		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":  { "type": "string",  "default": "" },
-		"blockVersion":  { "type": "integer", "default": 1 }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"shapeSlug": {
+			"type": "string",
+			"default": "wave"
+		},
+		"fillColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"fillType": {
+			"type": "string",
+			"default": "solid"
+		},
+		"gradientFrom": {
+			"type": "string",
+			"default": ""
+		},
+		"gradientTo": {
+			"type": "string",
+			"default": ""
+		},
+		"gradientAngle": {
+			"type": "number",
+			"default": 90
+		},
+		"shapeOpacity": {
+			"type": "number",
+			"default": 100
+		},
+		"shapeHeight": {
+			"type": "number",
+			"default": 80
+		},
+		"flipX": {
+			"type": "boolean",
+			"default": false
+		},
+		"flipY": {
+			"type": "boolean",
+			"default": false
+		},
+		"placement": {
+			"type": "string",
+			"default": "bottom"
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"render":       "file:./render.php"
+	"editorScript": "file:./index.js"
 }

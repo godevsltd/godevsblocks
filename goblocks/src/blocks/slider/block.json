@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/slider",
+	"version": "1.0.0",
+	"title": "Slider",
+	"category": "goblocks",
+	"description": "A premium content slider with navigation arrows, dot indicators, and multiple transition effects including slide, fade, zoom, and cards.",
+	"keywords": [ "slider", "carousel", "slideshow", "revolution" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":           { "type": "string",  "default": "" },
+
+		"effect":             { "type": "string",  "default": "slide" },
+		"autoplay":           { "type": "boolean", "default": false },
+		"autoplayDelay":      { "type": "number",  "default": 3000 },
+		"loop":               { "type": "boolean", "default": true },
+		"pauseOnHover":       { "type": "boolean", "default": true },
+		"slidesPerView":      { "type": "number",  "default": 1 },
+		"transitionDuration": { "type": "number",  "default": 450 },
+		"transitionEasing":   { "type": "string",  "default": "ease" },
+
+		"showArrows":         { "type": "boolean", "default": true },
+		"arrowStyle":         { "type": "string",  "default": "circle" },
+		"arrowColor":         { "type": "string",  "default": "#ffffff" },
+		"arrowHoverColor":    { "type": "string",  "default": "#ffffff" },
+		"arrowBgColor":       { "type": "string",  "default": "rgba(0,0,0,0.35)" },
+		"arrowBgHoverColor":  { "type": "string",  "default": "rgba(0,0,0,0.65)" },
+		"arrowSize":          { "type": "number",  "default": 44 },
+		"arrowRadius":        { "type": "number",  "default": 50 },
+		"arrowPosition":      { "type": "string",  "default": "inside" },
+
+		"showDots":           { "type": "boolean", "default": true },
+		"dotColor":           { "type": "string",  "default": "rgba(255,255,255,0.45)" },
+		"dotActiveColor":     { "type": "string",  "default": "#ffffff" },
+		"dotSize":            { "type": "number",  "default": 8 },
+		"dotStyle":           { "type": "string",  "default": "pill" },
+		"dotPosition":        { "type": "string",  "default": "inside-bottom" },
+
+		"arrowVisibility":    { "type": "string",  "default": "always" },
+		"slideGap":           { "type": "number",  "default": 0 },
+		"showCounter":        { "type": "boolean", "default": false },
+		"showProgressBar":    { "type": "boolean", "default": false },
+		"showPauseButton":    { "type": "boolean", "default": true },
+
+		"styles":             { "type": "object",  "default": {} },
+		"globalClasses":      { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":       { "type": "string",  "default": "" },
+		"blockVersion":       { "type": "integer", "default": 1 }
+	},
+	"viewScript": "file:./view.js",
+	"editorScript": "file:./index.js"
+}

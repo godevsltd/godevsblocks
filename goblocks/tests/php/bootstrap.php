@@ -107,3 +107,9 @@ if ( ! class_exists( 'WP_REST_Controller' ) ) {
 		abstract public function register_routes(): void;
 	}
 }
+
+if ( ! class_exists( 'WP_Query' ) ) {
+	class WP_Query {
+		public int $found_posts = 0;
+	}
+}

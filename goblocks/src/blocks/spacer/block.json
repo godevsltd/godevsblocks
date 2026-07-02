@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/spacer",
+	"version": "1.0.0",
+	"title": "Spacer",
+	"category": "goblocks",
+	"description": "Fixed-height vertical spacer with responsive height per breakpoint.",
+	"keywords": [ "spacer", "gap", "space", "height", "vertical" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":     { "type": "string",  "default": "" },
+		"styles": {
+			"type": "object",
+			"default": {
+				"sizing": {
+					"height": { "base": "40px" }
+				}
+			}
+		},
+		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":   { "type": "string",  "default": "" },
+		"blockVersion":   { "type": "integer", "default": 1 }
+	},
+	"editorScript": "file:./index.js"
+}

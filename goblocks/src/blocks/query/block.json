@@ -4,56 +4,88 @@
 	"name": "goblocks/query",
 	"version": "1.0.0",
 	"title": "Query",
-	"category": "layout",
-	"icon": "database",
+	"category": "goblocks",
 	"description": "Visual query builder. Wraps Query Loop and Pagination blocks to display a dynamic post list.",
-	"keywords": [ "query", "loop", "posts", "archive", "filter", "dynamic" ],
+	"keywords": [
+		"query",
+		"loop",
+		"posts",
+		"archive",
+		"filter",
+		"dynamic"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"providesContext": {
-		"goblocks/queryId":        "uniqueId",
-		"goblocks/query":          "query",
+		"goblocks/queryId": "uniqueId",
+		"goblocks/query": "query",
 		"goblocks/paginationType": "paginationType"
 	},
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
 		"query": {
 			"type": "object",
 			"default": {
-				"postType":       [ "post" ],
-				"postStatus":     [ "publish" ],
-				"includeIds":     [],
-				"excludeIds":     [],
+				"postType": [
+					"post"
+				],
+				"postStatus": [
+					"publish"
+				],
+				"includeIds": [],
+				"excludeIds": [],
 				"excludeCurrent": false,
-				"taxQuery":       [],
-				"author":         [],
-				"metaQuery":      null,
-				"dateQuery":      null,
-				"orderBy":        "date",
-				"metaKey":        "",
-				"order":          "DESC",
-				"perPage":        10,
-				"offset":         0,
-				"noPaging":       false,
-				"search":         "",
-				"sticky":         "include",
-				"inherit":        false,
-				"cacheResults":   true
+				"taxQuery": [],
+				"author": [],
+				"metaQuery": null,
+				"dateQuery": null,
+				"orderBy": "date",
+				"metaKey": "",
+				"order": "DESC",
+				"perPage": 10,
+				"offset": 0,
+				"noPaging": false,
+				"search": "",
+				"sticky": "include",
+				"inherit": false,
+				"cacheResults": true
 			}
 		},
-		"paginationType":  { "type": "string",  "default": "standard" },
-		"styles":          { "type": "object",  "default": {} },
-		"globalClasses":   { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes":  { "type": "object",  "default": {} },
-		"generatedCss":    { "type": "string",  "default": "" },
-		"blockVersion":    { "type": "integer", "default": 1 }
+		"paginationType": {
+			"type": "string",
+			"default": "standard"
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"render":       "file:./render.php"
+	"editorScript": "file:./index.js"
 }

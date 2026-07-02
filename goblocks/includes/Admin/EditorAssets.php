@@ -90,6 +90,13 @@ class EditorAssets extends Singleton {
 			array(),
 			GOBLOCKS_VERSION
 		);
+
+		wp_enqueue_style(
+			'goblocks-blocks',
+			GOBLOCKS_URL . 'assets/css/blocks.css',
+			array( 'goblocks-tokens' ),
+			GOBLOCKS_VERSION
+		);
 	}
 
 	/**

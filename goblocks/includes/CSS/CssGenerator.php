@@ -60,7 +60,7 @@ class CssGenerator {
 			$attrs = $block['attrs'] ?? array();
 			$css   = $attrs['generatedCss'] ?? '';
 
-			if ( is_string( $css ) && '' !== $css ) {
+			if ( is_string( $css ) && '' !== $css && self::is_valid_block_css( $css ) ) {
 				$css_parts[] = $css;
 			}
 
@@ -77,8 +77,48 @@ class CssGenerator {
 			return '';
 		}
 
-		$merged = implode( "\n", $css_parts );
-		return self::deduplicate( $merged );
+		// Deduplicate identical CSS strings — guards against duplicated blocks that
+		// share a uniqueId before the editor regenerates it. Using the full CSS
+		// string as key prevents false collisions that occurred when two blocks
+		// had CSS starting with the same @media prefix.
+		$css_by_selector = array();
+		foreach ( $css_parts as $css ) {
+			$css_by_selector[ $css ] = $css;
+		}
+
+		return implode( "\n", array_values( $css_by_selector ) );
+	}
+
+	/**
+	 * Validate that a generatedCss string is legitimately scoped block CSS.
+	 *
+	 * Rejects CSS whose first rule targets global selectors (body, :root,
+	 * .wp-block-*, .entry-*, etc.) — these indicate corrupted/captured editor
+	 * styles that were accidentally stored in the block attribute.
+	 *
+	 * Valid block CSS always begins with a .gb- selector.
+	 *
+	 * @param  string $css Raw generatedCss attribute value.
+	 * @return bool   true if the CSS looks like valid scoped block CSS.
+	 */
+	public static function is_valid_block_css( string $css ): bool {
+		$css = ltrim( $css );
+
+		if ( '' === $css ) {
+			return false;
+		}
+
+		// The first character of valid block CSS must be '.' (class selector).
+		if ( '.' !== $css[0] ) {
+			return false;
+		}
+
+		// The first selector must start with .gb- (our scoped prefix).
+		if ( ! str_starts_with( $css, '.gb-' ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -160,69 +200,5 @@ class CssGenerator {
 		$css = str_replace( '%%GBTA%%', 'right', $css );
 
 		return $css;
-	}
-
-	/**
-	 * Merge duplicate selectors in a CSS string.
-	 *
-	 * When the same selector appears more than once, its declaration blocks
-	 * are merged into one. Later declarations override earlier ones.
-	 *
-	 * @param  string $css Raw CSS (may contain duplicates).
-	 * @return string Deduplicated CSS.
-	 */
-	private static function deduplicate( string $css ): string {
-		// Parse all rules into [ selector => [ declarations ] ] map.
-		$rules = array();
-
-		// Match: selector { declarations }  (greedy-safe, handles nested {}).
-		preg_match_all( '/([^{]+)\{([^}]*)\}/', $css, $matches, PREG_SET_ORDER );
-
-		foreach ( $matches as $match ) {
-			$selector     = trim( $match[1] );
-			$declarations = trim( $match[2] );
-
-			if ( '' === $selector || '' === $declarations ) {
-				continue;
-			}
-
-			if ( ! isset( $rules[ $selector ] ) ) {
-				$rules[ $selector ] = array();
-			}
-
-			// Split declarations and merge (later overrides earlier).
-			$decls = explode( ';', $declarations );
-			foreach ( $decls as $decl ) {
-				$decl = trim( $decl );
-				if ( '' === $decl ) {
-					continue;
-				}
-				$colon = strpos( $decl, ':' );
-				if ( false === $colon ) {
-					continue;
-				}
-				$prop = trim( substr( $decl, 0, $colon ) );
-				$val  = trim( substr( $decl, $colon + 1 ) );
-
-				if ( '' !== $prop ) {
-					$rules[ $selector ][ $prop ] = $val;
-				}
-			}
-		}
-
-		// Serialize back to CSS.
-		$output = '';
-		foreach ( $rules as $selector => $declarations ) {
-			if ( empty( $declarations ) ) {
-				continue;
-			}
-			$output .= $selector . '{';
-			foreach ( $declarations as $prop => $val ) {
-				$output .= $prop . ':' . $val . ';';
-			}
-			$output .= '}';
-		}
-
-		return $output;
 	}
 }

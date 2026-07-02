@@ -1,16 +1,34 @@
+/**
+ * Pagination block — Inspector Controls.
+ *
+ * Styles tab: Pagination settings (showPrevNext, showFirstLast, labels) +
+ *             SpacingPanel + BorderPanel.
+ * Advanced tab: CSS Classes.
+ */
+
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
+import { InspectorTabs } from '../../../components/ui/InspectorTabs';
+import { SpacingPanel } from '../../../components/panels/SpacingPanel';
+import { BorderPanel } from '../../../components/panels/BorderPanel';
+import { useResponsiveStyles } from '../../../hooks/useResponsiveStyles';
+import type { BlockStyles } from '../../../types/styles';
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-interface PaginationAttributes {
+export interface PaginationAttributes {
+	uniqueId: string;
+	styles: BlockStyles;
 	showPrevNext: boolean;
 	showFirstLast: boolean;
 	prevLabel: string;
 	nextLabel: string;
 	loadMoreLabel: string;
 	globalClasses: string[];
+	generatedCss: string;
+	blockVersion: number;
 }
 
 interface PaginationInspectorProps {
@@ -27,6 +45,7 @@ export function PaginationInspector( {
 	paginationType,
 }: PaginationInspectorProps ) {
 	const {
+		styles,
 		showPrevNext,
 		showFirstLast,
 		prevLabel,
@@ -35,8 +54,12 @@ export function PaginationInspector( {
 		globalClasses,
 	} = attributes;
 
-	return (
-		<InspectorControls>
+	const responsive = useResponsiveStyles( styles, ( patch ) =>
+		setAttributes( { styles: patch.styles as BlockStyles } )
+	);
+
+	const stylesContent = (
+		<>
 			{ paginationType === 'standard' && (
 				<PanelBody
 					title={ __( 'Standard Pagination', 'goblocks' ) }
@@ -110,7 +133,7 @@ export function PaginationInspector( {
 					title={ __( 'Infinite Scroll', 'goblocks' ) }
 					initialOpen
 				>
-					<p style={ { margin: 0, color: '#888', fontSize: '12px' } }>
+					<p className="description">
 						{ __(
 							'Next page loads automatically when the user scrolls to the bottom of the list.',
 							'goblocks'
@@ -119,26 +142,40 @@ export function PaginationInspector( {
 				</PanelBody>
 			) }
 
-			<PanelBody
-				title={ __( 'Advanced', 'goblocks' ) }
-				initialOpen={ false }
-			>
-				<TextControl
-					label={ __( 'Additional CSS classes', 'goblocks' ) }
-					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __(
-						'Space-separated list of extra classes.',
-						'goblocks'
-					) }
-					onChange={ ( val ) =>
-						setAttributes( {
-							globalClasses: val.split( /\s+/ ).filter( Boolean ),
-						} )
-					}
-					// @ts-ignore
-					__nextHasNoMarginBottom
-				/>
-			</PanelBody>
+			<SpacingPanel styles={ styles } responsive={ responsive } />
+			<BorderPanel styles={ styles } responsive={ responsive } />
+		</>
+	);
+
+	const advancedContent = (
+		<PanelBody
+			title={ __( 'CSS Classes', 'goblocks' ) }
+			initialOpen={ false }
+		>
+			<TextControl
+				label={ __( 'Additional CSS classes', 'goblocks' ) }
+				value={ ( globalClasses ?? [] ).join( ' ' ) }
+				help={ __(
+					'Space-separated list of extra classes.',
+					'goblocks'
+				) }
+				onChange={ ( val ) =>
+					setAttributes( {
+						globalClasses: val.split( /\s+/ ).filter( Boolean ),
+					} )
+				}
+				// @ts-ignore
+				__nextHasNoMarginBottom
+			/>
+		</PanelBody>
+	);
+
+	return (
+		<InspectorControls>
+			<InspectorTabs
+				stylesContent={ stylesContent }
+				advancedContent={ advancedContent }
+			/>
 		</InspectorControls>
 	);
 }

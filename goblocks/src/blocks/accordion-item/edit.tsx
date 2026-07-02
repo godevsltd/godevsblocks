@@ -11,26 +11,16 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
-	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import type { BlockEditProps } from '@wordpress/blocks';
-import type { BlockStyles } from '../../types/styles';
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-
-interface AccordionItemAttributes {
-	uniqueId: string;
-	styles: BlockStyles;
-	globalClasses: string[];
-	htmlAttributes: Record< string, string >;
-	dynamicContent: Record< string, string >;
-	generatedCss: string;
-	blockVersion: number;
-	question: string;
-	isOpen: boolean;
-}
+import { useCssEngine } from '../../hooks/useCssEngine';
+import { clsx } from '../../utils/classNames';
+import {
+	AccordionItemInspector,
+	type AccordionItemAttributes,
+} from './components/Inspector';
 
 // ── Unique ID ─────────────────────────────────────────────────────────────────
 
@@ -45,7 +35,16 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< AccordionItemAttributes > ) {
-	const { uniqueId, question, isOpen } = attributes;
+	const {
+		uniqueId,
+		question,
+		globalClasses,
+		styles,
+		generatedCss,
+		headerColor,
+		headerBg,
+		contentColor,
+	} = attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {
@@ -53,7 +52,33 @@ export function Edit( {
 		}
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const blockProps = useBlockProps( { className: 'gb-accordion-item' } );
+	// CSS generation + injection.
+	useCssEngine( {
+		blockSlug: 'accordion-item',
+		uniqueId,
+		styles,
+		generatedCss,
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< AccordionItemAttributes > ),
+	} );
+
+	const hdrColor = headerColor  || '#111827';
+	const hdrBg    = headerBg     || '#ffffff';
+	const cntColor = contentColor || '#374151';
+
+	const accordionVars = {
+		'--gb-ai-header-color':  hdrColor,
+		'--gb-ai-header-bg':     hdrBg,
+		'--gb-ai-content-color': cntColor,
+	} as React.CSSProperties;
+
+	const wrapperClass = clsx(
+		'gb-accordion-item',
+		uniqueId && `gb-accordion-item-${ uniqueId }`,
+		...( globalClasses ?? [] )
+	);
+
+	const blockProps = useBlockProps( { className: wrapperClass, style: accordionVars } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'gb-accordion-item__content' },
 		{
@@ -68,25 +93,11 @@ export function Edit( {
 
 	return (
 		<>
-			{ /* Inspector — isOpen toggle only */ }
-			<InspectorControls>
-				<PanelBody
-					title={ __( 'Item Settings', 'goblocks' ) }
-					initialOpen
-				>
-					<ToggleControl
-						label={ __( 'Open by default', 'goblocks' ) }
-						help={ __(
-							'Panel starts expanded on page load.',
-							'goblocks'
-						) }
-						checked={ isOpen }
-						onChange={ ( v ) => setAttributes( { isOpen: v } ) }
-						// @ts-ignore
-						__nextHasNoMarginBottom
-					/>
-				</PanelBody>
-			</InspectorControls>
+			{ /* Inspector Controls */ }
+			<AccordionItemInspector
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
 
 			{ /* Always open in editor for inner-block access */ }
 			<details { ...blockProps } open>

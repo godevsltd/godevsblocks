@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/video",
+	"version": "1.0.0",
+	"title": "Video",
+	"category": "goblocks",
+	"description": "Embed YouTube, Vimeo or self-hosted video with aspect ratio control.",
+	"keywords": [ "video", "youtube", "vimeo", "embed", "player" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":              { "type": "string",  "default": "" },
+		"url":                   { "type": "string",  "default": "" },
+		"autoplay":              { "type": "boolean", "default": false },
+		"muted":                 { "type": "boolean", "default": false },
+		"loop":                  { "type": "boolean", "default": false },
+		"controls":              { "type": "boolean", "default": true },
+		"playsinline":           { "type": "boolean", "default": true },
+		"poster":                { "type": "string",  "default": "" },
+		"ratio":                 { "type": "string",  "default": "16/9" },
+		"lazyLoad":              { "type": "boolean", "default": true },
+		"youtubeRel":            { "type": "boolean", "default": false },
+		"youtubeModestBranding": { "type": "boolean", "default": true },
+		"youtubeStart":          { "type": "integer", "default": 0 },
+		"vimeoHideBranding":     { "type": "boolean", "default": true },
+		"caption":               { "type": "string",  "default": "" },
+		"videoTitle":            { "type": "string",  "default": "" },
+		"preload":               { "type": "string",  "default": "metadata" },
+		"styles":                { "type": "object",  "default": {} },
+		"globalClasses":         { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":          { "type": "string",  "default": "" },
+		"blockVersion":          { "type": "integer", "default": 1 }
+	},
+	"viewScript":   "file:./view.js",
+	"editorScript": "file:./index.js"
+}

@@ -1,20 +1,29 @@
 /**
- * GoBlocks Block Editor Inspector Styles
+ * GoBlocks Block Editor Inspector Styles — "Precision Studio" UI
  *
- * "Precision Studio" identity for the block sidebar:
- *  - §6.6 Inspector Tabs (dark frame, white panel bodies)
- *  - §6.7 Breakpoint Device Tabs (sticky, primary accent active)
- *  - §6.8 Unit Input control
- *  - §6.9 Toggle Group control
- *
- * Enqueued with the block editor (enqueue_block_editor_assets).
- * No !important — all overrides rely on specificity.
+ * Design principles:
+ *  - Dark (#111827) tab bar frames white panel bodies — primary visual differentiator
+ *  - 8px grid throughout; controls align to a 30px row height
+ *  - 11px/500/spaced-caps labels on every control
+ *  - macOS-style segmented ToggleGroup (grey pill container, white active chip + shadow)
+ *  - Grouped border wraps the full UnitInput row; focus-ring replaces border-color
+ *  - Surface-raised (#f9fafb) cards for gradient stops and shadow layers
+ *  - No !important — overrides by specificity only
  *
  * @package GoBlocks
  */
 
+/* ── Inspector focus color token ─────────────────────────────────────────── */
+/* Used for focus rings, active tab indicators, and active control highlights */
+:root {
+	--gb-focus-color:       #2563eb;
+	--gb-focus-color-ring:  #3b82f6;
+	--gb-focus-color-light: #eff6ff;
+	--gb-focus-ring-shadow: rgba( 37, 99, 235, 0.15 );
+}
+
 /* ============================================================================
-   §6.6 — Inspector Tabs
+   §1 — Inspector Tab Bar  (dark #111827 frame — "Precision Studio" identity)
    ============================================================================ */
 
 .gb-inspector-tabs {
@@ -22,10 +31,10 @@
 	flex-direction: column;
 }
 
-/* WP renders TabPanel's tab list as a div[role=tablist] */
+/* Dark frame: the primary visual differentiator vs. WP-default inspector UIs */
 .gb-inspector-tabs > .components-tab-panel__tabs {
 	display: flex;
-	background: var(--gb-color-surface-inverse, #111827);
+	background: #111827;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 	padding: 0;
 	margin: 0;
@@ -33,17 +42,18 @@
 
 .gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item {
 	flex: 1;
-	padding: var(--gb-space-2, 0.5rem) var(--gb-space-1, 0.25rem);
-	font-size: var(--gb-text-xs, 0.75rem);
-	font-weight: var(--gb-weight-medium, 500);
-	color: rgba(255, 255, 255, 0.55);
+	padding: 0.5rem 0.25rem;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	color: rgba(255, 255, 255, 0.5);
 	background: transparent;
 	border: none;
-	border-bottom: 3px solid transparent;
+	border-bottom: 2px solid transparent;
 	cursor: pointer;
 	text-align: center;
-	transition: color 150ms ease-in-out, border-color 150ms ease-in-out;
 	min-height: 36px;
+	transition: color 130ms ease, border-color 130ms ease;
 }
 
 .gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item:hover {
@@ -53,50 +63,47 @@
 }
 
 .gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item.is-active {
-	color: #ffffff;
-	font-weight: var(--gb-weight-semibold, 600);
-	border-bottom-color: var(--gb-color-primary, #2563eb);
+	color: #fff;
+	font-weight: 600;
+	border-bottom-color: var( --gb-focus-color-ring );
 	background: transparent;
 }
 
-.gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item:focus:not(:disabled) {
-	box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+.gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item:focus-visible:not(:disabled) {
+	outline: none;
+	box-shadow: inset 0 0 0 2px var( --gb-focus-color-ring );
 }
 
-/* Panel body (opens into white) */
+/* WP dark-mode: surface-inverse token remaps to white; keep dark frame visible */
+@media (prefers-color-scheme: dark) {
+	.gb-inspector-tabs > .components-tab-panel__tabs {
+		background: #1f2937;
+		border-bottom-color: rgba(255, 255, 255, 0.06);
+	}
+}
+
+/* Panel body — white panels open inside the dark frame */
 .gb-inspector-tabs > .components-tab-panel__tab-content,
 .gb-inspector-tabs__panel {
-	background: var(--gb-color-surface, #fff);
+	background: #f8f9fa;
 	min-height: 0;
 }
 
-/* Dark mode: surface-inverse becomes white; flip text to dark */
-@media (prefers-color-scheme: dark) {
-	.gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item {
-		color: rgba(0, 0, 0, 0.55);
-	}
-
-	.gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item:hover {
-		color: rgba(0, 0, 0, 0.85);
-	}
-
-	.gb-inspector-tabs > .components-tab-panel__tabs .components-tab-panel__tabs-item.is-active {
-		color: var(--gb-color-text, #111827);
-	}
-}
-
 /* ============================================================================
-   §6.7 — Breakpoint Device Tabs
+   §2 — Breakpoint Device Tabs  (sticky; icon-only; indicator dot on active)
    ============================================================================ */
 
 .gb-breakpoint-tabs {
 	position: sticky;
 	top: 0;
-	z-index: var(--gb-z-10, 10);
+	z-index: 10;
 	display: flex;
-	background: var(--gb-color-surface-raised, #f9fafb);
-	border-bottom: 1px solid var(--gb-color-border, #e5e7eb);
-	padding: 0;
+	align-items: stretch;
+	background: #fff;
+	border-bottom: 1px solid #e5e7eb;
+	padding: 2px 4px;
+	gap: 1px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .gb-breakpoint-tabs__tab {
@@ -104,179 +111,111 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: var(--gb-space-2, 0.5rem);
-	min-height: 32px;
+	padding: 5px 4px;
+	min-height: 30px;
 	background: transparent;
 	border: none;
-	border-bottom: 3px solid transparent;
-	color: var(--gb-color-text-muted, #6b7280);
+	border-radius: 5px;
+	color: #9ca3af;
 	cursor: pointer;
-	transition: color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out;
+	transition: background 120ms ease, color 120ms ease;
 }
 
 .gb-breakpoint-tabs__tab:hover {
-	color: var(--gb-color-text, #111827);
-	background: var(--gb-color-surface-overlay, #f3f4f6);
+	background: #f3f4f6;
+	color: #374151;
+}
+
+.gb-breakpoint-tabs__tab:focus-visible {
+	outline: 2px solid var( --gb-focus-color );
+	outline-offset: -2px;
 }
 
 .gb-breakpoint-tabs__tab--active {
-	color: var(--gb-color-primary, #2563eb);
-	border-bottom-color: var(--gb-color-primary, #2563eb);
-	background: var(--gb-color-surface, #fff);
+	background: var( --gb-focus-color-light );
+	color: var( --gb-focus-color );
 }
 
 .gb-breakpoint-tabs__tab svg {
-	width: 16px;
-	height: 16px;
+	width: 15px;
+	height: 15px;
 	display: block;
 	fill: currentColor;
 }
 
 /* ============================================================================
-   §6.8 — Unit Input Control
+   §3 — Panel body  (WP PanelBody inside the GB sidebar)
    ============================================================================ */
 
-.gb-unit-input {
-	display: flex;
-	flex-direction: column;
-	gap: var(--gb-space-1, 0.25rem);
-}
-
-.gb-unit-input__header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.gb-unit-input__label {
-	font-size: var(--gb-text-xs, 0.75rem);
-	font-weight: var(--gb-weight-medium, 500);
-	color: var(--gb-color-text-muted, #6b7280);
-	line-height: 1;
-}
-
-.gb-unit-input__reset {
-	opacity: 0;
-	transition: opacity 150ms ease-in-out;
-	padding: 0;
-	min-height: unset;
-	height: auto;
-	line-height: 1;
-}
-
-.gb-unit-input:hover .gb-unit-input__reset,
-.gb-unit-input:focus-within .gb-unit-input__reset {
-	opacity: 1;
-}
-
-.gb-unit-input__row {
-	display: flex;
-	gap: var(--gb-space-1, 0.25rem);
-	align-items: stretch;
-}
-
-.gb-unit-input__number {
-	flex: 1;
-	min-width: 0;
-}
-
-.gb-unit-input__number .components-base-control,
-.gb-unit-input__number .components-base-control__field {
-	margin-bottom: 0;
-}
-
-.gb-unit-input__unit {
-	width: 56px;
-	flex-shrink: 0;
-}
-
-.gb-unit-input__unit .components-base-control,
-.gb-unit-input__unit .components-base-control__field {
-	margin-bottom: 0;
-}
-
-.gb-unit-input__help {
-	font-size: var(--gb-text-2xs, 0.625rem);
-	color: var(--gb-color-text-subtle, #9ca3af);
-	line-height: var(--gb-leading-normal, 1.5);
-}
-
-/* ============================================================================
-   §6.9 — Toggle Group Control
-   ============================================================================ */
-
-.gb-toggle-group {
-	display: flex;
-	flex-direction: column;
-	gap: var(--gb-space-1, 0.25rem);
+.gb-inspector-tabs__panel .components-panel__body {
+	background: #fff;
 	border: none;
-	padding: 0;
+	border-bottom: 1px solid #e8eaed;
 	margin: 0;
 }
 
-.gb-toggle-group__legend {
-	font-size: var(--gb-text-xs, 0.75rem);
-	font-weight: var(--gb-weight-medium, 500);
-	color: var(--gb-color-text-muted, #6b7280);
-	margin-bottom: var(--gb-space-1, 0.25rem);
-	float: none;
+.gb-inspector-tabs__panel .components-panel__body:last-child {
+	border-bottom: none;
+}
+
+.gb-inspector-tabs__panel .components-panel__body-toggle {
+	display: flex;
+	align-items: center;
 	width: 100%;
+	padding: 9px 12px;
+	background: #fff;
+	border: none;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #374151;
+	cursor: pointer;
+	gap: 6px;
+	transition: background 120ms ease;
+}
+
+.gb-inspector-tabs__panel .components-panel__body-toggle:hover {
+	background: #f9fafb;
+}
+
+.gb-inspector-tabs__panel .components-panel__body-toggle:focus-visible {
+	outline: none;
+	box-shadow: inset 0 0 0 2px var( --gb-focus-color-ring );
+}
+
+.gb-inspector-tabs__panel .components-panel__body-title {
+	margin: 0;
 	padding: 0;
 }
 
-.gb-toggle-group__options {
-	display: flex;
-	gap: 1px;
-	background: var(--gb-color-border, #e5e7eb);
-	border-radius: var(--gb-radius-base, 0.25rem);
-	overflow: hidden;
+.gb-inspector-tabs__panel .components-panel__arrow {
+	margin-left: auto;
+	color: #9ca3af;
+	width: 16px;
+	height: 16px;
 }
 
-.gb-toggle-group__btn {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: var(--gb-space-1-5, 0.375rem) var(--gb-space-2, 0.5rem);
-	font-size: var(--gb-text-xs, 0.75rem);
-	font-weight: var(--gb-weight-medium, 500);
-	background: var(--gb-color-surface, #fff);
-	color: var(--gb-color-text-muted, #6b7280);
-	border: none;
-	cursor: pointer;
-	min-height: 28px;
-	transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
-	line-height: 1;
-}
-
-.gb-toggle-group__btn:hover {
-	background: var(--gb-color-surface-overlay, #f3f4f6);
-	color: var(--gb-color-text, #111827);
-}
-
-.gb-toggle-group__btn.is-active {
-	background: var(--gb-color-primary, #2563eb);
-	color: var(--gb-color-text-on-primary, #fff);
-	font-weight: var(--gb-weight-semibold, 600);
-}
-
-.gb-toggle-group__btn svg {
-	width: 14px;
-	height: 14px;
-	display: block;
-	fill: currentColor;
-}
-
-/* ============================================================================
-   Inspector panel padding (all open WP panels inside the GB sidebar)
-   ============================================================================ */
-
+/* Panel contents padding — all controls inside get consistent rhythm */
 .gb-inspector-tabs__panel .components-panel__body.is-opened > .components-panel__body-contents {
-	padding: var(--gb-space-3, 0.75rem);
+	padding: 12px 14px 16px;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* Strip default WP BaseControl bottom margin */
+.gb-inspector-tabs__panel .components-base-control {
+	margin-bottom: 0;
+}
+
+.gb-inspector-tabs__panel .components-base-control__field {
+	margin-bottom: 0;
 }
 
 /* ============================================================================
-   Shared label system — 11px / 500 / spaced-caps, consistent across all controls
+   §4 — Shared label system  (11px / 500 / spaced-caps)
    ============================================================================ */
 
 .gb-unit-input__label,
@@ -288,15 +227,18 @@
 .gb-gradient-control__label,
 .gb-shadow-control__label,
 .gb-dimensions-control__section-label {
+	display: block;
 	font-size: 11px;
-	font-weight: var(--gb-weight-medium, 500);
-	letter-spacing: 0.04em;
+	font-weight: 500;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	color: var(--gb-color-text-muted, #6b7280);
+	color: #6b7280;
 	line-height: 1;
+	margin-bottom: 4px;
 }
 
-/* Shared header row: label left, action right */
+/* Header row: label left, action/reset right */
+.gb-unit-input__header,
 .gb-spacing-control__header,
 .gb-color-control__header,
 .gb-flex-control__header,
@@ -306,11 +248,23 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	min-height: 24px;
-	margin-bottom: var(--gb-space-1-5, 0.375rem);
+	min-height: 20px;
 }
 
-/* Standardise all control containers to consistent vertical rhythm */
+/* When label is inside a header, remove its own bottom margin */
+.gb-unit-input__header .gb-unit-input__label,
+.gb-spacing-control__header .gb-spacing-control__label,
+.gb-color-control__header .gb-color-control__label,
+.gb-flex-control__header .gb-flex-control__label,
+.gb-font-control__header .gb-font-control__label,
+.gb-shadow-control__header .gb-shadow-control__label {
+	margin-bottom: 0;
+}
+
+/* ============================================================================
+   §5 — Shared control container  (flex column + consistent gap)
+   ============================================================================ */
+
 .gb-unit-input,
 .gb-color-control,
 .gb-spacing-control,
@@ -321,284 +275,473 @@
 .gb-dimensions-control {
 	display: flex;
 	flex-direction: column;
-	gap: var(--gb-space-1-5, 0.375rem);
+	gap: 5px;
 }
 
-/* Thin separator between stacked controls inside a panel */
+/* Thin divider between adjacent same-type controls */
 .gb-spacing-control + .gb-spacing-control,
-.gb-flex-control + .gb-flex-control {
-	border-top: 1px solid var(--gb-color-border, #e5e7eb);
-	padding-top: var(--gb-space-3, 0.75rem);
-	margin-top: var(--gb-space-1, 0.25rem);
+.gb-flex-control + .gb-flex-control,
+.gb-color-control + .gb-color-control {
+	border-top: 1px solid #f3f4f6;
+	padding-top: 8px;
+	margin-top: 2px;
 }
 
 /* ============================================================================
-   §6.8-r — UnitInput group border (refine existing)
+   §6 — Unit Input Control  (grouped border; focus-ring on row)
+
+   Specificity strategy: all form-element rules use
+   .gb-inspector-tabs__panel + .gb-unit-input__row + element.class  (0,3,0)
+   This beats WP's .block-editor-block-inspector input[type="number"]  (0,1,1)
+   without using !important.
    ============================================================================ */
 
-.gb-unit-input__row {
+.gb-unit-input__reset {
+	opacity: 0;
+	transition: opacity 130ms ease;
+	padding: 0 2px;
+	min-height: unset;
+	height: 18px;
+	line-height: 1;
+	font-size: 10px;
+	color: #9ca3af;
+}
+
+.gb-unit-input:hover .gb-unit-input__reset,
+.gb-unit-input:focus-within .gb-unit-input__reset {
+	opacity: 1;
+}
+
+/* ── Grouped row: border wraps the entire input + unit select ───────────── */
+
+.gb-inspector-tabs__panel .gb-unit-input__row {
 	display: flex;
 	align-items: stretch;
-	border: 1px solid var(--gb-color-border, #e5e7eb);
-	border-radius: var(--gb-radius-base, 0.25rem);
+	min-height: 32px;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
 	overflow: hidden;
-	transition: border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+	background: #fff;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
 }
 
-.gb-unit-input__row:focus-within {
-	border-color: var(--gb-color-primary, #2563eb);
-	box-shadow: 0 0 0 2px var(--gb-color-primary-alpha, rgba(37,99,235,0.15));
+.gb-inspector-tabs__panel .gb-unit-input__row:focus-within {
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
 }
 
-.gb-unit-input__number {
+/* ── Number field ────────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .gb-unit-input__row input.gb-unit-input__number {
 	flex: 1;
 	min-width: 0;
+	width: 100%;
 	border: none;
+	box-shadow: none;
 	background: transparent;
-	padding: var(--gb-space-1, 0.25rem) var(--gb-space-2, 0.5rem);
-	font-size: var(--gb-text-sm, 0.875rem);
-	color: var(--gb-color-text, #111827);
+	padding: 5px 6px 5px 8px;
+	font-size: 12px;
+	line-height: 1.4;
+	color: #111827;
 	outline: none;
 	-moz-appearance: textfield;
-}
-
-.gb-unit-input__number::-webkit-inner-spin-button,
-.gb-unit-input__number::-webkit-outer-spin-button {
 	-webkit-appearance: none;
-}
-
-.gb-unit-input__unit {
-	width: 52px;
-	flex-shrink: 0;
-	border: none;
-	border-left: 1px solid var(--gb-color-border, #e5e7eb);
+	appearance: textfield;
 	border-radius: 0;
-	background: var(--gb-color-surface-raised, #f9fafb);
-	font-size: var(--gb-text-xs, 0.75rem);
-	color: var(--gb-color-text-muted, #6b7280);
+	height: auto;
+	min-height: 0;
 }
 
-.gb-unit-input__unit .components-base-control,
-.gb-unit-input__unit .components-base-control__field,
-.gb-unit-input__unit select {
-	margin-bottom: 0;
+.gb-inspector-tabs__panel .gb-unit-input__row input.gb-unit-input__number::-webkit-inner-spin-button,
+.gb-inspector-tabs__panel .gb-unit-input__row input.gb-unit-input__number::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* ── Unit selector — raw <select> with the class ─────────────────────────── */
+
+.gb-inspector-tabs__panel .gb-unit-input__row select.gb-unit-input__unit {
+	width: 60px;
+	flex-shrink: 0;
+	align-self: stretch;
+	height: auto;
+	min-height: 0;
 	border: none;
-	background: transparent;
-	height: 100%;
+	border-left: 1px solid #e5e7eb;
+	border-radius: 0 5px 5px 0;
+	box-shadow: none;
+	background: #f9fafb;
+	font-size: 11px;
+	font-weight: 500;
+	color: #6b7280;
+	padding: 0 4px;
+	cursor: pointer;
+	outline: none;
+	appearance: auto;
+	-webkit-appearance: auto;
+	-moz-appearance: auto;
+}
+
+.gb-inspector-tabs__panel .gb-unit-input__row select.gb-unit-input__unit:focus {
+	background: var( --gb-focus-color-light );
+	color: var( --gb-focus-color );
+	outline: none;
+}
+
+.gb-inspector-tabs__panel .gb-unit-input__row select.gb-unit-input__unit:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ── Keyword-only state: select fills full row when number is hidden ──────── */
+
+.gb-inspector-tabs__panel .gb-unit-input__row:not(:has(input)) select.gb-unit-input__unit {
+	flex: 1;
+	width: auto;
+	border-left: none;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 600;
+	color: #374151;
+	background: #f9fafb;
+}
+
+/* ── Help text ───────────────────────────────────────────────────────────── */
+
+.gb-unit-input__help {
+	font-size: 10px;
+	color: #9ca3af;
+	margin-top: 2px;
+	line-height: 1.4;
 }
 
 /* ============================================================================
-   §6.9-r — ToggleGroup overflow fix (refine existing)
+   §7 — Toggle Group  (macOS-style segmented control)
    ============================================================================ */
 
+.gb-toggle-group {
+	display: flex;
+	flex-direction: column;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* Grey pill container */
+.gb-toggle-group__options {
+	display: flex;
+	background: #f3f4f6;
+	border-radius: 7px;
+	padding: 2px;
+	gap: 1px;
+}
+
+/* Each option button */
 .gb-toggle-group__btn {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	padding: 4px 6px;
+	font-size: 11px;
+	font-weight: 500;
+	color: #6b7280;
+	background: transparent;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	min-height: 26px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	transition: background 110ms ease, color 110ms ease, box-shadow 110ms ease;
+	line-height: 1;
+}
+
+.gb-toggle-group__btn:hover {
+	color: #111827;
+	background: rgba(0, 0, 0, 0.04);
+}
+
+/* Active — white pill with elevation (macOS segmented control) */
+.gb-toggle-group__btn.is-active {
+	background: #fff;
+	color: var( --gb-focus-color );
+	font-weight: 600;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+}
+
+.gb-toggle-group__btn:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 2px var( --gb-focus-color );
+}
+
+.gb-toggle-group__btn svg {
+	width: 13px;
+	height: 13px;
+	display: block;
+	fill: currentColor;
+	flex-shrink: 0;
 }
 
 /* ============================================================================
-   §6.10 — Spacing Control
+   §8 — Spacing Control
    ============================================================================ */
 
 .gb-spacing-control__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
+	gap: 5px;
 }
 
-/* When linked: full-width single input */
 .gb-spacing-control > .gb-unit-input {
 	width: 100%;
 }
 
+.gb-spacing-control--two-axis .gb-spacing-control__inputs {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 5px;
+}
+
 .gb-spacing-control__link {
-	padding: var(--gb-space-1, 0.25rem);
+	padding: 3px;
 	min-height: unset;
 	height: 24px;
 	width: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border-radius: 5px;
+	flex-shrink: 0;
+	transition: background 120ms ease, color 120ms ease;
+	color: #6b7280;
+}
+
+.gb-spacing-control__link:hover {
+	background: #f3f4f6;
+	color: #111827;
+}
+
+.gb-spacing-control__link.is-primary {
+	background: var( --gb-focus-color-light );
+	color: var( --gb-focus-color );
 }
 
 .gb-spacing-control__link svg {
-	width: 14px;
-	height: 14px;
+	width: 13px;
+	height: 13px;
 	fill: currentColor;
 }
 
-.gb-spacing-control--two-axis .gb-spacing-control__inputs {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
-}
-
 /* ============================================================================
-   §6.11 — Dimensions Control
+   §9 — Dimensions Control
    ============================================================================ */
 
 .gb-dimensions-control__row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
+	gap: 5px;
 }
 
 .gb-dimensions-control__minmax {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
-	padding-top: var(--gb-space-2, 0.5rem);
-	border-top: 1px solid var(--gb-color-border, #e5e7eb);
-	margin-top: var(--gb-space-1, 0.25rem);
+	gap: 5px;
+	padding-top: 10px;
+	border-top: 1px solid #f0f0f0;
+	margin-top: 6px;
 }
 
 .gb-dimensions-control__section-label {
 	grid-column: 1 / -1;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #9ca3af;
+	margin-bottom: 2px;
+	line-height: 1;
 }
 
 /* ============================================================================
-   §6.12 — Color Control
+   §10 — Color Control
    ============================================================================ */
+
+/* Palette swatch row */
+.gb-color-control__palette-label {
+	display: block;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #757575;
+	margin-top: 8px;
+	margin-bottom: 2px;
+}
 
 .gb-color-control__palette {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;
-	padding: var(--gb-space-1-5, 0.375rem) 0;
+	padding: 3px 0;
 }
 
 .gb-color-swatch {
+	position: relative;
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	border: 1.5px solid rgba(0, 0, 0, 0.12);
+	border: 1.5px solid rgba(0, 0, 0, 0.1);
 	cursor: pointer;
 	padding: 0;
-	position: relative;
-	transition: transform 100ms ease-in-out, box-shadow 100ms ease-in-out;
+	background: none;
+	transition: transform 100ms ease, box-shadow 100ms ease;
 }
 
+/* Transparency checkerboard behind swatch */
 .gb-color-swatch::before {
 	content: '';
 	position: absolute;
 	inset: 0;
 	border-radius: 50%;
-	background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-	                  linear-gradient(-45deg, #ccc 25%, transparent 25%),
-	                  linear-gradient(45deg, transparent 75%, #ccc 75%),
-	                  linear-gradient(-45deg, transparent 75%, #ccc 75%);
+	background-image:
+		linear-gradient(45deg, #ccc 25%, transparent 25%),
+		linear-gradient(-45deg, #ccc 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, #ccc 75%),
+		linear-gradient(-45deg, transparent 75%, #ccc 75%);
 	background-size: 6px 6px;
-	background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
+	background-position: 0 0, 0 3px, 3px -3px, -3px 0;
 	z-index: -1;
+	border-radius: 50%;
 }
 
 .gb-color-swatch:hover {
-	transform: scale(1.15);
-	box-shadow: 0 0 0 2px var(--gb-color-primary, #2563eb);
+	transform: scale(1.18);
+	box-shadow: 0 0 0 2px var( --gb-focus-color );
 }
 
 .gb-color-swatch.is-active {
-	box-shadow: 0 0 0 2px var(--gb-color-primary, #2563eb);
+	box-shadow: 0 0 0 2px var( --gb-focus-color );
 }
 
+/* Hex input row */
 .gb-color-control__row {
 	display: flex;
 	align-items: center;
-	gap: var(--gb-space-2, 0.5rem);
-	border: 1px solid var(--gb-color-border, #e5e7eb);
-	border-radius: var(--gb-radius-base, 0.25rem);
-	padding: var(--gb-space-1, 0.25rem);
-	background: var(--gb-color-surface, #fff);
-	transition: border-color 150ms ease-in-out;
+	gap: 5px;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	padding: 3px;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
 }
 
 .gb-color-control__row:focus-within {
-	border-color: var(--gb-color-primary, #2563eb);
-	box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
 }
 
+/* Color preview swatch (opens native WP colour picker) */
 .gb-color-control__preview {
 	flex-shrink: 0;
-	width: 28px;
-	height: 28px;
-	border-radius: var(--gb-radius-sm, 0.125rem);
-	border: 1.5px solid rgba(0, 0, 0, 0.12);
+	width: 26px;
+	height: 26px;
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
 	cursor: pointer;
 	padding: 0;
 	position: relative;
 	overflow: hidden;
 	min-height: unset;
+	background: none;
 }
 
+/* Transparency checkerboard behind preview */
 .gb-color-control__preview::before {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-	                  linear-gradient(-45deg, #ccc 25%, transparent 25%),
-	                  linear-gradient(45deg, transparent 75%, #ccc 75%),
-	                  linear-gradient(-45deg, transparent 75%, #ccc 75%);
+	z-index: 0;
+	background-image:
+		linear-gradient(45deg, #ccc 25%, transparent 25%),
+		linear-gradient(-45deg, #ccc 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, #ccc 75%),
+		linear-gradient(-45deg, transparent 75%, #ccc 75%);
 	background-size: 8px 8px;
 	background-position: 0 0, 0 4px, 4px -4px, -4px 0;
-	z-index: -1;
 }
 
+.gb-color-control__preview-inner {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+/* Hex text field */
 .gb-color-control__hex {
 	flex: 1;
 	min-width: 0;
 }
 
 .gb-color-control__hex .components-base-control,
-.gb-color-control__hex .components-base-control__field,
-.gb-color-control__hex input {
+.gb-color-control__hex .components-base-control__field {
 	margin-bottom: 0;
+}
+
+.gb-color-control__hex input {
 	border: none;
 	box-shadow: none;
 	background: transparent;
-	font-size: var(--gb-text-xs, 0.75rem);
-	font-family: var(--gb-font-mono, monospace);
-	padding: 0;
+	font-size: 11px;
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+	color: #111827;
+	padding: 0 4px;
 	height: auto;
 	min-height: unset;
+	outline: none;
 }
 
 .gb-color-control__popover .components-popover__content {
-	padding: var(--gb-space-3, 0.75rem);
+	padding: 12px;
 }
 
 .gb-color-control__help {
-	font-size: var(--gb-text-2xs, 0.625rem);
-	color: var(--gb-color-text-subtle, #9ca3af);
+	font-size: 10px;
+	color: #9ca3af;
+	line-height: 1.4;
 }
 
 /* ============================================================================
-   §6.13 — Gradient Control
+   §11 — Gradient Control
    ============================================================================ */
 
 .gb-gradient-control__preview {
-	height: 36px;
-	border-radius: var(--gb-radius-base, 0.25rem);
-	border: 1px solid var(--gb-color-border, #e5e7eb);
-	margin-bottom: var(--gb-space-1, 0.25rem);
+	height: 34px;
+	border-radius: 5px;
+	border: 1px solid #e5e7eb;
+	margin-bottom: 4px;
 }
 
 .gb-gradient-control__stops {
 	display: flex;
 	flex-direction: column;
-	gap: var(--gb-space-2, 0.5rem);
-	margin-top: var(--gb-space-1, 0.25rem);
+	gap: 6px;
+	margin-top: 4px;
 }
 
+/* Each gradient stop card */
 .gb-gradient-control__stop {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
+	gap: 6px;
 	align-items: start;
-	padding: var(--gb-space-2, 0.5rem);
-	background: var(--gb-color-surface-raised, #f9fafb);
-	border-radius: var(--gb-radius-base, 0.25rem);
-	border: 1px solid var(--gb-color-border, #e5e7eb);
+	padding: 8px;
+	background: #f9fafb;
+	border: 1px solid #e5e7eb;
+	border-radius: 5px;
 }
 
 .gb-gradient-control__stop .gb-color-control {
@@ -610,75 +753,1088 @@
 }
 
 /* ============================================================================
-   §6.14 — Shadow Control
+   §12 — Shadow Control
    ============================================================================ */
 
 .gb-shadow-control__layer {
 	display: flex;
 	flex-direction: column;
-	gap: var(--gb-space-2, 0.5rem);
-	padding: var(--gb-space-2, 0.5rem);
-	background: var(--gb-color-surface-raised, #f9fafb);
-	border: 1px solid var(--gb-color-border, #e5e7eb);
-	border-radius: var(--gb-radius-base, 0.25rem);
-	margin-top: var(--gb-space-2, 0.5rem);
+	gap: 8px;
+	padding: 8px;
+	background: #f9fafb;
+	border: 1px solid #e5e7eb;
+	border-radius: 5px;
+	margin-top: 4px;
 }
 
 .gb-shadow-control__layer-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.gb-shadow-control__layer-label {
 	font-size: 11px;
-	font-weight: var(--gb-weight-medium, 500);
-	color: var(--gb-color-text-muted, #6b7280);
+	font-weight: 600;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	letter-spacing: 0.04em;
+	color: #6b7280;
 }
 
 .gb-shadow-control__layer-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
+	gap: 6px;
 }
 
 /* ============================================================================
-   §6.15 — Font Control
+   §13 — Font Control
    ============================================================================ */
-
-.gb-font-control__header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 24px;
-}
-
-.gb-font-control__label {
-	font-size: 11px;
-	font-weight: var(--gb-weight-medium, 500);
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
-	color: var(--gb-color-text-muted, #6b7280);
-}
 
 .gb-font-control select,
 .gb-font-control input {
-	font-size: var(--gb-text-sm, 0.875rem);
+	font-size: 12px;
 }
 
 /* ============================================================================
-   §6.16 — Flex Control
+   §14 — Flex Control
    ============================================================================ */
 
 .gb-flex-control {
 	display: flex;
 	flex-direction: column;
-	gap: var(--gb-space-3, 0.75rem);
-	padding-top: var(--gb-space-2, 0.5rem);
-	border-top: 1px solid var(--gb-color-border, #e5e7eb);
+	gap: 8px;
+	padding-top: 8px;
+	border-top: 1px solid #e5e7eb;
 }
 
 .gb-flex-control__gap {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--gb-space-2, 0.5rem);
+	gap: 6px;
 }
+
+/* ============================================================================
+   §15 — Hover / Pseudo-State Section
+   ============================================================================ */
+
+.gb-panel-state-section {
+	margin-top: 16px;
+	padding: 12px;
+	background: #f0f4ff;
+	border: 1px solid #c7d2fe;
+	border-radius: 6px;
+}
+
+.gb-panel-state-section__label {
+	margin: 0 0 10px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #4338ca;
+}
+
+/* ============================================================================
+   §16 — Background Panel Image Picker
+   ============================================================================ */
+
+.gb-background-panel__image {
+	margin-bottom: 12px;
+}
+
+.gb-background-panel__image-label {
+	margin: 0 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #374151;
+}
+
+.gb-background-panel__image-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.gb-background-panel__image-preview {
+	width: 48px;
+	height: 48px;
+	border-radius: 4px;
+	border: 1px solid #e5e7eb;
+	background-size: cover;
+	background-position: center;
+	flex-shrink: 0;
+}
+
+.gb-background-panel__image-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+/* ── Video block inspector ────────────────────────────────────────────────── */
+
+.gb-video-inspector__poster {
+	margin-top: 12px;
+}
+
+.gb-video-inspector__poster-label {
+	margin: 0 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #374151;
+}
+
+.gb-video-inspector__poster-preview {
+	display: block;
+	width: 100%;
+	max-height: 100px;
+	object-fit: cover;
+	border-radius: 4px;
+	border: 1px solid #e5e7eb;
+	margin-bottom: 6px;
+}
+
+.gb-video-inspector__poster-actions {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+/* ============================================================================
+   §17 — Effects Panel Transition Builder
+   ============================================================================ */
+
+.gb-effects-panel__section-label {
+	margin: 12px 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #374151;
+}
+
+.gb-effects-panel__transition {
+	margin-bottom: 12px;
+}
+
+.gb-effects-panel__transition-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+/* ============================================================================
+   §18 — Breakpoint override indicator dot
+   ============================================================================ */
+
+.gb-unit-input__bp-dot {
+	display: inline-block;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: #4f46e5;
+	margin-left: 4px;
+	vertical-align: middle;
+	flex-shrink: 0;
+}
+
+/* ============================================================================
+   §19 — Shared Inspector utility elements
+   ============================================================================ */
+
+/* Button row (e.g. Library / Custom SVG toggle in Icon inspector) */
+.gb-inspector-button-row {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+/* Checklist section (taxonomy / author filter in Query inspector) */
+.gb-inspector-checklist {
+	margin-top: 8px;
+}
+
+.gb-inspector-checklist__label {
+	margin: 0 0 4px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #374151;
+}
+
+/* Query preview post list */
+.gb-inspector-preview-list {
+	margin: 0;
+	padding: 0 0 0 16px;
+	font-size: 12px;
+}
+
+.gb-inspector-preview-list li {
+	margin-bottom: 4px;
+}
+
+.gb-inspector-preview-list__date {
+	margin-left: 4px;
+	color: #9ca3af;
+}
+
+/* ============================================================================
+   §20 — WP native component overrides  (premium polish for TextControl,
+         SelectControl, ToggleControl, NumberControl, Button, etc.)
+   ============================================================================ */
+
+/* ── Shared: WP base-control label ──────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-base-control__label {
+	display: block;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #6b7280;
+	margin-bottom: 4px;
+	line-height: 1;
+}
+
+/* ── Shared: WP base-control help text ──────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-base-control__help {
+	font-size: 10px;
+	color: #9ca3af;
+	margin-top: 4px;
+	line-height: 1.4;
+}
+
+/* ── TextControl ─────────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-text-control__input {
+	width: 100%;
+	padding: 6px 9px;
+	font-size: 12px;
+	line-height: 1.4;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	box-shadow: none;
+	outline: none;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
+	min-height: 32px;
+}
+
+.gb-inspector-tabs__panel .components-text-control__input::placeholder {
+	color: #9ca3af;
+}
+
+.gb-inspector-tabs__panel .components-text-control__input:focus {
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
+}
+
+/* ── TextareaControl ─────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-textarea-control__input {
+	width: 100%;
+	padding: 7px 9px;
+	font-size: 12px;
+	line-height: 1.6;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	box-shadow: none;
+	outline: none;
+	resize: vertical;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.gb-inspector-tabs__panel .components-textarea-control__input:focus {
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
+}
+
+/* ── SelectControl ───────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-select-control__input {
+	width: 100%;
+	padding: 6px 28px 6px 9px;
+	font-size: 12px;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	box-shadow: none;
+	outline: none;
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	background-size: 14px;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
+	min-height: 32px;
+	cursor: pointer;
+}
+
+.gb-inspector-tabs__panel .components-select-control__input:focus {
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
+}
+
+/* ── NumberControl ───────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-number-control input,
+.gb-inspector-tabs__panel .components-number-control__input {
+	width: 100%;
+	padding: 6px 9px;
+	font-size: 12px;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	box-shadow: none;
+	outline: none;
+	transition: border-color 130ms ease, box-shadow 130ms ease;
+	min-height: 32px;
+}
+
+.gb-inspector-tabs__panel .components-number-control input:focus,
+.gb-inspector-tabs__panel .components-number-control__input:focus {
+	border-color: var( --gb-focus-color );
+	box-shadow: 0 0 0 2px var( --gb-focus-ring-shadow );
+}
+
+/* ── ToggleControl ───────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-toggle-control {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-base-control__field {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-form-toggle {
+	flex-shrink: 0;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-form-toggle__track {
+	background-color: #d1d5db;
+	border: none;
+	border-radius: 20px;
+	width: 36px;
+	height: 20px;
+	transition: background-color 150ms ease;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-form-toggle.is-checked .components-form-toggle__track {
+	background-color: #4f46e5;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-form-toggle__thumb {
+	width: 14px;
+	height: 14px;
+	top: 3px;
+	left: 3px;
+	background: #fff;
+	border: none;
+	box-shadow: 0 1px 3px rgba( 0,0,0,0.2 );
+	border-radius: 50%;
+	transition: left 150ms ease;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-form-toggle.is-checked .components-form-toggle__thumb {
+	left: 19px;
+}
+
+.gb-inspector-tabs__panel .components-toggle-control .components-toggle-control__label {
+	font-size: 12px;
+	font-weight: 500;
+	color: #374151;
+	line-height: 1.4;
+	margin-top: 2px;
+}
+
+/* ── CheckboxControl ─────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-checkbox-control .components-checkbox-control__input {
+	width: 14px;
+	height: 14px;
+	border-radius: 3px;
+	border: 1.5px solid #d1d5db;
+	accent-color: #4f46e5;
+	cursor: pointer;
+}
+
+.gb-inspector-tabs__panel .components-checkbox-control label {
+	font-size: 12px;
+	color: #374151;
+	cursor: pointer;
+}
+
+/* ── RadioControl ────────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-radio-control__option {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 3px 0;
+	cursor: pointer;
+}
+
+.gb-inspector-tabs__panel .components-radio-control__option input[type="radio"] {
+	width: 14px;
+	height: 14px;
+	accent-color: #4f46e5;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.gb-inspector-tabs__panel .components-radio-control__option label {
+	font-size: 12px;
+	color: #374151;
+	cursor: pointer;
+}
+
+/* ── WP Buttons (inside panels — MediaUploadCheck, etc.) ─────────────────── */
+
+.gb-inspector-tabs__panel .components-button.is-secondary {
+	font-size: 11px;
+	font-weight: 500;
+	padding: 4px 10px;
+	min-height: 28px;
+	border-radius: 5px;
+	border: 1px solid #d1d5db;
+	color: #374151;
+	background: #fff;
+	box-shadow: none;
+	transition: background 120ms ease, border-color 120ms ease;
+}
+
+.gb-inspector-tabs__panel .components-button.is-secondary:hover {
+	background: #f9fafb;
+	border-color: #9ca3af;
+}
+
+.gb-inspector-tabs__panel .components-button.is-primary {
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 10px;
+	min-height: 28px;
+	border-radius: 5px;
+	background: #4f46e5;
+	border-color: #4f46e5;
+	box-shadow: none;
+	transition: background 120ms ease;
+}
+
+.gb-inspector-tabs__panel .components-button.is-primary:hover {
+	background: #4338ca;
+	border-color: #4338ca;
+}
+
+.gb-inspector-tabs__panel .components-button.is-destructive {
+	font-size: 11px;
+	font-weight: 500;
+	padding: 4px 10px;
+	min-height: 28px;
+	border-radius: 5px;
+	box-shadow: none;
+}
+
+/* ============================================================================
+   §21 — Editor-only notice/label bar (visible only in editor, not frontend)
+   ============================================================================ */
+
+.gb-editor-notice {
+	margin: 0 0 8px;
+	padding: 5px 10px;
+	background: #fef3c7;
+	border-left: 3px solid #f59e0b;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #92400e;
+	line-height: 1.4;
+}
+
+/* ── description helper text — used with className="description" ─────────── */
+
+.gb-inspector-tabs__panel .description {
+	font-size: 11px;
+	color: #9ca3af;
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* ── Divider between stacked controls inside a panel ─────────────────────── */
+
+.gb-inspector-tabs__panel .components-toggle-control + .components-toggle-control {
+	border-top: 1px solid #f3f4f6;
+	padding-top: 8px;
+}
+
+/* ── MediaUpload / MediaPlaceholder ─────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .block-editor-media-placeholder {
+	border-radius: 5px;
+	border: 1px dashed #d1d5db;
+	padding: 12px;
+}
+
+/* ── RangeControl ────────────────────────────────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-range-control__wrapper {
+	padding: 0;
+}
+
+.gb-inspector-tabs__panel .components-range-control input[type="range"] {
+	accent-color: #4f46e5;
+}
+
+.gb-inspector-tabs__panel .components-range-control__number {
+	width: 48px;
+	font-size: 12px;
+	padding: 4px 6px;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	text-align: center;
+	min-height: 28px;
+}
+
+/* ── ColorPicker (WP native, used in Shape block) ────────────────────────── */
+
+.gb-inspector-tabs__panel .components-color-picker {
+	padding: 0;
+}
+
+.gb-inspector-tabs__panel .components-color-picker .components-color-picker__body {
+	padding: 0;
+}
+
+/* ── Panel body open arrow: rotate on open ───────────────────────────────── */
+
+.gb-inspector-tabs__panel .components-panel__body.is-opened .components-panel__arrow {
+	transform: rotate( 180deg );
+}
+
+/* ── Premium scrollbar in panel area ─────────────────────────────────────── */
+
+.gb-inspector-tabs__panel {
+	scrollbar-width: thin;
+	scrollbar-color: #d1d5db transparent;
+}
+
+.gb-inspector-tabs__panel::-webkit-scrollbar {
+	width: 4px;
+}
+
+.gb-inspector-tabs__panel::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.gb-inspector-tabs__panel::-webkit-scrollbar-thumb {
+	background: #d1d5db;
+	border-radius: 4px;
+}
+
+.gb-inspector-tabs__panel::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
+}
+
+/* ============================================================================
+   §N — Group Layout Selector
+   ============================================================================ */
+
+.gb-layout-selector {
+	display: grid;
+	grid-template-columns: repeat( 4, 1fr );
+	gap: 6px;
+	margin-bottom: 8px;
+}
+
+.gb-layout-selector__option {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	padding: 10px 4px 8px;
+	border: 1.5px solid #e0e0e0;
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+	color: #757575;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	line-height: 1;
+	transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+}
+
+.gb-layout-selector__option svg {
+	width: 36px;
+	height: 28px;
+	flex-shrink: 0;
+}
+
+.gb-layout-selector__option:hover {
+	border-color: #818cf8;
+	color: #4338ca;
+	background: linear-gradient( 135deg, #f5f3ff 0%, #eff6ff 100% );
+}
+
+.gb-layout-selector__option.is-active {
+	border-color: #4f46e5;
+	background: linear-gradient( 135deg, #ede9fe 0%, #dbeafe 100% );
+	color: #4f46e5;
+}
+
+.gb-layout-selector__option.is-active svg {
+	color: #4f46e5;
+	filter: drop-shadow( 0 0 3px rgba( 79, 70, 229, 0.35 ) );
+}
+
+.gb-layout-selector__option:focus-visible {
+	outline: 2px solid #4f46e5;
+	outline-offset: 1px;
+}
+
+/* ============================================================================
+   §N — Column Width Presets
+   ============================================================================ */
+
+.gb-column-width-label {
+	margin: 0 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #757575;
+}
+
+.gb-column-width-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin-bottom: 4px;
+}
+
+.gb-column-width-presets__btn {
+	padding: 4px 10px;
+	font-size: 11px;
+	font-weight: 500;
+	border: 1.5px solid #e0e0e0;
+	border-radius: 3px;
+	background: #fff;
+	cursor: pointer;
+	color: #757575;
+	line-height: 1.4;
+	transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+}
+
+.gb-column-width-presets__btn:hover {
+	border-color: #1e1e1e;
+	color: #1e1e1e;
+	background: #f6f7f7;
+}
+
+.gb-column-width-presets__btn.is-active {
+	border-color: #3858e9;
+	background: #f0f3ff;
+	color: #3858e9;
+	font-weight: 600;
+}
+
+.gb-column-width-presets__btn:focus-visible {
+	outline: 2px solid #3858e9;
+	outline-offset: 1px;
+}
+
+/* ============================================================================
+   §N+1 — Quick Presets strip (Group block)
+   ============================================================================ */
+
+.gb-presets-strip {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 10px 16px 6px;
+	border-bottom: 1px solid rgba( 0, 0, 0, 0.06 );
+	background: linear-gradient( 180deg, #fafafe 0%, #f5f3ff08 100% );
+}
+
+.gb-presets-strip__btn {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3px;
+	padding: 5px 8px 4px;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 20px;
+	background: #fff;
+	cursor: pointer;
+	color: #6b7280;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	line-height: 1;
+	transition: border-color 120ms, background 120ms, color 120ms, box-shadow 120ms;
+	white-space: nowrap;
+}
+
+.gb-presets-strip__btn svg {
+	flex-shrink: 0;
+	transition: color 120ms;
+}
+
+.gb-presets-strip__btn:hover {
+	border-color: #818cf8;
+	color: #4338ca;
+	background: linear-gradient( 135deg, #f5f3ff 0%, #eff6ff 100% );
+	box-shadow: 0 1px 4px rgba( 79, 70, 229, 0.15 );
+}
+
+.gb-presets-strip__btn.is-active {
+	border-color: #4f46e5;
+	background: linear-gradient( 135deg, #ede9fe 0%, #dbeafe 100% );
+	color: #4f46e5;
+	box-shadow: 0 1px 4px rgba( 79, 70, 229, 0.2 );
+}
+
+.gb-presets-strip__btn:focus-visible {
+	outline: 2px solid #4f46e5;
+	outline-offset: 1px;
+}
+
+/* ============================================================================
+   §N+2 — Image inspector header (thumbnail + quick-action pills)
+   ============================================================================ */
+
+.gb-image-inspector-header {
+	padding: 12px 16px 8px;
+	border-bottom: 1px solid rgba( 0, 0, 0, 0.06 );
+	background: #fafafa;
+}
+
+.gb-image-inspector-header__thumb {
+	display: block;
+	width: 100%;
+	max-height: 80px;
+	object-fit: cover;
+	border-radius: 6px;
+	border: 1px solid rgba( 0, 0, 0, 0.07 );
+	margin-bottom: 8px;
+}
+
+.gb-image-inspector-header__pills {
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+}
+
+.gb-image-inspector-header__pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	padding: 2px 8px;
+	border-radius: 20px;
+	background: #f3f4f6;
+	border: 1px solid #e5e7eb;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #6b7280;
+	line-height: 16px;
+}
+
+/* ============================================================================
+   §N+3 — Object-fit icon-button grid (Image block)
+   ============================================================================ */
+
+.gb-object-fit-grid {
+	display: flex;
+	gap: 4px;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+}
+
+.gb-object-fit-grid__btn {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3px;
+	flex: 1;
+	min-width: 0;
+	padding: 6px 4px 5px;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 5px;
+	background: #fff;
+	cursor: pointer;
+	color: #9ca3af;
+	font-size: 9px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	line-height: 1;
+	transition: border-color 120ms, background 120ms, color 120ms;
+}
+
+.gb-object-fit-grid__btn svg {
+	flex-shrink: 0;
+	width: 20px;
+	height: 16px;
+}
+
+.gb-object-fit-grid__btn:hover {
+	border-color: #818cf8;
+	color: #4338ca;
+	background: linear-gradient( 135deg, #f5f3ff 0%, #eff6ff 100% );
+}
+
+.gb-object-fit-grid__btn.is-active {
+	border-color: #4f46e5;
+	background: linear-gradient( 135deg, #ede9fe 0%, #dbeafe 100% );
+	color: #4f46e5;
+}
+
+.gb-object-fit-grid__btn:focus-visible {
+	outline: 2px solid #4f46e5;
+	outline-offset: 1px;
+}
+
+/* ============================================================================
+   §N — Button Style Variant Strip
+   ============================================================================ */
+
+.gb-button-variants {
+	padding: 12px 16px 8px;
+	background: #fff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.gb-button-variants__label {
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: #757575;
+}
+
+.gb-button-variants__grid {
+	display: grid;
+	grid-template-columns: repeat( 4, 1fr );
+	gap: 6px;
+}
+
+.gb-button-variants__btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	padding: 10px 4px 8px;
+	background: #f8f9fa;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 6px;
+	cursor: pointer;
+	color: #4f46e5;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	line-height: 1;
+	transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.gb-button-variants__btn svg {
+	flex-shrink: 0;
+}
+
+.gb-button-variants__btn:hover {
+	border-color: #4f46e5;
+	background: #eef2ff;
+	box-shadow: 0 1px 4px rgba( 79, 70, 229, 0.12 );
+}
+
+.gb-button-variants__btn:active {
+	transform: scale( 0.97 );
+}
+
+.gb-button-variants__btn:focus-visible {
+	outline: 2px solid #4f46e5;
+	outline-offset: 1px;
+}
+
+/* ============================================================================
+   §N — URLInput wrapper (Inspector link panel)
+   ============================================================================ */
+
+.gb-url-input-wrap {
+	margin-bottom: 12px;
+}
+
+.gb-url-input-wrap__label {
+	margin: 0 0 4px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #757575;
+}
+
+.gb-url-input-wrap .block-editor-url-input input[type="text"],
+.gb-url-input-wrap .block-editor-url-input__input {
+	border: 1.5px solid #d0d5dd;
+	border-radius: 5px;
+	font-size: 13px;
+	padding: 6px 10px;
+	width: 100%;
+	transition: border-color 130ms ease;
+}
+
+.gb-url-input-wrap .block-editor-url-input input[type="text"]:focus,
+.gb-url-input-wrap .block-editor-url-input__input:focus {
+	border-color: #4f46e5;
+	box-shadow: 0 0 0 2px rgba( 79, 70, 229, 0.15 );
+	outline: none;
+}
+
+/* ============================================================================
+   §N — Slider: Effect Presets Strip
+   ============================================================================ */
+
+/* ── Slider: Effect picker ───────────────────────────────────────────────────── */
+
+.gb-slider-effects {
+	padding: 12px 16px 10px;
+	background: #fff;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.gb-slider-effects__label {
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #6b7280;
+	margin: 0 0 8px;
+}
+
+.gb-slider-effects__grid {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 6px;
+}
+
+.gb-slider-effects__grid--4 {
+	grid-template-columns: repeat( 4, 1fr );
+}
+
+.gb-slider-effects__btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+	padding: 8px 4px;
+	background: #f9fafb;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #4f46e5;
+	text-align: center;
+	transition: border-color 0.15s, background 0.15s, color 0.15s;
+	line-height: 1;
+}
+
+.gb-slider-effects__btn:hover { border-color: #4f46e5; background: #eef2ff; }
+.gb-slider-effects__btn.is-active { border-color: #4f46e5; background: #eef2ff; color: #3730a3; }
+.gb-slider-effects__btn svg { display: block; flex-shrink: 0; }
+.gb-slider-effects__btn:focus-visible { outline: 2px solid #4f46e5; outline-offset: 1px; }
+
+/* ── Slider: Arrow style presets ────────────────────────────────────────────── */
+
+.gb-sl-arrow-presets {
+	display: grid;
+	grid-template-columns: repeat( 4, 1fr );
+	gap: 6px;
+	margin-bottom: 14px;
+}
+
+.gb-sl-arrow-preset-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+	padding: 8px 4px;
+	background: #f9fafb;
+	border: 1.5px solid #e5e7eb;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: #374151;
+	text-align: center;
+	transition: border-color 0.15s, background 0.15s, color 0.15s;
+	line-height: 1;
+}
+
+.gb-sl-arrow-preset-btn svg { display: block; flex-shrink: 0; }
+.gb-sl-arrow-preset-btn:hover { border-color: #4f46e5; background: #eef2ff; color: #4f46e5; }
+.gb-sl-arrow-preset-btn.is-active { border-color: #4f46e5; background: #eef2ff; color: #3730a3; }
+.gb-sl-arrow-preset-btn:focus-visible { outline: 2px solid #4f46e5; outline-offset: 1px; }
+
+/* ── Editor-only: dot preview inside editor canvas ──────────────────────────── */
+
+.editor-styles-wrapper .gb-slider__dots {
+	pointer-events: none;
+}
+
+.editor-styles-wrapper .gb-slider__dot {
+	pointer-events: none;
+}
+
+/* ── Editor-only "Add Slide" button ────────────────────────────────────────── */
+
+.editor-styles-wrapper .gb-slider__add-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	width: 100%;
+	margin-top: 8px;
+	padding: 9px 16px;
+	background: transparent;
+	border: 1.5px dashed rgba( 99, 102, 241, 0.4 );
+	border-radius: 8px;
+	color: rgba( 99, 102, 241, 0.7 );
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+	transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.editor-styles-wrapper .gb-slider__add-slide:hover {
+	background: rgba( 99, 102, 241, 0.06 );
+	border-color: #6366f1;
+	color: #4f46e5;
+}
+
+.editor-styles-wrapper .gb-slider__add-slide svg { flex-shrink: 0; }

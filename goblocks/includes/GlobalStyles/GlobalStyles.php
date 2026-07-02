@@ -23,7 +23,8 @@ class GlobalStyles {
 	public static function boot(): void {
 		add_action( 'wp_head', array( self::class, 'output_frontend_css' ), 5 );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'output_editor_css' ) );
-		add_action( 'admin_menu', array( self::class, 'add_submenu_page' ) );
+		// admin_menu registration is handled centrally by Admin::register_all_menus()
+		// to guarantee the parent page exists before this submenu is added.
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_admin_assets' ) );
 	}
 

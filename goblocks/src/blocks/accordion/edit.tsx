@@ -39,7 +39,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< AccordionBlockAttributes > ) {
-	const { uniqueId, styles, globalClasses, enableFaqSchema, allowMultiple } =
+	const { uniqueId, styles, globalClasses, enableFaqSchema, allowMultiple, generatedCss } =
 		attributes;
 
 	useEffect( () => {
@@ -52,6 +52,7 @@ export function Edit( {
 		blockSlug: 'accordion',
 		uniqueId,
 		styles,
+		generatedCss,
 		setAttributes: ( patch ) =>
 			setAttributes( patch as Partial< AccordionBlockAttributes > ),
 	} );

@@ -85,13 +85,14 @@ class Pagination extends BlockBase {
 		$prev_label      = sanitize_text_field( (string) ( $attributes['prevLabel'] ?? '' ) );
 		$next_label      = sanitize_text_field( (string) ( $attributes['nextLabel'] ?? '' ) );
 		$show_first_last = (bool) ( $attributes['showFirstLast'] ?? false );
+		$show_prev_next  = isset( $attributes['showPrevNext'] ) ? (bool) $attributes['showPrevNext'] : true;
 
 		$links = paginate_links(
 			array(
 				'total'     => $total_pages,
 				'current'   => $current,
-				'prev_text' => $prev_label ? $prev_label : __( '&laquo; Previous', 'goblocks' ),
-				'next_text' => $next_label ? $next_label : __( 'Next &raquo;', 'goblocks' ),
+				'prev_text' => $show_prev_next ? ( $prev_label ?: __( '&laquo; Previous', 'goblocks' ) ) : false,
+				'next_text' => $show_prev_next ? ( $next_label ?: __( 'Next &raquo;', 'goblocks' ) ) : false,
 				'type'      => 'array',
 				'end_size'  => $show_first_last ? 1 : 0,
 				'mid_size'  => 2,
@@ -180,11 +181,3 @@ class Pagination extends BlockBase {
 		);
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Pagination::class;
-		return $classes;
-	}
-);

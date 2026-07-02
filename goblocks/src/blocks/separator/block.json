@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/separator",
+	"version": "1.0.0",
+	"title": "Separator",
+	"category": "goblocks",
+	"description": "Styled horizontal rule with full width, height, and colour control.",
+	"keywords": [ "separator", "divider", "rule", "hr", "line" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":    { "type": "string", "default": "" },
+		"lineStyle":   { "type": "string", "default": "solid" },
+		"label":       { "type": "string", "default": "" },
+		"styles": {
+			"type": "object",
+			"default": {
+				"sizing": {
+					"width":  { "base": "100%" },
+					"height": { "base": "1px" }
+				},
+				"background": {
+					"backgroundColor": { "base": "#e5e7eb" }
+				},
+				"spacing": {
+					"marginTop":    { "base": "1.5rem" },
+					"marginBottom": { "base": "1.5rem" }
+				}
+			}
+		},
+		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":   { "type": "string",  "default": "" },
+		"blockVersion":   { "type": "integer", "default": 1 }
+	},
+	"editorScript": "file:./index.js"
+}

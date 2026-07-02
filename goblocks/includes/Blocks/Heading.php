@@ -31,14 +31,16 @@ class Heading extends BlockBase {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		if ( ! $unique_id ) {
-			return '';
-		}
-
 		$tag_name       = $this->get_tag_name( $attributes, 'h2' );
 		$block_class    = $this->get_block_class( $unique_id );   // gb-heading-{uniqueId}
 		$global_classes = $this->get_global_classes( $attributes );
-		$classes        = $this->build_class_string( $block_class, $global_classes, array( 'gb-heading' ) );
+
+		$extra_classes = array( 'gb-heading' );
+		if ( ! empty( $attributes['textGradient'] ) ) {
+			$extra_classes[] = 'gb-heading--gradient';
+		}
+
+		$classes  = $this->build_class_string( $block_class, $global_classes, $extra_classes );
 		$html_attrs     = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
 
 		// Anchor ID.
@@ -105,12 +107,3 @@ class Heading extends BlockBase {
 		return '<a' . $link_attrs . '>' . $text_content . '</a>';
 	}
 }
-
-// Self-register into the block class list.
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Heading::class;
-		return $classes;
-	}
-);

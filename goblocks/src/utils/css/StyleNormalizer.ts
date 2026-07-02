@@ -23,6 +23,7 @@ import type {
 	BackgroundStyles,
 	EffectsStyles,
 	PositionStyles,
+	CssVariablesStyles,
 	Breakpoint,
 	PseudoState,
 } from '../../types/styles';
@@ -49,7 +50,9 @@ export interface NormalizedStyles {
 
 // ── CSS value validation ──────────────────────────────────────────────────
 
-const REJECT_PATTERN = /[<>"']/;
+// Reject HTML-injection chars (<>"`) but allow single quotes — valid in CSS
+// for font-family names ('Open Sans') and url() background images.
+const REJECT_PATTERN = /[<>"]/;
 
 /**
  * Basic CSS value guard — rejects values that contain characters that
@@ -158,6 +161,8 @@ export function normalizeStyles( raw: BlockStyles ): NormalizedStyles {
 		cleaned: background,
 	} = extractOverlay( backgroundRaw );
 
+	const variables = normalizeCategoryMap( raw.variables );
+
 	const styles: BlockStyles = {};
 	if ( Object.keys( spacing ).length ) {
 		styles.spacing = spacing as SpacingStyles;
@@ -182,6 +187,9 @@ export function normalizeStyles( raw: BlockStyles ): NormalizedStyles {
 	}
 	if ( Object.keys( position ).length ) {
 		styles.position = position as PositionStyles;
+	}
+	if ( Object.keys( variables ).length ) {
+		styles.variables = variables as CssVariablesStyles;
 	}
 
 	return {

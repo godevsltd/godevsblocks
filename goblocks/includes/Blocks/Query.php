@@ -45,11 +45,3 @@ class Query extends BlockBase {
 		);
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Query::class;
-		return $classes;
-	}
-);

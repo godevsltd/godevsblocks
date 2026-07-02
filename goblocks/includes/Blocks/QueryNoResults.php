@@ -53,11 +53,3 @@ class QueryNoResults extends BlockBase {
 		return '<div class="gb-query-no-results">' . $content . '</div>';
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = QueryNoResults::class;
-		return $classes;
-	}
-);

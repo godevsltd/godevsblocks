@@ -20,7 +20,8 @@ class PatternLibrary {
 	public static function boot(): void {
 		add_action( 'init',                  [ self::class, 'register_category' ], 5 );
 		add_action( 'init',                  [ self::class, 'register_patterns' ], 10 );
-		add_action( 'admin_menu',            [ self::class, 'add_submenu_page' ] );
+		// admin_menu registration is handled centrally by Admin::register_all_menus()
+		// to guarantee the parent page exists before this submenu is added.
 		add_action( 'admin_enqueue_scripts', [ self::class, 'enqueue_admin_assets' ] );
 	}
 
@@ -44,6 +45,18 @@ class PatternLibrary {
 			GOBLOCKS_DIR . 'patterns/hero/hero-centered.php',
 			GOBLOCKS_DIR . 'patterns/cards/card-grid-3col.php',
 			GOBLOCKS_DIR . 'patterns/cta/cta-with-image.php',
+			GOBLOCKS_DIR . 'patterns/stats/stats-4col.php',
+			GOBLOCKS_DIR . 'patterns/testimonials/testimonial-card.php',
+			GOBLOCKS_DIR . 'patterns/pricing/pricing-3tier.php',
+			GOBLOCKS_DIR . 'patterns/newsletter/newsletter-banner.php',
+			GOBLOCKS_DIR . 'patterns/team/team-grid.php',
+			GOBLOCKS_DIR . 'patterns/blog/blog-posts-grid.php',
+			GOBLOCKS_DIR . 'patterns/faq/faq-accordion.php',
+			GOBLOCKS_DIR . 'patterns/features/how-it-works.php',
+			GOBLOCKS_DIR . 'patterns/testimonials/testimonials-grid.php',
+			GOBLOCKS_DIR . 'patterns/logos/logo-cloud.php',
+			GOBLOCKS_DIR . 'patterns/contact/contact-cta.php',
+			GOBLOCKS_DIR . 'patterns/portfolio/portfolio-grid.php',
 		];
 
 		foreach ( $files as $file ) {

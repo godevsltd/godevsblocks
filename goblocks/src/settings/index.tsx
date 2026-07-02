@@ -14,6 +14,12 @@ import { __ } from '@wordpress/i18n';
 import { render } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
+// Register nonce middleware once at module load — not inside the save handler.
+const _nonce = window.goblocksSettings?.nonce;
+if ( _nonce ) {
+	apiFetch.use( apiFetch.createNonceMiddleware( _nonce ) );
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 interface Breakpoints {
@@ -77,7 +83,6 @@ function SettingsApp() {
 	const handleSave = useCallback( async () => {
 		setSaveStatus( 'saving' );
 		try {
-			apiFetch.use( apiFetch.createNonceMiddleware( pageData?.nonce ?? '' ) );
 			await apiFetch( {
 				path: '/goblocks/v1/settings',
 				method: 'POST',

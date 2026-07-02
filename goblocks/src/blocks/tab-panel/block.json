@@ -4,30 +4,63 @@
 	"name": "goblocks/tab-panel",
 	"version": "1.0.0",
 	"title": "Tab Panel",
-	"category": "layout",
-	"icon": "editor-table",
+	"category": "goblocks",
 	"description": "A single tab panel — must be inside a Tabs block.",
-	"keywords": [ "tab", "panel", "tabpanel" ],
+	"keywords": [
+		"tab",
+		"panel",
+		"tabpanel"
+	],
 	"textdomain": "goblocks",
-	"parent": [ "goblocks/tabs" ],
+	"parent": [
+		"goblocks/tabs"
+	],
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false,
-		"inserter":        false
+		"className": false,
+		"anchor": false,
+		"inserter": false
 	},
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"dynamicContent": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"label":          { "type": "string",  "default": "Tab" }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"label": {
+			"type": "string",
+			"default": "Tab"
+		}
 	},
-	"usesContext": [ "goblocks/tabsId" ],
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css"
+	"usesContext": [
+		"goblocks/tabsId"
+	],
+	"editorScript": "file:./index.js"
 }

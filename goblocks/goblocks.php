@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name:       goBlocks – Advanced Block Library
+ * Plugin Name:       goBlocks – Blocks Anywhere
  * Plugin URI:        https://goblocks.io
- * Description:       A production-ready block plugin with a world-class design system, responsive controls, dynamic content, global styles, and full FSE support. Surpasses GenerateBlocks, Kadence Blocks, and Spectra.
+ * Description:       goBlocks - Gutenberg Blocks Anywhere, a lightweight Gutenberg block library similar to GenerateBlocks and compatible with all WordPress Gutenberg themes.
  * Version:           1.0.0
- * Author:            GoBlocks Contributors
+ * Author:            godevs
  * Author URI:        https://goblocks.io
  * License:           GPL-2.0+
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt

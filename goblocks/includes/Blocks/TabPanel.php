@@ -34,23 +34,22 @@ class TabPanel extends BlockBase {
 		$panel_id = 'panel-' . $tabs_id . '-' . $idx;
 		$tab_id   = 'tab-' . $tabs_id . '-' . $idx;
 
-		$classes = 'gb-tab-panel' . ( $active ? ' is-active' : '' );
+		$unique_id      = $this->get_unique_id( $attributes );
+		$block_class    = $unique_id ? $this->get_block_class( $unique_id ) : '';
+		$global_classes = $this->get_global_classes( $attributes );
+		$extra          = array( 'gb-tab-panel' );
+		if ( $active ) {
+			$extra[] = 'is-active';
+		}
+		$classes = $this->build_class_string( $block_class ? $block_class : 'gb-tab-panel', $global_classes, $extra );
 
 		return sprintf(
-			'<div role="tabpanel" id="%s" aria-labelledby="%s" class="%s"%s>%s</div>',
+			'<div role="tabpanel" id="%s" aria-labelledby="%s" class="%s"%s><div class="gb-tab-panel__content">%s</div></div>',
 			esc_attr( $panel_id ),
 			esc_attr( $tab_id ),
-			esc_attr( $classes ),
+			$classes,
 			$active ? '' : ' hidden',
 			$content
 		);
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = TabPanel::class;
-		return $classes;
-	}
-);

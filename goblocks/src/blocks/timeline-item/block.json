@@ -1,0 +1,35 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/timeline-item",
+	"version": "1.0.0",
+	"title": "Timeline Item",
+	"category": "goblocks",
+	"description": "A single item within a Timeline block.",
+	"keywords": [ "timeline", "item", "step", "event" ],
+	"textdomain": "goblocks",
+	"parent": [ "goblocks/timeline" ],
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":      { "type": "string",  "default": "" },
+		"date":          { "type": "string",  "default": "" },
+		"title":         { "type": "string",  "default": "Event Title" },
+		"content":       { "type": "string",  "default": "" },
+		"icon":          { "type": "string",  "default": "" },
+		"dotColor":      { "type": "string",  "default": "#4f46e5" },
+		"titleColor":    { "type": "string",  "default": "#0f172a" },
+		"dateColor":     { "type": "string",  "default": "#4f46e5" },
+		"dateBg":        { "type": "string",  "default": "#ede9fe" },
+		"contentColor":  { "type": "string",  "default": "#475569" },
+		"styles":        { "type": "object",  "default": {} },
+		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":  { "type": "string",  "default": "" },
+		"blockVersion":  { "type": "integer", "default": 1 }
+	},
+	"editorScript": "file:./index.js"
+}

@@ -3,7 +3,7 @@
  */
 
 import { PanelBody, Button, SelectControl } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { UnitInput } from '../controls/UnitInput';
 import { ColorControl } from '../controls/ColorControl';
@@ -32,9 +32,49 @@ const BORDER_STYLE_OPTIONS = [
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function BorderPanel( { responsive }: BorderPanelProps ) {
-	const { getStyle, getInheritedValue, setStyle } = responsive;
-	const [ linkedBorder, setLinkedBorder ] = useState( true );
-	const [ linkedRadius, setLinkedRadius ] = useState( true );
+	const {
+		getStyle,
+		getInheritedValue,
+		setStyle,
+		setStyleBatch,
+		getStyleState,
+		setStyleStateBatch,
+	} = responsive;
+	const [ linkedBorder, setLinkedBorder ] = useState( false );
+	const [ linkedRadius, setLinkedRadius ] = useState( false );
+
+	// Read current-breakpoint border widths for linked-state detection.
+	const bTop    = getStyle( 'border', 'borderTopWidth' );
+	const bRight  = getStyle( 'border', 'borderRightWidth' );
+	const bBottom = getStyle( 'border', 'borderBottomWidth' );
+	const bLeft   = getStyle( 'border', 'borderLeftWidth' );
+
+	// Reset linked flags when the active breakpoint changes.
+	// If all 4 widths are set and equal → linked; otherwise → not linked.
+	useEffect( () => {
+		const allSet = bTop && bRight && bBottom && bLeft;
+		setLinkedBorder(
+			Boolean( allSet ) &&
+				bTop === bRight &&
+				bTop === bBottom &&
+				bTop === bLeft
+		);
+	}, [ bTop, bRight, bBottom, bLeft ] );
+
+	const rTopLeft     = getStyle( 'border', 'borderTopLeftRadius' );
+	const rTopRight    = getStyle( 'border', 'borderTopRightRadius' );
+	const rBottomRight = getStyle( 'border', 'borderBottomRightRadius' );
+	const rBottomLeft  = getStyle( 'border', 'borderBottomLeftRadius' );
+
+	useEffect( () => {
+		const allSet = rTopLeft && rTopRight && rBottomRight && rBottomLeft;
+		setLinkedRadius(
+			Boolean( allSet ) &&
+				rTopLeft === rTopRight &&
+				rTopLeft === rBottomRight &&
+				rTopLeft === rBottomLeft
+		);
+	}, [ rTopLeft, rTopRight, rBottomRight, rBottomLeft ] );
 
 	function getBorder( side: Side, prop: 'Width' | 'Style' | 'Color' ) {
 		return getStyle( 'border', `border${ side }${ prop }` );
@@ -42,8 +82,11 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 	function setBorder( side: Side, prop: 'Width' | 'Style' | 'Color' ) {
 		return ( v: string ) => {
 			if ( linkedBorder ) {
-				SIDES.forEach( ( s ) =>
-					setStyle( 'border', `border${ s }${ prop }`, v )
+				setStyleBatch(
+					'border',
+					Object.fromEntries(
+						SIDES.map( ( s ) => [ `border${ s }${ prop }`, v ] )
+					)
 				);
 			} else {
 				setStyle( 'border', `border${ side }${ prop }`, v );
@@ -65,8 +108,11 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 	function setRadius( corner: Corner ) {
 		return ( v: string ) => {
 			if ( linkedRadius ) {
-				CORNERS.forEach( ( c ) =>
-					setStyle( 'border', `border${ c }Radius`, v )
+				setStyleBatch(
+					'border',
+					Object.fromEntries(
+						CORNERS.map( ( c ) => [ `border${ c }Radius`, v ] )
+					)
 				);
 			} else {
 				setStyle( 'border', `border${ corner }Radius`, v );
@@ -179,6 +225,27 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 						/>
 					)
 				) }
+			</div>
+
+			{ /* Hover state */ }
+			<div className="gb-panel-state-section">
+				<p className="gb-panel-state-section__label">
+					{ __( ':hover state', 'goblocks' ) }
+				</p>
+				<ColorControl
+					label={ __( 'Hover border color', 'goblocks' ) }
+					value={ getStyleState( 'border', 'borderTopColor', 'hover' ) }
+					onChange={ ( v ) =>
+						setStyleStateBatch(
+							'border',
+							Object.fromEntries(
+								SIDES.map( ( s ) => [ `border${ s }Color`, v ] )
+							),
+							'hover'
+						)
+					}
+					breakpoint="base"
+				/>
 			</div>
 		</PanelBody>
 	);

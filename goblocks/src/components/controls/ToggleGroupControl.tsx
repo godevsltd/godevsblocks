@@ -58,8 +58,7 @@ export function ToggleGroupControl< T extends string = string >( {
 							className={ `gb-toggle-group__btn${
 								isActive ? ' is-active' : ''
 							}` }
-							variant={ isActive ? 'primary' : 'secondary' }
-							isSmall
+							variant="tertiary"
 							onClick={ () => handleClick( opt.value ) }
 							aria-pressed={ isActive }
 							aria-label={ opt.ariaLabel ?? opt.label }

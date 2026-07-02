@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="gb-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="gb-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="url(#gb-bg)"/>
+
+  <!-- Indigo accent bar on the left -->
+  <rect x="18" y="32" width="5" height="64" rx="2.5" fill="url(#gb-accent)"/>
+
+  <!-- "GB" lettermark -->
+  <!-- G -->
+  <text x="30" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="54" font-weight="800" fill="#ffffff" letter-spacing="-2">G</text>
+  <!-- B -->
+  <text x="74" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="54" font-weight="800" fill="url(#gb-accent)" letter-spacing="-2">B</text>
+</svg>

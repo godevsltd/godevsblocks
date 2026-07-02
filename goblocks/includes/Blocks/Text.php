@@ -32,10 +32,6 @@ class Text extends BlockBase {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		if ( ! $unique_id ) {
-			return '';
-		}
-
 		$tag_name       = $this->get_tag_name( $attributes, 'p' );
 		$block_class    = $this->get_block_class( $unique_id );   // gb-text-{uniqueId}
 		$global_classes = $this->get_global_classes( $attributes );
@@ -63,12 +59,3 @@ class Text extends BlockBase {
 		);
 	}
 }
-
-// Self-register into the block class list.
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Text::class;
-		return $classes;
-	}
-);

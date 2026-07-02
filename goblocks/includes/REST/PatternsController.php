@@ -65,7 +65,7 @@ class PatternsController extends RestController {
 				continue;
 			}
 
-			$result[] = $this->format_pattern( $pattern );
+			$result[] = $this->format_pattern( $pattern ); // content always included
 		}
 
 		return $this->success( $result );
@@ -91,7 +91,7 @@ class PatternsController extends RestController {
 			);
 		}
 
-		return $this->success( $this->format_pattern( $pattern, true ) );
+		return $this->success( $this->format_pattern( $pattern ) );
 	}
 
 	/**
@@ -100,6 +100,26 @@ class PatternsController extends RestController {
 	 * @param  array<string, mixed> $pattern Pattern data.
 	 * @return bool
 	 */
+	/**
+	 * Recursively collect generatedCss from a parsed block tree.
+	 *
+	 * @param  array<int, array<string, mixed>> $blocks Parsed blocks from parse_blocks().
+	 * @return string
+	 */
+	private function collect_css( array $blocks ): string {
+		$css = '';
+		foreach ( $blocks as $block ) {
+			$block_css = $block['attrs']['generatedCss'] ?? '';
+			if ( is_string( $block_css ) && '' !== $block_css ) {
+				$css .= $block_css;
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$css .= $this->collect_css( $block['innerBlocks'] );
+			}
+		}
+		return $css;
+	}
+
 	private function is_goblocks_pattern( array $pattern ): bool {
 		$categories = $pattern['categories'] ?? array();
 		return in_array( 'goblocks', (array) $categories, true );
@@ -108,24 +128,35 @@ class PatternsController extends RestController {
 	/**
 	 * Format a pattern for the REST response.
 	 *
-	 * @param  array<string, mixed> $pattern     Raw pattern data.
-	 * @param  bool                 $with_content Whether to include the block content.
+	 * Content is always included so the admin pattern browser can copy markup
+	 * without a second request.
+	 *
+	 * @param  array<string, mixed> $pattern Raw pattern data.
 	 * @return array<string, mixed>
 	 */
-	private function format_pattern( array $pattern, bool $with_content = false ): array {
-		$output = array(
-			'slug'          => $pattern['name'] ?? '',
-			'title'         => $pattern['title'] ?? '',
-			'description'   => $pattern['description'] ?? '',
-			'categories'    => $pattern['categories'] ?? array(),
-			'keywords'      => $pattern['keywords'] ?? array(),
-			'viewportWidth' => $pattern['viewportWidth'] ?? null,
-		);
+	private function format_pattern( array $pattern ): array {
+		$content = $pattern['content'] ?? '';
 
-		if ( $with_content ) {
-			$output['content'] = $pattern['content'] ?? '';
+		if ( $content ) {
+			$css       = $this->collect_css( parse_blocks( $content ) );
+			$safe_html = wp_kses_post( do_blocks( $content ) );
+			$rendered  = $css
+				? '<style>' . wp_strip_all_tags( $css ) . '</style>' . $safe_html
+				: $safe_html;
+		} else {
+			$rendered = '';
 		}
 
-		return $output;
+		return array(
+			'slug'           => $pattern['name'] ?? '',
+			'title'          => $pattern['title'] ?? '',
+			'description'    => $pattern['description'] ?? '',
+			'categories'     => $pattern['categories'] ?? array(),
+			'keywords'       => $pattern['keywords'] ?? array(),
+			'viewport_width' => (int) ( $pattern['viewportWidth'] ?? 1280 ),
+			'inserter'       => (bool) ( $pattern['inserter'] ?? true ),
+			'content'        => $content,
+			'rendered'       => $rendered,
+		);
 	}
 }

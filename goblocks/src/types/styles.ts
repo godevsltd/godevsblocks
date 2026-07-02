@@ -56,6 +56,7 @@ export interface TypographyStyles {
 	textDecoration?: ResponsiveValue;
 	textAlign?: ResponsiveValue;
 	color?: ResponsiveValue;
+	textShadow?: ResponsiveValue;
 }
 
 export interface LayoutStyles {
@@ -85,6 +86,8 @@ export interface SizingStyles {
 	minHeight?: ResponsiveValue;
 	maxHeight?: ResponsiveValue;
 	aspectRatio?: ResponsiveValue;
+	objectFit?: ResponsiveValue;
+	objectPosition?: ResponsiveValue;
 }
 
 export interface BorderStyles {
@@ -127,6 +130,7 @@ export interface EffectsStyles {
 	transition?: ResponsiveValue;
 	filter?: ResponsiveValue;
 	backdropFilter?: ResponsiveValue;
+	mixBlendMode?: ResponsiveValue;
 	cursor?: ResponsiveValue;
 }
 
@@ -138,6 +142,18 @@ export interface PositionStyles {
 	left?: ResponsiveValue;
 	zIndex?: ResponsiveValue;
 }
+
+/**
+ * Per-block CSS custom properties (CSS variables).
+ *
+ * Keys must be CSS custom property names starting with `--`.
+ * Values are responsive — each breakpoint emits the variable on the root element.
+ *
+ * @example
+ *   styles.variables = { '--gb-tabs-active-color': { base: '#4f46e5' } }
+ *   // → .gb-tabs-abc123 { --gb-tabs-active-color: #4f46e5; }
+ */
+export type CssVariablesStyles = Record< string, ResponsiveValue >;
 
 /**
  * The complete `styles` attribute object.
@@ -152,6 +168,7 @@ export interface BlockStyles {
 	background?: BackgroundStyles;
 	effects?: EffectsStyles;
 	position?: PositionStyles;
+	variables?: CssVariablesStyles;
 }
 
 /** All category names as a union type. */

@@ -132,6 +132,7 @@ final class Sanitize {
 			'p',
 			'span',
 			'a',
+			'button',
 			'ul',
 			'ol',
 			'li',

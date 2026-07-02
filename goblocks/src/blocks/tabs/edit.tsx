@@ -45,7 +45,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< TabsBlockAttributes > ) {
-	const { uniqueId, styles, orientation = 'horizontal' } = attributes;
+	const { uniqueId, styles, orientation = 'horizontal', tabStyle = 'pill', tabsFullWidth = false, generatedCss } = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {
@@ -59,6 +59,7 @@ export function Edit( {
 		blockSlug: 'tabs',
 		uniqueId,
 		styles,
+		generatedCss,
 		setAttributes: ( patch ) =>
 			setAttributes( patch as Partial< TabsBlockAttributes > ),
 	} );
@@ -87,7 +88,9 @@ export function Edit( {
 	const wrapperClass = clsx(
 		'gb-tabs',
 		uniqueId && `gb-tabs-${ uniqueId }`,
-		`gb-tabs--${ orientation }`
+		`gb-tabs--${ orientation }`,
+		`gb-tabs--style-${ tabStyle }`,
+		tabsFullWidth && 'gb-tabs--full-width'
 	);
 
 	const blockProps = useBlockProps( { className: wrapperClass } );

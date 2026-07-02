@@ -44,6 +44,13 @@ export interface CssEngineOptions {
 	 * Default: false (minified).
 	 */
 	pretty?: boolean;
+
+	/**
+	 * Override the generated selector entirely.
+	 * Use to bump specificity, e.g. '.gb-heading.gb-heading-{uniqueId}'.
+	 * When omitted, makeSelector(blockSlug, uniqueId) is used.
+	 */
+	selectorOverride?: string | undefined;
 }
 
 // ── Selector factory ──────────────────────────────────────────────────────
@@ -87,7 +94,7 @@ export function buildBlockCss(
 		return '';
 	}
 
-	const selector = makeSelector( blockSlug, uniqueId );
+	const selector = ( options.selectorOverride || '' ) || makeSelector( blockSlug, uniqueId );
 	const breakpoints = options.breakpoints ?? getRuntimeBreakpoints();
 
 	// Stage 2: Build rule buckets.

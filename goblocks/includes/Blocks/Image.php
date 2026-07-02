@@ -51,12 +51,16 @@ class Image extends BlockBase {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		if ( ! $unique_id ) {
+		$media_id  = (int) ( $attributes['mediaId'] ?? 0 );
+		$raw_url   = (string) ( $attributes['mediaUrl'] ?? '' );
+		$media_url = sanitize_url( $raw_url );
+
+		// Blob URLs are browser-only object URLs generated before upload completes.
+		// They resolve on the client but are meaningless server-side. Skip render
+		// so the block outputs nothing rather than a broken <img src="">.
+		if ( str_starts_with( $raw_url, 'blob:' ) ) {
 			return '';
 		}
-
-		$media_id  = (int) ( $attributes['mediaId'] ?? 0 );
-		$media_url = sanitize_url( (string) ( $attributes['mediaUrl'] ?? '' ) );
 
 		if ( ! $media_id && ! $media_url ) {
 			return '';
@@ -64,16 +68,55 @@ class Image extends BlockBase {
 
 		$block_class    = $this->get_block_class( $unique_id );   // gb-image-{uniqueId}
 		$global_classes = $this->get_global_classes( $attributes );
-		$classes        = $this->build_class_string( $block_class, $global_classes, array( 'gb-image' ) );
+
+		$hover_effect = sanitize_key( (string) ( $attributes['hoverEffect'] ?? 'none' ) );
+		if ( ! in_array( $hover_effect, array( 'none', 'zoom', 'grayscale', 'darken', 'lift' ), true ) ) {
+			$hover_effect = 'none';
+		}
+
+		$extra = array( 'gb-image' );
+		if ( ! empty( $attributes['objectFit'] ) ) {
+			$extra[] = 'gb-image--has-focal';
+		}
+		if ( 'none' !== $hover_effect ) {
+			$extra[] = 'gb-image--hover-' . $hover_effect;
+		}
+
+		$classes = $this->build_class_string( $block_class, $global_classes, $extra );
 		$html_attrs     = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
 
 		// Build the <img> element.
 		$img_html = $this->build_img( $media_id, $media_url, $attributes );
 
-		// Optional link wrapping: <a href="..."><img></a>
-		$href = esc_url( (string) ( $attributes['href'] ?? '' ) );
-		if ( $href ) {
-			$img_html = $this->wrap_with_link( $img_html, $href, $attributes );
+		// Lightbox takes priority over regular link.
+		$lightbox         = ! empty( $attributes['lightbox'] );
+		$lightbox_caption = ! isset( $attributes['lightboxCaption'] ) || ! empty( $attributes['lightboxCaption'] );
+		$lightbox_effect  = sanitize_key( (string) ( $attributes['lightboxEffect'] ?? 'zoom' ) );
+
+		if ( $lightbox ) {
+			// Full-size URL for the lightbox overlay.
+			$full_url = $media_id > 0 ? wp_get_attachment_url( $media_id ) : $media_url;
+			if ( ! $full_url ) $full_url = $media_url;
+
+			$caption_text = $lightbox_caption && ! empty( $attributes['caption'] )
+				? wp_strip_all_tags( (string) $attributes['caption'] )
+				: '';
+
+			$lb_attrs  = ' href="' . esc_url( (string) $full_url ) . '"';
+			$lb_attrs .= ' data-gb-lightbox';
+			$lb_attrs .= ' data-gb-alt="' . esc_attr( sanitize_text_field( (string) ( $attributes['mediaAlt'] ?? '' ) ) ) . '"';
+			$lb_attrs .= ' data-gb-effect="' . esc_attr( $lightbox_effect ) . '"';
+			if ( $caption_text ) {
+				$lb_attrs .= ' data-gb-caption="' . esc_attr( $caption_text ) . '"';
+			}
+
+			$img_html = '<a class="gb-image__lightbox-trigger"' . $lb_attrs . '>' . $img_html . '</a>';
+		} else {
+			// Optional link wrapping: <a href="..."><img></a>
+			$href = esc_url( (string) ( $attributes['href'] ?? '' ) );
+			if ( $href ) {
+				$img_html = $this->wrap_with_link( $img_html, $href, $attributes );
+			}
 		}
 
 		// Optional figcaption.
@@ -166,12 +209,3 @@ class Image extends BlockBase {
 		return '<a' . $link_attrs . '>' . $img_html . '</a>';
 	}
 }
-
-// Self-register into the block class list.
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Image::class;
-		return $classes;
-	}
-);

@@ -53,14 +53,11 @@ const PSEUDO_STATES = new Set< PseudoState >( [
 const BREAKPOINTS = new Set< string >( [ 'base', ...BREAKPOINT_ORDER ] );
 
 /**
- * Properties that should be skipped at the RuleBuilder level because they
- * are handled via the overlay side-channel (extracted by StyleNormalizer).
+ * Properties skipped in the main loop because they are handled via the
+ * overlay side-channel (overlayColor/overlayOpacity → ::before pseudo-element).
+ * `gradient` is NOT skipped — it maps to `background-image` via PROPERTY_ALIAS.
  */
-const SKIP_PROPERTIES = new Set( [
-	'overlayColor',
-	'overlayOpacity',
-	'gradient',
-] );
+const SKIP_PROPERTIES = new Set( [ 'overlayColor', 'overlayOpacity' ] );
 
 /**
  * `gradient` maps to `background-image` when it contains a CSS gradient.
@@ -159,6 +156,44 @@ export function buildRuleSet( rawStyles: BlockStyles ): RuleSet {
 		}
 	}
 
+	// ── Clear inherited background-image when a solid color is set ────
+	// When backgroundColor is set but gradient is not, emit background-image:none
+	// so any gradient defined in base stylesheets (blocks.css) doesn't show through.
+	const bgGroup = styles.background as
+		| Record< string, Partial< Record< string, string > > >
+		| undefined;
+	if ( bgGroup && 'backgroundColor' in bgGroup && ! ( 'gradient' in bgGroup ) ) {
+		const bgColorMap = bgGroup.backgroundColor;
+		if ( bgColorMap && 'object' === typeof bgColorMap ) {
+			for ( const [ key, value ] of Object.entries( bgColorMap ) ) {
+				if ( ! value ) {
+					continue;
+				}
+				const clearDecl: CssDeclaration = {
+					property: 'background-image',
+					value: 'none',
+				};
+				if ( 'base' === key ) {
+					ruleSet.base.push( clearDecl );
+				} else if (
+					BREAKPOINT_ORDER.includes(
+						key as Exclude< Breakpoint, 'base' >
+					)
+				) {
+					getOrCreate(
+						ruleSet.byBreakpoint,
+						key as Exclude< Breakpoint, 'base' >
+					).push( clearDecl );
+				} else if ( PSEUDO_STATES.has( key as PseudoState ) ) {
+					getOrCreate(
+						ruleSet.byPseudo,
+						key as PseudoState
+					).push( clearDecl );
+				}
+			}
+		}
+	}
+
 	// ── Overlay ::before declarations ──────────────────────────────────
 	// overlayColor → background-color, overlayOpacity → opacity
 
@@ -189,6 +224,20 @@ export function buildRuleSet( rawStyles: BlockStyles ): RuleSet {
 				bucket.push( { property: cssProp, value } );
 			}
 		}
+	}
+
+	// When an overlay is active, the block needs position:relative so that
+	// ::before (position:absolute; inset:0) is contained within it.
+	// isolation:isolate creates a stacking context so ::before with z-index:-1
+	// stays above the block's background but below the block's content.
+	if ( ruleSet.overlay.base.length > 0 ) {
+		const hasPosition = ruleSet.base.some(
+			( d ) => d.property === 'position'
+		);
+		if ( ! hasPosition ) {
+			ruleSet.base.push( { property: 'position', value: 'relative' } );
+		}
+		ruleSet.base.push( { property: 'isolation', value: 'isolate' } );
 	}
 
 	return ruleSet;

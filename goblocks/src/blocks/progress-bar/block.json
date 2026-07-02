@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/progress-bar",
+	"version": "1.0.0",
+	"title": "Progress Bar",
+	"category": "goblocks",
+	"description": "Animated progress bar that fills when scrolled into view.",
+	"keywords": [ "progress", "bar", "percentage", "skill", "loading" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":      { "type": "string",  "default": "" },
+		"label":         { "type": "string",  "default": "Progress" },
+		"value":         { "type": "number",  "default": 75 },
+		"showLabel":     { "type": "boolean", "default": true },
+		"showValue":     { "type": "boolean", "default": true },
+		"fillColor":     { "type": "string",  "default": "#4f46e5" },
+		"fillColor2":    { "type": "string",  "default": "#7c3aed" },
+		"trackColor":    { "type": "string",  "default": "#e5e7eb" },
+		"barHeight":     { "type": "integer", "default": 10 },
+		"striped":       { "type": "boolean", "default": false },
+		"easing":        { "type": "string",  "default": "ease-out" },
+		"duration":      { "type": "integer", "default": 800 },
+		"labelPosition": { "type": "string",  "default": "top" },
+		"styles":        { "type": "object",  "default": {} },
+		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":  { "type": "string",  "default": "" },
+		"blockVersion":  { "type": "integer", "default": 1 }
+	},
+	"viewScript": "file:./view.js",
+	"editorScript": "file:./index.js"
+}

@@ -73,13 +73,23 @@ class QueryLoop extends BlockBase {
 			return '';
 		}
 
+		$unique_id   = $this->get_unique_id( $attributes );
+		$block_class = $unique_id ? $this->get_block_class( $unique_id ) : '';
+		$classes     = $this->build_class_string(
+			$block_class ? $block_class : 'gb-query-loop',
+			$this->get_global_classes( $attributes ),
+			array( 'gb-query-loop' )
+		);
+		$html_attrs  = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+
 		$output = '';
 
 		while ( $query->have_posts() ) {
 			$query->the_post();
 
 			$post_context = array(
-				'postId'   => (int) get_the_ID(),
+				'postId'  => (int) get_the_ID(),
+				'post_id' => (int) get_the_ID(),
 				'postType' => (string) get_post_type(),
 			);
 
@@ -91,7 +101,7 @@ class QueryLoop extends BlockBase {
 
 		wp_reset_postdata();
 
-		return '<div class="gb-query-loop">' . $output . '</div>';
+		return sprintf( '<div class="%s"%s>%s</div>', $classes, $html_attrs, $output );
 	}
 
 	/**
@@ -105,11 +115,3 @@ class QueryLoop extends BlockBase {
 		return self::$queries[ $query_id ] ?? null;
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = QueryLoop::class;
-		return $classes;
-	}
-);

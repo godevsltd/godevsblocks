@@ -4,34 +4,70 @@
 	"name": "goblocks/accordion",
 	"version": "1.0.0",
 	"title": "Accordion",
-	"category": "layout",
-	"icon": "list-view",
+	"category": "goblocks",
 	"description": "Collapsible content panels using native <details>/<summary>. Supports FAQ schema and single-open mode.",
-	"keywords": [ "accordion", "collapse", "faq", "details", "summary" ],
+	"keywords": [
+		"accordion",
+		"collapse",
+		"faq",
+		"details",
+		"summary"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":         { "type": "string",  "default": "" },
-		"tagName":          { "type": "string",  "default": "div" },
-		"styles":           { "type": "object",  "default": {} },
-		"globalClasses":    { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes":   { "type": "object",  "default": {} },
-		"dynamicContent":   { "type": "object",  "default": {} },
-		"generatedCss":     { "type": "string",  "default": "" },
-		"blockVersion":     { "type": "integer", "default": 1 },
-		"enableFaqSchema":  { "type": "boolean", "default": false },
-		"allowMultiple":    { "type": "boolean", "default": true }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "div"
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"enableFaqSchema": {
+			"type": "boolean",
+			"default": false
+		},
+		"allowMultiple": {
+			"type": "boolean",
+			"default": true
+		}
 	},
 	"providesContext": {
 		"goblocks/accordionFaqSchema": "enableFaqSchema"
 	},
 	"viewScript": "file:./view.js",
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"style":        "file:./style-index.css"
+	"editorScript": "file:./index.js"
 }

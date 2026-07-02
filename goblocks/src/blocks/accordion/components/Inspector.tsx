@@ -1,6 +1,17 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, TextControl } from '@wordpress/components';
+import {
+	PanelBody,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+
+import { InspectorTabs } from '../../../components/ui/InspectorTabs';
+import { SpacingPanel } from '../../../components/panels/SpacingPanel';
+import { BackgroundPanel } from '../../../components/panels/BackgroundPanel';
+import { BorderPanel } from '../../../components/panels/BorderPanel';
+import { EffectsPanel } from '../../../components/panels/EffectsPanel';
+import { useResponsiveStyles } from '../../../hooks/useResponsiveStyles';
 import type { BlockStyles } from '../../../types/styles';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -29,10 +40,24 @@ export function AccordionInspector( {
 	attributes,
 	setAttributes,
 }: AccordionInspectorProps ) {
-	const { enableFaqSchema, allowMultiple, globalClasses } = attributes;
+	const { enableFaqSchema, allowMultiple, globalClasses, styles } =
+		attributes;
 
-	return (
-		<InspectorControls>
+	const responsive = useResponsiveStyles( styles, ( patch ) =>
+		setAttributes( { styles: patch.styles as BlockStyles } )
+	);
+
+	const stylesContent = (
+		<>
+			<SpacingPanel styles={ styles } responsive={ responsive } />
+			<BackgroundPanel styles={ styles } responsive={ responsive } />
+			<BorderPanel styles={ styles } responsive={ responsive } />
+			<EffectsPanel styles={ styles } responsive={ responsive } />
+		</>
+	);
+
+	const advancedContent = (
+		<>
 			<PanelBody
 				title={ __( 'Accordion Settings', 'goblocks' ) }
 				initialOpen
@@ -51,7 +76,9 @@ export function AccordionInspector( {
 							  )
 					}
 					checked={ allowMultiple }
-					onChange={ ( v ) => setAttributes( { allowMultiple: v } ) }
+					onChange={ ( v ) =>
+						setAttributes( { allowMultiple: v } )
+					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
@@ -72,21 +99,34 @@ export function AccordionInspector( {
 			</PanelBody>
 
 			<PanelBody
-				title={ __( 'Advanced', 'goblocks' ) }
+				title={ __( 'CSS Classes', 'goblocks' ) }
 				initialOpen={ false }
 			>
 				<TextControl
-					label={ __( 'Additional CSS Classes', 'goblocks' ) }
+					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
+					help={ __(
+						'Space-separated list of extra classes.',
+						'goblocks'
+					) }
 					onChange={ ( v ) =>
 						setAttributes( {
-							globalClasses: v.split( ' ' ).filter( Boolean ),
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
 						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
+		</>
+	);
+
+	return (
+		<InspectorControls>
+			<InspectorTabs
+				stylesContent={ stylesContent }
+				advancedContent={ advancedContent }
+			/>
 		</InspectorControls>
 	);
 }

@@ -29,6 +29,7 @@ interface HeadingBlockAttributes {
 	link: string;
 	linkTarget: string;
 	linkRel: string;
+	textGradient: string;
 }
 
 // ── Unique ID generator ───────────────────────────────────────────────────
@@ -75,7 +76,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< HeadingBlockAttributes > ) {
-	const { uniqueId, tagName, content, styles, globalClasses, anchor } =
+	const { uniqueId, tagName, content, styles, globalClasses, anchor, textGradient, generatedCss } =
 		attributes;
 
 	// Assign uniqueId once on first insertion.
@@ -96,10 +97,14 @@ export function Edit( {
 	}, [ content ] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// CSS generation + injection into editor <head>.
+	// Use a compound selector (.gb-heading.gb-heading-{uniqueId}, specificity 0,2,0)
+	// so user-set color beats h6.gb-heading { color:... } in blocks.css (0,1,1).
 	useCssEngine( {
 		blockSlug: 'heading',
 		uniqueId,
 		styles,
+		generatedCss,
+		selectorOverride: `.gb-heading.gb-heading-${ uniqueId }`,
 		setAttributes: ( patch ) =>
 			setAttributes( patch as Partial< HeadingBlockAttributes > ),
 	} );
@@ -108,6 +113,7 @@ export function Edit( {
 	const wrapperClass = clsx(
 		'gb-heading',
 		uniqueId && `gb-heading-${ uniqueId }`,
+		textGradient && 'gb-heading--gradient',
 		...( globalClasses ?? [] )
 	);
 

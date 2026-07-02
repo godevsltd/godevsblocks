@@ -3,23 +3,12 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import type { BlockEditProps } from '@wordpress/blocks';
 
+import { useCssEngine } from '../../hooks/useCssEngine';
 import { clsx } from '../../utils/classNames';
-import { PaginationInspector } from './components/Inspector';
-
-// ── Attribute type ─────────────────────────────────────────────────────────────
-
-interface PaginationBlockAttributes {
-	uniqueId: string;
-	showPrevNext: boolean;
-	showFirstLast: boolean;
-	prevLabel: string;
-	nextLabel: string;
-	loadMoreLabel: string;
-	styles: Record< string, unknown >;
-	globalClasses: string[];
-	generatedCss: string;
-	blockVersion: number;
-}
+import {
+	PaginationInspector,
+	type PaginationAttributes,
+} from './components/Inspector';
 
 // ── Consumed context ───────────────────────────────────────────────────────────
 
@@ -42,10 +31,10 @@ export function Edit( {
 	setAttributes,
 	clientId,
 	context,
-}: BlockEditProps< PaginationBlockAttributes > & {
+}: BlockEditProps< PaginationAttributes > & {
 	context?: PaginationContext;
 } ) {
-	const { uniqueId, globalClasses } = attributes;
+	const { uniqueId, globalClasses, styles } = attributes;
 
 	const paginationType = context?.[ 'goblocks/paginationType' ] ?? 'standard';
 
@@ -55,6 +44,15 @@ export function Edit( {
 			setAttributes( { uniqueId: makeUniqueId( clientId ) } );
 		}
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// CSS generation + injection.
+	useCssEngine( {
+		blockSlug: 'pagination',
+		uniqueId,
+		styles,
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< PaginationAttributes > ),
+	} );
 
 	const wrapperClass = clsx(
 		'gb-pagination',
@@ -81,7 +79,7 @@ export function Edit( {
 					<ul className="gb-pagination__list">
 						<li className="gb-pagination__item">
 							{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-							<a className="gb-pagination__link" href="#">
+							<a className="gb-pagination__link is-prev" href="#">
 								{ attributes.prevLabel ||
 									__( '← Previous', 'goblocks' ) }
 							</a>
@@ -89,7 +87,7 @@ export function Edit( {
 						<li className="gb-pagination__item">
 							{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
 							<a
-								className="gb-pagination__link is-active"
+								className="gb-pagination__link is-current"
 								href="#"
 							>
 								1
@@ -103,7 +101,7 @@ export function Edit( {
 						</li>
 						<li className="gb-pagination__item">
 							{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-							<a className="gb-pagination__link" href="#">
+							<a className="gb-pagination__link is-next" href="#">
 								{ attributes.nextLabel ||
 									__( 'Next →', 'goblocks' ) }
 							</a>
@@ -122,14 +120,7 @@ export function Edit( {
 				) }
 
 				{ paginationType === 'infinite' && (
-					<p
-						style={ {
-							margin: 0,
-							color: '#888',
-							fontSize: '12px',
-							textAlign: 'center',
-						} }
-					>
+					<p className="gb-pagination__infinite-hint">
 						{ __(
 							'Infinite scroll active — loads next page on scroll.',
 							'goblocks'

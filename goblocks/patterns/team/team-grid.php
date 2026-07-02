@@ -1,0 +1,60 @@
+﻿<?php
+/**
+ * Title: Team — 4 Member Grid
+ * Slug: goblocks/team-grid
+ * Description: A clean four-column team grid with coloured gradient avatar circles, name, role badge, and short bio for each member.
+ * Categories: goblocks
+ * Keywords: team, people, staff, about, grid, cards
+ * Viewport Width: 1280
+ */
+defined( 'ABSPATH' ) || exit;
+?>
+<!-- wp:goblocks/group {"uniqueId":"p8wrap","align":"full","tagName":"section","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8wrap{background:#f8fafc;padding:96px 48px;text-align:center;}@media(max-width:600px){.gb-group-p8wrap{padding:56px 20px;}}","blockVersion":1} -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8hdr","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8hdr{max-width:600px;margin:0 auto 64px;}","blockVersion":1} -->
+<!-- wp:goblocks/text {"uniqueId":"p8tag","content":"Our Team","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8tag{display:inline-flex;background:#eff6ff;border:1px solid #c7d2fe;color:#4f46e5;font-size:11px;font-weight:700;padding:5px 14px;border-radius:999px;letter-spacing:0.07em;text-transform:uppercase;margin:0 0 16px;}","blockVersion":1} /-->
+<!-- wp:goblocks/heading {"uniqueId":"p8h","content":"Meet the People Behind GoBlocks","tagName":"h2","level":2,"anchor":"","link":"","linkTarget":"_self","linkRel":"","ariaLabel":"","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-heading-p8h{font-size:clamp(1.85rem,3vw+0.5rem,2.75rem);font-weight:800;color:#0f172a;line-height:1.15;letter-spacing:-0.03em;margin:0 0 14px;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8sub","content":"A small, focused team building the best WordPress block plugin on the market.","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8sub{font-size:1.05rem;color:#64748b;margin:0;line-height:1.7;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8grid","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}@media(max-width:1024px){.gb-group-p8grid{grid-template-columns:repeat(2,1fr);}}@media(max-width:600px){.gb-group-p8grid{grid-template-columns:repeat(2,1fr);gap:14px;}}","blockVersion":1} -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8c1","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8c1{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:32px 24px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 200ms,transform 200ms,border-color 200ms;}.gb-group-p8c1:hover{box-shadow:0 8px 28px rgba(79,70,229,0.1),0 2px 6px rgba(0,0,0,0.05);transform:translateY(-3px);border-color:#c7d2fe;}@media(max-width:600px){.gb-group-p8c1{padding:24px 18px;}}","blockVersion":1} -->
+<!-- wp:goblocks/group {"uniqueId":"p8av1","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8av1{width:60px;height:60px;background:linear-gradient(135deg,#6366f1,#818cf8);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(99,102,241,0.35);}","blockVersion":1} -->
+<!-- wp:goblocks/text {"uniqueId":"p8ini1","content":"JD","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8ini1{color:#fff;font-weight:800;font-size:1.1rem;margin:0;letter-spacing:0.04em;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+<!-- wp:goblocks/heading {"uniqueId":"p8n1","content":"Jane Doe","tagName":"h3","level":3,"anchor":"","link":"","linkTarget":"_self","linkRel":"","ariaLabel":"","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-heading-p8n1{font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 3px;letter-spacing:-0.01em;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8r1","content":"Lead Designer","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8r1{font-size:0.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8b1","content":"Crafts pixel-perfect interfaces with 10+ years of experience in design systems and UI architecture.","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8b1{font-size:0.85rem;color:#64748b;line-height:1.65;margin:0;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8c2","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8c2{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:32px 24px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 200ms,transform 200ms,border-color 200ms;}.gb-group-p8c2:hover{box-shadow:0 8px 28px rgba(79,70,229,0.1),0 2px 6px rgba(0,0,0,0.05);transform:translateY(-3px);border-color:#c7d2fe;}@media(max-width:600px){.gb-group-p8c2{padding:24px 18px;}}","blockVersion":1} -->
+<!-- wp:goblocks/group {"uniqueId":"p8av2","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8av2{width:60px;height:60px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(139,92,246,0.32);}","blockVersion":1} -->
+<!-- wp:goblocks/text {"uniqueId":"p8ini2","content":"MS","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8ini2{color:#fff;font-weight:800;font-size:1.1rem;margin:0;letter-spacing:0.04em;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+<!-- wp:goblocks/heading {"uniqueId":"p8n2","content":"Mark Smith","tagName":"h3","level":3,"anchor":"","link":"","linkTarget":"_self","linkRel":"","ariaLabel":"","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-heading-p8n2{font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 3px;letter-spacing:-0.01em;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8r2","content":"Core Developer","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8r2{font-size:0.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8b2","content":"TypeScript and PHP engineer who built the GoBlocks CSS engine and dynamic content system from the ground up.","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8b2{font-size:0.85rem;color:#64748b;line-height:1.65;margin:0;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8c3","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8c3{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:32px 24px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 200ms,transform 200ms,border-color 200ms;}.gb-group-p8c3:hover{box-shadow:0 8px 28px rgba(79,70,229,0.1),0 2px 6px rgba(0,0,0,0.05);transform:translateY(-3px);border-color:#c7d2fe;}@media(max-width:600px){.gb-group-p8c3{padding:24px 18px;}}","blockVersion":1} -->
+<!-- wp:goblocks/group {"uniqueId":"p8av3","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8av3{width:60px;height:60px;background:linear-gradient(135deg,#059669,#34d399);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(5,150,105,0.3);}","blockVersion":1} -->
+<!-- wp:goblocks/text {"uniqueId":"p8ini3","content":"AL","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8ini3{color:#fff;font-weight:800;font-size:1.1rem;margin:0;letter-spacing:0.04em;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+<!-- wp:goblocks/heading {"uniqueId":"p8n3","content":"Ana Lopez","tagName":"h3","level":3,"anchor":"","link":"","linkTarget":"_self","linkRel":"","ariaLabel":"","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-heading-p8n3{font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 3px;letter-spacing:-0.01em;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8r3","content":"Developer Advocate","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8r3{font-size:0.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8b3","content":"Creates tutorials, documentation, and example builds that help developers get the most out of GoBlocks.","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8b3{font-size:0.85rem;color:#64748b;line-height:1.65;margin:0;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+
+<!-- wp:goblocks/group {"uniqueId":"p8c4","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8c4{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:32px 24px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 200ms,transform 200ms,border-color 200ms;}.gb-group-p8c4:hover{box-shadow:0 8px 28px rgba(79,70,229,0.1),0 2px 6px rgba(0,0,0,0.05);transform:translateY(-3px);border-color:#c7d2fe;}@media(max-width:600px){.gb-group-p8c4{padding:24px 18px;}}","blockVersion":1} -->
+<!-- wp:goblocks/group {"uniqueId":"p8av4","tagName":"div","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-group-p8av4{width:60px;height:60px;background:linear-gradient(135deg,#d97706,#fbbf24);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 4px 12px rgba(217,119,6,0.3);}","blockVersion":1} -->
+<!-- wp:goblocks/text {"uniqueId":"p8ini4","content":"RK","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8ini4{color:#fff;font-weight:800;font-size:1.1rem;margin:0;letter-spacing:0.04em;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+<!-- wp:goblocks/heading {"uniqueId":"p8n4","content":"Ravi Kumar","tagName":"h3","level":3,"anchor":"","link":"","linkTarget":"_self","linkRel":"","ariaLabel":"","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-heading-p8n4{font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 3px;letter-spacing:-0.01em;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8r4","content":"QA & Performance","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8r4{font-size:0.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:0.07em;margin:0 0 12px;}","blockVersion":1} /-->
+<!-- wp:goblocks/text {"uniqueId":"p8b4","content":"Ensures every release is fast, stable, and WCAG 2.1 AA compliant across all supported browsers and environments.","tagName":"p","styles":{},"globalClasses":[],"htmlAttributes":{},"dynamicContent":{},"generatedCss":".gb-text-p8b4{font-size:0.85rem;color:#64748b;line-height:1.65;margin:0;}","blockVersion":1} /-->
+<!-- /wp:goblocks/group -->
+
+<!-- /wp:goblocks/group -->
+
+<!-- /wp:goblocks/group -->

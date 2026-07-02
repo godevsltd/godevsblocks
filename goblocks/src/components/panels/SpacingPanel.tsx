@@ -20,7 +20,7 @@ interface SpacingPanelProps {
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function SpacingPanel( { responsive }: SpacingPanelProps ) {
-	const { getStyle, getInheritedValue, setStyle } = responsive;
+	const { getStyle, getInheritedValue, setStyle, setStyleBatch } = responsive;
 
 	function spacingValues( prefix: 'padding' | 'margin' ) {
 		return {
@@ -57,6 +57,15 @@ export function SpacingPanel( { responsive }: SpacingPanelProps ) {
 		}
 	}
 
+	function handleAllChange( prefix: 'padding' | 'margin', value: string ) {
+		setStyleBatch( 'spacing', {
+			[ `${ prefix }Top` ]: value,
+			[ `${ prefix }Right` ]: value,
+			[ `${ prefix }Bottom` ]: value,
+			[ `${ prefix }Left` ]: value,
+		} );
+	}
+
 	return (
 		<PanelBody title={ __( 'Spacing', 'goblocks' ) } initialOpen={ false }>
 			<SpacingControl
@@ -66,6 +75,7 @@ export function SpacingPanel( { responsive }: SpacingPanelProps ) {
 				onChange={ ( side, value ) =>
 					handleSpacingChange( 'padding', side, value )
 				}
+				onChangeAll={ ( value ) => handleAllChange( 'padding', value ) }
 			/>
 
 			<SpacingControl
@@ -75,6 +85,7 @@ export function SpacingPanel( { responsive }: SpacingPanelProps ) {
 				onChange={ ( side, value ) =>
 					handleSpacingChange( 'margin', side, value )
 				}
+				onChangeAll={ ( value ) => handleAllChange( 'margin', value ) }
 			/>
 
 			<SpacingControl

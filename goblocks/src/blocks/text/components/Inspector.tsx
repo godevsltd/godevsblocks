@@ -8,6 +8,7 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
+import { LayoutPanel } from '../../../components/panels/LayoutPanel';
 import { TypographyPanel } from '../../../components/panels/TypographyPanel';
 import { SizingPanel } from '../../../components/panels/SizingPanel';
 import { SpacingPanel } from '../../../components/panels/SpacingPanel';
@@ -57,6 +58,7 @@ export function TextInspector( {
 
 	const stylesContent = (
 		<>
+			<LayoutPanel styles={ styles } responsive={ responsive } />
 			<TypographyPanel styles={ styles } responsive={ responsive } />
 			<SizingPanel styles={ styles } responsive={ responsive } />
 			<SpacingPanel styles={ styles } responsive={ responsive } />

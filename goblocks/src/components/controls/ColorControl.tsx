@@ -2,8 +2,8 @@
  * ColorControl — Color picker with plugin + theme token support.
  *
  * Features:
- *  - Plugin global palette (from globalStylesStore)
- *  - WordPress theme palette (from wp.data editor store)
+ *  - Always-visible default color palette (13 base colors)
+ *  - Plugin global palette (from globalStylesStore, shown when defined)
  *  - Hex text input
  *  - Passes CSS color string or var(--gb-color-*) as value
  *
@@ -21,6 +21,39 @@ import { __ } from '@wordpress/i18n';
 import { useColorPalette } from '../../store/globalStylesStore';
 import { isValidCssColor, isCssVar } from '../../utils/color';
 import type { ControlProps } from '../../types/controls';
+
+// ── Global Style Badge Component ───────────────────────────────────────────
+
+function GlobalStyleBadge() {
+	return (
+		<span className="gb-control__global-badge">
+			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity="0.7"/>
+				<path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+				<path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+			</svg>
+			{ __( 'Global', 'goblocks' ) }
+		</span>
+	);
+}
+
+// ── Default palette — always available out of the box ─────────────────────
+
+const DEFAULT_COLORS: Array< { label: string; color: string } > = [
+	{ label: 'White',   color: '#ffffff' },
+	{ label: 'Black',   color: '#000000' },
+	{ label: 'Slate',   color: '#475569' },
+	{ label: 'Gray',    color: '#9ca3af' },
+	{ label: 'Red',     color: '#ef4444' },
+	{ label: 'Orange',  color: '#f97316' },
+	{ label: 'Yellow',  color: '#eab308' },
+	{ label: 'Green',   color: '#22c55e' },
+	{ label: 'Teal',    color: '#14b8a6' },
+	{ label: 'Blue',    color: '#3b82f6' },
+	{ label: 'Indigo',  color: '#6366f1' },
+	{ label: 'Purple',  color: '#8b5cf6' },
+	{ label: 'Pink',    color: '#ec4899' },
+];
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -96,42 +129,69 @@ export function ColorControl( {
 			<div className="gb-color-control__header">
 				{ /* eslint-disable-next-line jsx-a11y/label-has-associated-control */ }
 				<label className="gb-color-control__label">{ label }</label>
-				{ resetable && displayValue && (
-					<Button
-						isSmall
-						variant="tertiary"
-						onClick={ handleReset }
-						aria-label={ __( 'Reset', 'goblocks' ) }
-						disabled={ disabled }
-					>
-						{ __( 'Reset', 'goblocks' ) }
-					</Button>
-				) }
+				<div className="gb-color-control__header-actions">
+					{ isVar && <GlobalStyleBadge /> }
+					{ resetable && displayValue && (
+						<Button
+							isSmall
+							variant="tertiary"
+							onClick={ handleReset }
+							aria-label={ __( 'Reset', 'goblocks' ) }
+							disabled={ disabled }
+						>
+							{ __( 'Reset', 'goblocks' ) }
+						</Button>
+					) }
+				</div>
 			</div>
 
-			{ /* Plugin color palette */ }
+			{ /* Plugin custom palette — shown when user has defined colors */ }
 			{ colorPalette.length > 0 && (
-				<div
-					className="gb-color-control__palette"
-					aria-label={ __( 'Plugin color palette', 'goblocks' ) }
-				>
-					{ colorPalette.map( ( entry ) => {
-						const varVal = `var(--gb-color-${ entry.slug })`;
-						return (
-							<ColorSwatch
-								key={ entry.slug }
-								color={ entry.color }
-								label={ entry.name }
-								active={
-									displayValue === varVal ||
-									displayValue === entry.color
-								}
-								onClick={ () => onChange( varVal ) }
-							/>
-						);
-					} ) }
-				</div>
+				<>
+					<span className="gb-color-control__palette-label">
+						{ __( 'Custom Colors', 'goblocks' ) }
+					</span>
+					<div
+						className="gb-color-control__palette"
+						aria-label={ __( 'Custom color palette', 'goblocks' ) }
+					>
+						{ colorPalette.map( ( entry ) => {
+							const varVal = `var(--gb-color-${ entry.slug })`;
+							return (
+								<ColorSwatch
+									key={ entry.slug }
+									color={ entry.color }
+									label={ entry.name }
+									active={
+										displayValue === varVal ||
+										displayValue === entry.color
+									}
+									onClick={ () => onChange( varVal ) }
+								/>
+							);
+						} ) }
+					</div>
+				</>
 			) }
+
+			{ /* Default color palette — always visible */ }
+			<span className="gb-color-control__palette-label">
+				{ __( 'Default Colors', 'goblocks' ) }
+			</span>
+			<div
+				className="gb-color-control__palette"
+				aria-label={ __( 'Default color palette', 'goblocks' ) }
+			>
+				{ DEFAULT_COLORS.map( ( entry ) => (
+					<ColorSwatch
+						key={ entry.color }
+						color={ entry.color }
+						label={ entry.label }
+						active={ displayValue === entry.color }
+						onClick={ () => onChange( entry.color ) }
+					/>
+				) ) }
+			</div>
 
 			{ /* Color picker button */ }
 			<div className="gb-color-control__row">

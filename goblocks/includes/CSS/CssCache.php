@@ -59,11 +59,15 @@ class CssCache {
 		}
 
 		$filesystem = self::get_filesystem();
-		if ( ! $filesystem ) {
-			return false;
-		}
 
-		$result = $filesystem->put_contents( $path, $css, FS_CHMOD_FILE );
+		if ( $filesystem ) {
+			$result = $filesystem->put_contents( $path, $css, FS_CHMOD_FILE );
+		} else {
+			// WP_Filesystem unavailable (FTP/SSH host without credentials in this
+			// context) — fall back to native PHP. wp-content/uploads is always
+			// writable by the web-server process, so this is safe.
+			$result = false !== file_put_contents( $path, $css );
+		}
 
 		if ( $result ) {
 			self::set_hash( $post_id, $hash );
@@ -116,8 +120,12 @@ class CssCache {
 	public static function get_url( int $post_id ): ?string {
 		$path = self::get_file_path( $post_id );
 
+		// Use WP_Filesystem when available, fall back to is_file() so a
+		// successfully-written file is always found even on FTP-method hosts.
 		$filesystem = self::get_filesystem();
-		if ( ! $filesystem || ! $filesystem->exists( $path ) ) {
+		$exists     = $filesystem ? $filesystem->exists( $path ) : is_file( $path );
+
+		if ( ! $exists ) {
 			return null;
 		}
 

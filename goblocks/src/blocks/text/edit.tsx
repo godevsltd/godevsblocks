@@ -66,7 +66,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< TextBlockAttributes > ) {
-	const { uniqueId, tagName, content, styles, globalClasses, dropCap } =
+	const { uniqueId, tagName, content, styles, globalClasses, dropCap, generatedCss } =
 		attributes;
 
 	// Assign uniqueId once on first insertion.
@@ -81,6 +81,7 @@ export function Edit( {
 		blockSlug: 'text',
 		uniqueId,
 		styles,
+		generatedCss,
 		setAttributes: ( patch ) =>
 			setAttributes( patch as Partial< TextBlockAttributes > ),
 	} );

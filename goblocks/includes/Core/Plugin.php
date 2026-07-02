@@ -32,6 +32,7 @@ class Plugin extends Singleton {
 	 */
 	public function boot(): void {
 		$this->register_css_pipeline();
+		$this->register_block_category();
 		DynamicContent::boot();
 		GlobalStyles::boot();
 		ThemeJsonBridge::boot();
@@ -41,6 +42,30 @@ class Plugin extends Singleton {
 		$this->register_blocks();
 
 		do_action( 'goblocks_loaded' );
+	}
+
+	/**
+	 * Add "GoBlocks" group to the Gutenberg block inserter.
+	 *
+	 * @return void
+	 */
+	private function register_block_category(): void {
+		add_filter(
+			'block_categories_all',
+			static function ( array $categories ): array {
+				array_unshift(
+					$categories,
+					array(
+						'slug'  => 'goblocks',
+						'title' => __( 'GoBlocks', 'goblocks' ),
+						'icon'  => null,
+					)
+				);
+				return $categories;
+			},
+			10,
+			1
+		);
 	}
 
 	/**
@@ -109,12 +134,12 @@ class Plugin extends Singleton {
 		$block_classes = apply_filters(
 			'goblocks_block_classes',
 			array(
-				\GoBlocks\Blocks\Box::class,
+				\GoBlocks\Blocks\Group::class,
+				\GoBlocks\Blocks\Column::class,
 				\GoBlocks\Blocks\Text::class,
 				\GoBlocks\Blocks\Heading::class,
 				\GoBlocks\Blocks\Button::class,
 				\GoBlocks\Blocks\Image::class,
-				\GoBlocks\Blocks\Grid::class,
 				\GoBlocks\Blocks\Icon::class,
 				\GoBlocks\Blocks\Shape::class,
 				\GoBlocks\Blocks\Tabs::class,
@@ -123,13 +148,43 @@ class Plugin extends Singleton {
 				\GoBlocks\Blocks\AccordionItem::class,
 				\GoBlocks\Blocks\Query::class,
 				\GoBlocks\Blocks\QueryLoop::class,
+				\GoBlocks\Blocks\QueryNoResults::class,
 				\GoBlocks\Blocks\Pagination::class,
+				\GoBlocks\Blocks\Separator::class,
+				\GoBlocks\Blocks\Spacer::class,
+				\GoBlocks\Blocks\Counter::class,
+				\GoBlocks\Blocks\ProgressBar::class,
+				\GoBlocks\Blocks\Alert::class,
+				\GoBlocks\Blocks\StarRating::class,
+				\GoBlocks\Blocks\Lottie::class,
+				\GoBlocks\Blocks\FlipCard::class,
+				\GoBlocks\Blocks\Countdown::class,
+				\GoBlocks\Blocks\SocialShare::class,
+				\GoBlocks\Blocks\TableOfContents::class,
+				\GoBlocks\Blocks\Slider::class,
+				\GoBlocks\Blocks\Slide::class,
+				\GoBlocks\Blocks\Modal::class,
+				\GoBlocks\Blocks\Pricing::class,
+				\GoBlocks\Blocks\Timeline::class,
+				\GoBlocks\Blocks\TimelineItem::class,
+				\GoBlocks\Blocks\Navigation::class,
+				\GoBlocks\Blocks\Video::class,
+				\GoBlocks\Blocks\Container::class,
 			)
 		);
 
 		foreach ( $block_classes as $class ) {
-			if ( class_exists( $class ) ) {
-				( new $class() )->register();
+			try {
+				if ( class_exists( $class ) ) {
+					( new $class() )->register();
+				}
+			} catch ( \Throwable $e ) {
+				// A parse error or fatal in one block class must not take down the whole site.
+				// Log the problem and continue with remaining blocks.
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'GoBlocks: failed to register ' . $class . ' — ' . $e->getMessage() );
+				}
 			}
 		}
 	}

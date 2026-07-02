@@ -4,31 +4,84 @@
 	"name": "goblocks/accordion-item",
 	"version": "1.0.0",
 	"title": "Accordion Item",
-	"category": "layout",
-	"icon": "arrow-down-alt2",
+	"category": "goblocks",
 	"description": "A single accordion panel (<details>/<summary>) — must be inside an Accordion block.",
-	"keywords": [ "accordion", "faq", "collapse", "details" ],
+	"keywords": [
+		"accordion",
+		"faq",
+		"collapse",
+		"details"
+	],
 	"textdomain": "goblocks",
-	"parent": [ "goblocks/accordion" ],
+	"parent": [
+		"goblocks/accordion"
+	],
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false,
-		"inserter":        false
+		"className": false,
+		"anchor": false,
+		"inserter": false
 	},
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"dynamicContent": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"question":       { "type": "string",  "default": "" },
-		"isOpen":         { "type": "boolean", "default": false }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"question": {
+			"type": "string",
+			"default": ""
+		},
+		"isOpen": {
+			"type": "boolean",
+			"default": false
+		},
+		"headerColor": {
+			"type": "string",
+			"default": "#111827"
+		},
+		"headerBg": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"contentColor": {
+			"type": "string",
+			"default": "#374151"
+		},
+		"iconStyle": {
+			"type": "string",
+			"default": "chevron"
+		}
 	},
-	"usesContext": [ "goblocks/accordionFaqSchema" ],
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css"
+	"usesContext": [
+		"goblocks/accordionFaqSchema"
+	],
+	"editorScript": "file:./index.js"
 }

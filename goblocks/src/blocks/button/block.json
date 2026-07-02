@@ -4,35 +4,106 @@
 	"name": "goblocks/button",
 	"version": "1.0.0",
 	"title": "Button",
-	"category": "common",
-	"icon": "button",
+	"category": "goblocks",
 	"description": "CTA button or link with full hover/focus state styling.",
-	"keywords": [ "button", "link", "cta", "call to action" ],
+	"keywords": [
+		"button",
+		"link",
+		"cta",
+		"call to action"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
-	"usesContext": [ "postId", "postType", "queryId" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"queryId"
+	],
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"tagName":        { "type": "string",  "default": "a" },
-		"text":           { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"dynamicContent": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"href":           { "type": "string",  "default": "" },
-		"target":         { "type": "string",  "default": "_self" },
-		"rel":            { "type": "string",  "default": "" },
-		"download":       { "type": "boolean", "default": false },
-		"buttonType":     { "type": "string",  "default": "button" },
-		"ariaLabel":      { "type": "string",  "default": "" }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "a"
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"href": {
+			"type": "string",
+			"default": ""
+		},
+		"target": {
+			"type": "string",
+			"default": "_self"
+		},
+		"rel": {
+			"type": "string",
+			"default": ""
+		},
+		"download": {
+			"type": "boolean",
+			"default": false
+		},
+		"buttonType": {
+			"type": "string",
+			"default": "button"
+		},
+		"ariaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"iconSlug": {
+			"type": "string",
+			"default": ""
+		},
+		"iconSvg": {
+			"type": "string",
+			"default": ""
+		},
+		"iconPosition": {
+			"type": "string",
+			"default": "before"
+		},
+		"iconSize": {
+			"type": "string",
+			"default": "1em"
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css"
+	"editorScript": "file:./index.js"
 }

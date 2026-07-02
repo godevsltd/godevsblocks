@@ -4,33 +4,88 @@
 	"name": "goblocks/heading",
 	"version": "1.0.0",
 	"title": "Heading",
-	"category": "text",
-	"icon": "heading",
+	"category": "goblocks",
 	"description": "Semantic headings h1–h6 with full typography controls and optional link wrapping.",
-	"keywords": [ "heading", "title", "h1", "h2", "h3", "subtitle" ],
+	"keywords": [
+		"heading",
+		"title",
+		"h1",
+		"h2",
+		"h3",
+		"subtitle"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
-	"usesContext": [ "postId", "postType", "queryId" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"queryId"
+	],
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"tagName":        { "type": "string",  "default": "h2" },
-		"content":        { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"dynamicContent": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"anchor":         { "type": "string",  "default": "" },
-		"link":           { "type": "string",  "default": "" },
-		"linkTarget":     { "type": "string",  "default": "_self" },
-		"linkRel":        { "type": "string",  "default": "" }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"tagName": {
+			"type": "string",
+			"default": "h2"
+		},
+		"content": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"dynamicContent": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"link": {
+			"type": "string",
+			"default": ""
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		},
+		"linkRel": {
+			"type": "string",
+			"default": ""
+		},
+		"textGradient": {
+			"type": "string",
+			"default": ""
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css"
+	"editorScript": "file:./index.js"
 }

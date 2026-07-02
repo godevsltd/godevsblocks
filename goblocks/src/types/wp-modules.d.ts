@@ -400,6 +400,15 @@ declare module '@wordpress/components' {
 	export const Disabled:     ComponentType<{ isDisabled?: boolean; children?: ReactNode }>;
 	export const Flex:         ComponentType<{ direction?: string; gap?: number; align?: string; justify?: string; children?: ReactNode; [k: string]: unknown }>;
 	export const FlexItem:     ComponentType<{ isBlock?: boolean; children?: ReactNode; [k: string]: unknown }>;
+
+	// ── Focal Point Picker
+	export const FocalPointPicker: ComponentType<{
+		label?:    string;
+		url?:      string;
+		value?:    { x: number; y: number };
+		onChange?: ( value: { x: number; y: number } ) => void;
+		[k: string]: unknown;
+	}>;
 }
 
 // ── @wordpress/data ────────────────────────────────────────────────────────

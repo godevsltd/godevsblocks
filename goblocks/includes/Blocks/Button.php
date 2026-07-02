@@ -3,6 +3,8 @@ namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
+use GoBlocks\Utils\SvgSanitizer;
+
 /**
  * Button block — PHP render callback.
  *
@@ -50,10 +52,6 @@ class Button extends BlockBase {
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		if ( ! $unique_id ) {
-			return '';
-		}
-
 		$tag_name       = $this->get_tag_name( $attributes, 'a' );
 		$block_class    = $this->get_block_class( $unique_id );   // gb-button-{uniqueId}
 		$global_classes = $this->get_global_classes( $attributes );
@@ -78,7 +76,36 @@ class Button extends BlockBase {
 			return '';
 		}
 
-		$inner = '<span class="gb-button__text">' . $text . '</span>';
+		// Icon support.
+		$icon_slug     = sanitize_key( (string) ( $attributes['iconSlug'] ?? '' ) );
+		$icon_svg_raw  = (string) ( $attributes['iconSvg'] ?? '' );
+		$icon_position = in_array( (string) ( $attributes['iconPosition'] ?? 'before' ), array( 'before', 'after' ), true )
+			? (string) ( $attributes['iconPosition'] ?? 'before' )
+			: 'before';
+		$icon_size     = sanitize_text_field( (string) ( $attributes['iconSize'] ?? '1em' ) );
+
+		$icon_html = '';
+		if ( $icon_slug && $icon_svg_raw ) {
+			$icon_inner_safe = SvgSanitizer::sanitize_inner( $icon_svg_raw );
+			if ( $icon_inner_safe ) {
+				$svg_open  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"'
+					. ' width="' . esc_attr( $icon_size ) . '"'
+					. ' height="' . esc_attr( $icon_size ) . '"'
+					. ' fill="none" stroke="currentColor"'
+					. ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+					. ' aria-hidden="true">';
+				$icon_html = '<span class="gb-button__icon gb-button__icon--' . esc_attr( $icon_position ) . '">'
+					. $svg_open . $icon_inner_safe . '</svg>'
+					. '</span>';
+			}
+		}
+
+		$before_icon = ( $icon_html && 'before' === $icon_position ) ? $icon_html : '';
+		$after_icon  = ( $icon_html && 'after' === $icon_position )  ? $icon_html : '';
+
+		$inner = $before_icon
+			. '<span class="gb-button__text">' . $text . '</span>'
+			. $after_icon;
 
 		return sprintf(
 			'<%1$s class="%2$s"%3$s%4$s>%5$s</%1$s>',
@@ -149,12 +176,3 @@ class Button extends BlockBase {
 		return ' type="' . esc_attr( $type ) . '"';
 	}
 }
-
-// Self-register into the block class list.
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Button::class;
-		return $classes;
-	}
-);

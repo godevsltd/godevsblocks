@@ -8,12 +8,17 @@
  * For gap (two-axis), use `twoAxis` prop which shows only top (row) + left (column).
  */
 
-import { useState, useCallback } from '@wordpress/element';
+import { useState, useCallback, useEffect } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 import { Icon, link, linkOff } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { UnitInput } from './UnitInput';
 import type { UnitOption } from '../../types/controls';
+
+// ── Icons ───────────────────────────────────────────────────────────────────
+
+const LINK_ICON = <Icon icon={ link } size={ 16 } />;
+const LINK_OFF_ICON = <Icon icon={ linkOff } size={ 16 } />;
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -28,6 +33,12 @@ interface SpacingControlProps {
 	label: string;
 	values: Partial< SpacingSides >;
 	onChange: ( side: keyof SpacingSides, value: string ) => void;
+	/**
+	 * Called instead of 4 separate onChange() calls when linked mode is active.
+	 * Use this to write all 4 sides in a single setAttributes() to avoid the
+	 * stale-closure clobber that occurs with multiple synchronous setStyle() calls.
+	 */
+	onChangeAll?: ( value: string ) => void;
 	/** Inherited values from smaller breakpoints (shown as placeholders). */
 	inherited?: Partial< SpacingSides >;
 	disabled?: boolean;
@@ -40,8 +51,12 @@ interface SpacingControlProps {
 // ── Helpers ───────────────────────────────────────────────────────────────
 
 function allSidesEqual( v: Partial< SpacingSides > ): boolean {
-	const vals = [ v.top, v.right, v.bottom, v.left ].filter( Boolean );
-	return vals.length > 0 && vals.every( ( s ) => s === vals[ 0 ] );
+	const { top, right, bottom, left } = v;
+	// All four sides must be set and equal — a single set side must not trigger link.
+	if ( ! top || ! right || ! bottom || ! left ) {
+		return false;
+	}
+	return top === right && top === bottom && top === left;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────
@@ -50,6 +65,7 @@ export function SpacingControl( {
 	label,
 	values,
 	onChange,
+	onChangeAll,
 	inherited,
 	disabled = false,
 	defaultUnit = 'px',
@@ -57,18 +73,28 @@ export function SpacingControl( {
 }: SpacingControlProps ) {
 	const [ linked, setLinked ] = useState( () => allSidesEqual( values ) );
 
+	// Sync linked state when values change from outside (e.g. breakpoint switch).
+	useEffect( () => {
+		setLinked( allSidesEqual( values ) );
+	}, [ values.top, values.right, values.bottom, values.left ] );
+
 	const handleChange = useCallback(
 		( side: keyof SpacingSides, value: string ) => {
 			if ( linked ) {
-				onChange( 'top', value );
-				onChange( 'right', value );
-				onChange( 'bottom', value );
-				onChange( 'left', value );
+				if ( onChangeAll ) {
+					// Single setAttributes call — avoids stale-closure clobber.
+					onChangeAll( value );
+				} else {
+					onChange( 'top', value );
+					onChange( 'right', value );
+					onChange( 'bottom', value );
+					onChange( 'left', value );
+				}
 			} else {
 				onChange( side, value );
 			}
 		},
-		[ linked, onChange ]
+		[ linked, onChange, onChangeAll ]
 	);
 
 	if ( twoAxis ) {
@@ -99,28 +125,28 @@ export function SpacingControl( {
 		);
 	}
 
-	return (
-		<div className="gb-spacing-control">
-			<div className="gb-spacing-control__header">
-				<span className="gb-spacing-control__label">{ label }</span>
-				<Button
-					className="gb-spacing-control__link"
-					isSmall
-					variant={ linked ? 'primary' : 'tertiary' }
-					onClick={ () => setLinked( ( l ) => ! l ) }
-					aria-label={
-						linked
-							? __( 'Unlink sides', 'goblocks' )
-							: __( 'Link all sides', 'goblocks' )
-					}
-					aria-pressed={ linked }
-					disabled={ disabled }
-				>
-					<Icon icon={ linked ? link : linkOff } size={ 16 } />
-				</Button>
-			</div>
+		return (
+			<div className="gb-spacing-control">
+				<div className="gb-spacing-control__header">
+					<span className="gb-spacing-control__label">{ label }</span>
+					<Button
+						className="gb-spacing-control__link"
+						isSmall
+						variant={ linked ? 'primary' : 'tertiary' }
+						onClick={ () => setLinked( ( l ) => ! l ) }
+						aria-label={
+							linked
+								? __( 'Unlink sides', 'goblocks' )
+								: __( 'Link all sides', 'goblocks' )
+						}
+						aria-pressed={ linked }
+						disabled={ disabled }
+					>
+						{ linked ? LINK_ICON : LINK_OFF_ICON }
+					</Button>
+				</div>
 
-			{ linked ? (
+				{ linked ? (
 				<UnitInput
 					label={ label }
 					value={ values.top }

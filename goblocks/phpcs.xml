@@ -16,6 +16,8 @@
     <exclude-pattern>*/node_modules/*</exclude-pattern>
     <exclude-pattern>*/build/*</exclude-pattern>
     <exclude-pattern>*/tests/*</exclude-pattern>
+    <!-- Development utility scripts — not loaded by WordPress, CLI output only -->
+    <exclude-pattern>*/bin/*</exclude-pattern>
     <!-- Pattern files are hybrid PHP+HTML with a necessary closing ?> tag -->
     <exclude-pattern>*/patterns/*</exclude-pattern>
 

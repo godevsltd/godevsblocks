@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/flip-card",
+	"version": "1.0.0",
+	"title": "Flip Card",
+	"category": "goblocks",
+	"description": "3D flip card with front and back sides revealed on hover or click.",
+	"keywords": [ "flip", "card", "hover", "3d", "reveal" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html":            false,
+		"customClassName": false,
+		"className":       false,
+		"anchor":          false
+	},
+	"attributes": {
+		"uniqueId":       { "type": "string",  "default": "" },
+		"frontTitle":     { "type": "string",  "default": "Front Side" },
+		"frontContent":   { "type": "string",  "default": "Hover to reveal the back." },
+		"frontIcon":      { "type": "string",  "default": "" },
+		"backTitle":      { "type": "string",  "default": "Back Side" },
+		"backContent":    { "type": "string",  "default": "This is the back content." },
+		"backIcon":       { "type": "string",  "default": "" },
+		"backLinkText":   { "type": "string",  "default": "" },
+		"backLinkUrl":    { "type": "string",  "default": "" },
+		"flipDirection":  { "type": "string",  "default": "horizontal" },
+		"triggerOnClick": { "type": "boolean", "default": false },
+		"styles":         { "type": "object",  "default": {} },
+		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
+		"generatedCss":   { "type": "string",  "default": "" },
+		"blockVersion":   { "type": "integer", "default": 1 }
+	},
+	"viewScript": "file:./view.js",
+	"editorScript": "file:./index.js"
+}

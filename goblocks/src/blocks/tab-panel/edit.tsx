@@ -14,20 +14,13 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import type { BlockEditProps } from '@wordpress/blocks';
-import type { BlockStyles } from '../../types/styles';
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-
-interface TabPanelAttributes {
-	uniqueId: string;
-	styles: BlockStyles;
-	globalClasses: string[];
-	htmlAttributes: Record< string, string >;
-	dynamicContent: Record< string, string >;
-	generatedCss: string;
-	blockVersion: number;
-	label: string;
-}
+import { useCssEngine } from '../../hooks/useCssEngine';
+import { clsx } from '../../utils/classNames';
+import {
+	TabPanelInspector,
+	type TabPanelAttributes,
+} from './components/Inspector';
 
 // ── Unique ID ─────────────────────────────────────────────────────────────────
 
@@ -42,7 +35,7 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< TabPanelAttributes > ) {
-	const { uniqueId, label } = attributes;
+	const { uniqueId, label, globalClasses, styles } = attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {
@@ -50,7 +43,22 @@ export function Edit( {
 		}
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const blockProps = useBlockProps( { className: 'gb-tab-panel' } );
+	// CSS generation + injection.
+	useCssEngine( {
+		blockSlug: 'tab-panel',
+		uniqueId,
+		styles,
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< TabPanelAttributes > ),
+	} );
+
+	const wrapperClass = clsx(
+		'gb-tab-panel',
+		uniqueId && `gb-tab-panel-${ uniqueId }`,
+		...( globalClasses ?? [] )
+	);
+
+	const blockProps = useBlockProps( { className: wrapperClass } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'gb-tab-panel__content' },
 		{
@@ -64,21 +72,29 @@ export function Edit( {
 	);
 
 	return (
-		<div { ...blockProps }>
-			{ /* Editable label bar — visible only in editor */ }
-			<div className="gb-tab-panel__label-bar">
-				<RichText
-					tagName="span"
-					className="gb-tab-panel__label"
-					value={ label }
-					onChange={ ( v ) => setAttributes( { label: v } ) }
-					placeholder={ __( 'Tab label', 'goblocks' ) }
-					allowedFormats={ [] }
-					keepPlaceholderOnFocus
-				/>
-			</div>
+		<>
+			{ /* Inspector Controls */ }
+			<TabPanelInspector
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
 
-			<div { ...innerBlocksProps } />
-		</div>
+			<div { ...blockProps }>
+				{ /* Editable label bar — visible only in editor */ }
+				<div className="gb-tab-panel__label-bar">
+					<RichText
+						tagName="span"
+						className="gb-tab-panel__label"
+						value={ label }
+						onChange={ ( v ) => setAttributes( { label: v } ) }
+						placeholder={ __( 'Tab label', 'goblocks' ) }
+						allowedFormats={ [] }
+						keepPlaceholderOnFocus
+					/>
+				</div>
+
+				<div { ...innerBlocksProps } />
+			</div>
+		</>
 	);
 }

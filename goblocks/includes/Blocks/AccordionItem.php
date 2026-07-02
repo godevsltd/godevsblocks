@@ -19,6 +19,11 @@ class AccordionItem extends BlockBase {
 		return 'accordion-item';
 	}
 
+	private function safe_color( mixed $value, string $default ): string {
+		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
+		return $sanitized ?: $default;
+	}
+
 	/**
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @param string               $content    Inner blocks HTML (the answer).
@@ -33,10 +38,25 @@ class AccordionItem extends BlockBase {
 		$is_open        = ! empty( $attributes['isOpen'] );
 		$faq_schema     = ! empty( $block->context['goblocks/accordionFaqSchema'] );
 
+		$hdr_color  = $this->safe_color( $attributes['headerColor']  ?? null, '#111827' );
+		$hdr_bg     = $this->safe_color( $attributes['headerBg']     ?? null, '#ffffff' );
+		$cnt_color  = $this->safe_color( $attributes['contentColor'] ?? null, '#374151' );
+		$icon_style = sanitize_key( (string) ( $attributes['iconStyle'] ?? 'chevron' ) );
+		if ( ! in_array( $icon_style, array( 'chevron', 'plus', 'arrow', 'none' ), true ) ) {
+			$icon_style = 'chevron';
+		}
+
+		$css_vars = sprintf(
+			'--gb-ai-header-color:%s;--gb-ai-header-bg:%s;--gb-ai-content-color:%s;',
+			$hdr_color,
+			$hdr_bg,
+			$cnt_color
+		);
+
 		$classes = $this->build_class_string(
 			$block_class,
 			$global_classes,
-			array( 'gb-accordion-item' )
+			array( 'gb-accordion-item', 'gb-accordion-item--icon-' . $icon_style )
 		);
 
 		// FAQ schema attribute fragments.
@@ -49,9 +69,11 @@ class AccordionItem extends BlockBase {
 			: '';
 		$schema_text = $faq_schema ? ' itemprop="text"' : '';
 
+		$summary_label = $question ? ' aria-label="' . esc_attr( $question ) . '"' : '';
+
 		return sprintf(
-			'<details class="%s"%s%s>' .
-				'<summary class="gb-accordion-item__trigger"%s>' .
+			'<details class="%s" style="%s"%s%s>' .
+				'<summary class="gb-accordion-item__trigger"%s%s>' .
 					'<span class="gb-accordion-item__question">%s</span>' .
 					'<span class="gb-accordion-item__icon" aria-hidden="true"></span>' .
 				'</summary>' .
@@ -60,9 +82,11 @@ class AccordionItem extends BlockBase {
 				'</div>' .
 			'</details>',
 			$classes,
+			esc_attr( $css_vars ),
 			$is_open ? ' open' : '',
 			$schema_item,
 			$schema_name,
+			$summary_label,
 			esc_html( $question ),
 			$schema_ans,
 			$schema_text,
@@ -70,11 +94,3 @@ class AccordionItem extends BlockBase {
 		);
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = AccordionItem::class;
-		return $classes;
-	}
-);

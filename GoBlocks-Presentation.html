@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GoBlocks — Senior Product Engineer Presentation</title>
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --bg:    #080d1a;
+  --surf:  rgba(255,255,255,.045);
+  --surf2: rgba(255,255,255,.08);
+  --bdr:   rgba(255,255,255,.09);
+  --bdhi:  rgba(255,255,255,.17);
+  --txt:   #e2e8f0;
+  --muted: #64748b;
+  --pri:   #6366f1;
+  --prhi:  #a5b4fc;
+  --cyan:  #22d3ee;
+  --grn:   #34d399;
+  --amb:   #fbbf24;
+  --pur:   #c084fc;
+  --rad:   13px;
+  --g-pri: linear-gradient(135deg,#6366f1,#22d3ee);
+  --g-cool:linear-gradient(135deg,#22d3ee,#34d399);
+  --g-warm:linear-gradient(135deg,#f59e0b,#ef4444);
+  --g-pur: linear-gradient(135deg,#c084fc,#6366f1);
+  --g-all: linear-gradient(135deg,#6366f1 0%,#22d3ee 50%,#34d399 100%);
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ─── DECK ─── */
+#deck {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+#deck::-webkit-scrollbar { display: none; }
+
+/* ─── SLIDE ─── */
+.slide {
+  scroll-snap-align: start;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: 44px 64px 38px;
+  display: flex;
+  flex-direction: column;
+}
+/* dot-grid */
+.slide::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none; z-index: 0;
+}
+/* radial glow */
+.slide::after {
+  content: '';
+  position: absolute;
+  top: -140px; right: -140px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, var(--glow,rgba(99,102,241,.15)) 0%, transparent 68%);
+  pointer-events: none; z-index: 0;
+}
+.slide > * { position: relative; z-index: 1; }
+
+/* ─── TYPOGRAPHY ─── */
+h1,h2,h3,h4 { color: #fff; }
+h2 { font-size: clamp(1.4rem,2.4vw,1.9rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.15; }
+h3 { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--prhi); margin-bottom: .45em; }
+p  { font-size: .83rem; line-height: 1.7; color: var(--txt); }
+ul { list-style: none; }
+li { font-size: .8rem; line-height: 1.65; padding: .18em 0 .18em 1.4em; position: relative; color: rgba(226,232,240,.85); }
+li::before { content:''; position:absolute; left:.3em; top:.63em; width:5px; height:5px; border-radius:50%; background:var(--prhi); }
+strong { color: #fff; font-weight: 600; }
+a { color: var(--prhi); text-decoration: none; }
+
+/* gradient text */
+.g-pri  { background:var(--g-pri);  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.g-cool { background:var(--g-cool); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.g-warm { background:var(--g-warm); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* mono inline */
+.mn {
+  font-family: 'Consolas','JetBrains Mono',monospace;
+  font-size: .78em; color: var(--cyan);
+  background: rgba(34,211,238,.1);
+  padding: .04em .32em; border-radius: 4px;
+}
+
+/* ─── SLIDE HEADER ─── */
+.sh { margin-bottom: .75em; }
+.sh .lbl {
+  display: inline-flex; align-items: center; gap: .4em;
+  font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--prhi); margin-bottom: .3em;
+}
+.sh .lbl::before { content:''; display:inline-block; width:16px; height:2px; border-radius:2px; background:var(--g-pri); }
+.sh h2 { margin:0; }
+
+/* ─── GRID ─── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:1em; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.7em; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.6em; }
+
+/* ─── CARD ─── */
+.card {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: var(--rad); padding: .85em 1.1em;
+  position: relative; overflow: hidden;
+}
+.card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--card-top,transparent); border-radius:var(--rad) var(--rad) 0 0; }
+.cb { --card-top: var(--g-pri); }
+.cc { --card-top: var(--g-cool); }
+.cg { --card-top: linear-gradient(90deg,#34d399,#06b6d4); }
+.ca { --card-top: var(--g-warm); }
+.cp { --card-top: var(--g-pur); }
+
+/* ─── STAT ─── */
+.stat {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: var(--rad); padding: .9em .6em .75em; text-align: center;
+  position: relative; overflow: hidden;
+}
+.stat::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:55%; height:1px; background:var(--g-pri); opacity:.65; }
+.sn { display:block; font-size:2em; font-weight:900; letter-spacing:-.03em; line-height:1; background:var(--g-pri); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.sn.w { background:var(--g-warm); -webkit-background-clip:text; background-clip:text; }
+.sn.c { background:var(--g-cool); -webkit-background-clip:text; background-clip:text; }
+.sl { display:block; font-size:.58em; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); margin-top:.4em; }
+
+/* ─── CHIP ─── */
+.chip { display:inline-flex; align-items:center; padding:.2em .7em; border-radius:99px; font-size:.66em; font-weight:600; letter-spacing:.025em; }
+.cb2 { background:rgba(99,102,241,.14); color:var(--prhi); border:1px solid rgba(99,102,241,.3); }
+.cc2 { background:rgba(34,211,238,.11); color:#67e8f9; border:1px solid rgba(34,211,238,.27); }
+.cg2 { background:rgba(52,211,153,.11); color:#6ee7b7; border:1px solid rgba(52,211,153,.27); }
+.ca2 { background:rgba(251,191,36,.11); color:#fde68a; border:1px solid rgba(251,191,36,.27); }
+.cp2 { background:rgba(192,132,252,.11); color:#d8b4fe; border:1px solid rgba(192,132,252,.27); }
+.bdg { display:inline-flex; align-items:center; padding:.26em .9em; border-radius:99px; font-size:.7em; font-weight:600; background:rgba(99,102,241,.14); border:1px solid rgba(99,102,241,.34); color:var(--prhi); }
+
+/* ─── CODE BLOCK ─── */
+.code-wrap { border-radius:var(--rad); overflow:hidden; border:1px solid var(--bdr); box-shadow:0 8px 28px rgba(0,0,0,.35); }
+.code-chrome { background:#1a1f2e; padding:.5em .9em; display:flex; align-items:center; gap:.35em; border-bottom:1px solid var(--bdr); }
+.cd { width:10px; height:10px; border-radius:50%; }
+.cdr { background:#ff5f57; } .cdy { background:#febc2e; } .cdg { background:#28c840; }
+.cfn { margin-left:.4em; font-family:Consolas,monospace; font-size:.6em; color:var(--muted); }
+.code-body { background:#0c1120; padding:.8em 1em; font-family:Consolas,'Courier New',monospace; font-size:.7em; line-height:1.75; color:#cdd5e0; }
+.kw { color:#818cf8; } .str { color:#6ee7b7; } .cmt { color:#3d4f6b; font-style:italic; }
+.fn { color:#67e8f9; } .nm { color:#fcd34d; } .pp { color:#f9a8d4; }
+
+/* ─── CHECK ROW ─── */
+.cr { display:flex; align-items:center; gap:.6em; padding:.28em .7em; border-radius:8px; font-size:.78em; margin:.18em 0; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.055); }
+.cr.p { border-color:rgba(52,211,153,.2); }
+.cr.w { border-color:rgba(251,191,36,.2); }
+.ci { width:17px; height:17px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.7em; font-weight:800; flex-shrink:0; }
+.p .ci { background:rgba(52,211,153,.17); color:var(--grn); }
+.w .ci { background:rgba(251,191,36,.17); color:var(--amb); }
+
+/* ─── PIPELINE ─── */
+.pipeline { display:flex; align-items:center; flex-wrap:wrap; margin:.3em 0; }
+.ps { background:var(--surf2); border:1px solid var(--bdhi); border-radius:7px; padding:.32em .75em; font-size:.68em; font-weight:600; font-family:Consolas,monospace; white-space:nowrap; }
+.ps.ts { border-color:rgba(99,102,241,.45); color:var(--prhi); }
+.ps.php { border-color:rgba(34,211,238,.45); color:var(--cyan); }
+.pa { font-size:.8em; color:var(--prhi); padding:0 .25em; opacity:.65; }
+
+/* ─── ROADMAP ─── */
+.roadmap { display:grid; grid-template-columns:repeat(4,1fr); gap:.7em; position:relative; }
+.roadmap::before { content:''; position:absolute; top:21px; left:28px; right:28px; height:2px; background:linear-gradient(90deg,var(--grn),var(--cyan),var(--pri),rgba(192,132,252,.5)); z-index:0; }
+.rmi { position:relative; z-index:1; padding-top:.3em; }
+.rmd { width:13px; height:13px; border-radius:50%; border:2px solid; background:var(--bg); margin:0 auto .7em; position:relative; z-index:2; }
+.rmi:nth-child(1) .rmd { border-color:var(--grn); box-shadow:0 0 9px rgba(52,211,153,.5); }
+.rmi:nth-child(2) .rmd { border-color:var(--cyan); box-shadow:0 0 9px rgba(34,211,238,.4); }
+.rmi:nth-child(3) .rmd { border-color:var(--pri); box-shadow:0 0 9px rgba(99,102,241,.4); }
+.rmi:nth-child(4) .rmd { border-color:var(--pur); box-shadow:0 0 9px rgba(192,132,252,.35); }
+.rmc { background:var(--surf); border:1px solid var(--bdr); border-radius:var(--rad); padding:.8em .9em; }
+.rmi:nth-child(1) .rmc { border-top:2px solid var(--grn); }
+.rmi:nth-child(2) .rmc { border-top:2px solid var(--cyan); }
+.rmi:nth-child(3) .rmc { border-top:2px solid var(--pri); }
+.rmi:nth-child(4) .rmc { border-top:2px solid var(--pur); }
+.rmv { font-size:.6em; font-weight:800; letter-spacing:.07em; text-transform:uppercase; margin-bottom:.3em; }
+.rmi:nth-child(1) .rmv { color:var(--grn); }
+.rmi:nth-child(2) .rmv { color:var(--cyan); }
+.rmi:nth-child(3) .rmv { color:var(--prhi); }
+.rmi:nth-child(4) .rmv { color:var(--pur); }
+.rmc h3 { text-transform:none; letter-spacing:0; font-size:.8em; margin-bottom:.4em; color:#fff; }
+.rmc li { font-size:.73em; padding:.1em 0 .1em 1.2em; }
+.rmc li::before { width:4px; height:4px; top:.56em; }
+
+/* ─── BREAKPOINT BAR ─── */
+.bp-bar { display:flex; align-items:flex-end; gap:.45em; margin:.4em 0; }
+.bpi { text-align:center; flex:1; }
+.bpp { border-radius:5px 5px 0 0; margin-bottom:.28em; border:1px solid var(--bdr); border-bottom:none; }
+.bpi:nth-child(1) .bpp { height:20px; background:linear-gradient(180deg,rgba(99,102,241,.5),rgba(99,102,241,.2)); }
+.bpi:nth-child(2) .bpp { height:31px; background:linear-gradient(180deg,rgba(34,211,238,.4),rgba(34,211,238,.15)); }
+.bpi:nth-child(3) .bpp { height:43px; background:linear-gradient(180deg,rgba(52,211,153,.45),rgba(52,211,153,.15)); }
+.bpi:nth-child(4) .bpp { height:56px; background:linear-gradient(180deg,rgba(251,191,36,.45),rgba(251,191,36,.15)); }
+.bpi:nth-child(5) .bpp { height:68px; background:linear-gradient(180deg,rgba(248,113,113,.4),rgba(248,113,113,.15)); }
+.bpi:nth-child(6) .bpp { height:56px; background:linear-gradient(180deg,rgba(192,132,252,.4),rgba(192,132,252,.15)); }
+.bpi:nth-child(7) .bpp { height:43px; background:linear-gradient(180deg,rgba(99,102,241,.3),rgba(99,102,241,.1)); }
+.bpn { font-family:Consolas,monospace; font-size:.6em; font-weight:600; color:var(--txt); }
+.bpx { font-size:.54em; color:var(--muted); }
+
+/* ─── COMPARISON TABLE ─── */
+.ct { width:100%; border-collapse:separate; border-spacing:0; font-size:.73em; margin-top:.3em; }
+.ct th { padding:.5em .75em; font-weight:700; font-size:.85em; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--bdr); }
+.ct th.gb { color:var(--prhi); background:rgba(99,102,241,.1); border-radius:10px 10px 0 0; border:1px solid rgba(99,102,241,.22); border-bottom:none; }
+.ct td { padding:.45em .75em; border-bottom:1px solid rgba(255,255,255,.05); color:var(--txt); }
+.ct td.gb { background:rgba(99,102,241,.07); font-weight:700; border-left:1px solid rgba(99,102,241,.22); border-right:1px solid rgba(99,102,241,.22); }
+.ct tr:last-child td.gb { border-radius:0 0 10px 10px; border-bottom:1px solid rgba(99,102,241,.22); }
+.ct tr:hover td { background:rgba(255,255,255,.025); }
+.ct tr:hover td.gb { background:rgba(99,102,241,.1); }
+.ok { color:var(--grn); font-weight:700; } .no { color:rgba(248,113,113,.55); } .pt { color:var(--amb); }
+
+/* ─── FOOTER ─── */
+.sf {
+  position:absolute; bottom:18px; left:64px; right:64px; z-index:2;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.56em; color:var(--muted);
+}
+.sf-brand { display:flex; align-items:center; gap:.45em; }
+.sfd { width:5px; height:5px; border-radius:50%; background:var(--g-pri); }
+
+/* ─── TITLE SLIDE ─── */
+.title-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; height:100%; gap:2em; }
+.t-eyebrow { font-size:.63em; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--prhi); margin-bottom:.55em; display:flex; align-items:center; gap:.5em; }
+.t-eyebrow::before { content:''; display:block; width:22px; height:2px; background:var(--g-pri); border-radius:2px; }
+.t-logo { font-size:3.7em; font-weight:900; letter-spacing:-.04em; line-height:1; color:#fff; margin:0 0 .1em; }
+.t-hi { background:var(--g-all); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.t-sub { font-size:.79em; line-height:1.65; color:rgba(226,232,240,.6); max-width:420px; margin:.65em 0 1.3em; }
+.t-right { display:flex; align-items:center; justify-content:center; position:relative; }
+.t-glyph { font-size:8.5em; font-weight:900; letter-spacing:-.05em; background:linear-gradient(135deg,rgba(99,102,241,.22),rgba(34,211,238,.12)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; user-select:none; line-height:1; }
+.fc { position:absolute; background:var(--surf2); border:1px solid var(--bdhi); border-radius:9px; padding:.38em .75em; font-size:.54em; font-weight:700; color:var(--txt); white-space:nowrap; }
+.fc1 { top:12%; right:4%; color:var(--prhi); border-color:rgba(99,102,241,.4); }
+.fc2 { top:40%; right:-3%; color:var(--cyan); border-color:rgba(34,211,238,.4); }
+.fc3 { bottom:18%; right:9%; color:var(--grn); border-color:rgba(52,211,153,.4); }
+.fc4 { top:22%; left:4%; color:var(--amb); border-color:rgba(251,191,36,.4); }
+
+/* ─── CTA SLIDE ─── */
+.cta-slide { display:flex; flex-direction:column; justify-content:center; height:100%; }
+.cta-h1 { font-size:2.8em; font-weight:900; line-height:1.06; letter-spacing:-.03em; color:#fff; margin:.35em 0 .1em; }
+.cta-h1 span { background:var(--g-all); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cta-ey { font-size:.61em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--prhi); display:flex; align-items:center; gap:.45em; }
+.cta-ey::before { content:''; display:block; width:18px; height:2px; background:var(--g-pri); border-radius:2px; }
+
+/* ─── NAV ─── */
+#nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+  background: rgba(8,13,26,.9);
+  border-top: 1px solid rgba(255,255,255,.07);
+  backdrop-filter: blur(12px);
+}
+#nav-info { font-size: .67em; color: var(--muted); font-family:Consolas,monospace; }
+#nav-dots { display: flex; gap: 5px; align-items: center; }
+.ndot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,.18); cursor: pointer;
+  transition: background .2s, transform .2s;
+  border: none; outline: none; padding: 0;
+}
+.ndot.active { background: var(--g-pri); transform: scale(1.35); }
+.ndot:hover { background: rgba(255,255,255,.45); }
+#nav-btns { display: flex; gap: 8px; }
+.nbtn {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  color: var(--txt); padding: .3em 1em; border-radius: 7px; font-size: .72em;
+  font-weight: 600; cursor: pointer; transition: background .15s;
+  font-family: inherit;
+}
+.nbtn:hover { background: rgba(99,102,241,.25); border-color: rgba(99,102,241,.4); }
+#nav-slide-num { font-size: .67em; color: var(--prhi); font-family:Consolas,monospace; }
+
+/* progress bar */
+#pbar { position:fixed; top:0; left:0; height:2px; background:var(--g-all); z-index:101; transition:width .25s; box-shadow:0 0 8px rgba(99,102,241,.7); }
+</style>
+</head>
+<body>
+
+<div id="pbar" style="width:7.14%"></div>
+
+<div id="deck">
+
+<!-- ══════════ SLIDE 1 — TITLE ══════════ -->
+<section class="slide" id="s1" style="--glow:rgba(99,102,241,.22); padding:0;">
+<div class="title-grid" style="padding:44px 64px;">
+  <div>
+    <div class="t-eyebrow">Senior Product Engineering · WordPress Plugin</div>
+    <div class="t-logo">Go<span class="t-hi">Blocks</span></div>
+    <p class="t-sub">A production-grade Gutenberg block plugin built with TypeScript, PSR-4 PHP, and a custom CSS engine — architected to surpass GenerateBlocks, Kadence Blocks, and Stackable.</p>
+    <div style="display:flex;gap:.45em;flex-wrap:wrap">
+      <span class="bdg">v 1.0.0</span>
+      <span class="chip cg2">✓ WP.org Ready</span>
+      <span class="chip cb2">18 Blocks</span>
+      <span class="chip cc2">15 Patterns</span>
+    </div>
+  </div>
+  <div class="t-right">
+    <div class="t-glyph">GB</div>
+    <div class="fc fc1">TypeScript Strict</div>
+    <div class="fc fc2">0 Plugin Check Errors</div>
+    <div class="fc fc3">113 PHPUnit Tests</div>
+    <div class="fc fc4">CSS Engine v1</div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 2 — PROBLEM ══════════ -->
+<section class="slide" id="s2" style="--glow:rgba(251,191,36,.14);">
+<div class="sh"><span class="lbl">Market Context</span><h2>The Problem with Existing Block Plugins</h2></div>
+<div class="g2" style="flex:1;gap:1em">
+  <div style="display:flex;flex-direction:column;gap:.55em">
+    <div class="card ca">
+      <h3>Architectural Debt</h3>
+      <ul>
+        <li>Flat triplets — <span class="mn">widthMobile</span>, <span class="mn">widthTablet</span></li>
+        <li>Inline <span class="mn">style=""</span> on block elements — security &amp; specificity debt</li>
+        <li>PHP regenerates CSS at render time — server overhead</li>
+        <li>Plain JS — no TypeScript, no type safety</li>
+      </ul>
+    </div>
+    <div class="card ca">
+      <h3>WP.org Quality Issues</h3>
+      <ul>
+        <li>Plugin Check errors at first submission</li>
+        <li><span class="mn">!important</span> overuse, unsafe eval, global leaks</li>
+        <li>Zero escaping at output — XSS vectors</li>
+      </ul>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:.55em">
+    <div class="card cb">
+      <h3>What the Market Needs</h3>
+      <ul>
+        <li>One CSS engine — TypeScript generates, PHP only caches</li>
+        <li>Nested responsive <span class="mn">&#123; base, sm, md, lg &#125;</span> values</li>
+        <li>TypeScript strict — zero <span class="mn">any</span></li>
+        <li>PHPStan Level 6 + WPCS — zero violations</li>
+        <li>Plugin Check: 0 errors before first submission</li>
+      </ul>
+    </div>
+    <div class="card cg">
+      <h3>The GoBlocks Difference</h3>
+      <p>Built from the ground up — no legacy constraints, no shortcuts. Every architectural decision is deliberate, documented, and testable.</p>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 3 — METRICS ══════════ -->
+<section class="slide" id="s3" style="--glow:rgba(34,211,238,.15);">
+<div class="sh"><span class="lbl">At a Glance</span><h2>By the Numbers</h2></div>
+<div class="g4" style="margin:.5em 0 .5em">
+  <div class="stat"><span class="sn">18</span><span class="sl">Production Blocks</span></div>
+  <div class="stat"><span class="sn">15</span><span class="sl">Block Patterns</span></div>
+  <div class="stat"><span class="sn c">113</span><span class="sl">PHPUnit Tests</span></div>
+  <div class="stat"><span class="sn" style="background:var(--g-cool);-webkit-background-clip:text;background-clip:text;">0</span><span class="sl" style="color:var(--grn)">Plugin Check Errors</span></div>
+</div>
+<div class="g4" style="margin-bottom:.55em">
+  <div class="stat"><span class="sn" style="font-size:1.7em">451<small style="font-size:.5em;-webkit-text-fill-color:inherit">KB</small></span><span class="sl">Production ZIP</span></div>
+  <div class="stat"><span class="sn">7</span><span class="sl">Breakpoints</span></div>
+  <div class="stat"><span class="sn c">191</span><span class="sl">Test Assertions</span></div>
+  <div class="stat"><span class="sn">6</span><span class="sl">PHPStan Level</span></div>
+</div>
+<div class="g3" style="gap:.65em">
+  <div class="card cb"><h3>TypeScript</h3><p>Strict mode · Zero <span class="mn">any</span> · Full type coverage across CssEngine, hooks, controls, and block attributes</p></div>
+  <div class="card cc"><h3>CSS Engine</h3><p>6-stage pipeline · Minifier · RTL · Media queries · Pseudo-states · CSS custom properties</p></div>
+  <div class="card cb"><h3>PHP Backend</h3><p>PSR-4 · WPCS · PHPStan L6 · 6 REST controllers · WP_Filesystem for all file writes</p></div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 4 — ARCHITECTURE ══════════ -->
+<section class="slide" id="s4" style="--glow:rgba(99,102,241,.18);">
+<div class="sh"><span class="lbl">Engineering</span><h2>System Architecture</h2></div>
+<div class="g2" style="flex:1;gap:1.1em">
+  <div>
+    <h3>CSS Generation Pipeline</h3>
+    <div class="pipeline"><div class="ps ts">BlockStyles</div><div class="pa">→</div><div class="ps ts">StyleNormalizer</div><div class="pa">→</div><div class="ps ts">RuleBuilder</div></div>
+    <div class="pipeline"><div class="ps ts">PseudoBuilder</div><div class="pa">→</div><div class="ps ts">MediaWrapper</div><div class="pa">→</div><div class="ps ts">Minifier</div></div>
+    <div class="pipeline" style="margin-bottom:.4em"><div class="ps ca2" style="border-color:rgba(251,191,36,.4)">generatedCss</div><div class="pa">→</div><div class="ps php">CssGenerator</div><div class="pa">→</div><div class="ps php">CssCache</div></div>
+    <p style="font-size:.72em;color:var(--muted)">TypeScript generates all CSS. PHP only collects, caches &amp; enqueues.</p>
+    <h3 style="margin-top:.7em">Attribute Schema</h3>
+    <div class="code-wrap">
+      <div class="code-chrome"><div class="cd cdr"></div><div class="cd cdy"></div><div class="cd cdg"></div><div class="cfn">block.json · styles</div></div>
+      <div class="code-body"><span class="cmt">// Nested responsive — never flat triplets</span>
+<span class="pp">styles</span>: {
+  <span class="pp">spacing</span>: { <span class="pp">paddingTop</span>: { <span class="str">"base"</span>: <span class="str">"60px"</span>, <span class="str">"md"</span>: <span class="str">"40px"</span> } },
+  <span class="pp">variables</span>: { <span class="str">"--gb-tabs-active-color"</span>: { <span class="str">"base"</span>: <span class="str">"#4f46e5"</span> } }
+}</div>
+    </div>
+  </div>
+  <div>
+    <h3>PHP Module Map</h3>
+    <div class="card cb" style="padding:.6em 1em;margin-bottom:.55em">
+      <ul>
+        <li><span class="mn">Core/Plugin</span> — bootstrap, block registration, hooks</li>
+        <li><span class="mn">Blocks/BlockBase</span> — render, sanitize, class builder</li>
+        <li><span class="mn">CSS/CssEngine</span> — collect → cache → enqueue</li>
+        <li><span class="mn">GlobalStyles</span> — Zustand → PHP bridge, theme.json</li>
+        <li><span class="mn">REST/*</span> — 6 controllers (Settings, Query, Patterns…)</li>
+        <li><span class="mn">DynamicContent</span> — TagRegistry, 22 built-in tags</li>
+        <li><span class="mn">Utils/Sanitize</span> — all escaping at output layer</li>
+      </ul>
+    </div>
+    <h3>Frontend Stack</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:.28em">
+      <span class="chip cb2">TypeScript 5</span><span class="chip cb2">React (WP)</span><span class="chip cb2">Zustand</span>
+      <span class="chip cc2">@tanstack/react-query</span><span class="chip cc2">webpack 5</span>
+      <span class="chip cg2">@wordpress/scripts</span><span class="chip cg2">@wordpress/components</span>
+      <span class="chip ca2">Brain\Monkey</span><span class="chip ca2">Mockery</span>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 5 — BLOCKS ══════════ -->
+<section class="slide" id="s5" style="--glow:rgba(52,211,153,.13);">
+<div class="sh"><span class="lbl">Block Suite</span><h2>18-Block Production Library</h2></div>
+<div class="g3" style="flex:1;gap:.65em">
+  <div style="display:flex;flex-direction:column;gap:.5em">
+    <div class="card cb">
+      <h3>Layout</h3>
+      <ul>
+        <li><strong>Box</strong> — semantic container, link mode, ARIA</li>
+        <li><strong>Grid</strong> — CSS Grid, responsive columns</li>
+        <li><strong>Separator</strong> — styled horizontal rule</li>
+        <li><strong>Spacer</strong> — fixed-height vertical spacer</li>
+      </ul>
+    </div>
+    <div class="card cg">
+      <h3>Query System</h3>
+      <ul>
+        <li><strong>Query</strong> — posts loop orchestrator</li>
+        <li><strong>QueryLoop</strong> — inner loop renderer</li>
+        <li><strong>QueryNoResults</strong> — zero-posts fallback</li>
+        <li><strong>Pagination</strong> — page nav, load more</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <div class="card cc" style="height:100%">
+      <h3>Content &amp; Interactive</h3>
+      <ul>
+        <li><strong>Heading</strong> — h1–h6, full typography</li>
+        <li><strong>Text</strong> — rich text, drop-cap, line height</li>
+        <li><strong>Image</strong> — aspect ratio, object-fit, overlay</li>
+        <li><strong>Icon</strong> — SVG library, size, colour, effects</li>
+        <li><strong>Button</strong> — link/button mode, ARIA label</li>
+        <li><strong>Shape</strong> — decorative SVG dividers</li>
+        <li><strong>Accordion</strong> + <strong>AccordionItem</strong></li>
+        <li><strong>Tabs</strong> + <strong>TabPanel</strong> — ARIA keyboard nav</li>
+      </ul>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:.5em">
+    <div class="card cp">
+      <h3 style="color:var(--pur)">Every Block Includes</h3>
+      <ul>
+        <li>PHP dynamic render callback</li>
+        <li>CssEngine-generated CSS</li>
+        <li>BreakpointTabs (7 breakpoints)</li>
+        <li>Responsive InspectorTabs</li>
+        <li>Zero inline styles</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:var(--bdr)">
+      <h3 style="color:var(--muted)">Scaffolded — v1.1</h3>
+      <ul style="color:var(--muted)"><li>Modal · Slider</li><li>Timeline · Pricing</li></ul>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 6 — CSS ENGINE ══════════ -->
+<section class="slide" id="s6" style="--glow:rgba(99,102,241,.2);">
+<div class="sh"><span class="lbl">Core Innovation</span><h2>CssEngine — The Technical Heart</h2></div>
+<div class="g2" style="flex:1;gap:1.1em">
+  <div>
+    <h3>Style Categories</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:.28em;margin-bottom:.65em">
+      <span class="chip cb2">spacing</span><span class="chip cb2">typography</span><span class="chip cb2">layout</span>
+      <span class="chip cb2">sizing</span><span class="chip cc2">border</span><span class="chip cc2">background</span>
+      <span class="chip cc2">effects</span><span class="chip cg2">position</span><span class="chip ca2">variables ✦ new</span>
+    </div>
+    <div class="code-wrap">
+      <div class="code-chrome"><div class="cd cdr"></div><div class="cd cdy"></div><div class="cd cdg"></div><div class="cfn">CSS output — .gb-tabs-abc123</div></div>
+      <div class="code-body"><span class="cmt">/* variables category → CSS custom props */</span>
+<span class="fn">.gb-tabs-abc123</span> {
+  <span class="pp">--gb-tabs-active-color</span>: <span class="nm">#4f46e5</span>;
+  <span class="pp">--gb-tabs-active-bg</span>:    <span class="nm">#eff6ff</span>;
+}
+[aria-selected=<span class="str">"true"</span>] {
+  color: <span class="fn">var</span>(<span class="pp">--gb-tabs-active-color</span>);
+}</div>
+    </div>
+    <p style="font-size:.72em;color:var(--muted);margin-top:.35em">Per-instance overrides with global-token fallback. Zero JS at runtime.</p>
+  </div>
+  <div>
+    <h3>Breakpoint System — 7 Tiers</h3>
+    <div class="bp-bar">
+      <div class="bpi"><div class="bpp"></div><div class="bpn">base</div><div class="bpx">default</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">xs</div><div class="bpx">480px</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">sm</div><div class="bpx">640px</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">md</div><div class="bpx">768px</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">lg</div><div class="bpx">1024px</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">xl</div><div class="bpx">1280px</div></div>
+      <div class="bpi"><div class="bpp"></div><div class="bpn">2xl</div><div class="bpx">1536px</div></div>
+    </div>
+    <h3 style="margin-top:.65em">Pseudo-State Support</h3>
+    <div style="display:flex;gap:.35em;flex-wrap:wrap;margin-bottom:.6em">
+      <span class="chip cc2">:hover</span><span class="chip cc2">:focus</span><span class="chip cc2">:active</span>
+      <span class="chip cb2">::before</span><span class="chip cb2">::after</span>
+    </div>
+    <div class="g2" style="gap:.5em">
+      <div class="card cb"><h3>Overlay Channel</h3><p style="font-size:.74em"><span class="mn">overlayColor</span> + <span class="mn">overlayOpacity</span> → synthetic <span class="mn">::before</span> — no extra wrapper div</p></div>
+      <div class="card cg"><h3>RTL Support</h3><p style="font-size:.74em">webpack outputs <span class="mn">*.css</span> + <span class="mn">*-rtl.css</span> for Arabic / Hebrew locales</p></div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 7 — INSPECTOR ══════════ -->
+<section class="slide" id="s7" style="--glow:rgba(192,132,252,.14);">
+<div class="sh"><span class="lbl">Editor UX</span><h2>Inspector Design System</h2></div>
+<div class="g2" style="flex:1;gap:1.1em">
+  <div>
+    <h3>Panel Library — 8 Panels</h3>
+    <div class="card cb" style="padding:.65em 1em">
+      <ul>
+        <li><strong>LayoutPanel</strong> — flex/grid direction, align, justify, wrap</li>
+        <li><strong>TypographyPanel</strong> — font, size, weight, colour, spacing</li>
+        <li><strong>SizingPanel</strong> — width, height, min/max, aspect ratio</li>
+        <li><strong>SpacingPanel</strong> — padding + margin per side, gap</li>
+        <li><strong>BackgroundPanel</strong> — colour, image, gradient, overlay</li>
+        <li><strong>BorderPanel</strong> — per-side width/colour, radius</li>
+        <li><strong>EffectsPanel</strong> — opacity, shadow, transform, filter</li>
+        <li><strong>PositionPanel</strong> — position type, top/right/bottom/left</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <h3>Control Library</h3>
+    <div class="card cc" style="padding:.65em 1em;margin-bottom:.5em">
+      <ul>
+        <li><strong>ColorControl</strong> — plugin palette + theme tokens + hex</li>
+        <li><strong>UnitInput</strong> — value + unit selector, smart defaults</li>
+        <li><strong>SpacingControl</strong> — linked sides toggle</li>
+        <li><strong>BreakpointTabs</strong> — device icons, active indicator dot</li>
+        <li><strong>InspectorTabs</strong> — dark header, Styles + Advanced</li>
+      </ul>
+    </div>
+    <h3>Design Tokens — 15 Tokens</h3>
+    <div class="code-wrap">
+      <div class="code-chrome"><div class="cd cdr"></div><div class="cd cdy"></div><div class="cd cdg"></div><div class="cfn">assets/css/tokens.css</div></div>
+      <div class="code-body"><span class="pp">--gb-color-primary</span>:     <span class="nm">#4f46e5</span>
+<span class="pp">--gb-font-size-base</span>:     <span class="nm">1rem</span>
+<span class="pp">--gb-radius-md</span>:          <span class="nm">8px</span>
+<span class="pp">--gb-shadow-md</span>:          <span class="str">0 4px 16px rgba(0,0,0,.12)</span>
+<span class="cmt">→ colour · spacing · radius · shadow</span></div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 8 — PATTERNS ══════════ -->
+<section class="slide" id="s8" style="--glow:rgba(34,211,238,.13);">
+<div class="sh"><span class="lbl">Pattern Library</span><h2>15 Ready-to-Use Block Patterns</h2></div>
+<div class="g3" style="gap:.65em;margin-bottom:.6em">
+  <div class="card cb">
+    <h3>Marketing</h3>
+    <ul><li>Hero Centered</li><li>CTA with Image</li><li>Newsletter Banner</li><li>Logo Cloud</li><li>Stats 4-Column</li></ul>
+  </div>
+  <div class="card cc">
+    <h3>Content</h3>
+    <ul><li>Card Grid (3-col)</li><li>Blog Posts Grid</li><li>How It Works</li><li>FAQ Accordion</li><li>Testimonials Grid</li></ul>
+  </div>
+  <div class="card cg">
+    <h3>Business</h3>
+    <ul><li>Pricing 3-Tier</li><li>Team Grid</li><li>Portfolio Grid</li><li>Contact CTA</li><li>Testimonial Card</li></ul>
+  </div>
+</div>
+<div class="g4" style="gap:.6em">
+  <div class="card"><h3>Registered</h3><p>15 distinct WP.org-taxonomy pattern categories</p></div>
+  <div class="card"><h3>Block Purity</h3><p>Only <span class="mn">goblocks/*</span> blocks — no core block mixing</p></div>
+  <div class="card"><h3>i18n Ready</h3><p>All titles, descriptions &amp; keywords translated via <span class="mn">'goblocks'</span></p></div>
+  <div class="card"><h3>REST API</h3><p>PatternsController for theme.json + block inserter</p></div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 9 — QUALITY ══════════ -->
+<section class="slide" id="s9" style="--glow:rgba(52,211,153,.14);">
+<div class="sh"><span class="lbl">Quality &amp; Security</span><h2>Every Gate Green</h2></div>
+<div class="g2" style="flex:1;gap:1.1em">
+  <div>
+    <h3>Quality Gates</h3>
+    <div class="cr p"><div class="ci">✓</div><span>PHPUnit — <strong>113 tests · 191 assertions</strong></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>TypeScript strict — <strong>0 errors</strong></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>PHPStan Level 6 — <strong>0 issues</strong></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>WPCS — <strong>0 violations</strong></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>Plugin Check — <strong>0 errors, 0 warnings</strong></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>ESLint @wordpress — <strong>0 violations</strong></span></div>
+    <h3 style="margin-top:.75em">Block-Level Coverage</h3>
+    <div class="cr p"><div class="ci">✓</div><span>Box — 13 tests (render, link mode, ARIA, attrs)</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>Separator — 7 tests · Spacer — 8 tests</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>QueryNoResults — 9 tests (reflection injection)</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>CssGenerator · TagSecurity · Schema · REST</span></div>
+  </div>
+  <div>
+    <h3>Security Architecture</h3>
+    <div style="display:flex;flex-direction:column;gap:.5em">
+      <div class="card cb"><h3>Output Escaping</h3><p>All PHP output uses <span class="mn">esc_attr()</span>, <span class="mn">esc_html()</span>, <span class="mn">esc_url()</span>. Zero raw echoes. Sanitize at input, escape at output.</p></div>
+      <div class="card cg"><h3>REST Endpoints</h3><p>All writes gate on <span class="mn">current_user_can()</span>. All SQL via <span class="mn">$wpdb->prepare()</span>. SVG through allow-list sanitizer.</p></div>
+      <div class="card cc"><h3>CSS Injection Prevention</h3><p>StyleNormalizer rejects <span class="mn">&lt; &gt; &quot;</span>. CSS in <span class="mn">generatedCss</span> attribute, never in <span class="mn">style=""</span>. WP Filesystem for cache writes.</p></div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 10 — WP.ORG ══════════ -->
+<section class="slide" id="s10" style="--glow:rgba(99,102,241,.18);">
+<div class="sh"><span class="lbl">Submission</span><h2>WordPress.org Ready</h2></div>
+<div class="g2" style="flex:1;gap:1.1em">
+  <div>
+    <h3>Plugin Check — All Passing</h3>
+    <div class="cr p"><div class="ci">✓</div><span>No hidden files in ZIP</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>No unexpected markdown files</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>All PHP files have <span class="mn">defined('ABSPATH') || exit</span></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>GPL-2.0-or-later declared</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>Contributors: <span class="mn">godevs</span> · Stable tag matches version</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>Text domain: <span class="mn">goblocks</span> — all strings wrapped</span></div>
+    <h3 style="margin-top:.7em">ZIP Audit — <span class="g-pri">451 KB</span></h3>
+    <div class="cr p"><div class="ci">✓</div><span>No <span class="mn">vendor/</span> · no <span class="mn">src/</span> · no <span class="mn">node_modules/</span></span></div>
+    <div class="cr p"><div class="ci">✓</div><span>No dotfiles · no dev configs · no test artefacts</span></div>
+    <div class="cr p"><div class="ci">✓</div><span>SVN banners separate (not in plugin ZIP)</span></div>
+  </div>
+  <div>
+    <h3>SVN Assets Ready</h3>
+    <div class="card cb" style="margin-bottom:.5em">
+      <ul>
+        <li><strong>icon-128x128.png</strong> — plugin icon (standard)</li>
+        <li><strong>icon-256x256.png</strong> — plugin icon (retina)</li>
+        <li><strong>banner-772x250.png</strong> — listing banner</li>
+        <li><strong>banner-1544x500.png</strong> — retina banner</li>
+      </ul>
+    </div>
+    <h3>SVN Submission</h3>
+    <div class="code-wrap">
+      <div class="code-chrome"><div class="cd cdr"></div><div class="cd cdy"></div><div class="cd cdg"></div><div class="cfn">bash · svn workflow</div></div>
+      <div class="code-body"><span class="cmt"># 1. Apply at wordpress.org/plugins/developers/add/</span>
+svn co https://plugins.svn.wordpress.org/goblocks
+<span class="cmt"># 2. Copy plugin → trunk/, banners → assets/</span>
+svn add . --force
+svn commit -m <span class="str">"Initial release 1.0.0"</span>
+svn cp trunk tags/<span class="nm">1.0.0</span> &amp;&amp; svn commit</div>
+    </div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 11 — STACK ══════════ -->
+<section class="slide" id="s11" style="--glow:rgba(34,211,238,.14);">
+<div class="sh"><span class="lbl">Technology</span><h2>Full Stack Breakdown</h2></div>
+<div class="g3" style="gap:.65em;margin-bottom:.6em">
+  <div class="card cb">
+    <h3>Frontend</h3>
+    <ul><li>TypeScript 5 · strict mode</li><li>React (via @wordpress/element)</li><li>Zustand — global styles store</li><li>@tanstack/react-query — REST caching</li><li>webpack 5 + @wordpress/scripts</li><li>PostCSS · CSS Modules</li></ul>
+  </div>
+  <div class="card cc">
+    <h3>PHP Backend</h3>
+    <ul><li>PHP 8.0+ · PSR-4 autoloading</li><li>WordPress Coding Standards</li><li>PHPStan Level 6</li><li>WP_Filesystem for file writes</li><li>REST API — 6 controllers</li><li>register_block_type + render_callback</li></ul>
+  </div>
+  <div class="card cg">
+    <h3>Testing &amp; Tooling</h3>
+    <ul><li>PHPUnit 9 + Brain\Monkey + Mockery</li><li>Playwright (E2E)</li><li>ESLint + @wordpress/eslint-plugin</li><li>PHPCS + WPCS</li><li>PHPStan + phpstan-wordpress</li><li>WP Plugin Check</li></ul>
+  </div>
+</div>
+<div class="g4" style="gap:.6em">
+  <div class="card"><h3>Requirements</h3><p>PHP 8.0+ · WordPress 6.4+</p></div>
+  <div class="card"><h3>i18n</h3><p>.pot file generated · all strings wrapped</p></div>
+  <div class="card"><h3>License</h3><p>GPL-2.0-or-later (WP.org required)</p></div>
+  <div class="card"><h3>Build</h3><p>Minified JS + CSS · .asset.php versioning</p></div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 12 — ROADMAP ══════════ -->
+<section class="slide" id="s12" style="--glow:rgba(52,211,153,.15);">
+<div class="sh"><span class="lbl">Vision</span><h2>Product Roadmap</h2></div>
+<div class="roadmap" style="margin-top:1.6em;flex:1">
+  <div class="rmi"><div class="rmd"></div>
+    <div class="rmc"><div class="rmv">v1.0.0 · Shipped ✓</div><h3>Foundation</h3>
+    <ul><li>18 blocks · 15 patterns</li><li>CssEngine pipeline</li><li>CSS variables category</li><li>113 PHPUnit tests</li><li>Plugin Check: 0 errors</li></ul></div>
+  </div>
+  <div class="rmi"><div class="rmd"></div>
+    <div class="rmc"><div class="rmv">v1.1.0 · New Blocks</div><h3>Interactions</h3>
+    <ul><li>Modal — trap focus</li><li>Slider — Swiper.js</li><li>Timeline — step sequence</li><li>Pricing — 3-tier table</li></ul></div>
+  </div>
+  <div class="rmi"><div class="rmd"></div>
+    <div class="rmc"><div class="rmv">v1.2.0 · Editor UX</div><h3>Polish</h3>
+    <ul><li>Block transforms</li><li>Copy styles</li><li>Block variations</li><li>Full E2E suite</li><li>Storybook docs</li></ul></div>
+  </div>
+  <div class="rmi"><div class="rmd"></div>
+    <div class="rmc"><div class="rmv">v2.0.0 · Pro</div><h3>Monetise</h3>
+    <ul><li>Pro license system</li><li>GSAP animations</li><li>Mega-menu block</li><li>WooCommerce blocks</li><li>White-label</li></ul></div>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 13 — COMPETITIVE ══════════ -->
+<section class="slide" id="s13" style="--glow:rgba(251,191,36,.12);">
+<div class="sh"><span class="lbl">Market Position</span><h2>Competitive Positioning</h2></div>
+<table class="ct">
+<thead>
+<tr>
+  <th style="text-align:left;width:30%">Capability</th>
+  <th style="text-align:center">GenerateBlocks</th>
+  <th style="text-align:center">Kadence Blocks</th>
+  <th style="text-align:center">Stackable</th>
+  <th class="gb" style="text-align:center">GoBlocks</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>TypeScript strict mode</td><td class="no" style="text-align:center">✕</td><td class="pt" style="text-align:center">Partial</td><td class="pt" style="text-align:center">Partial</td><td class="gb ok" style="text-align:center">✓ Full</td></tr>
+<tr><td>CSS engine — no inline styles</td><td class="pt" style="text-align:center">Partial</td><td class="no" style="text-align:center">✕</td><td class="no" style="text-align:center">✕</td><td class="gb ok" style="text-align:center">✓ Full</td></tr>
+<tr><td>Nested responsive values</td><td class="no" style="text-align:center">✕</td><td class="no" style="text-align:center">✕</td><td class="pt" style="text-align:center">Partial</td><td class="gb ok" style="text-align:center">✓ 7 BP</td></tr>
+<tr><td>PHPStan Level 6</td><td class="no" style="text-align:center">✕</td><td class="no" style="text-align:center">✕</td><td class="no" style="text-align:center">✕</td><td class="gb ok" style="text-align:center">✓</td></tr>
+<tr><td>CSS custom property variables</td><td class="no" style="text-align:center">✕</td><td class="pt" style="text-align:center">Limited</td><td class="no" style="text-align:center">✕</td><td class="gb ok" style="text-align:center">✓ Per-block</td></tr>
+<tr><td>Plugin Check: 0 errors</td><td class="pt" style="text-align:center">Warnings</td><td class="pt" style="text-align:center">Warnings</td><td class="pt" style="text-align:center">Warnings</td><td class="gb ok" style="text-align:center">✓ Clean</td></tr>
+<tr><td>Dynamic content tags</td><td class="pt" style="text-align:center">Limited</td><td class="ok" style="text-align:center">✓</td><td class="pt" style="text-align:center">Limited</td><td class="gb ok" style="text-align:center">✓ 22 tags</td></tr>
+</tbody>
+</table>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+<!-- ══════════ SLIDE 14 — CTA ══════════ -->
+<section class="slide" id="s14" style="--glow:rgba(99,102,241,.25);">
+<div class="cta-slide">
+  <div class="cta-ey">What's Next</div>
+  <div class="cta-h1">Ready for<br><span>WordPress.org</span></div>
+  <p style="max-width:500px;margin:.55em 0 1.3em;color:rgba(226,232,240,.6)">Plugin Check passes clean. ZIP at 451 KB. SVN assets generated. 113 tests passing. The engineering is done — time to ship.</p>
+  <div class="g3" style="width:100%;margin-bottom:1.3em;gap:.7em">
+    <div class="card cg"><h3>Submit Now</h3><p>ZIP 451 KB · Plugin Check 0 errors · All SVN assets ready · GPL-2.0-or-later</p></div>
+    <div class="card cb"><h3>Next Blocks</h3><p>Modal · Slider · Timeline · Pricing — all scaffolded in repo, ready to implement</p></div>
+    <div class="card cc"><h3>Pro Version</h3><p>Licensing, GSAP animations, WooCommerce blocks — v2.0 roadmap fully defined</p></div>
+  </div>
+  <div style="display:flex;gap:.45em;flex-wrap:wrap">
+    <span class="bdg">godevs</span>
+    <span class="chip cg2">GPL-2.0-or-later</span>
+    <span class="chip cc2">WP 6.4+ · PHP 8.0+</span>
+    <span class="chip cb2">v1.0.0</span>
+    <span class="chip cp2">WordPress.org</span>
+  </div>
+</div>
+<div class="sf"><div class="sf-brand"><div class="sfd"></div>GoBlocks</div><div>Senior Product Engineering · 2026</div></div>
+</section>
+
+</div><!-- #deck -->
+
+<!-- ══════════ NAV BAR ══════════ -->
+<div id="nav">
+  <div id="nav-slide-num">01 / 14</div>
+  <div id="nav-dots">
+    <button class="ndot active" data-slide="1" title="Title"></button>
+    <button class="ndot" data-slide="2" title="Problem"></button>
+    <button class="ndot" data-slide="3" title="Metrics"></button>
+    <button class="ndot" data-slide="4" title="Architecture"></button>
+    <button class="ndot" data-slide="5" title="Blocks"></button>
+    <button class="ndot" data-slide="6" title="CSS Engine"></button>
+    <button class="ndot" data-slide="7" title="Inspector"></button>
+    <button class="ndot" data-slide="8" title="Patterns"></button>
+    <button class="ndot" data-slide="9" title="Quality"></button>
+    <button class="ndot" data-slide="10" title="WP.org"></button>
+    <button class="ndot" data-slide="11" title="Stack"></button>
+    <button class="ndot" data-slide="12" title="Roadmap"></button>
+    <button class="ndot" data-slide="13" title="Competitive"></button>
+    <button class="ndot" data-slide="14" title="CTA"></button>
+  </div>
+  <div id="nav-btns">
+    <button class="nbtn" id="btn-prev">← Prev</button>
+    <button class="nbtn" id="btn-next">Next →</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const deck   = document.getElementById('deck');
+  const pbar   = document.getElementById('pbar');
+  const numEl  = document.getElementById('nav-slide-num');
+  const dots   = document.querySelectorAll('.ndot');
+  const slides = document.querySelectorAll('.slide');
+  const TOTAL  = slides.length;
+  let current  = 1;
+
+  function goTo(n) {
+    n = Math.max(1, Math.min(TOTAL, n));
+    current = n;
+    const slide = document.getElementById('s' + n);
+    if (slide) slide.scrollIntoView({ behavior: 'smooth' });
+    update();
+  }
+
+  function update() {
+    const pct = (current / TOTAL) * 100;
+    pbar.style.width = pct + '%';
+    numEl.textContent = String(current).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+    dots.forEach(function (d, i) {
+      d.classList.toggle('active', i + 1 === current);
+    });
+  }
+
+  document.getElementById('btn-prev').addEventListener('click', function () { goTo(current - 1); });
+  document.getElementById('btn-next').addEventListener('click', function () { goTo(current + 1); });
+
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () { goTo(parseInt(d.dataset.slide, 10)); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(1); }
+    if (e.key === 'End')  { e.preventDefault(); goTo(TOTAL); }
+  });
+
+  // IntersectionObserver to track which slide is visible
+  const obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        const idx = parseInt(entry.target.id.replace('s', ''), 10);
+        if (idx !== current) { current = idx; update(); }
+      }
+    });
+  }, { root: deck, threshold: 0.5 });
+
+  slides.forEach(function (s) { obs.observe(s); });
+
+  update();
+})();
+</script>
+</body>
+</html>

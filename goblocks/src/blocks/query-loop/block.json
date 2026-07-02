@@ -4,18 +4,25 @@
 	"name": "goblocks/query-loop",
 	"version": "1.0.0",
 	"title": "Query Loop",
-	"category": "layout",
-	"icon": "loop",
+	"category": "goblocks",
 	"description": "Iterates over query results. Add blocks inside to define the post template.",
-	"keywords": [ "query loop", "post template", "loop", "iteration", "dynamic" ],
+	"keywords": [
+		"query loop",
+		"post template",
+		"loop",
+		"iteration",
+		"dynamic"
+	],
 	"textdomain": "goblocks",
-	"parent": [ "goblocks/query" ],
+	"parent": [
+		"goblocks/query"
+	],
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false,
-		"reusable":        false
+		"className": false,
+		"anchor": false,
+		"reusable": false
 	},
 	"usesContext": [
 		"goblocks/queryId",
@@ -23,9 +30,10 @@
 		"goblocks/paginationType"
 	],
 	"attributes": {
-		"blockVersion": { "type": "integer", "default": 1 }
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"render":       "file:./render.php"
+	"editorScript": "file:./index.js"
 }

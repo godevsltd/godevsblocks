@@ -5,6 +5,9 @@
  * Color stops: add/remove/reorder with position inputs.
  * Emits a complete CSS gradient string.
  *
+ * Parses the incoming `value` prop on mount so the UI reflects any
+ * gradient that was previously saved.
+ *
  * @example output: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)"
  */
 
@@ -34,6 +37,73 @@ interface GradientControlProps {
 	value: string | undefined;
 	onChange: ( value: string ) => void;
 	disabled?: boolean;
+}
+
+// ── Parser ────────────────────────────────────────────────────────────────
+
+/**
+ * Parse a CSS gradient string into GradientState.
+ * Supports hex, rgb/rgba, hsl/hsla, and named color stops.
+ * Returns null when the format is unrecognised.
+ */
+function parseGradient( css: string ): GradientState | null {
+	if ( ! css ) {
+		return null;
+	}
+
+	// linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)
+	const linearMatch = css.match(
+		/^linear-gradient\(\s*([^,]+?)\s*,\s*(.+)\s*\)$/i
+	);
+	if ( linearMatch ) {
+		const stops = parseStops( linearMatch[ 2 ]! );
+		if ( stops ) {
+			return { type: 'linear-gradient', angle: linearMatch[ 1 ]!.trim(), stops };
+		}
+	}
+
+	// conic-gradient(from 135deg, #3b82f6 0%, #8b5cf6 100%)
+	const conicMatch = css.match(
+		/^conic-gradient\(\s*from\s+([^,]+?)\s*,\s*(.+)\s*\)$/i
+	);
+	if ( conicMatch ) {
+		const stops = parseStops( conicMatch[ 2 ]! );
+		if ( stops ) {
+			return { type: 'conic-gradient', angle: conicMatch[ 1 ]!.trim(), stops };
+		}
+	}
+
+	// radial-gradient(#3b82f6 0%, #8b5cf6 100%)
+	const radialMatch = css.match( /^radial-gradient\(\s*(.+)\s*\)$/i );
+	if ( radialMatch ) {
+		const stops = parseStops( radialMatch[ 1 ]! );
+		if ( stops ) {
+			return { type: 'radial-gradient', angle: '0deg', stops };
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Extract color stops from the stops portion of a gradient string.
+ * Handles hex, rgb/rgba/hsl/hsla with parentheses (no nested parens), and named colors.
+ */
+function parseStops( stopsStr: string ): ColorStop[] | null {
+	// Match: <color> <position>
+	//   color: #hex | rgb/rgba/hsl/hsla(...) | word
+	//   position: 0% or 0px
+	const pattern =
+		/(#[0-9a-fA-F]{3,8}|(?:rgba?|hsla?)\([^)]+\)|[a-zA-Z]+)\s+(\d+(?:\.\d+)?(?:%|px))/g;
+
+	const stops: ColorStop[] = [];
+	let match: RegExpExecArray | null;
+
+	while ( ( match = pattern.exec( stopsStr ) ) !== null ) {
+		stops.push( { color: match[ 1 ]!, position: match[ 2 ]! } );
+	}
+
+	return stops.length >= 2 ? stops : null;
 }
 
 // ── Serializer ────────────────────────────────────────────────────────────
@@ -77,7 +147,17 @@ export function GradientControl( {
 	onChange,
 	disabled = false,
 }: GradientControlProps ) {
-	const [ state, setState ] = useState< GradientState >( defaultState );
+	// Lazy init: parse stored gradient string on first mount so controls
+	// reflect the saved state when the inspector is reopened.
+	const [ state, setState ] = useState< GradientState >( () => {
+		if ( value ) {
+			const parsed = parseGradient( value );
+			if ( parsed ) {
+				return parsed;
+			}
+		}
+		return defaultState();
+	} );
 
 	const emit = useCallback(
 		( next: GradientState ) => {

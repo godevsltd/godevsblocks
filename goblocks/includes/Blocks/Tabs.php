@@ -27,27 +27,31 @@ class Tabs extends BlockBase {
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
-		if ( ! $unique_id ) {
-			return '';
-		}
-
 		$block_class    = $this->get_block_class( $unique_id );
 		$global_classes = $this->get_global_classes( $attributes );
-		$orientation    = $this->sanitize_orientation( (string) ( $attributes['orientation'] ?? 'horizontal' ) );
-		$default_tab    = absint( $attributes['defaultTab'] ?? 0 );
+		$orientation  = $this->sanitize_orientation( (string) ( $attributes['orientation'] ?? 'horizontal' ) );
+		$default_tab  = absint( $attributes['defaultTab'] ?? 0 );
+		$tab_style    = sanitize_key( (string) ( $attributes['tabStyle'] ?? 'pill' ) );
+		$full_width   = ! empty( $attributes['tabsFullWidth'] );
 
-		$classes = $this->build_class_string(
-			$block_class,
-			$global_classes,
-			array( 'gb-tabs', 'gb-tabs--' . $orientation )
-		);
+		if ( ! in_array( $tab_style, array( 'pill', 'underline', 'bordered', 'boxed' ), true ) ) {
+			$tab_style = 'pill';
+		}
+
+		$extra = array( 'gb-tabs', 'gb-tabs--' . $orientation, 'gb-tabs--style-' . $tab_style );
+		if ( $full_width ) {
+			$extra[] = 'gb-tabs--full-width';
+		}
+
+		$classes = $this->build_class_string( $block_class, $global_classes, $extra );
 
 		$tabs_html   = '';
 		$panels_html = '';
 
 		foreach ( $block->inner_blocks as $idx => $inner_block ) {
 			$panel_attrs = $inner_block->parsed_block['attrs'] ?? array();
-			$label       = sanitize_text_field( (string) ( $panel_attrs['label'] ?? __( 'Tab', 'goblocks' ) ) );
+			/* translators: %d: 1-based tab number used as fallback label */
+			$label       = sanitize_text_field( (string) ( $panel_attrs['label'] ?? sprintf( __( 'Tab %d', 'goblocks' ), $idx + 1 ) ) );
 			$tab_id      = 'tab-' . $unique_id . '-' . $idx;
 			$panel_id    = 'panel-' . $unique_id . '-' . $idx;
 			$active      = ( $idx === $default_tab );
@@ -62,13 +66,37 @@ class Tabs extends BlockBase {
 				esc_html( $label )
 			);
 
-			$panels_html .= $inner_block->render(
-				array(
-					'goblocks/tabsId'    => $unique_id,
-					'goblocks/tabIndex'  => $idx,
-					'goblocks/tabActive' => $active,
-				)
+			// Render panel then fix the id/aria/hidden attrs.
+			// TabPanel.php cannot receive per-panel index via WP context
+			// (providesContext sends the same value to all children), so we
+			// post-process the outer <div> after rendering.
+			$rendered = $inner_block->render();
+
+			// Replace the always-0 index that TabPanel generated with real $idx.
+			$rendered = preg_replace(
+				'/\bid="panel-[^"]*?"/',
+				'id="' . esc_attr( $panel_id ) . '"',
+				$rendered,
+				1
 			);
+			$rendered = preg_replace(
+				'/\baria-labelledby="tab-[^"]*?"/',
+				'aria-labelledby="' . esc_attr( $tab_id ) . '"',
+				$rendered,
+				1
+			);
+
+			// Fix hidden attribute: non-active → add hidden, active → remove it.
+			if ( $active ) {
+				$rendered = preg_replace( '/(\s+hidden(?:="[^"]*")?)(?=>|\s)/', '', $rendered, 1 );
+			} else {
+				// Insert hidden before the closing > of the opening tag if not already present.
+				if ( ! preg_match( '/\bhidden\b/', substr( $rendered, 0, 300 ) ) ) {
+					$rendered = preg_replace( '/^(<div\b[^>]*)>/', '$1 hidden>', $rendered, 1 );
+				}
+			}
+
+			$panels_html .= $rendered;
 		}
 
 		return sprintf(
@@ -91,11 +119,3 @@ class Tabs extends BlockBase {
 			: 'horizontal';
 	}
 }
-
-add_filter(
-	'goblocks_block_classes',
-	static function ( array $classes ): array {
-		$classes[] = Tabs::class;
-		return $classes;
-	}
-);

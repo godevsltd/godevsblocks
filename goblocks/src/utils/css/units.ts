@@ -121,6 +121,12 @@ const PROPERTY_UNITS: Record< string, CssUnit > = {
 	letterSpacing: 'em',
 	opacity: '', // unitless 0–1
 	zIndex: '', // unitless integer
+	flexGrow: '', // unitless
+	flexShrink: '', // unitless
+	order: '', // unitless integer
+	columns: '', // CSS multi-column count, unitless
+	aspectRatio: '', // e.g. 16/9, no unit
+	columnCount: '', // unitless integer
 };
 
 // ── Parsed value ──────────────────────────────────────────────────────────

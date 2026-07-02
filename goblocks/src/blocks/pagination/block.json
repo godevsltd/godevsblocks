@@ -4,36 +4,74 @@
 	"name": "goblocks/pagination",
 	"version": "1.0.0",
 	"title": "Pagination",
-	"category": "layout",
-	"icon": "leftright",
+	"category": "goblocks",
 	"description": "Context-aware pagination for Query blocks. Supports standard, load-more, and infinite scroll modes.",
-	"keywords": [ "pagination", "paging", "load more", "infinite scroll", "navigation" ],
+	"keywords": [
+		"pagination",
+		"paging",
+		"load more",
+		"infinite scroll",
+		"navigation"
+	],
 	"textdomain": "goblocks",
-	"parent": [ "goblocks/query" ],
+	"parent": [
+		"goblocks/query"
+	],
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false,
-		"reusable":        false
+		"className": false,
+		"anchor": false,
+		"reusable": false
 	},
 	"usesContext": [
 		"goblocks/queryId",
 		"goblocks/paginationType"
 	],
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"showPrevNext":   { "type": "boolean", "default": true },
-		"showFirstLast":  { "type": "boolean", "default": false },
-		"prevLabel":      { "type": "string",  "default": "" },
-		"nextLabel":      { "type": "string",  "default": "" },
-		"loadMoreLabel":  { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"showPrevNext": {
+			"type": "boolean",
+			"default": true
+		},
+		"showFirstLast": {
+			"type": "boolean",
+			"default": false
+		},
+		"prevLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"nextLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"loadMoreLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"render":       "file:./render.php"
+	"editorScript": "file:./index.js"
 }

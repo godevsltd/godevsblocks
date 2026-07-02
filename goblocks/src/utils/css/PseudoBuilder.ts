@@ -85,6 +85,11 @@ export function buildPseudoRules(
 				...BEFORE_AFTER_BASE,
 				{ property: 'position', value: 'absolute' },
 				{ property: 'inset', value: '0' },
+				// z-index:-1 keeps the overlay behind the block's content while
+				// remaining above the block background. Requires isolation:isolate
+				// on the parent block (added by RuleBuilder when overlay is set)
+				// to prevent the overlay from escaping the block's stacking context.
+				{ property: 'z-index', value: '-1' },
 				{ property: 'pointer-events', value: 'none' },
 				...overlay.base,
 			],

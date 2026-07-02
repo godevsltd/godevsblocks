@@ -40,9 +40,41 @@ class CssEnqueue extends Singleton {
 	 * @return void
 	 */
 	public function register_hooks(): void {
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_base' ), 15 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ), 25 );
 		add_action( 'save_post', array( $this, 'on_save_post' ), 10, 1 );
 		add_action( 'delete_post', array( $this, 'on_delete_post' ), 10, 1 );
+	}
+
+	/**
+	 * Enqueue the site-wide base stylesheet on all frontend pages.
+	 *
+	 * This gives pages and posts the same clean design tokens (white
+	 * background, typography, spacing) used on the GoBlocks home page,
+	 * regardless of whether they contain any GoBlocks blocks.
+	 *
+	 * @return void
+	 */
+	public function enqueue_base(): void {
+		if ( is_admin() ) {
+			return;
+		}
+		wp_enqueue_style(
+			'goblocks-frontend-base',
+			GOBLOCKS_URL . 'assets/css/frontend-base.css',
+			array(),
+			GOBLOCKS_VERSION
+		);
+		// blocks.css provides all block structural defaults (.gb-group, .gb-column,
+		// .gb-timeline, .gb-heading, etc.). Without this, blocks
+		// appear invisible on the frontend because generatedCss only overrides
+		// defaults — it does not supply them from scratch.
+		wp_enqueue_style(
+			'goblocks-blocks',
+			GOBLOCKS_URL . 'assets/css/blocks.css',
+			array( 'goblocks-frontend-base' ),
+			GOBLOCKS_VERSION
+		);
 	}
 
 	/**
@@ -95,7 +127,15 @@ class CssEnqueue extends Singleton {
 			return;
 		}
 
-		$css = CssGenerator::collect_for_post( $post_id );
+		// Use get_queried_object() so preview/revision content is included.
+		// get_post_field() reads from the DB and misses unsaved preview changes.
+		$queried = get_queried_object();
+		if ( $queried instanceof \WP_Post ) {
+			$css = CssGenerator::collect_from_blocks( parse_blocks( $queried->post_content ) );
+		} else {
+			$css = CssGenerator::collect_for_post( $post_id );
+		}
+
 		$css = CssGenerator::minify( $css );
 
 		if ( is_rtl() ) {
@@ -140,6 +180,13 @@ class CssEnqueue extends Singleton {
 			$css = CssGenerator::flip_rtl( $css );
 		}
 
+		// If no CSS was collected, delete any stale empty file so the inline
+		// fallback (print_inline_css) re-reads live block attributes on every request.
+		if ( '' === $css ) {
+			CssCache::delete( $post_id );
+			return;
+		}
+
 		CssCache::write( $post_id, $css );
 	}
 
@@ -172,7 +219,15 @@ class CssEnqueue extends Singleton {
 		}
 
 		if ( ! isset( $this->block_cache[ $post_id ] ) ) {
-			$content                       = get_post_field( 'post_content', $post_id );
+			// Use get_queried_object() so preview pages (which have revision content
+			// injected into the queried post object by WP_Query) are handled correctly.
+			// get_post_field() bypasses this replacement and reads the raw DB value.
+			$queried = get_queried_object();
+			if ( $queried instanceof \WP_Post && $queried->ID === $post_id ) {
+				$content = $queried->post_content;
+			} else {
+				$content = get_post_field( 'post_content', $post_id );
+			}
 			$this->block_cache[ $post_id ] = parse_blocks( (string) $content );
 		}
 

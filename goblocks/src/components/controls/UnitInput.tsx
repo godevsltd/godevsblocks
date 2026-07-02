@@ -6,8 +6,8 @@
  * Shows inherited value as placeholder when active breakpoint has no value.
  */
 
-import { useState, useCallback, useRef } from '@wordpress/element';
-import { Button, SelectControl } from '@wordpress/components';
+import { useState, useCallback, useRef, useEffect } from '@wordpress/element';
+import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import type { ControlProps, UnitOption } from '../../types/controls';
 import { LENGTH_UNITS, KEYWORD_UNITS } from '../../types/controls';
@@ -85,8 +85,16 @@ export function UnitInput( {
 	);
 	const inputRef = useRef< HTMLInputElement >( null );
 
+	// Sync when the controlled value prop changes (e.g. breakpoint switch).
+	useEffect( () => {
+		const { num, unit } = splitValue( value ?? '' );
+		setLocalNum( num );
+		setLocalUnit( unit || ( defaultUnit as UnitOption ) );
+	}, [ value ] ); // defaultUnit is a stable prop default; only value drives sync
+
 	const isKeyword = KEYWORD_SET.has( localUnit );
-	const hasValue = Boolean( value );
+	// True when a value is explicitly set at the active breakpoint (not inherited).
+	const hasValue = value !== undefined && value !== '';
 	const placeholder = inheritedValue
 		? splitValue( inheritedValue ).num
 		: undefined;
@@ -120,13 +128,29 @@ export function UnitInput( {
 		onChange( '' );
 	}
 
-	const unitOptions = units.map( ( u ) => ( { label: u, value: u } ) );
+	const UNIT_LABELS: Partial< Record< string, string > > = {
+		inherit: 'inh',
+		svh: 'svh',
+		dvh: 'dvh',
+	};
+	const unitOptions = units.map( ( u ) => ( {
+		label: UNIT_LABELS[ u ] ?? u,
+		value: u,
+	} ) );
 
 	return (
 		<div className="gb-unit-input">
 			<div className="gb-unit-input__header">
 				{ /* eslint-disable-next-line jsx-a11y/label-has-associated-control */ }
-				<label className="gb-unit-input__label">{ label }</label>
+				<label className="gb-unit-input__label">
+					{ label }
+					{ hasValue && (
+						<span
+							className="gb-unit-input__bp-dot"
+							aria-label="override set at this breakpoint"
+						/>
+					) }
+				</label>
 				{ resetable && hasValue && (
 					<Button
 						className="gb-unit-input__reset"
@@ -158,15 +182,19 @@ export function UnitInput( {
 					/>
 				) }
 
-				<SelectControl
+				<select
 					className="gb-unit-input__unit"
 					value={ localUnit }
-					options={ unitOptions }
-					onChange={ handleUnitChange }
+					onChange={ ( e ) => handleUnitChange( e.target.value ) }
 					disabled={ disabled }
-					label=""
-					hideLabelFromVision
-				/>
+					aria-label={ __( 'Unit', 'goblocks' ) }
+				>
+					{ unitOptions.map( ( opt ) => (
+						<option key={ opt.value } value={ opt.value }>
+							{ opt.label }
+						</option>
+					) ) }
+				</select>
 			</div>
 
 			{ help && <p className="gb-unit-input__help">{ help }</p> }

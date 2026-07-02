@@ -4,35 +4,131 @@
 	"name": "goblocks/icon",
 	"version": "1.0.0",
 	"title": "Icon",
-	"category": "media",
-	"icon": "star-filled",
+	"category": "goblocks",
 	"description": "Standalone SVG icon — choose from 250+ Tabler icons or paste a custom SVG.",
-	"keywords": [ "icon", "svg", "symbol", "logo", "pictogram" ],
+	"keywords": [
+		"icon",
+		"svg",
+		"symbol",
+		"logo",
+		"pictogram"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"attributes": {
-		"uniqueId":       { "type": "string",  "default": "" },
-		"iconSlug":       { "type": "string",  "default": "star" },
-		"svgContent":     { "type": "string",  "default": "" },
-		"iconSize":       { "type": "number",  "default": 32 },
-		"ariaHidden":     { "type": "boolean", "default": true },
-		"ariaLabel":      { "type": "string",  "default": "" },
-		"link":           { "type": "string",  "default": "" },
-		"linkTarget":     { "type": "string",  "default": "_self" },
-		"linkRel":        { "type": "string",  "default": "" },
-		"styles":         { "type": "object",  "default": {} },
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"htmlAttributes": { "type": "object",  "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 }
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"iconSlug": {
+			"type": "string",
+			"default": "star"
+		},
+		"svgContent": {
+			"type": "string",
+			"default": ""
+		},
+		"iconSize": {
+			"type": "number",
+			"default": 32
+		},
+		"ariaHidden": {
+			"type": "boolean",
+			"default": true
+		},
+		"ariaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"iconColor": {
+			"type": "string",
+			"default": ""
+		},
+		"iconHoverColor": {
+			"type": "string",
+			"default": ""
+		},
+		"iconBg": {
+			"type": "string",
+			"default": "none"
+		},
+		"iconBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"iconBgHoverColor": {
+			"type": "string",
+			"default": ""
+		},
+		"iconBgPadding": {
+			"type": "number",
+			"default": 16
+		},
+		"animation": {
+			"type": "string",
+			"default": "none"
+		},
+		"animationTrigger": {
+			"type": "string",
+			"default": "load"
+		},
+		"animationDuration": {
+			"type": "number",
+			"default": 1
+		},
+		"animationDelay": {
+			"type": "number",
+			"default": 0
+		},
+		"animationIterations": {
+			"type": "string",
+			"default": "1"
+		},
+		"link": {
+			"type": "string",
+			"default": ""
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		},
+		"linkRel": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"generatedCss": {
+			"type": "string",
+			"default": ""
+		},
+		"blockVersion": {
+			"type": "integer",
+			"default": 1
+		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle":  "file:./index.css",
-	"render":       "file:./render.php"
+	"viewScript":   "file:./view.js",
+	"editorScript": "file:./index.js"
 }

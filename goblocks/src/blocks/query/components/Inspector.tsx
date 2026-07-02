@@ -5,6 +5,7 @@ import {
 	TextControl,
 	ToggleControl,
 	RadioControl,
+	CheckboxControl,
 	Spinner,
 	Notice,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
@@ -12,21 +13,29 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
+import { InspectorTabs } from '../../../components/ui/InspectorTabs';
+import { SpacingPanel } from '../../../components/panels/SpacingPanel';
+import { BackgroundPanel } from '../../../components/panels/BackgroundPanel';
+import { SizingPanel } from '../../../components/panels/SizingPanel';
+import { useResponsiveStyles } from '../../../hooks/useResponsiveStyles';
 import { usePostTypes } from '../../../hooks/usePostTypes';
 import { useTaxonomies } from '../../../hooks/useTaxonomies';
 import { useTerms } from '../../../hooks/useTerms';
 import { useAuthors } from '../../../hooks/useAuthors';
 import { useQueryPreview } from '../../../hooks/useQueryPreview';
 import type { QueryAttributes } from '../../../types/query';
+import type { BlockStyles } from '../../../types/styles';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface QueryInspectorProps {
 	query: QueryAttributes;
 	paginationType: string;
+	styles: BlockStyles;
 	globalClasses: string[];
 	setQuery: ( patch: Partial< QueryAttributes > ) => void;
 	setPagination: ( type: string ) => void;
+	setStyles: ( styles: BlockStyles ) => void;
 	setGlobalClasses: ( classes: string[] ) => void;
 }
 
@@ -72,9 +81,11 @@ const PAGINATION_OPTIONS = [
 export function QueryInspector( {
 	query,
 	paginationType,
+	styles,
 	globalClasses,
 	setQuery,
 	setPagination,
+	setStyles,
 	setGlobalClasses,
 }: QueryInspectorProps ) {
 	const postTypes = usePostTypes();
@@ -86,6 +97,10 @@ export function QueryInspector( {
 	const terms = useTerms( firstTax?.taxonomy ?? '' );
 
 	const preview = useQueryPreview( query );
+
+	const responsive = useResponsiveStyles( styles, ( patch ) =>
+		setStyles( patch.styles as BlockStyles )
+	);
 
 	// ── Handlers ──────────────────────────────────────────────────────────────
 
@@ -118,9 +133,11 @@ export function QueryInspector( {
 		setQuery( { author: updated } );
 	};
 
-	return (
-		<InspectorControls>
-			{ /* ── Query Settings ────────────────────────────────────────── */ }
+	// ── Query settings panels (Styles tab) ────────────────────────────────────
+
+	const stylesContent = (
+		<>
+			{ /* ── Query Settings ──────────────────────────────────────── */ }
 			<PanelBody title={ __( 'Query Settings', 'goblocks' ) } initialOpen>
 				<ToggleControl
 					label={ __( 'Inherit archive query', 'goblocks' ) }
@@ -214,7 +231,7 @@ export function QueryInspector( {
 				) }
 			</PanelBody>
 
-			{ /* ── Filters ─────────────────────────────────────────────────── */ }
+			{ /* ── Filters ─────────────────────────────────────────────── */ }
 			{ ! query.inherit && (
 				<PanelBody
 					title={ __( 'Filters', 'goblocks' ) }
@@ -259,50 +276,25 @@ export function QueryInspector( {
 							/>
 
 							{ firstTax?.taxonomy && terms.length > 0 && (
-								<div style={ { marginTop: '8px' } }>
-									<p
-										style={ {
-											margin: '0 0 4px',
-											fontWeight: 500,
-										} }
-									>
+								<div className="gb-inspector-checklist">
+									<p className="gb-inspector-checklist__label">
 										{ __( 'Filter by terms', 'goblocks' ) }
 									</p>
 									{ terms.slice( 0, 30 ).map( ( term ) => {
 										const strId = String( term.id );
 										return (
-											// eslint-disable-next-line jsx-a11y/label-has-associated-control
-											<label
+											<CheckboxControl
 												key={ term.id }
-												style={ {
-													display: 'flex',
-													alignItems: 'center',
-													gap: '6px',
-													marginBottom: '4px',
-													cursor: 'pointer',
-												} }
-											>
-												<input
-													type="checkbox"
-													checked={ (
-														firstTax?.terms ?? []
-													).includes( strId ) }
-													onChange={ () =>
-														toggleTermInFilter(
-															strId
-														)
-													}
-												/>
-												{ term.name }
-												<span
-													style={ {
-														color: '#888',
-														fontSize: '11px',
-													} }
-												>
-													({ term.count })
-												</span>
-											</label>
+												label={ `${ term.name } (${ term.count })` }
+												checked={ (
+													firstTax?.terms ?? []
+												).includes( strId ) }
+												onChange={ () =>
+													toggleTermInFilter( strId )
+												}
+												// @ts-ignore
+												__nextHasNoMarginBottom
+											/>
 										);
 									} ) }
 								</div>
@@ -312,40 +304,28 @@ export function QueryInspector( {
 
 					{ /* Author filter */ }
 					{ authors.length > 0 && (
-						<div style={ { marginTop: '12px' } }>
-							<p style={ { margin: '0 0 4px', fontWeight: 500 } }>
+						<div className="gb-inspector-checklist">
+							<p className="gb-inspector-checklist__label">
 								{ __( 'Filter by author', 'goblocks' ) }
 							</p>
 							{ authors.map( ( author ) => (
-								// eslint-disable-next-line jsx-a11y/label-has-associated-control
-								<label
+								<CheckboxControl
 									key={ author.id }
-									style={ {
-										display: 'flex',
-										alignItems: 'center',
-										gap: '6px',
-										marginBottom: '4px',
-										cursor: 'pointer',
-									} }
-								>
-									<input
-										type="checkbox"
-										checked={ (
-											query.author ?? []
-										).includes( author.id ) }
-										onChange={ () =>
-											toggleAuthor( author.id )
-										}
-									/>
-									{ author.name }
-								</label>
+									label={ author.name }
+									checked={ (
+										query.author ?? []
+									).includes( author.id ) }
+									onChange={ () => toggleAuthor( author.id ) }
+									// @ts-ignore
+									__nextHasNoMarginBottom
+								/>
 							) ) }
 						</div>
 					) }
 				</PanelBody>
 			) }
 
-			{ /* ── Pagination ──────────────────────────────────────────────── */ }
+			{ /* ── Pagination ──────────────────────────────────────────── */ }
 			<PanelBody
 				title={ __( 'Pagination', 'goblocks' ) }
 				initialOpen={ false }
@@ -358,7 +338,7 @@ export function QueryInspector( {
 				/>
 			</PanelBody>
 
-			{ /* ── Preview ──────────────────────────────────────────────────── */ }
+			{ /* ── Query Preview ───────────────────────────────────────── */ }
 			{ ! query.inherit && (
 				<PanelBody
 					title={ __( 'Query Preview', 'goblocks' ) }
@@ -371,13 +351,7 @@ export function QueryInspector( {
 						</Notice>
 					) }
 					{ ! preview.isLoading && ! preview.error && (
-						<p
-							style={ {
-								margin: '0 0 8px',
-								color: '#888',
-								fontSize: '12px',
-							} }
-						>
+						<p className="description">
 							{ preview.total === 0
 								? __( 'No posts match this query.', 'goblocks' )
 								: `${ preview.total } ${ __(
@@ -387,25 +361,11 @@ export function QueryInspector( {
 						</p>
 					) }
 					{ preview.posts.length > 0 && (
-						<ul
-							style={ {
-								margin: 0,
-								padding: '0 0 0 16px',
-								fontSize: '12px',
-							} }
-						>
+						<ul className="gb-inspector-preview-list">
 							{ preview.posts.map( ( p ) => (
-								<li
-									key={ p.id }
-									style={ { marginBottom: '4px' } }
-								>
+								<li key={ p.id }>
 									{ p.title }
-									<span
-										style={ {
-											color: '#888',
-											marginLeft: '4px',
-										} }
-									>
+									<span className="gb-inspector-preview-list__date">
 										{ p.date }
 									</span>
 								</li>
@@ -415,25 +375,42 @@ export function QueryInspector( {
 				</PanelBody>
 			) }
 
-			{ /* ── Advanced ─────────────────────────────────────────────────── */ }
-			<PanelBody
-				title={ __( 'Advanced', 'goblocks' ) }
-				initialOpen={ false }
-			>
-				<TextControl
-					label={ __( 'Additional CSS classes', 'goblocks' ) }
-					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __(
-						'Space-separated list of extra classes.',
-						'goblocks'
-					) }
-					onChange={ ( val ) =>
-						setGlobalClasses( val.split( /\s+/ ).filter( Boolean ) )
-					}
-					// @ts-ignore
-					__nextHasNoMarginBottom
-				/>
-			</PanelBody>
+			{ /* ── Layout & Spacing ──────────────────────────────────────── */ }
+			<SpacingPanel styles={ styles } responsive={ responsive } />
+			<BackgroundPanel styles={ styles } responsive={ responsive } />
+			<SizingPanel styles={ styles } responsive={ responsive } />
+		</>
+	);
+
+	// ── Advanced tab ──────────────────────────────────────────────────────────
+
+	const advancedContent = (
+		<PanelBody
+			title={ __( 'CSS Classes', 'goblocks' ) }
+			initialOpen={ false }
+		>
+			<TextControl
+				label={ __( 'Additional CSS classes', 'goblocks' ) }
+				value={ ( globalClasses ?? [] ).join( ' ' ) }
+				help={ __(
+					'Space-separated list of extra classes.',
+					'goblocks'
+				) }
+				onChange={ ( val ) =>
+					setGlobalClasses( val.split( /\s+/ ).filter( Boolean ) )
+				}
+				// @ts-ignore
+				__nextHasNoMarginBottom
+			/>
+		</PanelBody>
+	);
+
+	return (
+		<InspectorControls>
+			<InspectorTabs
+				stylesContent={ stylesContent }
+				advancedContent={ advancedContent }
+			/>
 		</InspectorControls>
 	);
 }
