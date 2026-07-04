@@ -67,9 +67,13 @@ make-zip.js
 
 # Editor / AI context
 CLAUDE.md
+IMPROVEMENT-REPORT.md
 .eslintrc.js
 .eslintrc.json
 .eslintignore
+
+# Templates / scaffolding (not shipped to end users)
+templates/
 
 # Misc
 *.zip
@@ -78,3 +82,17 @@ CLAUDE.md
 *.tsbuildinfo
 *.gitkeep
 .gitkeep
+composer.json
+
+# Development / screenshot scripts (not for distribution)
+take-screenshots.js
+retake-shots.js
+debug-editor.js
+assets/_setup.php
+assets/_seed_styles.php
+assets/_debug-editor.png
+assets/_hero_content.txt
+assets/_block_test_setup.php
+block-tests.js
+assets/block-test-shots/
+block-test-report.html

@@ -35,13 +35,34 @@ class Heading extends BlockBase {
 		$block_class    = $this->get_block_class( $unique_id );   // gb-heading-{uniqueId}
 		$global_classes = $this->get_global_classes( $attributes );
 
-		$extra_classes = array( 'gb-heading' );
-		if ( ! empty( $attributes['textGradient'] ) ) {
-			$extra_classes[] = 'gb-heading--gradient';
+		// WordPress className carries is-style-* when block styles are selected.
+		$wp_classes = array();
+		if ( isset( $attributes['className'] ) && is_string( $attributes['className'] ) && '' !== $attributes['className'] ) {
+			$wp_classes = array_filter( array_map( 'sanitize_html_class', explode( ' ', $attributes['className'] ) ) );
 		}
 
+		$extra_classes = array_merge(
+			array( 'gb-heading' ),
+			! empty( $attributes['textGradient'] ) ? array( 'gb-heading--gradient' ) : array(),
+			$wp_classes
+		);
+
 		$classes  = $this->build_class_string( $block_class, $global_classes, $extra_classes );
-		$html_attrs     = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+
+		// Merge the gradient CSS variable into the element's inline style so it
+		// is always present even when generatedCss was saved before the block had
+		// the variable (e.g. content imported via PHP or from an older version).
+		$html_attr_map = $this->get_html_attributes( $attributes );
+		$text_gradient = (string) ( $attributes['textGradient'] ?? '' );
+		if ( $text_gradient && preg_match( '/^(linear|radial|conic)-gradient\s*\(/i', $text_gradient ) ) {
+			$grad_css = '--gb-text-grad:' . $text_gradient;
+			if ( isset( $html_attr_map['style'] ) && '' !== $html_attr_map['style'] ) {
+				$html_attr_map['style'] = rtrim( $html_attr_map['style'], ';' ) . ';' . $grad_css;
+			} else {
+				$html_attr_map['style'] = $grad_css;
+			}
+		}
+		$html_attrs    = $this->build_html_attrs( $html_attr_map );
 
 		// Anchor ID.
 		$anchor = sanitize_key( (string) ( $attributes['anchor'] ?? '' ) );

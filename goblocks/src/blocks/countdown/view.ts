@@ -158,7 +158,10 @@
 			}
 		}
 
-		update();
+		// Create the interval first so `timer` is defined inside the closure
+		// before the initial `update()` call. If the target date has already
+		// passed, `update()` calls clearInterval(timer) + onExpired() immediately.
 		const timer = setInterval( update, 1000 );
+		update();
 	} );
 } )();
