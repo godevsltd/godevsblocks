@@ -22,14 +22,16 @@ class Lottie extends BlockBase {
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$src       = isset( $attributes['src'] )       ? esc_url_raw( (string) $attributes['src'] )    : '';
-		$loop      = ! isset( $attributes['loop'] )    || ! empty( $attributes['loop'] );
-		$speed     = isset( $attributes['speed'] )     ? floatval( $attributes['speed'] )               : 1.0;
-		$trigger   = isset( $attributes['trigger'] )   ? sanitize_key( $attributes['trigger'] )         : 'auto';
-		$direction = isset( $attributes['direction'] ) ? intval( $attributes['direction'] )              : 1;
-		$renderer  = isset( $attributes['renderer'] )  ? sanitize_key( $attributes['renderer'] )        : 'svg';
+		$src       = isset( $attributes['src'] ) ? esc_url_raw( (string) $attributes['src'] ) : '';
+		$loop      = ! isset( $attributes['loop'] ) || ! empty( $attributes['loop'] );
+		$speed     = isset( $attributes['speed'] ) ? floatval( $attributes['speed'] ) : 1.0;
+		$trigger   = isset( $attributes['trigger'] ) ? sanitize_key( $attributes['trigger'] ) : 'auto';
+		$direction = isset( $attributes['direction'] ) ? intval( $attributes['direction'] ) : 1;
+		$renderer  = isset( $attributes['renderer'] ) ? sanitize_key( $attributes['renderer'] ) : 'svg';
 
-		if ( ! $src ) return '';
+		if ( ! $src ) {
+			return '';
+		}
 
 		if ( ! in_array( $trigger, array( 'auto', 'hover', 'scroll', 'click' ), true ) ) {
 			$trigger = 'auto';
@@ -48,7 +50,10 @@ class Lottie extends BlockBase {
 				self::LOTTIE_CDN,
 				array(),
 				null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-				array( 'strategy' => 'defer', 'in_footer' => true )
+				array(
+					'strategy'  => 'defer',
+					'in_footer' => true,
+				)
 			);
 		}
 
@@ -63,8 +68,12 @@ class Lottie extends BlockBase {
 		$player_attrs .= ' renderer="' . esc_attr( $renderer ) . '"';
 		$player_attrs .= ' speed="' . esc_attr( (string) $speed ) . '"';
 		$player_attrs .= ' direction="' . esc_attr( (string) $direction ) . '"';
-		if ( $loop )               $player_attrs .= ' loop';
-		if ( 'auto' === $trigger ) $player_attrs .= ' autoplay';
+		if ( $loop ) {
+			$player_attrs .= ' loop';
+		}
+		if ( 'auto' === $trigger ) {
+			$player_attrs .= ' autoplay';
+		}
 
 		return sprintf(
 			'<div class="%s" data-trigger="%s"><lottie-player%s style="width:100%%;height:100%%"></lottie-player></div>',

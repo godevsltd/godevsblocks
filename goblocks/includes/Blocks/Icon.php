@@ -18,32 +18,36 @@ class Icon extends BlockBase {
 
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$svg_raw = (string) ( $attributes['svgContent'] ?? '' );
-		if ( '' === trim( $svg_raw ) ) return '';
+		if ( '' === trim( $svg_raw ) ) {
+			return '';
+		}
 
 		$svg = SvgSanitizer::sanitize( $svg_raw );
-		if ( '' === $svg ) return '';
+		if ( '' === $svg ) {
+			return '';
+		}
 
 		$unique_id = $this->get_unique_id( $attributes );
 
 		// ── Colors ────────────────────────────────────────────────────────────
-		$icon_color      = isset( $attributes['iconColor'] )      ? sanitize_hex_color( (string) $attributes['iconColor'] )      : '';
-		$icon_hover      = isset( $attributes['iconHoverColor'] )  ? sanitize_hex_color( (string) $attributes['iconHoverColor'] ) : '';
+		$icon_color = isset( $attributes['iconColor'] ) ? sanitize_hex_color( (string) $attributes['iconColor'] ) : '';
+		$icon_hover = isset( $attributes['iconHoverColor'] ) ? sanitize_hex_color( (string) $attributes['iconHoverColor'] ) : '';
 
 		// ── Background shape ──────────────────────────────────────────────────
-		$icon_bg        = sanitize_key( (string) ( $attributes['iconBg'] ?? 'none' ) );
-		$icon_bg_color  = isset( $attributes['iconBgColor'] )      ? sanitize_hex_color( (string) $attributes['iconBgColor'] )      : '';
-		$icon_bg_hover  = isset( $attributes['iconBgHoverColor'] ) ? sanitize_hex_color( (string) $attributes['iconBgHoverColor'] ) : '';
-		$icon_bg_pad    = isset( $attributes['iconBgPadding'] )    ? absint( $attributes['iconBgPadding'] )                         : 16;
+		$icon_bg       = sanitize_key( (string) ( $attributes['iconBg'] ?? 'none' ) );
+		$icon_bg_color = isset( $attributes['iconBgColor'] ) ? sanitize_hex_color( (string) $attributes['iconBgColor'] ) : '';
+		$icon_bg_hover = isset( $attributes['iconBgHoverColor'] ) ? sanitize_hex_color( (string) $attributes['iconBgHoverColor'] ) : '';
+		$icon_bg_pad   = isset( $attributes['iconBgPadding'] ) ? absint( $attributes['iconBgPadding'] ) : 16;
 
 		if ( ! in_array( $icon_bg, array( 'none', 'circle', 'square', 'rounded' ), true ) ) {
 			$icon_bg = 'none';
 		}
 
 		// ── Animation ─────────────────────────────────────────────────────────
-		$animation    = sanitize_key( (string) ( $attributes['animation']           ?? 'none' ) );
-		$anim_trigger = sanitize_key( (string) ( $attributes['animationTrigger']    ?? 'load' ) );
-		$anim_dur     = floatval( $attributes['animationDuration']  ?? 1 );
-		$anim_delay   = floatval( $attributes['animationDelay']     ?? 0 );
+		$animation    = sanitize_key( (string) ( $attributes['animation'] ?? 'none' ) );
+		$anim_trigger = sanitize_key( (string) ( $attributes['animationTrigger'] ?? 'load' ) );
+		$anim_dur     = floatval( $attributes['animationDuration'] ?? 1 );
+		$anim_delay   = floatval( $attributes['animationDelay'] ?? 0 );
 		$anim_iter    = sanitize_text_field( (string) ( $attributes['animationIterations'] ?? '1' ) );
 
 		if ( ! in_array( $animation, array( 'none', 'spin', 'pulse', 'bounce', 'tada', 'swing', 'shake' ), true ) ) {
@@ -58,8 +62,12 @@ class Icon extends BlockBase {
 
 		// ── Classes ───────────────────────────────────────────────────────────
 		$classes_extra = array( 'gb-icon' );
-		if ( 'none' !== $icon_bg )    $classes_extra[] = 'gb-icon--bg-' . $icon_bg;
-		if ( 'none' !== $animation )  $classes_extra[] = 'gb-icon--anim-' . $animation;
+		if ( 'none' !== $icon_bg ) {
+			$classes_extra[] = 'gb-icon--bg-' . $icon_bg;
+		}
+		if ( 'none' !== $animation ) {
+			$classes_extra[] = 'gb-icon--anim-' . $animation;
+		}
 		if ( 'none' !== $animation && 'load' !== $anim_trigger ) {
 			$classes_extra[] = 'gb-icon--trigger-' . $anim_trigger;
 		}
@@ -72,15 +80,25 @@ class Icon extends BlockBase {
 
 		// ── CSS custom properties (inline style) ──────────────────────────────
 		$css_vars = '';
-		if ( $icon_color )   $css_vars .= '--gb-icon-color:' . $icon_color . ';';
-		if ( $icon_hover )   $css_vars .= '--gb-icon-hover:' . $icon_hover . ';';
-		if ( $icon_bg_color ) $css_vars .= '--gb-icon-bg:' . $icon_bg_color . ';';
-		if ( $icon_bg_hover ) $css_vars .= '--gb-icon-bg-hover:' . $icon_bg_hover . ';';
-		if ( 'none' !== $icon_bg ) $css_vars .= '--gb-icon-bg-pad:' . $icon_bg_pad . 'px;';
+		if ( $icon_color ) {
+			$css_vars .= '--gb-icon-color:' . $icon_color . ';';
+		}
+		if ( $icon_hover ) {
+			$css_vars .= '--gb-icon-hover:' . $icon_hover . ';';
+		}
+		if ( $icon_bg_color ) {
+			$css_vars .= '--gb-icon-bg:' . $icon_bg_color . ';';
+		}
+		if ( $icon_bg_hover ) {
+			$css_vars .= '--gb-icon-bg-hover:' . $icon_bg_hover . ';';
+		}
+		if ( 'none' !== $icon_bg ) {
+			$css_vars .= '--gb-icon-bg-pad:' . $icon_bg_pad . 'px;';
+		}
 		if ( 'none' !== $animation ) {
-			$css_vars .= '--gb-anim-dur:'   . esc_attr( (string) $anim_dur )   . 's;';
+			$css_vars .= '--gb-anim-dur:' . esc_attr( (string) $anim_dur ) . 's;';
 			$css_vars .= '--gb-anim-delay:' . esc_attr( (string) $anim_delay ) . 's;';
-			$css_vars .= '--gb-anim-iter:'  . esc_attr( $anim_iter )           . ';';
+			$css_vars .= '--gb-anim-iter:' . esc_attr( $anim_iter ) . ';';
 		}
 		$style_attr = $css_vars ? ' style="' . esc_attr( $css_vars ) . '"' : '';
 
@@ -102,7 +120,9 @@ class Icon extends BlockBase {
 
 		if ( $link ) {
 			$target = sanitize_text_field( (string) ( $attributes['linkTarget'] ?? '_self' ) );
-			if ( ! in_array( $target, array( '_self', '_blank' ), true ) ) $target = '_self';
+			if ( ! in_array( $target, array( '_self', '_blank' ), true ) ) {
+				$target = '_self';
+			}
 
 			$rel = sanitize_text_field( (string) ( $attributes['linkRel'] ?? '' ) );
 			if ( '_blank' === $target ) {
@@ -111,7 +131,9 @@ class Icon extends BlockBase {
 			}
 
 			$link_attrs = sprintf( ' href="%s" target="%s"%s', esc_url( $link ), esc_attr( $target ), $rel ? ' rel="' . esc_attr( $rel ) . '"' : '' );
-			if ( $has_link_label ) $link_attrs .= ' aria-label="' . esc_attr( $aria_label ) . '"';
+			if ( $has_link_label ) {
+				$link_attrs .= ' aria-label="' . esc_attr( $aria_label ) . '"';
+			}
 
 			$inner = '<a class="gb-icon__link"' . $link_attrs . '>' . $inner . '</a>';
 		}

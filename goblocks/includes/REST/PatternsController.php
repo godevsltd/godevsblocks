@@ -77,7 +77,7 @@ class PatternsController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function get_pattern( \WP_REST_Request $request ) {
+	public function get_pattern( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$slug     = sanitize_title( (string) $request->get_param( 'slug' ) );
 		$registry = \WP_Block_Patterns_Registry::get_instance();
 
@@ -100,6 +100,11 @@ class PatternsController extends RestController {
 	 * @param  array<string, mixed> $pattern Pattern data.
 	 * @return bool
 	 */
+	private function is_goblocks_pattern( array $pattern ): bool {
+		$categories = $pattern['categories'] ?? array();
+		return in_array( 'goblocks', (array) $categories, true );
+	}
+
 	/**
 	 * Recursively collect generatedCss from a parsed block tree.
 	 *
@@ -118,11 +123,6 @@ class PatternsController extends RestController {
 			}
 		}
 		return $css;
-	}
-
-	private function is_goblocks_pattern( array $pattern ): bool {
-		$categories = $pattern['categories'] ?? array();
-		return in_array( 'goblocks', (array) $categories, true );
 	}
 
 	/**

@@ -1,8 +1,11 @@
-import { useEffect } from '@wordpress/element';
+﻿import { useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 // @ts-ignore
-import { store as blockEditorStore } from '@wordpress/block-editor';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import {
+	store as blockEditorStore,
+	useBlockProps,
+	InspectorControls,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	TextControl,
@@ -27,21 +30,21 @@ import { ColorControl } from '../../components/controls/ColorControl';
 import type { BlockStyles } from '../../types/styles';
 
 interface TocBlockAttributes {
-	uniqueId:       string;
-	title:          string;
-	headings:       string[];
-	collapsible:    boolean;
+	uniqueId: string;
+	title: string;
+	headings: string[];
+	collapsible: boolean;
 	startCollapsed: boolean;
-	smoothScroll:   boolean;
-	scrollOffset:   number;
-	listStyle:      string;
-	showBackToTop:  boolean;
-	linkColor:      string;
-	activeColor:    string;
-	styles:         BlockStyles;
-	globalClasses:  string[];
-	generatedCss:   string;
-	blockVersion:   number;
+	smoothScroll: boolean;
+	scrollOffset: number;
+	listStyle: string;
+	showBackToTop: boolean;
+	linkColor: string;
+	activeColor: string;
+	styles: BlockStyles;
+	globalClasses: string[];
+	generatedCss: string;
+	blockVersion: number;
 }
 
 interface HeadingBlock {
@@ -69,7 +72,10 @@ const HEADING_LEVELS = [
 function collectHeadings( blocks: HeadingBlock[] ): HeadingBlock[] {
 	const result: HeadingBlock[] = [];
 	for ( const block of blocks ) {
-		if ( block.name === 'goblocks/heading' || block.name === 'core/heading' ) {
+		if (
+			block.name === 'goblocks/heading' ||
+			block.name === 'core/heading'
+		) {
 			result.push( block );
 		}
 		if ( block.innerBlocks?.length ) {
@@ -85,10 +91,20 @@ export function Edit( {
 	clientId,
 }: BlockEditProps< TocBlockAttributes > ) {
 	const {
-		uniqueId, styles, globalClasses, generatedCss,
-		title, headings, collapsible, startCollapsed,
-		smoothScroll, scrollOffset, listStyle, showBackToTop,
-		linkColor, activeColor,
+		uniqueId,
+		styles,
+		globalClasses,
+		generatedCss,
+		title,
+		headings,
+		collapsible,
+		startCollapsed,
+		smoothScroll,
+		scrollOffset,
+		listStyle,
+		showBackToTop,
+		linkColor,
+		activeColor,
 	} = attributes;
 
 	useEffect( () => {
@@ -102,7 +118,8 @@ export function Edit( {
 		uniqueId,
 		styles,
 		generatedCss,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< TocBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< TocBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
@@ -110,7 +127,8 @@ export function Edit( {
 	);
 
 	const allBlocks = useSelect(
-		( select ) => ( select( blockEditorStore ) as any ).getBlocks() as HeadingBlock[],
+		( select ) =>
+			( select( blockEditorStore ) as any ).getBlocks() as HeadingBlock[],
 		[]
 	);
 	const detectedHeadings = collectHeadings( allBlocks ).filter( ( b ) =>
@@ -126,8 +144,12 @@ export function Edit( {
 	const blockProps = useBlockProps( { className: wrapperClass } );
 
 	const colorVars: Record< string, string > = {};
-	if ( linkColor )   colorVars[ '--gb-toc-link' ]   = linkColor;
-	if ( activeColor ) colorVars[ '--gb-toc-active' ] = activeColor;
+	if ( linkColor ) {
+		colorVars[ '--gb-toc-link' ] = linkColor;
+	}
+	if ( activeColor ) {
+		colorVars[ '--gb-toc-active' ] = activeColor;
+	}
 
 	function toggleHeading( level: string, checked: boolean ) {
 		setAttributes( {
@@ -140,27 +162,47 @@ export function Edit( {
 	function buildPreview( items: HeadingBlock[] ): JSX.Element {
 		if ( ! items.length ) {
 			return (
-				<p style={ { fontStyle: 'italic', opacity: 0.5, fontSize: '0.8125rem', margin: 0 } }>
-					{ __( 'No matching headings found on this page.', 'goblocks' ) }
+				<p
+					style={ {
+						fontStyle: 'italic',
+						opacity: 0.5,
+						fontSize: '0.8125rem',
+						margin: 0,
+					} }
+				>
+					{ __(
+						'No matching headings found on this page.',
+						'goblocks'
+					) }
 				</p>
 			);
 		}
 
-		const minLevel = Math.min( ...items.map( ( b ) => b.attributes.level ) );
+		const minLevel = Math.min(
+			...items.map( ( b ) => b.attributes.level )
+		);
 		const ListTag = listStyle === 'unordered' ? 'ul' : 'ol';
 
 		return (
-			<ListTag className="gb-toc__list" style={ { pointerEvents: 'none' } }>
+			<ListTag
+				className="gb-toc__list"
+				style={ { pointerEvents: 'none' } }
+			>
 				{ items.map( ( b, i ) => {
 					const indent = ( b.attributes.level - minLevel ) * 16;
 					return (
 						<li
 							key={ i }
 							className={ `gb-toc__item gb-toc__item--h${ b.attributes.level }` }
-							style={ { paddingLeft: indent ? `${ indent }px` : undefined } }
+							style={ {
+								paddingLeft: indent
+									? `${ indent }px`
+									: undefined,
+							} }
 						>
 							<span className="gb-toc__link">
-								{ stripHtml( b.attributes.content || '' ) || __( '(empty heading)', 'goblocks' ) }
+								{ stripHtml( b.attributes.content || '' ) ||
+									__( '(empty heading)', 'goblocks' ) }
 							</span>
 						</li>
 					);
@@ -177,21 +219,40 @@ export function Edit( {
 					label={ __( 'Link color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ linkColor }
-					onChange={ ( v ) => setAttributes( { linkColor: v || '' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { linkColor: v || '' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Active / hover color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ activeColor }
-					onChange={ ( v ) => setAttributes( { activeColor: v || '' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { activeColor: v || '' } )
+					}
 				/>
 			</PanelBody>
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
@@ -210,8 +271,14 @@ export function Edit( {
 					label={ __( 'List style', 'goblocks' ) }
 					value={ listStyle || 'ordered' }
 					options={ [
-						{ label: __( 'Numbered (1. 2. 3.)', 'goblocks' ), value: 'ordered' },
-						{ label: __( 'Bulleted (• • •)',    'goblocks' ), value: 'unordered' },
+						{
+							label: __( 'Numbered (1. 2. 3.)', 'goblocks' ),
+							value: 'ordered',
+						},
+						{
+							label: __( 'Bulleted (• • •)', 'goblocks' ),
+							value: 'unordered',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { listStyle: v } ) }
 					// @ts-ignore
@@ -227,9 +294,14 @@ export function Edit( {
 				{ smoothScroll && (
 					<RangeControl
 						label={ __( 'Scroll offset (px)', 'goblocks' ) }
-						help={ __( 'Extra offset for sticky headers.', 'goblocks' ) }
+						help={ __(
+							'Extra offset for sticky headers.',
+							'goblocks'
+						) }
 						value={ scrollOffset }
-						onChange={ ( v ) => setAttributes( { scrollOffset: v ?? 80 } ) }
+						onChange={ ( v ) =>
+							setAttributes( { scrollOffset: v ?? 80 } )
+						}
 						min={ 0 }
 						max={ 300 }
 						step={ 4 }
@@ -246,7 +318,10 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'Collapsible', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Collapsible', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<ToggleControl
 					label={ __( 'Enable collapse toggle', 'goblocks' ) }
 					checked={ collapsible }
@@ -259,9 +334,14 @@ export function Edit( {
 						<div style={ { height: '8px' } } />
 						<ToggleControl
 							label={ __( 'Start collapsed', 'goblocks' ) }
-							help={ __( 'TOC is hidden by default; user must click the title to expand.', 'goblocks' ) }
+							help={ __(
+								'TOC is hidden by default; user must click the title to expand.',
+								'goblocks'
+							) }
 							checked={ startCollapsed }
-							onChange={ ( v ) => setAttributes( { startCollapsed: v } ) }
+							onChange={ ( v ) =>
+								setAttributes( { startCollapsed: v } )
+							}
 							// @ts-ignore
 							__nextHasNoMarginBottom
 						/>
@@ -269,7 +349,10 @@ export function Edit( {
 				) }
 			</PanelBody>
 
-			<PanelBody title={ __( 'Include Heading Levels', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Include Heading Levels', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				{ HEADING_LEVELS.map( ( h ) => (
 					<CheckboxControl
 						key={ h.value }
@@ -282,12 +365,17 @@ export function Edit( {
 				) ) }
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -299,16 +387,22 @@ export function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
-			<nav { ...blockProps } style={ { ...( blockProps.style as object ), ...colorVars } }>
+			<nav
+				{ ...blockProps }
+				style={ { ...( blockProps.style as object ), ...colorVars } }
+			>
 				{ title && <p className="gb-toc__title">{ title }</p> }
 				{ buildPreview( detectedHeadings ) }
 				{ showBackToTop && (
-					<a href="#" className="gb-toc__back-top" onClick={ ( e ) => e.preventDefault() }>
+					<button type="button" className="gb-toc__back-top">
 						{ __( '↑ Back to top', 'goblocks' ) }
-					</a>
+					</button>
 				) }
 			</nav>
 		</>

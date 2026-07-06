@@ -27,7 +27,7 @@ class Video extends BlockBase {
 
 	/** Build a YouTube embed URL, appending requested query params. */
 	private function build_youtube_url( string $id, array $attributes ): string {
-		$params = [];
+		$params = array();
 
 		// rel=0 by default (hide unrelated recommendations).
 		if ( empty( $attributes['youtubeRel'] ) ) {
@@ -49,7 +49,7 @@ class Video extends BlockBase {
 
 	/** Build a Vimeo embed URL, appending requested query params. */
 	private function build_vimeo_url( string $id, array $attributes ): string {
-		$params = [];
+		$params = array();
 
 		if ( ! empty( $attributes['vimeoHideBranding'] ) ) {
 			$params['title']    = '0';
@@ -65,7 +65,7 @@ class Video extends BlockBase {
 	 * Convert a public video URL into a parameterised embed URL.
 	 * Returns '' for self-hosted files.
 	 */
-	private function get_embed_url( string $url, array $attributes = [] ): string {
+	private function get_embed_url( string $url, array $attributes = array() ): string {
 		if ( preg_match( '/youtube\.com|youtu\.be/i', $url ) ) {
 			$id = $this->get_youtube_id( $url );
 			if ( $id ) {
@@ -90,8 +90,8 @@ class Video extends BlockBase {
 	private function render_lazy_facade( string $embed_url, string $youtube_id ): string {
 		$thumb_url = 'https://i.ytimg.com/vi/' . $youtube_id . '/hqdefault.jpg';
 		// Append autoplay=1 so clicking the button starts playback immediately.
-		$separator  = str_contains( $embed_url, '?' ) ? '&' : '?';
-		$click_url  = $embed_url . $separator . 'autoplay=1';
+		$separator = str_contains( $embed_url, '?' ) ? '&' : '?';
+		$click_url = $embed_url . $separator . 'autoplay=1';
 
 		$play_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48" width="68" height="48" aria-hidden="true">'
 			. '<path fill="#212121" fill-opacity=".8" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/>'
@@ -123,9 +123,9 @@ class Video extends BlockBase {
 			$ratio = '16/9';
 		}
 
-		$embed_url   = $this->get_embed_url( $url, $attributes );
-		$caption     = isset( $attributes['caption'] )    ? wp_kses_post( (string) $attributes['caption'] )         : '';
-		$video_title = isset( $attributes['videoTitle'] ) ? sanitize_text_field( (string) $attributes['videoTitle'] ) : '';
+		$embed_url    = $this->get_embed_url( $url, $attributes );
+		$caption      = isset( $attributes['caption'] ) ? wp_kses_post( (string) $attributes['caption'] ) : '';
+		$video_title  = isset( $attributes['videoTitle'] ) ? sanitize_text_field( (string) $attributes['videoTitle'] ) : '';
 		$iframe_title = $video_title ?: __( 'Video embed', 'goblocks' );
 
 		$is_youtube = (bool) preg_match( '/youtube\.com|youtu\.be/i', $url );
@@ -133,10 +133,12 @@ class Video extends BlockBase {
 		$lazy_load  = ! empty( $attributes['lazyLoad'] );
 		$use_facade = $lazy_load && $is_youtube && '' !== $youtube_id;
 
-		$extra_classes = array_filter( [
-			'gb-video',
-			$use_facade ? 'gb-video--lazy' : '',
-		] );
+		$extra_classes = array_filter(
+			array(
+				'gb-video',
+				$use_facade ? 'gb-video--lazy' : '',
+			)
+		);
 
 		$classes = $this->build_class_string(
 			$this->get_block_class( $unique_id ),
@@ -155,12 +157,12 @@ class Video extends BlockBase {
 				);
 			}
 		} elseif ( $this->is_self_hosted( $url ) ) {
-			$autoplay    = ! empty( $attributes['autoplay'] );
-			$muted       = ! empty( $attributes['muted'] );
-			$loop        = ! empty( $attributes['loop'] );
-			$controls    = ! isset( $attributes['controls'] )    || (bool) $attributes['controls'];
-			$playsinline = ! isset( $attributes['playsinline'] ) || (bool) $attributes['playsinline'];
-			$poster      = isset( $attributes['poster'] ) ? esc_url_raw( (string) $attributes['poster'] ) : '';
+			$autoplay        = ! empty( $attributes['autoplay'] );
+			$muted           = ! empty( $attributes['muted'] );
+			$loop            = ! empty( $attributes['loop'] );
+			$controls        = ! isset( $attributes['controls'] ) || (bool) $attributes['controls'];
+			$playsinline     = ! isset( $attributes['playsinline'] ) || (bool) $attributes['playsinline'];
+			$poster          = isset( $attributes['poster'] ) ? esc_url_raw( (string) $attributes['poster'] ) : '';
 			$allowed_preload = array( 'none', 'metadata', 'auto' );
 			$preload         = isset( $attributes['preload'] ) ? sanitize_key( (string) $attributes['preload'] ) : 'metadata';
 			if ( ! in_array( $preload, $allowed_preload, true ) ) {
@@ -169,13 +171,27 @@ class Video extends BlockBase {
 
 			$video_attrs  = ' style="width:100%;height:100%;display:block;"';
 			$video_attrs .= ' preload="' . esc_attr( $preload ) . '"';
-			if ( $autoplay )    $video_attrs .= ' autoplay';
-			if ( $muted )       $video_attrs .= ' muted';
-			if ( $loop )        $video_attrs .= ' loop';
-			if ( $controls )    $video_attrs .= ' controls';
-			if ( $playsinline ) $video_attrs .= ' playsinline';
-			if ( $poster )      $video_attrs .= ' poster="' . esc_url( $poster ) . '"';
-			if ( $video_title ) $video_attrs .= ' aria-label="' . esc_attr( $video_title ) . '"';
+			if ( $autoplay ) {
+				$video_attrs .= ' autoplay';
+			}
+			if ( $muted ) {
+				$video_attrs .= ' muted';
+			}
+			if ( $loop ) {
+				$video_attrs .= ' loop';
+			}
+			if ( $controls ) {
+				$video_attrs .= ' controls';
+			}
+			if ( $playsinline ) {
+				$video_attrs .= ' playsinline';
+			}
+			if ( $poster ) {
+				$video_attrs .= ' poster="' . esc_url( $poster ) . '"';
+			}
+			if ( $video_title ) {
+				$video_attrs .= ' aria-label="' . esc_attr( $video_title ) . '"';
+			}
 
 			$inner = sprintf( '<video src="%s"%s></video>', esc_url( $url ), $video_attrs );
 		} else {

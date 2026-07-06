@@ -73,7 +73,7 @@ class DynamicContentController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function preview_tag( \WP_REST_Request $request ) {
+	public function preview_tag( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$tag     = sanitize_text_field( (string) $request->get_param( 'tag' ) );
 		$post_id = absint( $request->get_param( 'post_id' ) );
 		$options = $request->get_param( 'options' );

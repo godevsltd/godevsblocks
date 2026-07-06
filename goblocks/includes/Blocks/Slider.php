@@ -17,18 +17,24 @@ class Slider extends BlockBase {
 	/**
 	 * Sanitize a hex or rgba/rgb color value. Falls back to $default.
 	 */
-	private function sanitize_color( mixed $value, string $default ): string {
+	protected function sanitize_color( mixed $value, string $default = '' ): string {
 		$val = trim( (string) ( $value ?? '' ) );
-		if ( '' === $val ) return $default;
+		if ( '' === $val ) {
+			return $default;
+		}
 		// Hex color
 		$hex = sanitize_hex_color( $val );
-		if ( $hex ) return $hex;
+		if ( $hex ) {
+			return $hex;
+		}
 		// rgba / rgb
 		if ( preg_match( '/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(\s*,\s*[\d.]+)?\s*\)$/', $val ) ) {
 			return $val;
 		}
 		// Keyword "transparent"
-		if ( 'transparent' === $val ) return $val;
+		if ( 'transparent' === $val ) {
+			return $val;
+		}
 		return $default;
 	}
 
@@ -36,41 +42,49 @@ class Slider extends BlockBase {
 		$unique_id = $this->get_unique_id( $attributes );
 
 		// ── Effect & Behavior ──────────────────────────────────────────────
-		$effect  = sanitize_key( (string) ( $attributes['effect'] ?? 'slide' ) );
+		$effect = sanitize_key( (string) ( $attributes['effect'] ?? 'slide' ) );
 		if ( ! in_array( $effect, array( 'slide', 'fade', 'zoom', 'cards' ), true ) ) {
 			$effect = 'slide';
 		}
 
-		$spv          = max( 1, min( 4, intval( $attributes['slidesPerView'] ?? 1 ) ) );
-		$slide_gap    = max( 0, min( 200, intval( $attributes['slideGap']    ?? 0 ) ) );
-		$autoplay     = ! empty( $attributes['autoplay'] ) ? 'true' : 'false';
-		$delay        = max( 500, intval( $attributes['autoplayDelay'] ?? 3000 ) );
-		$loop         = ! empty( $attributes['loop'] ) ? 'true' : 'false';
-		$pause_hover  = ! isset( $attributes['pauseOnHover'] ) || ! empty( $attributes['pauseOnHover'] ) ? 'true' : 'false';
-		$trans_dur    = max( 50, min( 2000, intval( $attributes['transitionDuration'] ?? 450 ) ) );
-		$trans_ease   = sanitize_text_field( (string) ( $attributes['transitionEasing'] ?? 'ease' ) );
+		$spv         = max( 1, min( 4, intval( $attributes['slidesPerView'] ?? 1 ) ) );
+		$slide_gap   = max( 0, min( 200, intval( $attributes['slideGap'] ?? 0 ) ) );
+		$autoplay    = ! empty( $attributes['autoplay'] ) ? 'true' : 'false';
+		$delay       = max( 500, intval( $attributes['autoplayDelay'] ?? 3000 ) );
+		$loop        = ! empty( $attributes['loop'] ) ? 'true' : 'false';
+		$pause_hover = ! isset( $attributes['pauseOnHover'] ) || ! empty( $attributes['pauseOnHover'] ) ? 'true' : 'false';
+		$trans_dur   = max( 50, min( 2000, intval( $attributes['transitionDuration'] ?? 450 ) ) );
+		$trans_ease  = sanitize_text_field( (string) ( $attributes['transitionEasing'] ?? 'ease' ) );
 
 		// Whitelist easing values to prevent injection
-		$allowed_easings = array( 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'linear',
-			'cubic-bezier(0.34,1.56,0.64,1)', 'cubic-bezier(0.25,0.46,0.45,0.94)', 'cubic-bezier(0.4,0,0.2,1)' );
+		$allowed_easings = array(
+			'ease',
+			'ease-in',
+			'ease-out',
+			'ease-in-out',
+			'linear',
+			'cubic-bezier(0.34,1.56,0.64,1)',
+			'cubic-bezier(0.25,0.46,0.45,0.94)',
+			'cubic-bezier(0.4,0,0.2,1)',
+		);
 		if ( ! in_array( $trans_ease, $allowed_easings, true ) ) {
 			$trans_ease = 'ease';
 		}
 
 		// ── Navigation ─────────────────────────────────────────────────────
-		$show_arrows      = ! isset( $attributes['showArrows'] ) || ! empty( $attributes['showArrows'] );
-		$show_dots        = ! isset( $attributes['showDots'] )   || ! empty( $attributes['showDots'] );
-		$show_counter     = ! empty( $attributes['showCounter'] );
-		$show_progress    = ! empty( $attributes['showProgressBar'] ) && 'true' === $autoplay;
-		$show_pause_btn   = ( ! isset( $attributes['showPauseButton'] ) || ! empty( $attributes['showPauseButton'] ) ) && 'true' === $autoplay;
+		$show_arrows    = ! isset( $attributes['showArrows'] ) || ! empty( $attributes['showArrows'] );
+		$show_dots      = ! isset( $attributes['showDots'] ) || ! empty( $attributes['showDots'] );
+		$show_counter   = ! empty( $attributes['showCounter'] );
+		$show_progress  = ! empty( $attributes['showProgressBar'] ) && 'true' === $autoplay;
+		$show_pause_btn = ( ! isset( $attributes['showPauseButton'] ) || ! empty( $attributes['showPauseButton'] ) ) && 'true' === $autoplay;
 
 		// ── Arrow appearance ───────────────────────────────────────────────
-		$arrow_color       = $this->sanitize_color( $attributes['arrowColor']       ?? null, '#ffffff' );
-		$arrow_hover_color = $this->sanitize_color( $attributes['arrowHoverColor']  ?? null, '#ffffff' );
-		$arrow_bg          = $this->sanitize_color( $attributes['arrowBgColor']     ?? null, 'rgba(0,0,0,0.35)' );
+		$arrow_color       = $this->sanitize_color( $attributes['arrowColor'] ?? null, '#ffffff' );
+		$arrow_hover_color = $this->sanitize_color( $attributes['arrowHoverColor'] ?? null, '#ffffff' );
+		$arrow_bg          = $this->sanitize_color( $attributes['arrowBgColor'] ?? null, 'rgba(0,0,0,0.35)' );
 		$arrow_bg_hover    = $this->sanitize_color( $attributes['arrowBgHoverColor'] ?? null, 'rgba(0,0,0,0.65)' );
-		$arrow_size        = max( 20, min( 120, intval( $attributes['arrowSize']    ?? 44 ) ) );
-		$arrow_radius      = max( 0,  min( 50,  intval( $attributes['arrowRadius'] ?? 50 ) ) );
+		$arrow_size        = max( 20, min( 120, intval( $attributes['arrowSize'] ?? 44 ) ) );
+		$arrow_radius      = max( 0, min( 50, intval( $attributes['arrowRadius'] ?? 50 ) ) );
 		$arrow_position    = sanitize_key( (string) ( $attributes['arrowPosition'] ?? 'inside' ) );
 		if ( ! in_array( $arrow_position, array( 'inside', 'outside', 'edge' ), true ) ) {
 			$arrow_position = 'inside';
@@ -81,11 +95,11 @@ class Slider extends BlockBase {
 		}
 
 		// ── Dot appearance ─────────────────────────────────────────────────
-		$dot_color        = $this->sanitize_color( $attributes['dotColor']       ?? null, 'rgba(255,255,255,0.45)' );
+		$dot_color        = $this->sanitize_color( $attributes['dotColor'] ?? null, 'rgba(255,255,255,0.45)' );
 		$dot_active_color = $this->sanitize_color( $attributes['dotActiveColor'] ?? null, '#ffffff' );
-		$dot_size         = max( 2, min( 40, intval( $attributes['dotSize']      ?? 8 ) ) );
-		$dot_style        = sanitize_key( (string) ( $attributes['dotStyle']     ?? 'pill' ) );
-		$dot_position     = sanitize_key( (string) ( $attributes['dotPosition']  ?? 'inside-bottom' ) );
+		$dot_size         = max( 2, min( 40, intval( $attributes['dotSize'] ?? 8 ) ) );
+		$dot_style        = sanitize_key( (string) ( $attributes['dotStyle'] ?? 'pill' ) );
+		$dot_position     = sanitize_key( (string) ( $attributes['dotPosition'] ?? 'inside-bottom' ) );
 		if ( ! in_array( $dot_style, array( 'pill', 'circle', 'square', 'line' ), true ) ) {
 			$dot_style = 'pill';
 		}
@@ -139,7 +153,7 @@ class Slider extends BlockBase {
 
 		$arrows_html = $show_arrows
 			? '<button class="gb-slider__prev" aria-label="' . esc_attr__( 'Previous', 'goblocks' ) . '" type="button">' . $icon_prev . '</button>'
-			  . '<button class="gb-slider__next" aria-label="' . esc_attr__( 'Next', 'goblocks' ) . '" type="button">' . $icon_next . '</button>'
+				. '<button class="gb-slider__next" aria-label="' . esc_attr__( 'Next', 'goblocks' ) . '" type="button">' . $icon_next . '</button>'
 			: '';
 
 		$dots_html = $show_dots ? '<div class="gb-slider__dots" aria-hidden="true"></div>' : '';

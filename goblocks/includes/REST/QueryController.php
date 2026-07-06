@@ -154,7 +154,7 @@ class QueryController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function get_terms( \WP_REST_Request $request ) {
+	public function get_terms( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$taxonomy       = sanitize_key( (string) $request->get_param( 'taxonomy' ) );
 		$search         = sanitize_text_field( (string) $request->get_param( 'search' ) );
 		$per_page_param = $request->get_param( 'per_page' );
@@ -229,7 +229,7 @@ class QueryController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function preview_query( \WP_REST_Request $request ) {
+	public function preview_query( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$body = $request->get_json_params();
 
 		if ( ! is_array( $body ) ) {

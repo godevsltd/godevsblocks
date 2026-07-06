@@ -81,14 +81,20 @@ class SocialShare extends BlockBase {
 			: array( 'facebook', 'twitter', 'linkedin', 'whatsapp' );
 
 		$show_labels  = ! empty( $attributes['showLabels'] );
-		$size         = isset( $attributes['size'] )        ? sanitize_key( $attributes['size'] )        : 'md';
-		$layout       = isset( $attributes['layout'] )      ? sanitize_key( $attributes['layout'] )      : 'horizontal';
+		$size         = isset( $attributes['size'] ) ? sanitize_key( $attributes['size'] ) : 'md';
+		$layout       = isset( $attributes['layout'] ) ? sanitize_key( $attributes['layout'] ) : 'horizontal';
 		$button_style = isset( $attributes['buttonStyle'] ) ? sanitize_key( $attributes['buttonStyle'] ) : 'filled';
-		$custom_url   = isset( $attributes['customUrl'] )   ? esc_url_raw( (string) $attributes['customUrl'] ) : '';
+		$custom_url   = isset( $attributes['customUrl'] ) ? esc_url_raw( (string) $attributes['customUrl'] ) : '';
 
-		if ( ! in_array( $size,         self::ALLOWED_SIZES,   true ) ) $size         = 'md';
-		if ( ! in_array( $layout,       self::ALLOWED_LAYOUTS, true ) ) $layout       = 'horizontal';
-		if ( ! in_array( $button_style, self::ALLOWED_STYLES,  true ) ) $button_style = 'filled';
+		if ( ! in_array( $size, self::ALLOWED_SIZES, true ) ) {
+			$size = 'md';
+		}
+		if ( ! in_array( $layout, self::ALLOWED_LAYOUTS, true ) ) {
+			$layout = 'horizontal';
+		}
+		if ( ! in_array( $button_style, self::ALLOWED_STYLES, true ) ) {
+			$button_style = 'filled';
+		}
 
 		$classes = $this->build_class_string(
 			$this->get_block_class( $unique_id ),

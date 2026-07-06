@@ -56,7 +56,7 @@ abstract class RestController extends \WP_REST_Controller {
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function require_manage_options() {
+	public function require_manage_options(): bool|\WP_Error {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'goblocks_forbidden',
@@ -73,7 +73,7 @@ abstract class RestController extends \WP_REST_Controller {
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function require_edit_posts() {
+	public function require_edit_posts(): bool|\WP_Error {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'goblocks_forbidden',

@@ -29,19 +29,23 @@ class Modal extends BlockBase {
 			array( 'gb-modal' )
 		);
 
-		$trigger_text    = isset( $attributes['triggerText'] )    ? sanitize_text_field( $attributes['triggerText'] )    : 'Open Modal';
-		$trigger_type    = isset( $attributes['triggerType'] )    ? sanitize_key( $attributes['triggerType'] )           : 'button';
+		$trigger_text    = isset( $attributes['triggerText'] ) ? sanitize_text_field( $attributes['triggerText'] ) : 'Open Modal';
+		$trigger_type    = isset( $attributes['triggerType'] ) ? sanitize_key( $attributes['triggerType'] ) : 'button';
 		$close_overlay   = ! isset( $attributes['closeOnOverlay'] ) || ! empty( $attributes['closeOnOverlay'] ) ? 'true' : 'false';
-		$close_escape    = ! isset( $attributes['closeOnEscape'] )  || ! empty( $attributes['closeOnEscape'] )  ? 'true' : 'false';
-		$animation       = isset( $attributes['animation'] )     ? sanitize_key( $attributes['animation'] )             : 'fade';
-		$auto_open       = ! empty( $attributes['autoOpen'] )    ? 'true' : 'false';
-		$auto_open_delay = isset( $attributes['autoOpenDelay'] ) ? max( 0, intval( $attributes['autoOpenDelay'] ) )     : 2000;
-		$cookie_name     = isset( $attributes['cookieName'] )    ? sanitize_key( $attributes['cookieName'] )            : '';
-		$cookie_days     = isset( $attributes['cookieDays'] )    ? max( 1, intval( $attributes['cookieDays'] ) )        : 30;
+		$close_escape    = ! isset( $attributes['closeOnEscape'] ) || ! empty( $attributes['closeOnEscape'] ) ? 'true' : 'false';
+		$animation       = isset( $attributes['animation'] ) ? sanitize_key( $attributes['animation'] ) : 'fade';
+		$auto_open       = ! empty( $attributes['autoOpen'] ) ? 'true' : 'false';
+		$auto_open_delay = isset( $attributes['autoOpenDelay'] ) ? max( 0, intval( $attributes['autoOpenDelay'] ) ) : 2000;
+		$cookie_name     = isset( $attributes['cookieName'] ) ? sanitize_key( $attributes['cookieName'] ) : '';
+		$cookie_days     = isset( $attributes['cookieDays'] ) ? max( 1, intval( $attributes['cookieDays'] ) ) : 30;
 		$show_dismiss    = ! empty( $attributes['showDismissBtn'] );
 
-		if ( ! in_array( $trigger_type, self::ALLOWED_TRIGGERS,   true ) ) $trigger_type = 'button';
-		if ( ! in_array( $animation,    self::ALLOWED_ANIMATIONS, true ) ) $animation    = 'fade';
+		if ( ! in_array( $trigger_type, self::ALLOWED_TRIGGERS, true ) ) {
+			$trigger_type = 'button';
+		}
+		if ( ! in_array( $animation, self::ALLOWED_ANIMATIONS, true ) ) {
+			$animation = 'fade';
+		}
 
 		// data-* attributes for view.ts.
 		$data_attrs = sprintf(
@@ -62,7 +66,7 @@ class Modal extends BlockBase {
 		}
 
 		$trigger_aria = esc_attr( $trigger_text );
-		$trigger = 'button' === $trigger_type
+		$trigger      = 'button' === $trigger_type
 			? sprintf( '<button class="gb-modal__trigger" aria-label="%s" aria-haspopup="dialog">%s</button>', $trigger_aria, esc_html( $trigger_text ) )
 			: sprintf( '<a class="gb-modal__trigger" href="#modal" aria-label="%s" aria-haspopup="dialog">%s</a>', $trigger_aria, esc_html( $trigger_text ) );
 
@@ -70,10 +74,13 @@ class Modal extends BlockBase {
 			? sprintf( '<div class="gb-modal__footer"><button type="button" class="gb-modal__dismiss">%s</button></div>', esc_html__( 'Don\'t show again', 'goblocks' ) )
 			: '';
 
+		$extra_html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+
 		return sprintf(
-			'<div class="%s"%s>%s<div class="gb-modal__overlay" hidden aria-hidden="true"><div class="gb-modal__dialog" role="dialog" aria-modal="true" aria-label="%s" tabindex="-1"><button class="gb-modal__close" aria-label="%s">&times;</button><div class="gb-modal__content">%s</div>%s</div></div></div>',
+			'<div class="%s"%s%s>%s<div class="gb-modal__overlay" hidden aria-hidden="true"><div class="gb-modal__dialog" role="dialog" aria-modal="true" aria-label="%s" tabindex="-1"><button class="gb-modal__close" aria-label="%s">&times;</button><div class="gb-modal__content">%s</div>%s</div></div></div>',
 			esc_attr( $classes ),
 			$data_attrs,
+			$extra_html_attrs,
 			$trigger,
 			esc_attr( $trigger_text ),
 			esc_attr__( 'Close', 'goblocks' ),

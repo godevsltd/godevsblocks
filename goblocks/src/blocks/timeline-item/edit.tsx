@@ -1,4 +1,4 @@
-import { useEffect } from '@wordpress/element';
+﻿import { useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -20,20 +20,20 @@ import { EffectsPanel } from '../../components/panels/EffectsPanel';
 import type { BlockStyles } from '../../types/styles';
 
 interface TimelineItemBlockAttributes {
-	uniqueId:     string;
-	date:         string;
-	title:        string;
-	content:      string;
-	icon:         string;
-	dotColor:     string;
-	titleColor:   string;
-	dateColor:    string;
-	dateBg:       string;
+	uniqueId: string;
+	date: string;
+	title: string;
+	content: string;
+	icon: string;
+	dotColor: string;
+	titleColor: string;
+	dateColor: string;
+	dateBg: string;
 	contentColor: string;
-	styles:       BlockStyles;
+	styles: BlockStyles;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 function makeUniqueId( clientId: string ): string {
@@ -46,9 +46,19 @@ export function Edit( {
 	clientId,
 }: BlockEditProps< TimelineItemBlockAttributes > ) {
 	const {
-		uniqueId, styles, globalClasses, generatedCss,
-		date, title, content, icon,
-		dotColor, titleColor, dateColor, dateBg, contentColor,
+		uniqueId,
+		styles,
+		globalClasses,
+		generatedCss,
+		date,
+		title,
+		content,
+		icon,
+		dotColor,
+		titleColor,
+		dateColor,
+		dateBg,
+		contentColor,
 	} = attributes;
 
 	useEffect( () => {
@@ -62,25 +72,26 @@ export function Edit( {
 		uniqueId,
 		styles,
 		generatedCss,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< TimelineItemBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< TimelineItemBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
-	const dot     = dotColor     || '#4f46e5';
-	const ttl     = titleColor   || '#0f172a';
-	const date_c  = dateColor    || '#4f46e5';
-	const date_bg = dateBg       || '#ede9fe';
-	const cnt     = contentColor || '#475569';
+	const dot = dotColor || '#4f46e5';
+	const ttl = titleColor || '#0f172a';
+	const dateC = dateColor || '#4f46e5';
+	const dateBgColor = dateBg || '#ede9fe';
+	const cnt = contentColor || '#475569';
 
 	const itemVars = {
-		'--gb-ti-dot':      dot,
-		'--gb-ti-title':    ttl,
-		'--gb-ti-date':     date_c,
-		'--gb-ti-date-bg':  date_bg,
-		'--gb-ti-content':  cnt,
+		'--gb-ti-dot': dot,
+		'--gb-ti-title': ttl,
+		'--gb-ti-date': dateC,
+		'--gb-ti-date-bg': dateBgColor,
+		'--gb-ti-content': cnt,
 	} as React.CSSProperties;
 
 	const wrapperClass = clsx(
@@ -90,13 +101,18 @@ export function Edit( {
 		...( globalClasses ?? [] )
 	);
 
-	const blockProps = useBlockProps( { className: wrapperClass, style: itemVars } );
+	const blockProps = useBlockProps( {
+		className: wrapperClass,
+		style: itemVars,
+	} );
 
 	/* ── Inspector: Style tab ─────────────────────────────────────────────── */
 	const stylesContent = (
 		<>
-			<PanelBody title={ __( 'Item Appearance', 'goblocks' ) } initialOpen>
-
+			<PanelBody
+				title={ __( 'Item Appearance', 'goblocks' ) }
+				initialOpen
+			>
 				{ /* Live preview */ }
 				<div
 					style={ {
@@ -128,7 +144,9 @@ export function Edit( {
 							transition: 'background 150ms, box-shadow 150ms',
 						} }
 					>
-						{ icon && <span style={ { lineHeight: 1 } }>{ icon }</span> }
+						{ icon && (
+							<span style={ { lineHeight: 1 } }>{ icon }</span>
+						) }
 					</div>
 					{ /* Content */ }
 					<div style={ { flex: 1, minWidth: 0 } }>
@@ -137,8 +155,8 @@ export function Edit( {
 								display: 'inline-block',
 								fontSize: '0.6875rem',
 								fontWeight: 700,
-								color: date_c,
-								background: date_bg,
+								color: dateC,
+								background: dateBgColor,
 								borderRadius: '100px',
 								padding: '2px 8px',
 								marginBottom: '5px',
@@ -148,11 +166,26 @@ export function Edit( {
 						>
 							{ date || '2024' }
 						</span>
-						<div style={ { fontSize: '0.8125rem', fontWeight: 700, color: ttl, marginBottom: '3px', transition: 'color 150ms' } }>
+						<div
+							style={ {
+								fontSize: '0.8125rem',
+								fontWeight: 700,
+								color: ttl,
+								marginBottom: '3px',
+								transition: 'color 150ms',
+							} }
+						>
 							{ title || 'Event Title' }
 						</div>
-						<div style={ { fontSize: '0.75rem', color: cnt, lineHeight: 1.5, transition: 'color 150ms' } }>
-							{ __( 'Description text...', 'goblocks' ) }
+						<div
+							style={ {
+								fontSize: '0.75rem',
+								color: cnt,
+								lineHeight: 1.5,
+								transition: 'color 150ms',
+							} }
+						>
+							{ __( 'Description text…', 'goblocks' ) }
 						</div>
 					</div>
 				</div>
@@ -161,42 +194,64 @@ export function Edit( {
 					label={ __( 'Dot Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ dot }
-					onChange={ ( v ) => setAttributes( { dotColor: v || '#4f46e5' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { dotColor: v || '#4f46e5' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Date Label Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
-					value={ date_c }
-					onChange={ ( v ) => setAttributes( { dateColor: v || '#4f46e5' } ) }
+					value={ dateC }
+					onChange={ ( v ) =>
+						setAttributes( { dateColor: v || '#4f46e5' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Date Label Background', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
-					value={ date_bg }
-					onChange={ ( v ) => setAttributes( { dateBg: v || '#ede9fe' } ) }
+					value={ dateBgColor }
+					onChange={ ( v ) =>
+						setAttributes( { dateBg: v || '#ede9fe' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Title Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ ttl }
-					onChange={ ( v ) => setAttributes( { titleColor: v || '#0f172a' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { titleColor: v || '#0f172a' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Content Text Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ cnt }
-					onChange={ ( v ) => setAttributes( { contentColor: v || '#475569' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { contentColor: v || '#475569' } )
+					}
 				/>
 			</PanelBody>
 
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
@@ -206,7 +261,10 @@ export function Edit( {
 			<PanelBody title={ __( 'Item Settings', 'goblocks' ) } initialOpen>
 				<TextControl
 					label={ __( 'Dot Icon / Emoji', 'goblocks' ) }
-					help={ __( 'Paste an emoji or symbol to show inside the dot (e.g. ★ ✓ 🚀).', 'goblocks' ) }
+					help={ __(
+						'Paste an emoji or symbol to show inside the dot (e.g. ★ ✓ 🚀).',
+						'goblocks'
+					) }
 					value={ icon }
 					onChange={ ( v ) => setAttributes( { icon: v } ) }
 					// @ts-ignore
@@ -214,12 +272,17 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -231,12 +294,22 @@ export function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
 			<div { ...blockProps }>
 				<div className="gb-timeline-item__dot">
-					{ icon && <span className="gb-timeline-item__dot-icon" aria-hidden="true">{ icon }</span> }
+					{ icon && (
+						<span
+							className="gb-timeline-item__dot-icon"
+							aria-hidden="true"
+						>
+							{ icon }
+						</span>
+					) }
 				</div>
 
 				<div className="gb-timeline-item__content">

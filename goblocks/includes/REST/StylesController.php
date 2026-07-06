@@ -99,7 +99,7 @@ class StylesController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function regenerate_post_css( \WP_REST_Request $request ) {
+	public function regenerate_post_css( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$post_id = absint( $request->get_param( 'post_id' ) );
 		$post    = get_post( $post_id );
 

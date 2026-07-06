@@ -20,7 +20,7 @@ class Navigation extends BlockBase {
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$layout      = sanitize_key( $attributes['layout']           ?? 'horizontal' );
+		$layout      = sanitize_key( $attributes['layout'] ?? 'horizontal' );
 		$show_toggle = ! isset( $attributes['showMobileToggle'] ) || ! empty( $attributes['showMobileToggle'] );
 		$menu_id     = isset( $attributes['menuId'] ) ? intval( $attributes['menuId'] ) : 0;
 		$breakpoint  = sanitize_text_field( $attributes['mobileBreakpoint'] ?? '768px' );
@@ -32,14 +32,18 @@ class Navigation extends BlockBase {
 			$breakpoint = '768px';
 		}
 
-		$link_color   = isset( $attributes['linkColor'] )   ? sanitize_hex_color( (string) $attributes['linkColor'] )   : '';
-		$hover_color  = isset( $attributes['hoverColor'] )  ? sanitize_hex_color( (string) $attributes['hoverColor'] )  : '';
+		$link_color   = isset( $attributes['linkColor'] ) ? sanitize_hex_color( (string) $attributes['linkColor'] ) : '';
+		$hover_color  = isset( $attributes['hoverColor'] ) ? sanitize_hex_color( (string) $attributes['hoverColor'] ) : '';
 		$active_color = isset( $attributes['activeColor'] ) ? sanitize_hex_color( (string) $attributes['activeColor'] ) : '';
-		$dropdown_bg  = isset( $attributes['dropdownBg'] )  ? sanitize_hex_color( (string) $attributes['dropdownBg'] )  : '';
+		$dropdown_bg  = isset( $attributes['dropdownBg'] ) ? sanitize_hex_color( (string) $attributes['dropdownBg'] ) : '';
 
 		$extra = array( 'gb-navigation', 'gb-navigation--' . $layout );
-		if ( $sticky )                  $extra[] = 'gb-navigation--sticky';
-		if ( $sticky && $scroll_hide )  $extra[] = 'gb-navigation--scroll-hide';
+		if ( $sticky ) {
+			$extra[] = 'gb-navigation--sticky';
+		}
+		if ( $sticky && $scroll_hide ) {
+			$extra[] = 'gb-navigation--scroll-hide';
+		}
 
 		$classes = $this->build_class_string(
 			$this->get_block_class( $unique_id ),
@@ -49,10 +53,18 @@ class Navigation extends BlockBase {
 
 		// Build inline CSS variables string.
 		$css_vars = '';
-		if ( $link_color )   $css_vars .= '--gb-nav-link:' . $link_color . ';';
-		if ( $hover_color )  $css_vars .= '--gb-nav-hover:' . $hover_color . ';';
-		if ( $active_color ) $css_vars .= '--gb-nav-active:' . $active_color . ';';
-		if ( $dropdown_bg )  $css_vars .= '--gb-nav-dd-bg:' . $dropdown_bg . ';';
+		if ( $link_color ) {
+			$css_vars .= '--gb-nav-link:' . $link_color . ';';
+		}
+		if ( $hover_color ) {
+			$css_vars .= '--gb-nav-hover:' . $hover_color . ';';
+		}
+		if ( $active_color ) {
+			$css_vars .= '--gb-nav-active:' . $active_color . ';';
+		}
+		if ( $dropdown_bg ) {
+			$css_vars .= '--gb-nav-dd-bg:' . $dropdown_bg . ';';
+		}
 		$style_attr = $css_vars ? ' style="' . esc_attr( $css_vars ) . '"' : '';
 
 		// Dynamic mobile breakpoint — only output if different from default 768px.
@@ -62,7 +74,9 @@ class Navigation extends BlockBase {
 			$bp_css = sprintf(
 				'<style>@media(max-width:%s){%s .gb-navigation__toggle{display:flex}%s .gb-navigation__menu{display:none;flex-direction:column;width:100%%;padding:.5rem 0;margin-top:.25rem;border-top:1px solid #e2e8f0}%s .gb-navigation__menu.is-open{display:flex}}</style>',
 				esc_attr( $breakpoint ),
-				$sel, $sel, $sel
+				$sel,
+				$sel,
+				$sel
 			);
 		}
 
@@ -84,14 +98,16 @@ class Navigation extends BlockBase {
 
 		add_filter( 'nav_menu_link_attributes', array( $this, 'add_submenu_toggle_attr' ), 10, 4 );
 
-		$menu_html = wp_nav_menu( array(
-			'menu'            => $menu_id,
-			'container'       => false,
-			'menu_class'      => 'gb-navigation__menu',
-			'echo'            => false,
-			'fallback_cb'     => false,
-			'walker'          => new Navigation_Walker(),
-		) );
+		$menu_html = wp_nav_menu(
+			array(
+				'menu'        => $menu_id,
+				'container'   => false,
+				'menu_class'  => 'gb-navigation__menu',
+				'echo'        => false,
+				'fallback_cb' => false,
+				'walker'      => new Navigation_Walker(),
+			)
+		);
 
 		remove_filter( 'nav_menu_link_attributes', array( $this, 'add_submenu_toggle_attr' ), 10 );
 
@@ -99,7 +115,7 @@ class Navigation extends BlockBase {
 			$menu_html = '<ul class="gb-navigation__menu"><li>' . esc_html__( 'Menu not found.', 'goblocks' ) . '</li></ul>';
 		}
 
-		$data_attrs  = ' data-breakpoint="' . esc_attr( $breakpoint ) . '"';
+		$data_attrs = ' data-breakpoint="' . esc_attr( $breakpoint ) . '"';
 		if ( $sticky && $scroll_hide ) {
 			$data_attrs .= ' data-scroll-hide="true"';
 		}
@@ -126,9 +142,9 @@ class Navigation extends BlockBase {
 class Navigation_Walker extends \Walker_Nav_Menu {
 
 	/**
-	 * @param string   $output
-	 * @param \WP_Post $item
-	 * @param int      $depth
+	 * @param string    $output
+	 * @param \WP_Post  $item
+	 * @param int       $depth
 	 * @param \stdClass $args
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ): void {

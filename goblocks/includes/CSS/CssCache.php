@@ -66,6 +66,7 @@ class CssCache {
 			// WP_Filesystem unavailable (FTP/SSH host without credentials in this
 			// context) — fall back to native PHP. wp-content/uploads is always
 			// writable by the web-server process, so this is safe.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 			$result = false !== file_put_contents( $path, $css );
 		}
 

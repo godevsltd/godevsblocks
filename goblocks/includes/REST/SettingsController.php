@@ -66,7 +66,7 @@ class SettingsController extends RestController {
 	 * @param \WP_REST_Request $request Request object.
 	 * @return \WP_REST_Response|\WP_Error
 	 */
-	public function update_settings( \WP_REST_Request $request ) {
+	public function update_settings( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$body = $request->get_json_params();
 
 		if ( ! is_array( $body ) ) {

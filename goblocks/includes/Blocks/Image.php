@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Image block — PHP render callback.
+ * Image block â€” PHP render callback.
  *
  * Structure: <figure class="gb-image ..."><(?a>)<img>(</?a>)(<figcaption>)</figure>
  *
@@ -82,8 +82,8 @@ class Image extends BlockBase {
 			$extra[] = 'gb-image--hover-' . $hover_effect;
 		}
 
-		$classes = $this->build_class_string( $block_class, $global_classes, $extra );
-		$html_attrs     = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+		$classes    = $this->build_class_string( $block_class, $global_classes, $extra );
+		$html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
 
 		// Build the <img> element.
 		$img_html = $this->build_img( $media_id, $media_url, $attributes );
@@ -96,7 +96,9 @@ class Image extends BlockBase {
 		if ( $lightbox ) {
 			// Full-size URL for the lightbox overlay.
 			$full_url = $media_id > 0 ? wp_get_attachment_url( $media_id ) : $media_url;
-			if ( ! $full_url ) $full_url = $media_url;
+			if ( ! $full_url ) {
+					$full_url = $media_url;
+			}
 
 			$caption_text = $lightbox_caption && ! empty( $attributes['caption'] )
 				? wp_strip_all_tags( (string) $attributes['caption'] )
