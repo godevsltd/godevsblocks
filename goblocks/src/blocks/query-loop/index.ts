@@ -7,7 +7,7 @@ registerBlockType( metadata.name, {
 	...metadata,
 	edit: Edit,
 	save,
-// @ts-ignore
+	// @ts-ignore
 	deprecated: [
 		{
 			save: () => null,

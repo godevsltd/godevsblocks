@@ -1,4 +1,10 @@
 <?php
+/**
+ * Flip Card.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,12 +16,25 @@ use WP_Block;
  */
 class FlipCard extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'flip-card';
 	}
 
 	private const ALLOWED_DIRECTIONS = array( 'horizontal', 'vertical' );
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
@@ -25,16 +44,16 @@ class FlipCard extends BlockBase {
 			array( 'gb-flip-card' )
 		);
 
-		$front_title   = isset( $attributes['frontTitle'] )   ? sanitize_text_field( $attributes['frontTitle'] )   : 'Front Side';
-		$front_content = isset( $attributes['frontContent'] ) ? sanitize_text_field( $attributes['frontContent'] ) : '';
-		$front_icon    = isset( $attributes['frontIcon'] )    ? sanitize_text_field( $attributes['frontIcon'] )    : '';
-		$back_title    = isset( $attributes['backTitle'] )    ? sanitize_text_field( $attributes['backTitle'] )    : 'Back Side';
-		$back_content  = isset( $attributes['backContent'] )  ? sanitize_text_field( $attributes['backContent'] )  : '';
-		$back_icon     = isset( $attributes['backIcon'] )     ? sanitize_text_field( $attributes['backIcon'] )     : '';
-		$back_link_url  = isset( $attributes['backLinkUrl'] )  ? esc_url_raw( $attributes['backLinkUrl'] )         : '';
+		$front_title    = isset( $attributes['frontTitle'] ) ? sanitize_text_field( $attributes['frontTitle'] ) : 'Front Side';
+		$front_content  = isset( $attributes['frontContent'] ) ? sanitize_text_field( $attributes['frontContent'] ) : '';
+		$front_icon     = isset( $attributes['frontIcon'] ) ? sanitize_text_field( $attributes['frontIcon'] ) : '';
+		$back_title     = isset( $attributes['backTitle'] ) ? sanitize_text_field( $attributes['backTitle'] ) : 'Back Side';
+		$back_content   = isset( $attributes['backContent'] ) ? sanitize_text_field( $attributes['backContent'] ) : '';
+		$back_icon      = isset( $attributes['backIcon'] ) ? sanitize_text_field( $attributes['backIcon'] ) : '';
+		$back_link_url  = isset( $attributes['backLinkUrl'] ) ? esc_url_raw( $attributes['backLinkUrl'] ) : '';
 		$back_link_text = isset( $attributes['backLinkText'] ) ? sanitize_text_field( $attributes['backLinkText'] ) : '';
-		$direction     = isset( $attributes['flipDirection'] ) ? sanitize_key( $attributes['flipDirection'] )      : 'horizontal';
-		$on_click      = ! empty( $attributes['triggerOnClick'] );
+		$direction      = isset( $attributes['flipDirection'] ) ? sanitize_key( $attributes['flipDirection'] ) : 'horizontal';
+		$on_click       = ! empty( $attributes['triggerOnClick'] );
 
 		if ( ! in_array( $direction, self::ALLOWED_DIRECTIONS, true ) ) {
 			$direction = 'horizontal';

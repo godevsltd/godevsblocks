@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Hero — Premium Gradient
  * Slug: goblocks/hero-centered

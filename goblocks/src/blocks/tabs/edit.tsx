@@ -45,7 +45,14 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< TabsBlockAttributes > ) {
-	const { uniqueId, styles, orientation = 'horizontal', tabStyle = 'pill', tabsFullWidth = false, generatedCss } = attributes;
+	const {
+		uniqueId,
+		styles,
+		orientation = 'horizontal',
+		tabStyle = 'pill',
+		tabsFullWidth = false,
+		generatedCss,
+	} = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {

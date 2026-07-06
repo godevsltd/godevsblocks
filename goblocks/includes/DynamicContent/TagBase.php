@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tag Base.
+ *
+ * @package GoBlocks\DynamicContent
+ */
+
 namespace GoBlocks\DynamicContent;
 
 defined( 'ABSPATH' ) || exit;
@@ -16,21 +22,21 @@ abstract class TagBase implements TagInterface {
 	/**
 	 * Default preview delegates to resolve().
 	 *
-	 * @param  array<string, mixed>  $context
-	 * @param  array<string, string> $options
-	 * @return string
+	 * @param  array<string, mixed>  $context Dynamic content context.
+	 * @param  array<string, string> $options Parsed option key-value pairs.
+	 * @return string                         Resolved preview value.
 	 */
 	public function preview( array $context, array $options ): string {
 		return $this->resolve( $context, $options );
 	}
 
-	// ── Protected helpers ─────────────────────────────────────────────────────
+	// ── Protected helpers ─────────────────────────────────────────────────────.
 
 	/**
 	 * Get the WP_Post for the given context.
 	 *
-	 * @param  array<string, mixed> $context
-	 * @return \WP_Post|null
+	 * @param  array<string, mixed> $context Dynamic content context.
+	 * @return \WP_Post|null                 Post object or null if not found.
 	 */
 	protected function get_post( array $context ): ?\WP_Post {
 		$post_id = absint( $context['post_id'] ?? 0 );
@@ -40,8 +46,8 @@ abstract class TagBase implements TagInterface {
 	/**
 	 * Get the WP_User author for the context post.
 	 *
-	 * @param  array<string, mixed> $context
-	 * @return \WP_User|false
+	 * @param  array<string, mixed> $context Dynamic content context.
+	 * @return \WP_User|false                Author user object, or false if not found.
 	 */
 	protected function get_author( array $context ) {
 		$post = $this->get_post( $context );
@@ -54,9 +60,9 @@ abstract class TagBase implements TagInterface {
 	/**
 	 * Get terms for the context post in the given taxonomy.
 	 *
-	 * @param  array<string, mixed> $context
-	 * @param  string               $taxonomy
-	 * @return \WP_Term[]
+	 * @param  array<string, mixed> $context  Dynamic content context.
+	 * @param  string               $taxonomy Taxonomy slug.
+	 * @return \WP_Term[]                     Array of term objects.
 	 */
 	protected function get_terms_for_post( array $context, string $taxonomy ): array {
 		$post = $this->get_post( $context );
@@ -71,9 +77,9 @@ abstract class TagBase implements TagInterface {
 	/**
 	 * Return a safe date-formatted string.
 	 *
-	 * @param  string $format PHP date format.
+	 * @param  string $format    PHP date format.
 	 * @param  int    $timestamp Unix timestamp.
-	 * @return string
+	 * @return string            Formatted date string.
 	 */
 	protected function format_date( string $format, int $timestamp ): string {
 		$format    = $format ? $format : get_option( 'date_format', 'F j, Y' );

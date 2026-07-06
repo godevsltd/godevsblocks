@@ -9,30 +9,34 @@
 	"keywords": [ "rating", "stars", "review", "score" ],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":      { "type": "string",  "default": "" },
-		"rating":        { "type": "number",  "default": 4.5 },
-		"maxRating":     { "type": "integer", "default": 5 },
-		"showNumber":    { "type": "boolean", "default": true },
-		"label":         { "type": "string",  "default": "" },
-		"starColor":     { "type": "string",  "default": "#f59e0b" },
-		"emptyColor":    { "type": "string",  "default": "#d1d5db" },
-		"starSize":      { "type": "integer", "default": 22 },
-		"reviewCount":   { "type": "integer", "default": 1 },
-		"showCount":     { "type": "boolean", "default": false },
-		"schemaEnabled":    { "type": "boolean", "default": true },
-		"itemName":         { "type": "string",  "default": "" },
-		"animateOnScroll":  { "type": "boolean", "default": true },
-		"styles":           { "type": "object",  "default": {} },
-		"globalClasses":    { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":     { "type": "string",  "default": "" },
-		"blockVersion":     { "type": "integer", "default": 1 }
+		"uniqueId": { "type": "string", "default": "" },
+		"rating": { "type": "number", "default": 4.5 },
+		"maxRating": { "type": "integer", "default": 5 },
+		"showNumber": { "type": "boolean", "default": true },
+		"label": { "type": "string", "default": "" },
+		"starColor": { "type": "string", "default": "#f59e0b" },
+		"emptyColor": { "type": "string", "default": "#d1d5db" },
+		"starSize": { "type": "integer", "default": 22 },
+		"reviewCount": { "type": "integer", "default": 1 },
+		"showCount": { "type": "boolean", "default": false },
+		"schemaEnabled": { "type": "boolean", "default": true },
+		"itemName": { "type": "string", "default": "" },
+		"animateOnScroll": { "type": "boolean", "default": true },
+		"styles": { "type": "object", "default": {} },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 }
 	},
-	"viewScript":   "file:./view.js",
+	"viewScript": "file:./view.js",
 	"editorScript": "file:./index.js"
 }

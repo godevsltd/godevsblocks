@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tab Panel.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
 class TabPanel extends BlockBase {
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {
@@ -21,6 +29,8 @@ class TabPanel extends BlockBase {
 	}
 
 	/**
+	 * Render the block.
+	 *
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @param string               $content    Inner blocks HTML.
 	 * @param \WP_Block            $block      Block instance (context provided by Tabs).

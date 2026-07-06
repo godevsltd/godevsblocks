@@ -46,7 +46,10 @@ figure{margin:0}
 .gb-button__text{display:block;}
 </style>
 </head>
-<body>${ rendered || '<p style="color:#94a3b8;text-align:center;padding:40px 0;font-size:14px">No preview available</p>' }</body>
+<body>${
+		rendered ||
+		'<p style="color:#94a3b8;text-align:center;padding:40px 0;font-size:14px">No preview available</p>'
+	}</body>
 </html>`;
 }
 
@@ -59,7 +62,10 @@ interface PatternCardProps {
 }
 
 function PatternCard( { pattern, copied, onCopy }: PatternCardProps ) {
-	const previewDoc = buildPreviewDoc( pattern.rendered, pattern.viewport_width || 1280 );
+	const previewDoc = buildPreviewDoc(
+		pattern.rendered,
+		pattern.viewport_width || 1280
+	);
 
 	return (
 		<div className="gb-patterns__item">
@@ -78,7 +84,9 @@ function PatternCard( { pattern, copied, onCopy }: PatternCardProps ) {
 			{ /* Card metadata */ }
 			<div className="gb-patterns__meta">
 				<div className="gb-patterns__meta-top">
-					<strong className="gb-patterns__title">{ pattern.title }</strong>
+					<strong className="gb-patterns__title">
+						{ pattern.title }
+					</strong>
 
 					{ pattern.description && (
 						<p className="gb-patterns__description">
@@ -102,10 +110,7 @@ function PatternCard( { pattern, copied, onCopy }: PatternCardProps ) {
 						onClick={ onCopy }
 						className="gb-patterns__copy-btn"
 					>
-						<Icon
-							icon={ copied ? check : copySmall }
-							size={ 14 }
-						/>
+						<Icon icon={ copied ? check : copySmall } size={ 14 } />
 						{ copied
 							? __( 'Copied!', 'goblocks' )
 							: __( 'Copy', 'goblocks' ) }
@@ -153,15 +158,12 @@ export function PatternsApp(): JSX.Element {
 		  } )
 		: patterns;
 
-	const handleCopy = useCallback(
-		( pattern: PatternItem ): void => {
-			navigator.clipboard.writeText( pattern.content ).then( () => {
-				setCopied( pattern.slug );
-				setTimeout( () => setCopied( '' ), 2000 );
-			} );
-		},
-		[]
-	);
+	const handleCopy = useCallback( ( pattern: PatternItem ): void => {
+		navigator.clipboard.writeText( pattern.content ).then( () => {
+			setCopied( pattern.slug );
+			setTimeout( () => setCopied( '' ), 2000 );
+		} );
+	}, [] );
 
 	return (
 		<div className="gb-patterns wrap">

@@ -6,26 +6,13 @@
 	"title": "Heading",
 	"category": "goblocks",
 	"description": "Semantic headings h1–h6 with full typography controls and optional link wrapping.",
-	"keywords": [
-		"heading",
-		"title",
-		"h1",
-		"h2",
-		"h3",
-		"subtitle"
-	],
+	"keywords": [ "heading", "title", "h1", "h2", "h3", "subtitle" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,
-		"customClassName": false,
-		"className": false,
-		"anchor": false
+		"customClassName": false
 	},
-	"usesContext": [
-		"postId",
-		"postType",
-		"queryId"
-	],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Progress Bar.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,21 +16,41 @@ use WP_Block;
  */
 class ProgressBar extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'progress-bar';
 	}
 
+	/**
+	 * Sanitize a hex color attribute, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback hex color.
+	 * @return string          Sanitized hex color.
+	 */
 	private function safe_color( mixed $value, string $default ): string {
 		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
-		return $sanitized ?: $default;
+		return $sanitized ? $sanitized : $default;
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$value      = isset( $attributes['value'] )      ? intval( $attributes['value'] )              : 75;
+		$value      = isset( $attributes['value'] ) ? intval( $attributes['value'] ) : 75;
 		$value      = max( 0, min( 100, $value ) );
-		$label      = isset( $attributes['label'] )      ? sanitize_text_field( $attributes['label'] ) : 'Progress';
+		$label      = isset( $attributes['label'] ) ? sanitize_text_field( $attributes['label'] ) : 'Progress';
 		$show_label = ! isset( $attributes['showLabel'] ) || ! empty( $attributes['showLabel'] );
 		$show_value = ! isset( $attributes['showValue'] ) || ! empty( $attributes['showValue'] );
 		$striped    = ! empty( $attributes['striped'] );
@@ -48,7 +74,7 @@ class ProgressBar extends BlockBase {
 			$label_position = 'top';
 		}
 
-		$fill_color  = $this->safe_color( $attributes['fillColor']  ?? null, '#4f46e5' );
+		$fill_color  = $this->safe_color( $attributes['fillColor'] ?? null, '#4f46e5' );
 		$fill_color2 = $this->safe_color( $attributes['fillColor2'] ?? null, '#7c3aed' );
 		$track_color = $this->safe_color( $attributes['trackColor'] ?? null, '#e5e7eb' );
 
@@ -60,12 +86,14 @@ class ProgressBar extends BlockBase {
 			$bar_height
 		);
 
-		$extra_classes = array_filter( [
-			'gb-progress',
-			$striped                     ? 'gb-progress--striped'      : '',
-			'inside' === $label_position ? 'gb-progress--label-inside' : '',
-			'bottom' === $label_position ? 'gb-progress--label-bottom' : '',
-		] );
+		$extra_classes = array_filter(
+			array(
+				'gb-progress',
+				$striped ? 'gb-progress--striped' : '',
+				'inside' === $label_position ? 'gb-progress--label-inside' : '',
+				'bottom' === $label_position ? 'gb-progress--label-bottom' : '',
+			)
+		);
 
 		$classes = $this->build_class_string(
 			$this->get_block_class( $unique_id ),
@@ -79,7 +107,7 @@ class ProgressBar extends BlockBase {
 
 		// Header HTML (label + value spans).
 		$label_span  = $show_label ? '<span class="gb-progress__label">' . esc_html( $label ) . '</span>' : '';
-		$value_span  = $show_value ? '<span class="gb-progress__value">' . $value . '%</span>'              : '';
+		$value_span  = $show_value ? '<span class="gb-progress__value">' . $value . '%</span>' : '';
 		$header_html = ( $show_label || $show_value )
 			? '<div class="gb-progress__header">' . $label_span . $value_span . '</div>'
 			: '';
@@ -89,8 +117,8 @@ class ProgressBar extends BlockBase {
 			? $label_span . $value_span
 			: '';
 
-		// Render the fill at its CORRECT target width so no-JS / reduced-motion
-		// users see the bar filled to the right level. The view script resets
+		// Render the fill at its CORRECT target width so no-JS / reduced-motion.
+		// users see the bar filled to the right level. The view script resets.
 		// to width:0 and re-applies the animation if motion is allowed.
 		$fill = sprintf(
 			'<div class="gb-progress__fill" style="width:%d%%" data-width="%d%%" data-duration="%d" data-easing="%s">%s</div>',
@@ -108,7 +136,7 @@ class ProgressBar extends BlockBase {
 			$fill
 		);
 
-		$before_track = ( 'top'    === $label_position ) ? $header_html : '';
+		$before_track = ( 'top' === $label_position ) ? $header_html : '';
 		$after_track  = ( 'bottom' === $label_position ) ? $header_html : '';
 
 		return sprintf(

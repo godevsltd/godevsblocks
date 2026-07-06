@@ -31,14 +31,14 @@ function makeUniqueId( clientId: string ): string {
 }
 
 const SEMANTIC_TAGS = [
-	{ title: 'div',     value: 'div' },
+	{ title: 'div', value: 'div' },
 	{ title: 'section', value: 'section' },
 	{ title: 'article', value: 'article' },
-	{ title: 'aside',   value: 'aside' },
-	{ title: 'header',  value: 'header' },
-	{ title: 'footer',  value: 'footer' },
-	{ title: 'nav',     value: 'nav' },
-	{ title: 'main',    value: 'main' },
+	{ title: 'aside', value: 'aside' },
+	{ title: 'header', value: 'header' },
+	{ title: 'footer', value: 'footer' },
+	{ title: 'nav', value: 'nav' },
+	{ title: 'main', value: 'main' },
 ];
 
 export function Edit( {
@@ -46,7 +46,14 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< ContainerBlockAttributes > ) {
-	const { uniqueId, tagName, styles, globalClasses, ariaLabel, generatedCss } = attributes;
+	const {
+		uniqueId,
+		tagName,
+		styles,
+		globalClasses,
+		ariaLabel,
+		generatedCss,
+	} = attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {
@@ -83,8 +90,14 @@ export function Edit( {
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		renderAppender: InnerBlocks.ButtonBlockAppender,
 		template: [
-			[ 'goblocks/heading', { placeholder: __( 'Section heading…', 'goblocks' ) } ],
-			[ 'goblocks/text',    { placeholder: __( 'Add content…', 'goblocks' ) } ],
+			[
+				'goblocks/heading',
+				{ placeholder: __( 'Section heading…', 'goblocks' ) },
+			],
+			[
+				'goblocks/text',
+				{ placeholder: __( 'Add content…', 'goblocks' ) },
+			],
 		],
 	} );
 
@@ -96,12 +109,15 @@ export function Edit( {
 			<BlockControls group="block">
 				<ToolbarGroup>
 					<ToolbarDropdownMenu
-						label={ __( 'Tag: ', 'goblocks' ) + ( tagName || 'div' ) }
+						label={
+							__( 'Tag: ', 'goblocks' ) + ( tagName || 'div' )
+						}
 						text={ tagName || 'div' }
 						controls={ SEMANTIC_TAGS.map( ( t ) => ( {
 							title: t.title,
 							isActive: t.value === tagName,
-							onClick: () => setAttributes( { tagName: t.value } ),
+							onClick: () =>
+								setAttributes( { tagName: t.value } ),
 						} ) ) }
 					/>
 				</ToolbarGroup>

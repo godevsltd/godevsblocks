@@ -1,4 +1,10 @@
 <?php
+/**
+ * Pagination.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +23,8 @@ defined( 'ABSPATH' ) || exit;
 class Pagination extends BlockBase {
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {
@@ -91,8 +99,8 @@ class Pagination extends BlockBase {
 			array(
 				'total'     => $total_pages,
 				'current'   => $current,
-				'prev_text' => $show_prev_next ? ( $prev_label ?: __( '&laquo; Previous', 'goblocks' ) ) : false,
-				'next_text' => $show_prev_next ? ( $next_label ?: __( 'Next &raquo;', 'goblocks' ) ) : false,
+				'prev_text' => $show_prev_next ? ( $prev_label ? $prev_label : __( '&laquo; Previous', 'goblocks' ) ) : false,
+				'next_text' => $show_prev_next ? ( $next_label ? $next_label : __( 'Next &raquo;', 'goblocks' ) ) : false,
 				'type'      => 'array',
 				'end_size'  => $show_first_last ? 1 : 0,
 				'mid_size'  => 2,

@@ -6,14 +6,7 @@
 	"title": "Shape Divider",
 	"category": "goblocks",
 	"description": "SVG shape divider — 12 preset shapes with color, height, flip, and responsive height controls.",
-	"keywords": [
-		"shape",
-		"divider",
-		"separator",
-		"wave",
-		"svg",
-		"section"
-	],
+	"keywords": [ "shape", "divider", "separator", "wave", "svg", "section" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,

@@ -4,10 +4,7 @@ import type { BlockEditProps } from '@wordpress/blocks';
 
 import { useCssEngine } from '../../hooks/useCssEngine';
 import { clsx } from '../../utils/classNames';
-import {
-	ShapeInspector,
-	type ShapeAttributes,
-} from './components/Inspector';
+import { ShapeInspector, type ShapeAttributes } from './components/Inspector';
 import { SHAPE_MAP, buildShapeSvg } from './shapes';
 import type { ShapeDefinition } from './shapes/index';
 
@@ -51,7 +48,8 @@ export function Edit( {
 			setAttributes( patch as Partial< ShapeAttributes > ),
 	} );
 
-	const shape = ( SHAPE_MAP[ shapeSlug ] ?? SHAPE_MAP.wave ) as ShapeDefinition;
+	const shape = ( SHAPE_MAP[ shapeSlug ] ??
+		SHAPE_MAP.wave ) as ShapeDefinition;
 
 	const wrapperClass = clsx(
 		'gb-shape',
@@ -71,14 +69,15 @@ export function Edit( {
 		flipX,
 		flipY,
 		fillType === 'gradient' ? gradientFrom : '',
-		fillType === 'gradient' ? gradientTo   : '',
+		fillType === 'gradient' ? gradientTo : '',
 		gradientAngle,
 		gradId
 	);
 
-	const opacityStyle = ( shapeOpacity ?? 100 ) < 100
-		? { opacity: ( shapeOpacity ?? 100 ) / 100 }
-		: undefined;
+	const opacityStyle =
+		( shapeOpacity ?? 100 ) < 100
+			? { opacity: ( shapeOpacity ?? 100 ) / 100 }
+			: undefined;
 
 	return (
 		<>
@@ -87,7 +86,10 @@ export function Edit( {
 				setAttributes={ setAttributes }
 			/>
 
-			<div { ...blockProps } style={ { ...( blockProps.style as object ), ...opacityStyle } }>
+			<div
+				{ ...blockProps }
+				style={ { ...( blockProps.style as object ), ...opacityStyle } }
+			>
 				<div
 					className="gb-shape__svg-wrapper"
 					dangerouslySetInnerHTML={ { __html: svgMarkup } }

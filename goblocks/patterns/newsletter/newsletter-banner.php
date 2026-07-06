@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Newsletter — Gradient Banner
  * Slug: goblocks/newsletter-banner

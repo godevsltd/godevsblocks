@@ -1,4 +1,10 @@
 <?php
+/**
+ * Pricing.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -13,17 +19,35 @@ use WP_Block;
  */
 class Pricing extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'pricing';
 	}
 
+	/**
+	 * Sanitize a hex color attribute, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback hex color.
+	 * @return string          Sanitized hex color.
+	 */
 	private function safe_color( mixed $value, string $default ): string {
 		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
-		return $sanitized ?: $default;
+		return $sanitized ? $sanitized : $default;
 	}
 
 	/**
 	 * Render a single price row.
+	 *
+	 * @param  string $currency    Currency symbol.
+	 * @param  string $amount      Price amount string.
+	 * @param  string $period      Billing period label.
+	 * @param  string $extra_class Additional CSS class.
+	 * @return string              HTML markup for the price row.
 	 */
 	private function price_html( string $currency, string $amount, string $period, string $extra_class = '' ): string {
 		$class = trim( 'gb-pricing__price ' . $extra_class );
@@ -37,12 +61,12 @@ class Pricing extends BlockBase {
 	}
 
 	/**
-	 * Build a single feature <li>.
+	 * Build a single feature list item.
 	 *
-	 * Line prefix rules:
-	 *   `-` → excluded feature (gray ✕, dimmed)
-	 *   `*` → highlighted feature (bold accent-colored text)
-	 *   none → normal feature (green ✓)
+	 * Line prefix rules: `-` excluded (gray x), `*` highlighted (accent bold), none normal (green check).
+	 *
+	 * @param  string $raw Raw feature string (may include `-` or `*` prefix).
+	 * @return string      HTML list item markup.
 	 */
 	private function feature_html( string $raw ): string {
 		$raw  = sanitize_text_field( $raw );
@@ -71,6 +95,14 @@ class Pricing extends BlockBase {
 		);
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
@@ -82,30 +114,35 @@ class Pricing extends BlockBase {
 			array_filter( array( 'gb-pricing', $featured ? 'gb-pricing--featured' : '' ) )
 		);
 
-		$plan_name      = isset( $attributes['planName'] )      ? sanitize_text_field( $attributes['planName'] )      : 'Pro Plan';
-		$price          = isset( $attributes['price'] )         ? sanitize_text_field( $attributes['price'] )         : '29';
-		$period         = isset( $attributes['period'] )        ? sanitize_text_field( $attributes['period'] )        : '/month';
-		$currency       = isset( $attributes['currency'] )      ? sanitize_text_field( $attributes['currency'] )      : '$';
-		$description    = isset( $attributes['description'] )   ? sanitize_text_field( $attributes['description'] )   : '';
+		$plan_name      = isset( $attributes['planName'] ) ? sanitize_text_field( $attributes['planName'] ) : 'Pro Plan';
+		$price          = isset( $attributes['price'] ) ? sanitize_text_field( $attributes['price'] ) : '29';
+		$period         = isset( $attributes['period'] ) ? sanitize_text_field( $attributes['period'] ) : '/month';
+		$currency       = isset( $attributes['currency'] ) ? sanitize_text_field( $attributes['currency'] ) : '$';
+		$description    = isset( $attributes['description'] ) ? sanitize_text_field( $attributes['description'] ) : '';
 		$features       = isset( $attributes['features'] ) && is_array( $attributes['features'] ) ? $attributes['features'] : array();
-		$cta_text       = isset( $attributes['ctaText'] )       ? sanitize_text_field( $attributes['ctaText'] )       : 'Get Started';
-		$cta_url        = isset( $attributes['ctaUrl'] )        ? esc_url( $attributes['ctaUrl'] )                    : '#';
+		$cta_text       = isset( $attributes['ctaText'] ) ? sanitize_text_field( $attributes['ctaText'] ) : 'Get Started';
+		$cta_url        = isset( $attributes['ctaUrl'] ) ? esc_url( $attributes['ctaUrl'] ) : '#';
 		$featured_label = isset( $attributes['featuredLabel'] ) ? sanitize_text_field( $attributes['featuredLabel'] ) : 'Most Popular';
-		$price_alt      = isset( $attributes['priceAlt'] )      ? sanitize_text_field( $attributes['priceAlt'] )      : '';
-		$period_alt     = isset( $attributes['periodAlt'] )     ? sanitize_text_field( $attributes['periodAlt'] )     : '/yr';
-		$savings_label  = isset( $attributes['savingsLabel'] )  ? sanitize_text_field( $attributes['savingsLabel'] )  : '';
+		$price_alt      = isset( $attributes['priceAlt'] ) ? sanitize_text_field( $attributes['priceAlt'] ) : '';
+		$period_alt     = isset( $attributes['periodAlt'] ) ? sanitize_text_field( $attributes['periodAlt'] ) : '/yr';
+		$savings_label  = isset( $attributes['savingsLabel'] ) ? sanitize_text_field( $attributes['savingsLabel'] ) : '';
 
 		// Colors.
-		$accent   = $this->safe_color( $attributes['accentColor']  ?? null, '#4f46e5' );
+		$accent   = $this->safe_color( $attributes['accentColor'] ?? null, '#4f46e5' );
 		$btn_text = $this->safe_color( $attributes['btnTextColor'] ?? null, '#ffffff' );
 		$heading  = $this->safe_color( $attributes['headingColor'] ?? null, '#0f172a' );
-		$text     = $this->safe_color( $attributes['textColor']    ?? null, '#374151' );
-		$check    = $this->safe_color( $attributes['checkColor']   ?? null, '#059669' );
-		$bg       = $this->safe_color( $attributes['cardBg']       ?? null, '#ffffff' );
+		$text     = $this->safe_color( $attributes['textColor'] ?? null, '#374151' );
+		$check    = $this->safe_color( $attributes['checkColor'] ?? null, '#059669' );
+		$bg       = $this->safe_color( $attributes['cardBg'] ?? null, '#ffffff' );
 
 		$css_vars = sprintf(
 			'--gb-pc-accent:%s;--gb-pc-btn-text:%s;--gb-pc-heading:%s;--gb-pc-text:%s;--gb-pc-check:%s;--gb-pc-bg:%s;',
-			$accent, $btn_text, $heading, $text, $check, $bg
+			$accent,
+			$btn_text,
+			$heading,
+			$text,
+			$check,
+			$bg
 		);
 
 		$animate = ! isset( $attributes['animateOnScroll'] ) || ! empty( $attributes['animateOnScroll'] );
@@ -129,8 +166,8 @@ class Pricing extends BlockBase {
 
 		// Price row(s): dual when annual pricing is configured.
 		$price_html = '' !== $price_alt
-			? $this->price_html( $currency, $price,     $period,     'gb-pricing__price--monthly' )
-			  . $this->price_html( $currency, $price_alt, $period_alt, 'gb-pricing__price--annual' )
+			? $this->price_html( $currency, $price, $period, 'gb-pricing__price--monthly' )
+				. $this->price_html( $currency, $price_alt, $period_alt, 'gb-pricing__price--annual' )
 			: $this->price_html( $currency, $price, $period );
 
 		// Features list.

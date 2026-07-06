@@ -6,28 +6,42 @@
 	"title": "Alert",
 	"category": "goblocks",
 	"description": "Styled alert/notice box with optional dismiss button.",
-	"keywords": [ "alert", "notice", "warning", "info", "message", "notification" ],
+	"keywords": [
+		"alert",
+		"notice",
+		"warning",
+		"info",
+		"message",
+		"notification"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":     { "type": "string",  "default": "" },
-		"alertType":    { "type": "string",  "default": "info" },
-		"title":        { "type": "string",  "default": "Note" },
-		"message":      { "type": "string",  "default": "This is an important notice." },
-		"dismissible":  { "type": "boolean", "default": false },
-		"dismissMode":  { "type": "string",  "default": "none" },
-		"dismissDays":  { "type": "integer", "default": 30 },
-		"alertStyle":   { "type": "string",  "default": "filled" },
-		"icon":         { "type": "boolean", "default": true },
-		"sticky":       { "type": "boolean", "default": false },
-		"styles":       { "type": "object",  "default": {} },
-		"globalClasses": { "type": "array",  "items": { "type": "string" }, "default": [] },
-		"generatedCss": { "type": "string",  "default": "" },
+		"uniqueId": { "type": "string", "default": "" },
+		"alertType": { "type": "string", "default": "info" },
+		"title": { "type": "string", "default": "Note" },
+		"message": {
+			"type": "string",
+			"default": "This is an important notice."
+		},
+		"dismissible": { "type": "boolean", "default": false },
+		"dismissMode": { "type": "string", "default": "none" },
+		"dismissDays": { "type": "integer", "default": 30 },
+		"alertStyle": { "type": "string", "default": "filled" },
+		"icon": { "type": "boolean", "default": true },
+		"sticky": { "type": "boolean", "default": false },
+		"styles": { "type": "object", "default": {} },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
 		"blockVersion": { "type": "integer", "default": 1 }
 	},
 	"viewScript": "file:./view.js",

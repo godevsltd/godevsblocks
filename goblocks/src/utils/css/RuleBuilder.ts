@@ -162,7 +162,11 @@ export function buildRuleSet( rawStyles: BlockStyles ): RuleSet {
 	const bgGroup = styles.background as
 		| Record< string, Partial< Record< string, string > > >
 		| undefined;
-	if ( bgGroup && 'backgroundColor' in bgGroup && ! ( 'gradient' in bgGroup ) ) {
+	if (
+		bgGroup &&
+		'backgroundColor' in bgGroup &&
+		! ( 'gradient' in bgGroup )
+	) {
 		const bgColorMap = bgGroup.backgroundColor;
 		if ( bgColorMap && 'object' === typeof bgColorMap ) {
 			for ( const [ key, value ] of Object.entries( bgColorMap ) ) {
@@ -185,10 +189,9 @@ export function buildRuleSet( rawStyles: BlockStyles ): RuleSet {
 						key as Exclude< Breakpoint, 'base' >
 					).push( clearDecl );
 				} else if ( PSEUDO_STATES.has( key as PseudoState ) ) {
-					getOrCreate(
-						ruleSet.byPseudo,
-						key as PseudoState
-					).push( clearDecl );
+					getOrCreate( ruleSet.byPseudo, key as PseudoState ).push(
+						clearDecl
+					);
 				}
 			}
 		}

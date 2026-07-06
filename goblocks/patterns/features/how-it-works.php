@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: How It Works — 3 Steps
  * Slug: goblocks/how-it-works

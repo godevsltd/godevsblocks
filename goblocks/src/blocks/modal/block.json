@@ -9,28 +9,33 @@
 	"keywords": [ "modal", "popup", "overlay", "dialog" ],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":        { "type": "string",  "default": "" },
-		"triggerText":     { "type": "string",  "default": "Open Modal" },
-		"triggerType":     { "type": "string",  "default": "button" },
-		"closeOnOverlay":  { "type": "boolean", "default": true },
-		"closeOnEscape":   { "type": "boolean", "default": true },
-		"animation":       { "type": "string",  "default": "fade" },
-		"autoOpen":        { "type": "boolean", "default": false },
-		"autoOpenDelay":   { "type": "integer", "default": 2000 },
-		"cookieName":      { "type": "string",  "default": "" },
-		"cookieDays":      { "type": "integer", "default": 30 },
-		"showDismissBtn":  { "type": "boolean", "default": false },
-		"styles":          { "type": "object",  "default": {} },
-		"globalClasses":   { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":    { "type": "string",  "default": "" },
-		"blockVersion":    { "type": "integer", "default": 1 }
+		"uniqueId": { "type": "string", "default": "" },
+		"htmlAttributes": { "type": "object", "default": {} },
+		"triggerText": { "type": "string", "default": "Open Modal" },
+		"triggerType": { "type": "string", "default": "button" },
+		"closeOnOverlay": { "type": "boolean", "default": true },
+		"closeOnEscape": { "type": "boolean", "default": true },
+		"animation": { "type": "string", "default": "fade" },
+		"autoOpen": { "type": "boolean", "default": false },
+		"autoOpenDelay": { "type": "integer", "default": 2000 },
+		"cookieName": { "type": "string", "default": "" },
+		"cookieDays": { "type": "integer", "default": 30 },
+		"showDismissBtn": { "type": "boolean", "default": false },
+		"styles": { "type": "object", "default": {} },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 }
 	},
-	"viewScript":   "file:./view.js",
+	"viewScript": "file:./view.js",
 	"editorScript": "file:./index.js"
 }

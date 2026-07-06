@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Team — 4 Member Grid
  * Slug: goblocks/team-grid

@@ -19,7 +19,10 @@
 		dataset: { orientation?: string };
 	}
 
-	/** Convert a label string to a URL-safe slug. */
+	/**
+	 * Convert a label string to a URL-safe slug.
+	 * @param text
+	 */
 	function slugify( text: string ): string {
 		return text
 			.toLowerCase()
@@ -29,21 +32,35 @@
 	}
 
 	/** Stored activate callbacks keyed by tabs element, for hashchange reuse. */
-	const registry = new Map< HTMLElement, ( btn: HTMLButtonElement, updateHash?: boolean ) => void >();
+	const registry = new Map<
+		HTMLElement,
+		( btn: HTMLButtonElement, updateHash?: boolean ) => void
+	>();
 
 	function initTabs( tabsEl: TabsEl ): void {
-		const tablist = tabsEl.querySelector< HTMLElement >( '[role="tablist"]' );
-		if ( ! tablist ) return;
+		const tablist =
+			tabsEl.querySelector< HTMLElement >( '[role="tablist"]' );
+		if ( ! tablist ) {
+			return;
+		}
 
-		const buttons = Array.from( tabsEl.querySelectorAll< HTMLButtonElement >( '[role="tab"]' ) );
-		if ( ! buttons.length ) return;
+		const buttons = Array.from(
+			tabsEl.querySelectorAll< HTMLButtonElement >( '[role="tab"]' )
+		);
+		if ( ! buttons.length ) {
+			return;
+		}
 
-		const panels = Array.from( tabsEl.querySelectorAll< HTMLElement >( '[role="tabpanel"]' ) );
+		const panels = Array.from(
+			tabsEl.querySelectorAll< HTMLElement >( '[role="tabpanel"]' )
+		);
 
 		// Assign a stable hash slug derived from the button's visible label.
 		buttons.forEach( ( btn ) => {
 			const slug = slugify( btn.textContent ?? '' );
-			if ( slug ) btn.dataset.hashSlug = slug;
+			if ( slug ) {
+				btn.dataset.hashSlug = slug;
+			}
 		} );
 
 		function activate( btn: HTMLButtonElement, updateHash = false ): void {
@@ -79,7 +96,9 @@
 		 */
 		function activateFromHash(): boolean {
 			const hash = window.location.hash.slice( 1 );
-			if ( ! hash ) return false;
+			if ( ! hash ) {
+				return false;
+			}
 			const target = buttons.find(
 				( b ) =>
 					b.dataset.hashSlug === hash ||
@@ -96,14 +115,19 @@
 		// Initialise: honour URL hash first, then fall back to PHP default.
 		if ( ! activateFromHash() ) {
 			const initial =
-				buttons.find( ( b ) => b.getAttribute( 'aria-selected' ) === 'true' ) ??
-				buttons[ 0 ];
-			if ( initial ) activate( initial );
+				buttons.find(
+					( b ) => b.getAttribute( 'aria-selected' ) === 'true'
+				) ?? buttons[ 0 ];
+			if ( initial ) {
+				activate( initial );
+			}
 		}
 
 		// Click.
 		tablist.addEventListener( 'click', ( e ) => {
-			const btn = ( e.target as HTMLElement ).closest< HTMLButtonElement >( '[role="tab"]' );
+			const btn = (
+				e.target as HTMLElement
+			 ).closest< HTMLButtonElement >( '[role="tab"]' );
 			if ( btn ) {
 				activate( btn, true );
 				btn.focus();
@@ -112,8 +136,12 @@
 
 		// Keyboard.
 		tablist.addEventListener( 'keydown', ( e ) => {
-			const idx = buttons.indexOf( tablist.ownerDocument.activeElement as HTMLButtonElement );
-			if ( idx === -1 ) return;
+			const idx = buttons.indexOf(
+				tablist.ownerDocument.activeElement as HTMLButtonElement
+			);
+			if ( idx === -1 ) {
+				return;
+			}
 
 			const vertical = tabsEl.dataset.orientation === 'vertical';
 			const prevKey = vertical ? 'ArrowUp' : 'ArrowLeft';
@@ -157,17 +185,23 @@
 
 	window.addEventListener( 'hashchange', () => {
 		const hash = window.location.hash.slice( 1 );
-		if ( ! hash ) return;
+		if ( ! hash ) {
+			return;
+		}
 
 		registry.forEach( ( activate, tabsEl ) => {
-			const buttons = Array.from( tabsEl.querySelectorAll< HTMLButtonElement >( '[role="tab"]' ) );
+			const buttons = Array.from(
+				tabsEl.querySelectorAll< HTMLButtonElement >( '[role="tab"]' )
+			);
 			const target = buttons.find(
 				( b ) =>
 					b.dataset.hashSlug === hash ||
 					b.id === hash ||
 					b.getAttribute( 'aria-controls' ) === hash
 			);
-			if ( target ) activate( target ); // no hash update — hash is already correct
+			if ( target ) {
+				activate( target );
+			} // no hash update — hash is already correct
 		} );
 	} );
 

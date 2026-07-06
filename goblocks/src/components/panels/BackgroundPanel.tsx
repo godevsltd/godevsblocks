@@ -2,7 +2,12 @@
  * BackgroundPanel — Background color, gradient, image, overlay, hover state.
  */
 
-import { PanelBody, ToggleControl, SelectControl, Button } from '@wordpress/components';
+import {
+	PanelBody,
+	ToggleControl,
+	SelectControl,
+	Button,
+} from '@wordpress/components';
 import { MediaUpload } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { ColorControl } from '../controls/ColorControl';
@@ -70,8 +75,8 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 		return ( v: string ) => setStyle( 'background', prop, v );
 	}
 
-	const bgImageUrl  = inh( 'backgroundImage' ) ?? '';
-	const hasImage    = bgImageUrl.startsWith( 'url(' );
+	const bgImageUrl = inh( 'backgroundImage' ) ?? '';
+	const hasImage = bgImageUrl.startsWith( 'url(' );
 	const gradientVal = inh( 'gradient' ) ?? '';
 	const hasGradient = Boolean( gradientVal );
 
@@ -105,9 +110,16 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 			<div className="gb-background-panel__gradient">
 				<ToggleControl
 					label={ __( 'Gradient background', 'goblocks' ) }
-					help={ hasGradient
-						? __( 'Gradient renders above background color.', 'goblocks' )
-						: __( 'Add a CSS gradient as background.', 'goblocks' )
+					help={
+						hasGradient
+							? __(
+									'Gradient renders above background color.',
+									'goblocks'
+							  )
+							: __(
+									'Add a CSS gradient as background.',
+									'goblocks'
+							  )
 					}
 					checked={ hasGradient }
 					onChange={ ( checked ) => {
@@ -175,7 +187,10 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 						label={ __( 'Background size', 'goblocks' ) }
 						value={ get( 'backgroundSize' ) ?? '' }
 						options={ [
-							{ label: __( '— Default —', 'goblocks' ), value: '' },
+							{
+								label: __( '— Default —', 'goblocks' ),
+								value: '',
+							},
 							...BG_SIZE_OPTIONS,
 						] }
 						onChange={ set( 'backgroundSize' ) }
@@ -196,7 +211,10 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 						label={ __( 'Background repeat', 'goblocks' ) }
 						value={ get( 'backgroundRepeat' ) ?? '' }
 						options={ [
-							{ label: __( '— Default —', 'goblocks' ), value: '' },
+							{
+								label: __( '— Default —', 'goblocks' ),
+								value: '',
+							},
 							...BG_REPEAT_OPTIONS,
 						] }
 						onChange={ set( 'backgroundRepeat' ) }
@@ -220,8 +238,8 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 						// Two separate setStyle() calls read the same stale `styles` snapshot
 						// — the second clobbers the first, leaving overlayColor unset.
 						setStyleBatch( 'background', {
-							overlayColor:   checked ? '#000000' : '',
-							overlayOpacity: checked ? '0.5'     : '',
+							overlayColor: checked ? '#000000' : '',
+							overlayOpacity: checked ? '0.5' : '',
 						} );
 					} }
 					// @ts-ignore
@@ -255,17 +273,35 @@ export function BackgroundPanel( { responsive }: BackgroundPanelProps ) {
 				</p>
 				<ColorControl
 					label={ __( 'Hover background color', 'goblocks' ) }
-					value={ getStyleState( 'background', 'backgroundColor', 'hover' ) }
+					value={ getStyleState(
+						'background',
+						'backgroundColor',
+						'hover'
+					) }
 					onChange={ ( v ) =>
-						setStyleState( 'background', 'backgroundColor', 'hover', v )
+						setStyleState(
+							'background',
+							'backgroundColor',
+							'hover',
+							v
+						)
 					}
 					breakpoint="base"
 				/>
 				<ColorControl
 					label={ __( 'Focus background color', 'goblocks' ) }
-					value={ getStyleState( 'background', 'backgroundColor', 'focus' ) }
+					value={ getStyleState(
+						'background',
+						'backgroundColor',
+						'focus'
+					) }
 					onChange={ ( v ) =>
-						setStyleState( 'background', 'backgroundColor', 'focus', v )
+						setStyleState(
+							'background',
+							'backgroundColor',
+							'focus',
+							v
+						)
 					}
 					breakpoint="base"
 				/>

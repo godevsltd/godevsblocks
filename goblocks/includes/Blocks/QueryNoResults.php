@@ -1,4 +1,10 @@
 <?php
+/**
+ * Query No Results.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +21,8 @@ defined( 'ABSPATH' ) || exit;
 class QueryNoResults extends BlockBase {
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {

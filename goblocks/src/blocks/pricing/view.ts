@@ -1,7 +1,9 @@
 ( function () {
 	'use strict';
 
-	const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+	const reducedMotion = window.matchMedia(
+		'(prefers-reduced-motion: reduce)'
+	).matches;
 
 	// ── Entrance animation ────────────────────────────────────────────────────
 
@@ -14,8 +16,12 @@
 		const groups = new Map< Element, HTMLElement[] >();
 		animateCards.forEach( ( card ) => {
 			const parent = card.parentElement;
-			if ( ! parent ) return;
-			if ( ! groups.has( parent ) ) groups.set( parent, [] );
+			if ( ! parent ) {
+				return;
+			}
+			if ( ! groups.has( parent ) ) {
+				groups.set( parent, [] );
+			}
 			groups.get( parent )!.push( card );
 		} );
 
@@ -51,14 +57,22 @@
 	// ── Monthly / Annual toggle ───────────────────────────────────────────────
 
 	const cards = Array.from(
-		document.querySelectorAll< HTMLElement >( '.gb-pricing[data-price-alt]' )
+		document.querySelectorAll< HTMLElement >(
+			'.gb-pricing[data-price-alt]'
+		)
 	);
-	if ( ! cards.length ) return;
+	if ( ! cards.length ) {
+		return;
+	}
 
 	const firstCard = cards[ 0 ];
-	if ( ! firstCard ) return;
-	const parent    = firstCard.parentElement;
-	if ( ! parent ) return;
+	if ( ! firstCard ) {
+		return;
+	}
+	const parent = firstCard.parentElement;
+	if ( ! parent ) {
+		return;
+	}
 
 	const savingsLabel = firstCard.dataset.savingsLabel || '';
 	const savingsBadge = savingsLabel
@@ -76,17 +90,25 @@
 	parent.insertBefore( wrapper, firstCard );
 
 	wrapper.addEventListener( 'click', ( e ) => {
-		const btn = ( e.target as HTMLElement ).closest< HTMLButtonElement >( '[data-period]' );
-		if ( ! btn ) return;
+		const btn = ( e.target as HTMLElement ).closest< HTMLButtonElement >(
+			'[data-period]'
+		);
+		if ( ! btn ) {
+			return;
+		}
 
 		const isAnnual = btn.dataset.period === 'annual';
 
-		wrapper.querySelectorAll< HTMLButtonElement >( '[data-period]' ).forEach( ( b ) => {
-			const active = b === btn;
-			b.classList.toggle( 'gb-pricing-toggle__btn--active', active );
-			b.setAttribute( 'aria-pressed', String( active ) );
-		} );
+		wrapper
+			.querySelectorAll< HTMLButtonElement >( '[data-period]' )
+			.forEach( ( b ) => {
+				const active = b === btn;
+				b.classList.toggle( 'gb-pricing-toggle__btn--active', active );
+				b.setAttribute( 'aria-pressed', String( active ) );
+			} );
 
-		cards.forEach( ( card ) => card.classList.toggle( 'gb-pricing--annual', isAnnual ) );
+		cards.forEach( ( card ) =>
+			card.classList.toggle( 'gb-pricing--annual', isAnnual )
+		);
 	} );
 } )();

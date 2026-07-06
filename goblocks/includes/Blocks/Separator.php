@@ -1,4 +1,10 @@
 <?php
+/**
+ * Separator.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -34,8 +40,8 @@ class Separator extends BlockBase {
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$label      = isset( $attributes['label'] )     ? sanitize_text_field( (string) $attributes['label'] ) : '';
-		$line_style = isset( $attributes['lineStyle'] ) ? sanitize_key( (string) $attributes['lineStyle'] )     : 'solid';
+		$label      = isset( $attributes['label'] ) ? sanitize_text_field( (string) $attributes['label'] ) : '';
+		$line_style = isset( $attributes['lineStyle'] ) ? sanitize_key( (string) $attributes['lineStyle'] ) : 'solid';
 
 		$allowed_styles = array( 'solid', 'dashed', 'dotted', 'double' );
 		if ( ! in_array( $line_style, $allowed_styles, true ) ) {

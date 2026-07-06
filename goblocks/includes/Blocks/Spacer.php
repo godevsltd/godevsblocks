@@ -1,4 +1,10 @@
 <?php
+/**
+ * Spacer.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;

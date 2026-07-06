@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: FAQ — Accordion
  * Slug: goblocks/faq-accordion

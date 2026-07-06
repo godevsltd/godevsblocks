@@ -10,13 +10,13 @@ import type { BlockStyles } from '../../types/styles';
 // ── Attribute type ────────────────────────────────────────────────────────
 
 interface SeparatorBlockAttributes {
-	uniqueId:      string;
-	lineStyle:     string;
-	label:         string;
-	styles:        BlockStyles;
+	uniqueId: string;
+	lineStyle: string;
+	label: string;
+	styles: BlockStyles;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 // ── Unique ID generator ───────────────────────────────────────────────────
@@ -32,7 +32,8 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< SeparatorBlockAttributes > ) {
-	const { uniqueId, styles, globalClasses, generatedCss, lineStyle, label } = attributes;
+	const { uniqueId, styles, globalClasses, generatedCss, lineStyle, label } =
+		attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {
@@ -41,7 +42,7 @@ export function Edit( {
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useCssEngine( {
-		blockSlug:    'separator',
+		blockSlug: 'separator',
 		uniqueId,
 		styles,
 		generatedCss,
@@ -49,16 +50,17 @@ export function Edit( {
 			setAttributes( patch as Partial< SeparatorBlockAttributes > ),
 	} );
 
-	const baseClass  = clsx(
+	const baseClass = clsx(
 		'gb-separator',
 		label && 'gb-separator--labeled',
 		uniqueId && `gb-separator-${ uniqueId }`,
 		...( globalClasses ?? [] )
 	);
 
-	const hrStyle = lineStyle && lineStyle !== 'solid'
-		? ( { borderStyle: lineStyle } as React.CSSProperties )
-		: undefined;
+	const hrStyle =
+		lineStyle && lineStyle !== 'solid'
+			? ( { borderStyle: lineStyle } as React.CSSProperties )
+			: undefined;
 
 	const blockProps = useBlockProps( { className: baseClass } );
 

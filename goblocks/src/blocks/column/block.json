@@ -1,47 +1,56 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "goblocks/column",
-  "version": "1.0.0",
-  "title": "Column",
-  "category": "goblocks",
-  "description": "A flexible column or grid cell. Place inside a Group block for side-by-side layouts.",
-  "keywords": ["column", "col", "cell", "layout", "flex", "grid"],
-  "textdomain": "goblocks",
-  "supports": {
-    "html": false,
-    "customClassName": false,
-    "className": false,
-    "anchor": false
-  },
-  "parent": ["goblocks/group"],
-  "usesContext": ["postId", "postType", "queryId", "goblocks/groupUniqueId"],
-  "attributes": {
-    "uniqueId":    { "type": "string",  "default": "" },
-    "tagName":     { "type": "string",  "default": "div" },
-    "styles": {
-      "type": "object",
-      "default": {
-        "layout": {
-          "flexGrow":  { "base": "1" },
-          "flexBasis": { "base": "0%" }
-        },
-        "spacing": {
-          "paddingTop":    { "base": "16px" },
-          "paddingRight":  { "base": "16px" },
-          "paddingBottom": { "base": "16px" },
-          "paddingLeft":   { "base": "16px" }
-        }
-      }
-    },
-    "globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-    "htmlAttributes": { "type": "object",  "default": {} },
-    "dynamicContent": { "type": "object",  "default": {} },
-    "generatedCss":   { "type": "string",  "default": "" },
-    "blockVersion":   { "type": "integer", "default": 1 },
-    "ariaLabel":      { "type": "string",  "default": "" },
-    "animationClass": { "type": "string",  "default": "" }
-  },
-  "editorScript": "file:./index.js",
-  "viewScript":   "file:./view.js"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "goblocks/column",
+	"version": "1.0.0",
+	"title": "Column",
+	"category": "goblocks",
+	"description": "A flexible column or grid cell. Place inside a Group block for side-by-side layouts.",
+	"keywords": [ "column", "col", "cell", "layout", "flex", "grid" ],
+	"textdomain": "goblocks",
+	"supports": {
+		"html": false,
+		"customClassName": false,
+		"className": false,
+		"anchor": false
+	},
+	"parent": [ "goblocks/group" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"queryId",
+		"goblocks/groupUniqueId"
+	],
+	"attributes": {
+		"uniqueId": { "type": "string", "default": "" },
+		"tagName": { "type": "string", "default": "div" },
+		"styles": {
+			"type": "object",
+			"default": {
+				"layout": {
+					"flexGrow": { "base": "1" },
+					"flexBasis": { "base": "0%" }
+				},
+				"spacing": {
+					"paddingTop": { "base": "16px" },
+					"paddingRight": { "base": "16px" },
+					"paddingBottom": { "base": "16px" },
+					"paddingLeft": { "base": "16px" }
+				}
+			}
+		},
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"htmlAttributes": { "type": "object", "default": {} },
+		"dynamicContent": { "type": "object", "default": {} },
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 },
+		"ariaLabel": { "type": "string", "default": "" },
+		"animationClass": { "type": "string", "default": "" }
+	},
+	"editorScript": "file:./index.js",
+	"viewScript": "goblocks-anim-observer"
 }

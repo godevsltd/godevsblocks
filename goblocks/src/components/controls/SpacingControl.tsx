@@ -125,28 +125,28 @@ export function SpacingControl( {
 		);
 	}
 
-		return (
-			<div className="gb-spacing-control">
-				<div className="gb-spacing-control__header">
-					<span className="gb-spacing-control__label">{ label }</span>
-					<Button
-						className="gb-spacing-control__link"
-						isSmall
-						variant={ linked ? 'primary' : 'tertiary' }
-						onClick={ () => setLinked( ( l ) => ! l ) }
-						aria-label={
-							linked
-								? __( 'Unlink sides', 'goblocks' )
-								: __( 'Link all sides', 'goblocks' )
-						}
-						aria-pressed={ linked }
-						disabled={ disabled }
-					>
-						{ linked ? LINK_ICON : LINK_OFF_ICON }
-					</Button>
-				</div>
+	return (
+		<div className="gb-spacing-control">
+			<div className="gb-spacing-control__header">
+				<span className="gb-spacing-control__label">{ label }</span>
+				<Button
+					className="gb-spacing-control__link"
+					isSmall
+					variant={ linked ? 'primary' : 'tertiary' }
+					onClick={ () => setLinked( ( l ) => ! l ) }
+					aria-label={
+						linked
+							? __( 'Unlink sides', 'goblocks' )
+							: __( 'Link all sides', 'goblocks' )
+					}
+					aria-pressed={ linked }
+					disabled={ disabled }
+				>
+					{ linked ? LINK_ICON : LINK_OFF_ICON }
+				</Button>
+			</div>
 
-				{ linked ? (
+			{ linked ? (
 				<UnitInput
 					label={ label }
 					value={ values.top }

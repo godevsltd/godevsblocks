@@ -1,4 +1,10 @@
 <?php
+/**
+ * Query Loop.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -25,6 +31,8 @@ class QueryLoop extends BlockBase {
 	private static array $queries = array();
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {
@@ -73,35 +81,112 @@ class QueryLoop extends BlockBase {
 			return '';
 		}
 
+		// ── Layout context ─────────────────────────────────────────────────────.
+
+		$layout      = (array) ( $block->context['goblocks/layout'] ?? array() );
+		$layout_type = (string) ( $layout['type'] ?? 'grid' );
+		$layout_cols = max( 1, min( 4, (int) ( $layout['columns'] ?? 3 ) ) );
+
+		// ── CSS classes ────────────────────────────────────────────────────────.
+
 		$unique_id   = $this->get_unique_id( $attributes );
 		$block_class = $unique_id ? $this->get_block_class( $unique_id ) : '';
-		$classes     = $this->build_class_string(
+
+		$layout_classes = array( 'gb-query-loop' );
+		if ( 'list' === $layout_type ) {
+			$layout_classes[] = 'gb-query-loop--list';
+		} else {
+			$layout_classes[] = 'gb-query-loop--grid';
+			$layout_classes[] = 'gb-query-loop--cols-' . $layout_cols;
+		}
+
+		$classes    = $this->build_class_string(
 			$block_class ? $block_class : 'gb-query-loop',
 			$this->get_global_classes( $attributes ),
-			array( 'gb-query-loop' )
+			$layout_classes
 		);
-		$html_attrs  = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+		$html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
 
 		$output = '';
+
+		// ── Per-post rendering ─────────────────────────────────────────────────.
+
+		// Merge parent context with per-post data and create a fresh WP_Block.
+		// per inner block so nested blocks (core/post-title, core/post-excerpt,.
+		// etc.) receive postId correctly. WP_Block::render() accepts options, NOT.
+		// context — context must be baked into the constructor, which is exactly.
+		// how WordPress core's own Query block works.
 
 		while ( $query->have_posts() ) {
 			$query->the_post();
 
 			$post_context = array(
-				'postId'  => (int) get_the_ID(),
-				'post_id' => (int) get_the_ID(),
+				'postId'   => (int) get_the_ID(),
 				'postType' => (string) get_post_type(),
 			);
 
-			// Render the inner block template once per post with post context.
+			// $block->available_context can be null when rendered outside a.
+			// full WP_Block tree (e.g. do_blocks() in a REST request). Cast.
+			// to array so array_merge() never receives a null first argument.
+			$parent_context = is_array( $block->available_context ) ? $block->available_context : array();
+			$merged_context = array_merge( $parent_context, $post_context );
+
+			$post_output = '';
 			foreach ( $block->inner_blocks as $inner_block ) {
-				$output .= $inner_block->render( $post_context );
+				$post_output .= ( new \WP_Block(
+					$inner_block->parsed_block,
+					$merged_context
+				) )->render( array( 'dynamic' => true ) );
 			}
+
+			// Fallback card when the template produces no visible content.
+			// (e.g. user added the block but left the template empty).
+			if ( '' === trim( wp_strip_all_tags( $post_output ) ) ) {
+				$post_output = self::render_fallback_card();
+			}
+
+			// Wrap each post in an article so it is a single grid/flex item.
+			$output .= '<article class="gb-query-loop__item">' . $post_output . '</article>';
 		}
 
 		wp_reset_postdata();
 
 		return sprintf( '<div class="%s"%s>%s</div>', $classes, $html_attrs, $output );
+	}
+
+	/**
+	 * Minimal post card used when the user's template produces no visible output.
+	 * Ensures pages with an unconfigured Query block are never completely blank.
+	 *
+	 * @return string
+	 */
+	private static function render_fallback_card(): string {
+		$thumb_url  = get_the_post_thumbnail_url( null, 'medium_large' );
+		$thumb_html = $thumb_url
+			? sprintf(
+				'<a href="%s"><img class="gb-query-fallback-card__thumbnail" src="%s" alt="%s" loading="lazy"></a>',
+				esc_url( get_permalink() ),
+				esc_url( $thumb_url ),
+				esc_attr( get_the_title() )
+			)
+			: '';
+
+		$excerpt = get_the_excerpt();
+		if ( ! $excerpt ) {
+			$excerpt = wp_trim_words( get_the_content(), 20, '&hellip;' );
+		}
+		$card_title = (string) get_the_title();
+		$card_title = '' !== $card_title ? $card_title : (string) __( '(Untitled)', 'goblocks' );
+
+		return sprintf(
+			'<article class="gb-query-fallback-card">%s<div class="gb-query-fallback-card__body"><h3 class="gb-query-fallback-card__title"><a href="%s">%s</a></h3><div class="gb-query-fallback-card__meta"><time datetime="%s">%s</time></div>%s</div></article>',
+			$thumb_html,
+			esc_url( get_permalink() ),
+			esc_html( $card_title ),
+			esc_attr( get_the_date( 'Y-m-d' ) ),
+			esc_html( get_the_date() ),
+			$excerpt ? '<p class="gb-query-fallback-card__excerpt">' . esc_html( $excerpt ) . '</p>' : ''
+		);
 	}
 
 	/**

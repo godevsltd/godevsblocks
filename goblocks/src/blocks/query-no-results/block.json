@@ -9,12 +9,12 @@
 	"keywords": [ "no results", "empty", "query", "fallback" ],
 	"textdomain": "goblocks",
 	"ancestor": [ "goblocks/query" ],
-	"usesContext": [ "goblocks/queryId" ],
+	"usesContext": [ "goblocks/queryId", "goblocks/query" ],
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {},
 	"editorScript": "file:./index.js"

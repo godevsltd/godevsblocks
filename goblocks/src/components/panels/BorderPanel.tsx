@@ -44,10 +44,10 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 	const [ linkedRadius, setLinkedRadius ] = useState( false );
 
 	// Read current-breakpoint border widths for linked-state detection.
-	const bTop    = getStyle( 'border', 'borderTopWidth' );
-	const bRight  = getStyle( 'border', 'borderRightWidth' );
+	const bTop = getStyle( 'border', 'borderTopWidth' );
+	const bRight = getStyle( 'border', 'borderRightWidth' );
 	const bBottom = getStyle( 'border', 'borderBottomWidth' );
-	const bLeft   = getStyle( 'border', 'borderLeftWidth' );
+	const bLeft = getStyle( 'border', 'borderLeftWidth' );
 
 	// Reset linked flags when the active breakpoint changes.
 	// If all 4 widths are set and equal → linked; otherwise → not linked.
@@ -61,10 +61,10 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 		);
 	}, [ bTop, bRight, bBottom, bLeft ] );
 
-	const rTopLeft     = getStyle( 'border', 'borderTopLeftRadius' );
-	const rTopRight    = getStyle( 'border', 'borderTopRightRadius' );
+	const rTopLeft = getStyle( 'border', 'borderTopLeftRadius' );
+	const rTopRight = getStyle( 'border', 'borderTopRightRadius' );
 	const rBottomRight = getStyle( 'border', 'borderBottomRightRadius' );
-	const rBottomLeft  = getStyle( 'border', 'borderBottomLeftRadius' );
+	const rBottomLeft = getStyle( 'border', 'borderBottomLeftRadius' );
 
 	useEffect( () => {
 		const allSet = rTopLeft && rTopRight && rBottomRight && rBottomLeft;
@@ -234,7 +234,11 @@ export function BorderPanel( { responsive }: BorderPanelProps ) {
 				</p>
 				<ColorControl
 					label={ __( 'Hover border color', 'goblocks' ) }
-					value={ getStyleState( 'border', 'borderTopColor', 'hover' ) }
+					value={ getStyleState(
+						'border',
+						'borderTopColor',
+						'hover'
+					) }
 					onChange={ ( v ) =>
 						setStyleStateBatch(
 							'border',

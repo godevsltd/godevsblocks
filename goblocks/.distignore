@@ -96,3 +96,12 @@ assets/_block_test_setup.php
 block-tests.js
 assets/block-test-shots/
 block-test-report.html
+assets/_landing_setup.php
+assets/landing-verify.js
+assets/landing-shots/
+assets/landing-report.html
+assets/screenshot-*.png
+assets/check-patterns.js
+assets/pattern-shots/
+assets/_check_patterns.php
+assets/_debug_styles.php

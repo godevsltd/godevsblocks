@@ -24,15 +24,15 @@ final class Defaults {
 	 */
 	public static function get(): array {
 		return array(
-			// ── Layout ───────────────────────────────────────────────────────
+			// ── Layout ───────────────────────────────────────────────────────.
 			'container_width'      => 1200,
 
-			// ── CSS output ───────────────────────────────────────────────────
-			// 'file'   → write CSS to uploads/goblocks/{post_id}.css
-			// 'inline' → print <style> in <head> as fallback
+			// ── CSS output ───────────────────────────────────────────────────.
+			// 'file'   → write CSS to uploads/goblocks/{post_id}.css.
+			// 'inline' → print <style> in <head> as fallback.
 			'css_print_method'     => 'file',
 
-			// ── Responsive breakpoints (min-width, mobile-first) ─────────────
+			// ── Responsive breakpoints (min-width, mobile-first) ─────────────.
 			'breakpoints'          => array(
 				'xs'  => 480,
 				'sm'  => 640,
@@ -42,20 +42,20 @@ final class Defaults {
 				'2xl' => 1536,
 			),
 
-			// ── Editor behaviour ─────────────────────────────────────────────
-			'sync_responsive'      => true,   // mirror WP preview device ↔ active breakpoint
+			// ── Editor behaviour ─────────────────────────────────────────────.
+			'sync_responsive'      => true,   // Mirror WP preview device to active breakpoint.
 
-			// ── Fonts ────────────────────────────────────────────────────────
+			// ── Fonts ────────────────────────────────────────────────────────.
 			'disable_google_fonts' => false,
 
-			// ── Dark mode ────────────────────────────────────────────────────
+			// ── Dark mode ────────────────────────────────────────────────────.
 			'enable_dark_mode'     => false,
 
-			// ── Global color palette ─────────────────────────────────────────
+			// ── Global color palette ─────────────────────────────────────────.
 			// Array of { slug, name, color } objects (same shape as theme.json palette).
 			'global_color_palette' => array(),
 
-			// ── Global typography presets ────────────────────────────────────
+			// ── Global typography presets ────────────────────────────────────.
 			// Array of { slug, label, fontFamily, fontSize, fontWeight, lineHeight }.
 			'global_typography'    => array(),
 		);

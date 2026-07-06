@@ -6,13 +6,7 @@
 	"title": "Image",
 	"category": "goblocks",
 	"description": "Image block with media library, srcset, lazy loading, caption, and link wrapping.",
-	"keywords": [
-		"image",
-		"photo",
-		"picture",
-		"figure",
-		"media"
-	],
+	"keywords": [ "image", "photo", "picture", "figure", "media" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,
@@ -20,11 +14,7 @@
 		"className": false,
 		"anchor": false
 	},
-	"usesContext": [
-		"postId",
-		"postType",
-		"queryId"
-	],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",
@@ -130,6 +120,5 @@
 			"default": "none"
 		}
 	},
-	"viewScript":   "file:./view.js",
 	"editorScript": "file:./index.js"
 }

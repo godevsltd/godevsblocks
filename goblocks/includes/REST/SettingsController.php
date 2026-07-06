@@ -1,4 +1,10 @@
 <?php
+/**
+ * Settings Controller.
+ *
+ * @package GoBlocks\REST
+ */
+
 namespace GoBlocks\REST;
 
 defined( 'ABSPATH' ) || exit;

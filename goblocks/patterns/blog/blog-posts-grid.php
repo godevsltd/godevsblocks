@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Blog — Posts Grid
  * Slug: goblocks/blog-posts-grid

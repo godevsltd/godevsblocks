@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tag Security.
+ *
+ * @package GoBlocks\DynamicContent
+ */
+
 namespace GoBlocks\DynamicContent;
 
 defined( 'ABSPATH' ) || exit;
@@ -6,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Security validator for dynamic content tag resolution.
  *
- * validate() is called by TagRegistry::replace() before every resolve() call.
- * Returns false if any check fails — caller substitutes an empty string.
+ * Called by TagRegistry::replace() before every resolve() call.
+ * Returns false if any check fails; caller substitutes an empty string.
  */
 class TagSecurity {
 
@@ -88,8 +94,8 @@ class TagSecurity {
 	/**
 	 * Per-slug capability requirements.
 	 *
-	 * @param  string $slug
-	 * @return bool
+	 * @param  string $slug Tag slug to check.
+	 * @return bool         True if capability requirements are satisfied.
 	 */
 	private static function check_capabilities( string $slug ): bool {
 		return match ( $slug ) {

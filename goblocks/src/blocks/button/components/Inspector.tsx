@@ -58,20 +58,41 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 			background: { backgroundColor: { base: '#4f46e5' } },
 			typography: { color: { base: '#ffffff' } },
 			border: {
-				borderTopWidth:     { base: '' },
-				borderRightWidth:   { base: '' },
-				borderBottomWidth:  { base: '' },
-				borderLeftWidth:    { base: '' },
-				borderTopColor:     { base: '' },
-				borderRightColor:   { base: '' },
-				borderBottomColor:  { base: '' },
-				borderLeftColor:    { base: '' },
+				borderTopWidth: { base: '' },
+				borderRightWidth: { base: '' },
+				borderBottomWidth: { base: '' },
+				borderLeftWidth: { base: '' },
+				borderTopColor: { base: '' },
+				borderRightColor: { base: '' },
+				borderBottomColor: { base: '' },
+				borderLeftColor: { base: '' },
 			},
 		},
 		icon: (
-			<svg width="28" height="18" viewBox="0 0 28 18" fill="none" aria-hidden="true">
-				<rect x="0" y="0" width="28" height="18" rx="5" fill="currentColor" />
-				<rect x="6" y="7" width="16" height="4" rx="1.5" fill="white" opacity="0.85" />
+			<svg
+				width="28"
+				height="18"
+				viewBox="0 0 28 18"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="28"
+					height="18"
+					rx="5"
+					fill="currentColor"
+				/>
+				<rect
+					x="6"
+					y="7"
+					width="16"
+					height="4"
+					rx="1.5"
+					fill="white"
+					opacity="0.85"
+				/>
 			</svg>
 		),
 	},
@@ -81,24 +102,47 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 			background: { backgroundColor: { base: 'transparent' } },
 			typography: { color: { base: '#4f46e5' } },
 			border: {
-				borderTopWidth:     { base: '2px' },
-				borderRightWidth:   { base: '2px' },
-				borderBottomWidth:  { base: '2px' },
-				borderLeftWidth:    { base: '2px' },
-				borderTopColor:     { base: '#4f46e5' },
-				borderRightColor:   { base: '#4f46e5' },
-				borderBottomColor:  { base: '#4f46e5' },
-				borderLeftColor:    { base: '#4f46e5' },
-				borderTopStyle:     { base: 'solid' },
-				borderRightStyle:   { base: 'solid' },
-				borderBottomStyle:  { base: 'solid' },
-				borderLeftStyle:    { base: 'solid' },
+				borderTopWidth: { base: '2px' },
+				borderRightWidth: { base: '2px' },
+				borderBottomWidth: { base: '2px' },
+				borderLeftWidth: { base: '2px' },
+				borderTopColor: { base: '#4f46e5' },
+				borderRightColor: { base: '#4f46e5' },
+				borderBottomColor: { base: '#4f46e5' },
+				borderLeftColor: { base: '#4f46e5' },
+				borderTopStyle: { base: 'solid' },
+				borderRightStyle: { base: 'solid' },
+				borderBottomStyle: { base: 'solid' },
+				borderLeftStyle: { base: 'solid' },
 			},
 		},
 		icon: (
-			<svg width="28" height="18" viewBox="0 0 28 18" fill="none" aria-hidden="true">
-				<rect x="1" y="1" width="26" height="16" rx="4.5" stroke="currentColor" strokeWidth="2" fill="none" />
-				<rect x="7" y="7" width="14" height="4" rx="1.5" fill="currentColor" opacity="0.7" />
+			<svg
+				width="28"
+				height="18"
+				viewBox="0 0 28 18"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="1"
+					y="1"
+					width="26"
+					height="16"
+					rx="4.5"
+					stroke="currentColor"
+					strokeWidth="2"
+					fill="none"
+				/>
+				<rect
+					x="7"
+					y="7"
+					width="14"
+					height="4"
+					rx="1.5"
+					fill="currentColor"
+					opacity="0.7"
+				/>
 			</svg>
 		),
 	},
@@ -108,20 +152,42 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 			background: { backgroundColor: { base: 'rgba(79,70,229,0.1)' } },
 			typography: { color: { base: '#4f46e5' } },
 			border: {
-				borderTopWidth:    { base: '' },
-				borderRightWidth:  { base: '' },
+				borderTopWidth: { base: '' },
+				borderRightWidth: { base: '' },
 				borderBottomWidth: { base: '' },
-				borderLeftWidth:   { base: '' },
-				borderTopColor:    { base: '' },
-				borderRightColor:  { base: '' },
+				borderLeftWidth: { base: '' },
+				borderTopColor: { base: '' },
+				borderRightColor: { base: '' },
 				borderBottomColor: { base: '' },
-				borderLeftColor:   { base: '' },
+				borderLeftColor: { base: '' },
 			},
 		},
 		icon: (
-			<svg width="28" height="18" viewBox="0 0 28 18" fill="none" aria-hidden="true">
-				<rect x="0" y="0" width="28" height="18" rx="5" fill="currentColor" opacity="0.12" />
-				<rect x="7" y="7" width="14" height="4" rx="1.5" fill="currentColor" opacity="0.75" />
+			<svg
+				width="28"
+				height="18"
+				viewBox="0 0 28 18"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="28"
+					height="18"
+					rx="5"
+					fill="currentColor"
+					opacity="0.12"
+				/>
+				<rect
+					x="7"
+					y="7"
+					width="14"
+					height="4"
+					rx="1.5"
+					fill="currentColor"
+					opacity="0.75"
+				/>
 			</svg>
 		),
 	},
@@ -131,24 +197,46 @@ const BUTTON_VARIANTS: ButtonVariant[] = [
 			background: { backgroundColor: { base: 'transparent' } },
 			typography: { color: { base: '#4f46e5' } },
 			border: {
-				borderTopWidth:    { base: '' },
-				borderRightWidth:  { base: '' },
+				borderTopWidth: { base: '' },
+				borderRightWidth: { base: '' },
 				borderBottomWidth: { base: '' },
-				borderLeftWidth:   { base: '' },
-				borderTopColor:    { base: '' },
-				borderRightColor:  { base: '' },
+				borderLeftWidth: { base: '' },
+				borderTopColor: { base: '' },
+				borderRightColor: { base: '' },
 				borderBottomColor: { base: '' },
-				borderLeftColor:   { base: '' },
+				borderLeftColor: { base: '' },
 			},
 			spacing: {
-				paddingLeft:  { base: '0.25rem' },
+				paddingLeft: { base: '0.25rem' },
 				paddingRight: { base: '0.25rem' },
 			},
 		},
 		icon: (
-			<svg width="28" height="18" viewBox="0 0 28 18" fill="none" aria-hidden="true">
-				<rect x="4" y="7" width="20" height="4" rx="1.5" fill="currentColor" opacity="0.75" />
-				<line x1="4" y1="15" x2="24" y2="15" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+			<svg
+				width="28"
+				height="18"
+				viewBox="0 0 28 18"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="4"
+					y="7"
+					width="20"
+					height="4"
+					rx="1.5"
+					fill="currentColor"
+					opacity="0.75"
+				/>
+				<line
+					x1="4"
+					y1="15"
+					x2="24"
+					y2="15"
+					stroke="currentColor"
+					strokeWidth="1.5"
+					opacity="0.4"
+				/>
 			</svg>
 		),
 	},
@@ -169,7 +257,7 @@ const TARGET_OPTIONS = [
 const BUTTON_TYPE_OPTIONS = [
 	{ label: __( 'button', 'goblocks' ), value: 'button' },
 	{ label: __( 'submit', 'goblocks' ), value: 'submit' },
-	{ label: __( 'reset',  'goblocks' ), value: 'reset' },
+	{ label: __( 'reset', 'goblocks' ), value: 'reset' },
 ];
 
 const ICON_SLUG_OPTIONS = [
@@ -179,7 +267,7 @@ const ICON_SLUG_OPTIONS = [
 
 const ICON_POSITION_OPTIONS = [
 	{ label: __( 'Before text', 'goblocks' ), value: 'before' },
-	{ label: __( 'After text',  'goblocks' ), value: 'after'  },
+	{ label: __( 'After text', 'goblocks' ), value: 'after' },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────
@@ -213,7 +301,10 @@ export function ButtonInspector( {
 
 	function applyVariant( variant: ButtonVariant ) {
 		setAttributes( {
-			styles: deepMerge( styles as Record< string, any >, variant.styles ) as BlockStyles,
+			styles: deepMerge(
+				styles as Record< string, any >,
+				variant.styles
+			) as BlockStyles,
 		} );
 	}
 
@@ -273,7 +364,10 @@ export function ButtonInspector( {
 						<TextControl
 							label={ __( 'Icon size', 'goblocks' ) }
 							value={ iconSize }
-							help={ __( 'CSS size value, e.g. 1em or 16px.', 'goblocks' ) }
+							help={ __(
+								'CSS size value, e.g. 1em or 16px.',
+								'goblocks'
+							) }
 							onChange={ ( value ) =>
 								setAttributes( { iconSize: value } )
 							}
@@ -284,11 +378,11 @@ export function ButtonInspector( {
 				) }
 			</PanelBody>
 
-			<SizingPanel   styles={ styles } responsive={ responsive } />
-			<SpacingPanel  styles={ styles } responsive={ responsive } />
+			<SizingPanel styles={ styles } responsive={ responsive } />
+			<SpacingPanel styles={ styles } responsive={ responsive } />
 			<BackgroundPanel styles={ styles } responsive={ responsive } />
-			<BorderPanel   styles={ styles } responsive={ responsive } />
-			<EffectsPanel  styles={ styles } responsive={ responsive } />
+			<BorderPanel styles={ styles } responsive={ responsive } />
+			<EffectsPanel styles={ styles } responsive={ responsive } />
 		</>
 	);
 
@@ -407,7 +501,10 @@ export function ButtonInspector( {
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __( 'Space-separated list of extra classes.', 'goblocks' ) }
+					help={ __(
+						'Space-separated list of extra classes.',
+						'goblocks'
+					) }
 					onChange={ ( value ) =>
 						setAttributes( {
 							globalClasses: value

@@ -22,26 +22,26 @@ import SHAPES, { buildShapePreview } from '../shapes';
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface ShapeAttributes {
-	uniqueId:      string;
-	styles:        BlockStyles;
-	shapeSlug:     string;
-	fillColor:     string;
-	fillType:      string;
-	gradientFrom:  string;
-	gradientTo:    string;
+	uniqueId: string;
+	styles: BlockStyles;
+	shapeSlug: string;
+	fillColor: string;
+	fillType: string;
+	gradientFrom: string;
+	gradientTo: string;
 	gradientAngle: number;
-	shapeOpacity:  number;
-	shapeHeight:   number;
-	flipX:         boolean;
-	flipY:         boolean;
-	placement:     string;
+	shapeOpacity: number;
+	shapeHeight: number;
+	flipX: boolean;
+	flipY: boolean;
+	placement: string;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 interface ShapeInspectorProps {
-	attributes:    ShapeAttributes;
+	attributes: ShapeAttributes;
 	setAttributes: ( attrs: Partial< ShapeAttributes > ) => void;
 }
 
@@ -51,16 +51,18 @@ function ShapePickerGrid( {
 	value,
 	onChange,
 }: {
-	value:    string;
+	value: string;
 	onChange: ( slug: string ) => void;
 } ) {
 	return (
-		<div style={ {
-			display:             'grid',
-			gridTemplateColumns: 'repeat(4, 1fr)',
-			gap:                 '6px',
-			marginBottom:        '12px',
-		} }>
+		<div
+			style={ {
+				display: 'grid',
+				gridTemplateColumns: 'repeat(4, 1fr)',
+				gap: '6px',
+				marginBottom: '12px',
+			} }
+		>
 			{ SHAPES.map( ( shape ) => {
 				const isSelected = shape.slug === value;
 				return (
@@ -69,25 +71,40 @@ function ShapePickerGrid( {
 						title={ shape.label }
 						onClick={ () => onChange( shape.slug ) }
 						style={ {
-							display:         'flex',
-							flexDirection:   'column',
-							alignItems:      'center',
-							gap:             '4px',
-							padding:         '6px 4px 4px',
-							border:          isSelected ? '2px solid #007cba' : '2px solid #ddd',
-							borderRadius:    '6px',
-							background:      isSelected ? '#e8f4fb' : '#f9f9f9',
-							cursor:          'pointer',
-							color:           '#1e1e1e',
-							overflow:        'hidden',
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '4px',
+							padding: '6px 4px 4px',
+							border: isSelected
+								? '2px solid #007cba'
+								: '2px solid #ddd',
+							borderRadius: '6px',
+							background: isSelected ? '#e8f4fb' : '#f9f9f9',
+							cursor: 'pointer',
+							color: '#1e1e1e',
+							overflow: 'hidden',
 						} }
 					>
 						<div
-							style={ { width: '100%', color: isSelected ? '#007cba' : '#555', lineHeight: 0 } }
+							style={ {
+								width: '100%',
+								color: isSelected ? '#007cba' : '#555',
+								lineHeight: 0,
+							} }
 							// Shape preview SVG.
-							dangerouslySetInnerHTML={ { __html: buildShapePreview( shape ) } }
+							dangerouslySetInnerHTML={ {
+								__html: buildShapePreview( shape ),
+							} }
 						/>
-						<span style={ { fontSize: '9px', lineHeight: 1.2, textAlign: 'center', wordBreak: 'break-word' } }>
+						<span
+							style={ {
+								fontSize: '9px',
+								lineHeight: 1.2,
+								textAlign: 'center',
+								wordBreak: 'break-word',
+							} }
+						>
 							{ shape.label }
 						</span>
 					</button>
@@ -101,7 +118,7 @@ function ShapePickerGrid( {
 
 const PLACEMENT_OPTIONS = [
 	{ label: __( 'Bottom of section above', 'goblocks' ), value: 'bottom' },
-	{ label: __( 'Top of section below', 'goblocks' ),   value: 'top' },
+	{ label: __( 'Top of section below', 'goblocks' ), value: 'top' },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -137,7 +154,9 @@ export function ShapeInspector( {
 			<PanelBody title={ __( 'Shape', 'goblocks' ) } initialOpen>
 				<ShapePickerGrid
 					value={ shapeSlug }
-					onChange={ ( slug ) => setAttributes( { shapeSlug: slug } ) }
+					onChange={ ( slug ) =>
+						setAttributes( { shapeSlug: slug } )
+					}
 				/>
 
 				<NumberControl
@@ -146,7 +165,10 @@ export function ShapeInspector( {
 					min={ 10 }
 					max={ 400 }
 					onChange={ ( val ) =>
-						setAttributes( { shapeHeight: parseInt( String( val ?? 80 ), 10 ) || 80 } )
+						setAttributes( {
+							shapeHeight:
+								parseInt( String( val ?? 80 ), 10 ) || 80,
+						} )
 					}
 					// @ts-ignore
 					__next40pxDefaultSize
@@ -188,14 +210,18 @@ export function ShapeInspector( {
 					<ButtonGroup>
 						<Button
 							variant={ ! isGradient ? 'primary' : 'secondary' }
-							onClick={ () => setAttributes( { fillType: 'solid' } ) }
+							onClick={ () =>
+								setAttributes( { fillType: 'solid' } )
+							}
 							size="compact"
 						>
 							{ __( 'Solid', 'goblocks' ) }
 						</Button>
 						<Button
 							variant={ isGradient ? 'primary' : 'secondary' }
-							onClick={ () => setAttributes( { fillType: 'gradient' } ) }
+							onClick={ () =>
+								setAttributes( { fillType: 'gradient' } )
+							}
 							size="compact"
 						>
 							{ __( 'Gradient', 'goblocks' ) }
@@ -206,27 +232,45 @@ export function ShapeInspector( {
 				{ ! isGradient ? (
 					<ColorPicker
 						color={ fillColor }
-						onChange={ ( val: string ) => setAttributes( { fillColor: val } ) }
+						onChange={ ( val: string ) =>
+							setAttributes( { fillColor: val } )
+						}
 						enableAlpha
 						defaultValue="#ffffff"
 					/>
 				) : (
 					<>
-						<p style={ { margin: '0 0 6px', fontWeight: 600, fontSize: '11px' } }>
+						<p
+							style={ {
+								margin: '0 0 6px',
+								fontWeight: 600,
+								fontSize: '11px',
+							} }
+						>
 							{ __( 'From color', 'goblocks' ) }
 						</p>
 						<ColorPicker
 							color={ gradientFrom || '#4f46e5' }
-							onChange={ ( val: string ) => setAttributes( { gradientFrom: val } ) }
+							onChange={ ( val: string ) =>
+								setAttributes( { gradientFrom: val } )
+							}
 							enableAlpha
 							defaultValue="#4f46e5"
 						/>
-						<p style={ { margin: '12px 0 6px', fontWeight: 600, fontSize: '11px' } }>
+						<p
+							style={ {
+								margin: '12px 0 6px',
+								fontWeight: 600,
+								fontSize: '11px',
+							} }
+						>
 							{ __( 'To color', 'goblocks' ) }
 						</p>
 						<ColorPicker
 							color={ gradientTo || '#7c3aed' }
-							onChange={ ( val: string ) => setAttributes( { gradientTo: val } ) }
+							onChange={ ( val: string ) =>
+								setAttributes( { gradientTo: val } )
+							}
 							enableAlpha
 							defaultValue="#7c3aed"
 						/>
@@ -234,7 +278,11 @@ export function ShapeInspector( {
 							<RangeControl
 								label={ __( 'Angle (°)', 'goblocks' ) }
 								value={ gradientAngle }
-								onChange={ ( val ) => setAttributes( { gradientAngle: val ?? 90 } ) }
+								onChange={ ( val ) =>
+									setAttributes( {
+										gradientAngle: val ?? 90,
+									} )
+								}
 								min={ 0 }
 								max={ 360 }
 								step={ 5 }
@@ -249,7 +297,9 @@ export function ShapeInspector( {
 					<RangeControl
 						label={ __( 'Opacity (%)', 'goblocks' ) }
 						value={ shapeOpacity ?? 100 }
-						onChange={ ( val ) => setAttributes( { shapeOpacity: val ?? 100 } ) }
+						onChange={ ( val ) =>
+							setAttributes( { shapeOpacity: val ?? 100 } )
+						}
 						min={ 5 }
 						max={ 100 }
 						step={ 5 }
@@ -264,13 +314,21 @@ export function ShapeInspector( {
 	);
 
 	const advancedContent = (
-		<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+		<PanelBody
+			title={ __( 'CSS Classes', 'goblocks' ) }
+			initialOpen={ false }
+		>
 			<TextControl
 				label={ __( 'Additional CSS classes', 'goblocks' ) }
 				value={ ( globalClasses ?? [] ).join( ' ' ) }
-				help={ __( 'Space-separated list of extra classes.', 'goblocks' ) }
+				help={ __(
+					'Space-separated list of extra classes.',
+					'goblocks'
+				) }
 				onChange={ ( val ) =>
-					setAttributes( { globalClasses: val.split( /\s+/ ).filter( Boolean ) } )
+					setAttributes( {
+						globalClasses: val.split( /\s+/ ).filter( Boolean ),
+					} )
 				}
 				// @ts-ignore
 				__nextHasNoMarginBottom

@@ -24,7 +24,7 @@ use GoBlocks\Utils\Capabilities;
 class CssCache {
 
 	/**
-	 * wp_options key prefix for per-post CSS hashes.
+	 * WP_Options key prefix for per-post CSS hashes.
 	 */
 	private const HASH_OPTION_PREFIX = 'goblocks_css_';
 
@@ -63,8 +63,8 @@ class CssCache {
 		if ( $filesystem ) {
 			$result = $filesystem->put_contents( $path, $css, FS_CHMOD_FILE );
 		} else {
-			// WP_Filesystem unavailable (FTP/SSH host without credentials in this
-			// context) — fall back to native PHP. wp-content/uploads is always
+			// WP_Filesystem unavailable (FTP/SSH host without credentials in this.
+			// context) — fall back to native PHP. wp-content/uploads is always.
 			// writable by the web-server process, so this is safe.
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 			$result = false !== file_put_contents( $path, $css );
@@ -121,7 +121,7 @@ class CssCache {
 	public static function get_url( int $post_id ): ?string {
 		$path = self::get_file_path( $post_id );
 
-		// Use WP_Filesystem when available, fall back to is_file() so a
+		// Use WP_Filesystem when available, fall back to is_file() so a.
 		// successfully-written file is always found even on FTP-method hosts.
 		$filesystem = self::get_filesystem();
 		$exists     = $filesystem ? $filesystem->exists( $path ) : is_file( $path );

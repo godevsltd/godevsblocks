@@ -105,6 +105,16 @@ export const QUERY_DEFAULTS: QueryAttributes = {
 	cacheResults: true,
 };
 
+export interface QueryLayout {
+	type: 'list' | 'grid';
+	columns: 1 | 2 | 3 | 4;
+}
+
+export const LAYOUT_DEFAULTS: QueryLayout = {
+	type: 'grid',
+	columns: 3,
+};
+
 export interface PostSummary {
 	id: number;
 	title: string;

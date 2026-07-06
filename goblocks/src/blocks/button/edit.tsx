@@ -62,7 +62,18 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< ButtonBlockAttributes > ) {
-	const { uniqueId, tagName, text, styles, globalClasses, iconSlug, iconSvg, iconPosition, iconSize, generatedCss } = attributes;
+	const {
+		uniqueId,
+		tagName,
+		text,
+		styles,
+		globalClasses,
+		iconSlug,
+		iconSvg,
+		iconPosition,
+		iconSize,
+		generatedCss,
+	} = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {
@@ -122,7 +133,13 @@ export function Edit( {
 						className="gb-button__icon gb-button__icon--before"
 						aria-hidden="true"
 						dangerouslySetInnerHTML={ {
-							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${ iconSize || '1em' }" height="${ iconSize || '1em' }" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ ICON_MAP[ iconSlug ]?.inner ?? '' }</svg>`,
+							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${
+								iconSize || '1em'
+							}" height="${
+								iconSize || '1em'
+							}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${
+								ICON_MAP[ iconSlug ]?.inner ?? ''
+							}</svg>`,
 						} }
 					/>
 				) }
@@ -140,7 +157,13 @@ export function Edit( {
 						className="gb-button__icon gb-button__icon--after"
 						aria-hidden="true"
 						dangerouslySetInnerHTML={ {
-							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${ iconSize || '1em' }" height="${ iconSize || '1em' }" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ ICON_MAP[ iconSlug ]?.inner ?? '' }</svg>`,
+							__html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${
+								iconSize || '1em'
+							}" height="${
+								iconSize || '1em'
+							}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${
+								ICON_MAP[ iconSlug ]?.inner ?? ''
+							}</svg>`,
 						} }
 					/>
 				) }

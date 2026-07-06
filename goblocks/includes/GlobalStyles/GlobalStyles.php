@@ -1,4 +1,10 @@
 <?php
+/**
+ * Global Styles.
+ *
+ * @package GoBlocks\GlobalStyles
+ */
+
 namespace GoBlocks\GlobalStyles;
 
 defined( 'ABSPATH' ) || exit;
@@ -23,12 +29,12 @@ class GlobalStyles {
 	public static function boot(): void {
 		add_action( 'wp_head', array( self::class, 'output_frontend_css' ), 5 );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'output_editor_css' ) );
-		// admin_menu registration is handled centrally by Admin::register_all_menus()
+		// admin_menu registration is handled centrally by Admin::register_all_menus().
 		// to guarantee the parent page exists before this submenu is added.
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_admin_assets' ) );
 	}
 
-	// ── Admin page ────────────────────────────────────────────────────────────
+	// ── Admin page ────────────────────────────────────────────────────────────.
 
 	/**
 	 * Register the Global Styles submenu under the GoBlocks top-level menu.
@@ -134,7 +140,7 @@ class GlobalStyles {
 		);
 	}
 
-	// ── CSS output ────────────────────────────────────────────────────────────
+	// ── CSS output ────────────────────────────────────────────────────────────.
 
 	/**
 	 * Output token override CSS in <head> on the frontend (priority 5,
@@ -167,7 +173,7 @@ class GlobalStyles {
 		wp_add_inline_style( 'goblocks-tokens', $css );
 	}
 
-	// ── Helpers ───────────────────────────────────────────────────────────────
+	// ── Helpers ───────────────────────────────────────────────────────────────.
 
 	/**
 	 * Build a :root {} block with user-defined CSS custom property overrides.

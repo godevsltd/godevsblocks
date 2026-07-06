@@ -10,6 +10,9 @@ import {
 	RangeControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useSelect, useDispatch } from '@wordpress/data';
+// @ts-ignore
+import { createBlock } from '@wordpress/blocks';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
 import { SizingPanel } from '../../../components/panels/SizingPanel';
@@ -41,6 +44,7 @@ interface GroupAttributes extends BlockAttributes {
 }
 
 interface GroupInspectorProps {
+	clientId: string;
 	attributes: GroupAttributes;
 	setAttributes: ( attrs: Partial< GroupAttributes > ) => void;
 }
@@ -48,44 +52,44 @@ interface GroupInspectorProps {
 // ── Static options ────────────────────────────────────────────────────────
 
 const TAG_OPTIONS = [
-	{ label: 'div',     value: 'div' },
+	{ label: 'div', value: 'div' },
 	{ label: 'section', value: 'section' },
 	{ label: 'article', value: 'article' },
-	{ label: 'aside',   value: 'aside' },
-	{ label: 'header',  value: 'header' },
-	{ label: 'footer',  value: 'footer' },
-	{ label: 'nav',     value: 'nav' },
-	{ label: 'main',    value: 'main' },
-	{ label: 'figure',  value: 'figure' },
-	{ label: 'ul',      value: 'ul' },
-	{ label: 'ol',      value: 'ol' },
-	{ label: 'a',       value: 'a' },
-	{ label: 'form',    value: 'form' },
-	{ label: 'span',    value: 'span' },
+	{ label: 'aside', value: 'aside' },
+	{ label: 'header', value: 'header' },
+	{ label: 'footer', value: 'footer' },
+	{ label: 'nav', value: 'nav' },
+	{ label: 'main', value: 'main' },
+	{ label: 'figure', value: 'figure' },
+	{ label: 'ul', value: 'ul' },
+	{ label: 'ol', value: 'ol' },
+	{ label: 'a', value: 'a' },
+	{ label: 'form', value: 'form' },
+	{ label: 'span', value: 'span' },
 ];
 
 const ANIMATION_OPTIONS = [
-	{ label: __( 'None',        'goblocks' ), value: '' },
-	{ label: __( 'Fade in',     'goblocks' ), value: 'gb-anim-fade-in' },
-	{ label: __( 'Slide up',    'goblocks' ), value: 'gb-anim-slide-up' },
-	{ label: __( 'Slide left',  'goblocks' ), value: 'gb-anim-slide-left' },
+	{ label: __( 'None', 'goblocks' ), value: '' },
+	{ label: __( 'Fade in', 'goblocks' ), value: 'gb-anim-fade-in' },
+	{ label: __( 'Slide up', 'goblocks' ), value: 'gb-anim-slide-up' },
+	{ label: __( 'Slide left', 'goblocks' ), value: 'gb-anim-slide-left' },
 	{ label: __( 'Slide right', 'goblocks' ), value: 'gb-anim-slide-right' },
-	{ label: __( 'Zoom in',     'goblocks' ), value: 'gb-anim-zoom-in' },
+	{ label: __( 'Zoom in', 'goblocks' ), value: 'gb-anim-zoom-in' },
 ];
 
 const OVERFLOW_OPTIONS = [
 	{ label: __( 'Visible', 'goblocks' ), value: 'visible' },
-	{ label: __( 'Hidden',  'goblocks' ), value: 'hidden' },
-	{ label: __( 'Auto',    'goblocks' ), value: 'auto' },
-	{ label: __( 'Scroll',  'goblocks' ), value: 'scroll' },
+	{ label: __( 'Hidden', 'goblocks' ), value: 'hidden' },
+	{ label: __( 'Auto', 'goblocks' ), value: 'auto' },
+	{ label: __( 'Scroll', 'goblocks' ), value: 'scroll' },
 ];
 
 const POSITION_OPTIONS = [
-	{ label: __( 'Static',   'goblocks' ), value: 'static' },
+	{ label: __( 'Static', 'goblocks' ), value: 'static' },
 	{ label: __( 'Relative', 'goblocks' ), value: 'relative' },
 	{ label: __( 'Absolute', 'goblocks' ), value: 'absolute' },
-	{ label: __( 'Fixed',    'goblocks' ), value: 'fixed' },
-	{ label: __( 'Sticky',   'goblocks' ), value: 'sticky' },
+	{ label: __( 'Fixed', 'goblocks' ), value: 'fixed' },
+	{ label: __( 'Sticky', 'goblocks' ), value: 'sticky' },
 ];
 
 // ── Quick Presets ─────────────────────────────────────────────────────────
@@ -94,6 +98,8 @@ interface Preset {
 	label: string;
 	icon: JSX.Element;
 	layout: string;
+	/** When > 0, replaces inner blocks with this many goblocks/column children */
+	columns?: number;
 	styles: Record< string, any >;
 }
 
@@ -101,60 +107,153 @@ const QUICK_PRESETS: Preset[] = [
 	{
 		label: '2 Col',
 		layout: 'row',
+		columns: 2,
 		styles: {
 			layout: {
-				display:             { base: 'flex' },
-				flexDirection:       { base: 'row' },
-				flexWrap:            { base: 'wrap' },
-				alignItems:          { base: 'flex-start' },
+				display: { base: 'flex' },
+				flexDirection: { base: 'row' },
+				flexWrap: { base: 'wrap' },
+				alignItems: { base: 'stretch' },
 				gridTemplateColumns: { base: '' },
+			},
+			spacing: {
+				gap: { base: '24px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0" y="0" width="7" height="14" rx="1.5" fill="currentColor" />
-				<rect x="11" y="0" width="7" height="14" rx="1.5" fill="currentColor" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="7"
+					height="14"
+					rx="1.5"
+					fill="currentColor"
+				/>
+				<rect
+					x="11"
+					y="0"
+					width="7"
+					height="14"
+					rx="1.5"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
 	{
 		label: '3 Col',
 		layout: 'row',
+		columns: 3,
 		styles: {
 			layout: {
-				display:             { base: 'flex' },
-				flexDirection:       { base: 'row' },
-				flexWrap:            { base: 'wrap' },
-				alignItems:          { base: 'flex-start' },
+				display: { base: 'flex' },
+				flexDirection: { base: 'row' },
+				flexWrap: { base: 'wrap' },
+				alignItems: { base: 'stretch' },
 				gridTemplateColumns: { base: '' },
+			},
+			spacing: {
+				gap: { base: '20px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0"  y="0" width="4" height="14" rx="1" fill="currentColor" />
-				<rect x="7"  y="0" width="4" height="14" rx="1" fill="currentColor" />
-				<rect x="14" y="0" width="4" height="14" rx="1" fill="currentColor" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="4"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="7"
+					y="0"
+					width="4"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="14"
+					y="0"
+					width="4"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
 	{
 		label: '4 Col',
 		layout: 'grid',
+		columns: 4,
 		styles: {
 			layout: {
-				display:             { base: 'grid' },
+				display: { base: 'grid' },
 				gridTemplateColumns: { base: 'repeat(4, 1fr)' },
-				flexDirection:       { base: '' },
-				flexWrap:            { base: '' },
-				alignItems:          { base: '' },
+				flexDirection: { base: '' },
+				flexWrap: { base: '' },
+				alignItems: { base: '' },
+			},
+			spacing: {
+				gap: { base: '16px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0"  y="0" width="3" height="14" rx="1" fill="currentColor" />
-				<rect x="5"  y="0" width="3" height="14" rx="1" fill="currentColor" />
-				<rect x="10" y="0" width="3" height="14" rx="1" fill="currentColor" />
-				<rect x="15" y="0" width="3" height="14" rx="1" fill="currentColor" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="3"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="5"
+					y="0"
+					width="3"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="10"
+					y="0"
+					width="3"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="15"
+					y="0"
+					width="3"
+					height="14"
+					rx="1"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
@@ -163,28 +262,57 @@ const QUICK_PRESETS: Preset[] = [
 		layout: 'stack',
 		styles: {
 			layout: {
-				display:             { base: 'flex' },
-				flexDirection:       { base: 'column' },
-				alignItems:          { base: 'center' },
-				justifyContent:      { base: 'center' },
+				display: { base: 'flex' },
+				flexDirection: { base: 'column' },
+				alignItems: { base: 'center' },
+				justifyContent: { base: 'center' },
 				gridTemplateColumns: { base: '' },
-				flexWrap:            { base: '' },
+				flexWrap: { base: '' },
 			},
 			sizing: {
 				minHeight: { base: '400px' },
 			},
 			spacing: {
-				paddingTop:    { base: '48px' },
+				paddingTop: { base: '48px' },
 				paddingBottom: { base: '48px' },
-				paddingLeft:   { base: '24px' },
-				paddingRight:  { base: '24px' },
+				paddingLeft: { base: '24px' },
+				paddingRight: { base: '24px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0" y="0" width="18" height="5" rx="1" fill="currentColor" opacity="0.5" />
-				<rect x="4" y="7" width="10" height="3" rx="1" fill="currentColor" />
-				<rect x="6" y="11" width="6" height="2" rx="1" fill="currentColor" opacity="0.5" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="18"
+					height="5"
+					rx="1"
+					fill="currentColor"
+					opacity="0.5"
+				/>
+				<rect
+					x="4"
+					y="7"
+					width="10"
+					height="3"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="6"
+					y="11"
+					width="6"
+					height="2"
+					rx="1"
+					fill="currentColor"
+					opacity="0.5"
+				/>
 			</svg>
 		),
 	},
@@ -193,49 +321,120 @@ const QUICK_PRESETS: Preset[] = [
 		layout: 'stack',
 		styles: {
 			layout: {
-				display:             { base: 'flex' },
-				flexDirection:       { base: 'column' },
-				flexWrap:            { base: '' },
-				alignItems:          { base: '' },
+				display: { base: 'flex' },
+				flexDirection: { base: 'column' },
+				flexWrap: { base: '' },
+				alignItems: { base: '' },
 				gridTemplateColumns: { base: '' },
 			},
 			border: {
 				borderRadius: { base: '12px' },
 			},
 			spacing: {
-				paddingTop:    { base: '24px' },
+				paddingTop: { base: '24px' },
 				paddingBottom: { base: '24px' },
-				paddingLeft:   { base: '24px' },
-				paddingRight:  { base: '24px' },
+				paddingLeft: { base: '24px' },
+				paddingRight: { base: '24px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0" y="0" width="18" height="14" rx="3" fill="currentColor" opacity="0.15" />
-				<rect x="2" y="2" width="14" height="4" rx="1" fill="currentColor" />
-				<rect x="2" y="8" width="9" height="1.5" rx="0.75" fill="currentColor" opacity="0.5" />
-				<rect x="2" y="11" width="6" height="1.5" rx="0.75" fill="currentColor" opacity="0.3" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="18"
+					height="14"
+					rx="3"
+					fill="currentColor"
+					opacity="0.15"
+				/>
+				<rect
+					x="2"
+					y="2"
+					width="14"
+					height="4"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="2"
+					y="8"
+					width="9"
+					height="1.5"
+					rx="0.75"
+					fill="currentColor"
+					opacity="0.5"
+				/>
+				<rect
+					x="2"
+					y="11"
+					width="6"
+					height="1.5"
+					rx="0.75"
+					fill="currentColor"
+					opacity="0.3"
+				/>
 			</svg>
 		),
 	},
 	{
-		label: 'Full',
-		layout: 'default',
+		label: 'Section',
+		layout: 'stack',
 		styles: {
 			layout: {
-				display:             { base: 'block' },
-				flexDirection:       { base: '' },
-				flexWrap:            { base: '' },
-				alignItems:          { base: '' },
+				display: { base: 'flex' },
+				flexDirection: { base: 'column' },
+				flexWrap: { base: '' },
+				alignItems: { base: '' },
 				gridTemplateColumns: { base: '' },
 			},
-			sizing: {
-				width: { base: '100vw' },
+			spacing: {
+				paddingTop: { base: '64px' },
+				paddingBottom: { base: '64px' },
+				paddingLeft: { base: '32px' },
+				paddingRight: { base: '32px' },
 			},
 		},
 		icon: (
-			<svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
-				<rect x="0" y="3" width="18" height="8" rx="1" fill="currentColor" />
+			<svg
+				width="18"
+				height="14"
+				viewBox="0 0 18 14"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="0"
+					y="0"
+					width="18"
+					height="14"
+					rx="1"
+					fill="currentColor"
+					opacity="0.15"
+				/>
+				<rect
+					x="2"
+					y="3"
+					width="14"
+					height="3"
+					rx="1"
+					fill="currentColor"
+				/>
+				<rect
+					x="4"
+					y="8"
+					width="10"
+					height="2"
+					rx="1"
+					fill="currentColor"
+					opacity="0.5"
+				/>
 			</svg>
 		),
 	},
@@ -248,8 +447,21 @@ const LAYOUT_OPTIONS = [
 		value: 'default',
 		label: __( 'Block', 'goblocks' ),
 		icon: (
-			<svg width="36" height="28" viewBox="0 0 36 28" fill="none" aria-hidden="true">
-				<rect x="2" y="8" width="32" height="12" rx="2" fill="currentColor" />
+			<svg
+				width="36"
+				height="28"
+				viewBox="0 0 36 28"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="2"
+					y="8"
+					width="32"
+					height="12"
+					rx="2"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
@@ -257,9 +469,29 @@ const LAYOUT_OPTIONS = [
 		value: 'row',
 		label: __( 'Row', 'goblocks' ),
 		icon: (
-			<svg width="36" height="28" viewBox="0 0 36 28" fill="none" aria-hidden="true">
-				<rect x="2"  y="2" width="14" height="24" rx="2" fill="currentColor" />
-				<rect x="20" y="2" width="14" height="24" rx="2" fill="currentColor" />
+			<svg
+				width="36"
+				height="28"
+				viewBox="0 0 36 28"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="2"
+					y="2"
+					width="14"
+					height="24"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="20"
+					y="2"
+					width="14"
+					height="24"
+					rx="2"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
@@ -267,10 +499,37 @@ const LAYOUT_OPTIONS = [
 		value: 'stack',
 		label: __( 'Stack', 'goblocks' ),
 		icon: (
-			<svg width="36" height="28" viewBox="0 0 36 28" fill="none" aria-hidden="true">
-				<rect x="2" y="2"  width="32" height="6" rx="2" fill="currentColor" />
-				<rect x="2" y="11" width="32" height="6" rx="2" fill="currentColor" />
-				<rect x="2" y="20" width="32" height="6" rx="2" fill="currentColor" />
+			<svg
+				width="36"
+				height="28"
+				viewBox="0 0 36 28"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="2"
+					y="2"
+					width="32"
+					height="6"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="2"
+					y="11"
+					width="32"
+					height="6"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="2"
+					y="20"
+					width="32"
+					height="6"
+					rx="2"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
@@ -278,11 +537,45 @@ const LAYOUT_OPTIONS = [
 		value: 'grid',
 		label: __( 'Grid', 'goblocks' ),
 		icon: (
-			<svg width="36" height="28" viewBox="0 0 36 28" fill="none" aria-hidden="true">
-				<rect x="2"  y="2"  width="14" height="11" rx="2" fill="currentColor" />
-				<rect x="20" y="2"  width="14" height="11" rx="2" fill="currentColor" />
-				<rect x="2"  y="15" width="14" height="11" rx="2" fill="currentColor" />
-				<rect x="20" y="15" width="14" height="11" rx="2" fill="currentColor" />
+			<svg
+				width="36"
+				height="28"
+				viewBox="0 0 36 28"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="2"
+					y="2"
+					width="14"
+					height="11"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="20"
+					y="2"
+					width="14"
+					height="11"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="2"
+					y="15"
+					width="14"
+					height="11"
+					rx="2"
+					fill="currentColor"
+				/>
+				<rect
+					x="20"
+					y="15"
+					width="14"
+					height="11"
+					rx="2"
+					fill="currentColor"
+				/>
 			</svg>
 		),
 	},
@@ -291,14 +584,15 @@ const LAYOUT_OPTIONS = [
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function GroupInspector( {
+	clientId,
 	attributes,
 	setAttributes,
 }: GroupInspectorProps ) {
 	const {
 		styles,
 		tagName,
-		layout   = 'default',
-		columns  = 3,
+		layout = 'default',
+		columns = 3,
 		link,
 		linkTarget,
 		linkRel,
@@ -307,28 +601,36 @@ export function GroupInspector( {
 		globalClasses,
 	} = attributes;
 
-	const responsive = useResponsiveStyles(
-		styles as BlockStyles,
-		( patch ) => setAttributes( { styles: patch.styles as BlockStyles } )
+	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
+
+	const existingInnerBlockCount = useSelect(
+		( select: any ) =>
+			( select( 'core/block-editor' ).getBlocks( clientId ) as unknown[] )
+				.length,
+		[ clientId ]
+	);
+
+	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
+		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
 	const { getStyle, getInheritedValue, setStyle } = responsive;
 
-	const isLink   = 'a' === tagName;
-	const isFlex   = layout === 'row' || layout === 'stack';
-	const isGrid   = layout === 'grid';
+	const isLink = 'a' === tagName;
+	const isFlex = layout === 'row' || layout === 'stack';
+	const isGrid = layout === 'grid';
 	const position = getStyle( 'position', 'position' );
 	const isNotStatic = position && position !== 'static';
 
 	// ── Flex values ───────────────────────────────────────────────────────
 
 	const flexValues: FlexValues = {
-		flexDirection:  getStyle( 'layout', 'flexDirection' ),
-		flexWrap:       getStyle( 'layout', 'flexWrap' ),
+		flexDirection: getStyle( 'layout', 'flexDirection' ),
+		flexWrap: getStyle( 'layout', 'flexWrap' ),
 		justifyContent: getStyle( 'layout', 'justifyContent' ),
-		alignItems:     getStyle( 'layout', 'alignItems' ),
-		alignContent:   getStyle( 'layout', 'alignContent' ),
-		gap:            getStyle( 'spacing', 'gap' ),
+		alignItems: getStyle( 'layout', 'alignItems' ),
+		alignContent: getStyle( 'layout', 'alignContent' ),
+		gap: getStyle( 'spacing', 'gap' ),
 	};
 
 	function handleFlexChange( property: keyof FlexValues, value: string ) {
@@ -345,29 +647,29 @@ export function GroupInspector( {
 		const bp = responsive.activeBreakpoint;
 
 		const layoutProps: Record< string, string > = {
-			display:             '',
-			flexDirection:       '',
-			flexWrap:            '',
-			alignItems:          '',
+			display: '',
+			flexDirection: '',
+			flexWrap: '',
+			alignItems: '',
 			gridTemplateColumns: '',
 		};
 
 		if ( newLayout === 'row' ) {
-			layoutProps.display       = 'flex';
+			layoutProps.display = 'flex';
 			layoutProps.flexDirection = 'row';
-			layoutProps.flexWrap      = 'wrap';
-			layoutProps.alignItems    = 'flex-start';
+			layoutProps.flexWrap = 'wrap';
+			layoutProps.alignItems = 'flex-start';
 		} else if ( newLayout === 'stack' ) {
-			layoutProps.display       = 'flex';
+			layoutProps.display = 'flex';
 			layoutProps.flexDirection = 'column';
 		} else if ( newLayout === 'grid' ) {
-			layoutProps.display             = 'grid';
+			layoutProps.display = 'grid';
 			layoutProps.gridTemplateColumns = `repeat(${ columns }, 1fr)`;
 		}
 
 		setAttributes( {
-			layout:  newLayout,
-			styles:  deepMerge( styles as any, {
+			layout: newLayout,
+			styles: deepMerge( styles as any, {
 				layout: Object.fromEntries(
 					Object.entries( layoutProps ).map( ( [ prop, val ] ) => [
 						prop,
@@ -382,7 +684,7 @@ export function GroupInspector( {
 		const bp = responsive.activeBreakpoint;
 		setAttributes( {
 			columns: n,
-			styles:  deepMerge( styles as any, {
+			styles: deepMerge( styles as any, {
 				layout: {
 					gridTemplateColumns: { [ bp ]: `repeat(${ n }, 1fr)` },
 				},
@@ -397,6 +699,20 @@ export function GroupInspector( {
 			layout: preset.layout,
 			styles: deepMerge( styles as any, preset.styles ) as BlockStyles,
 		} );
+
+		// Auto-insert Column children only when the Group is currently empty.
+		// If it already has blocks, only the layout CSS is updated so existing
+		// content is not destroyed.
+		if (
+			preset.columns &&
+			preset.columns > 0 &&
+			existingInnerBlockCount === 0
+		) {
+			const cols = Array.from( { length: preset.columns }, () =>
+				createBlock( 'goblocks/column', {} )
+			);
+			replaceInnerBlocks( clientId, cols, false );
+		}
 	}
 
 	const stylesContent = (
@@ -460,12 +776,30 @@ export function GroupInspector( {
 				) }
 			</PanelBody>
 
-			<SizingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel   styles={ styles as BlockStyles } responsive={ responsive } />
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel   styles={ styles as BlockStyles } responsive={ responsive } />
+			<SizingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
@@ -484,7 +818,10 @@ export function GroupInspector( {
 				<TextControl
 					label={ __( 'ARIA label', 'goblocks' ) }
 					value={ ariaLabel }
-					help={ __( "Overrides the element's accessible name.", 'goblocks' ) }
+					help={ __(
+						"Overrides the element's accessible name.",
+						'goblocks'
+					) }
 					onChange={ ( v ) => setAttributes( { ariaLabel: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -506,8 +843,14 @@ export function GroupInspector( {
 						label={ __( 'Target', 'goblocks' ) }
 						value={ linkTarget }
 						options={ [
-							{ label: __( 'Same tab', 'goblocks' ), value: '_self' },
-							{ label: __( 'New tab',  'goblocks' ), value: '_blank' },
+							{
+								label: __( 'Same tab', 'goblocks' ),
+								value: '_self',
+							},
+							{
+								label: __( 'New tab', 'goblocks' ),
+								value: '_blank',
+							},
 						] }
 						onChange={ ( v ) => setAttributes( { linkTarget: v } ) }
 						// @ts-ignore
@@ -516,7 +859,10 @@ export function GroupInspector( {
 					<TextControl
 						label={ __( 'Rel attribute', 'goblocks' ) }
 						value={ linkRel }
-						help={ __( 'noopener noreferrer added automatically for _blank.', 'goblocks' ) }
+						help={ __(
+							'noopener noreferrer added automatically for _blank.',
+							'goblocks'
+						) }
 						onChange={ ( v ) => setAttributes( { linkRel: v } ) }
 						// @ts-ignore
 						__nextHasNoMarginBottom
@@ -525,7 +871,10 @@ export function GroupInspector( {
 			) }
 
 			{ /* Position & Overflow */ }
-			<PanelBody title={ __( 'Position & Overflow', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Position & Overflow', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<ToggleGroupControl
 					label={ __( 'Overflow', 'goblocks' ) }
 					value={ getStyle( 'layout', 'overflow' ) }
@@ -542,50 +891,83 @@ export function GroupInspector( {
 				/>
 				{ isNotStatic && (
 					<div className="gb-layout-panel__offsets">
-						{ ( [ 'top', 'right', 'bottom', 'left' ] as const ).map( ( side ) => (
-							<UnitInput
-								key={ side }
-								label={ side.charAt( 0 ).toUpperCase() + side.slice( 1 ) }
-								value={ getStyle( 'position', side ) }
-								inheritedValue={ getInheritedValue( 'position', side ) }
-								onChange={ ( v ) => setStyle( 'position', side, v ) }
-								defaultUnit="px"
-								units={ [ 'px', 'rem', 'em', '%', 'vw', 'vh', 'auto' ] }
-								breakpoint="base"
-							/>
-						) ) }
+						{ ( [ 'top', 'right', 'bottom', 'left' ] as const ).map(
+							( side ) => (
+								<UnitInput
+									key={ side }
+									label={
+										side.charAt( 0 ).toUpperCase() +
+										side.slice( 1 )
+									}
+									value={ getStyle( 'position', side ) }
+									inheritedValue={ getInheritedValue(
+										'position',
+										side
+									) }
+									onChange={ ( v ) =>
+										setStyle( 'position', side, v )
+									}
+									defaultUnit="px"
+									units={ [
+										'px',
+										'rem',
+										'em',
+										'%',
+										'vw',
+										'vh',
+										'auto',
+									] }
+									breakpoint={ responsive.activeBreakpoint }
+								/>
+							)
+						) }
 					</div>
 				) }
-				<UnitInput
+				<TextControl
 					label={ __( 'Z-index', 'goblocks' ) }
-					value={ getStyle( 'position', 'zIndex' ) }
-					inheritedValue={ getInheritedValue( 'position', 'zIndex' ) }
+					value={ getStyle( 'position', 'zIndex' ) ?? '' }
+					placeholder="auto"
+					help={ __(
+						'Stacking order: auto, 0, 1, 100…',
+						'goblocks'
+					) }
 					onChange={ ( v ) => setStyle( 'position', 'zIndex', v ) }
-					defaultUnit=""
-					units={ [ '' as any, 'auto' ] }
-					breakpoint="base"
+					// @ts-ignore
+					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
 
 			{ /* Entrance animation */ }
-			<PanelBody title={ __( 'Animation', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Animation', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<SelectControl
 					label={ __( 'Entrance animation', 'goblocks' ) }
 					value={ animationClass }
 					options={ ANIMATION_OPTIONS }
 					onChange={ ( v ) => setAttributes( { animationClass: v } ) }
-					help={ __( 'Plays when the block scrolls into the viewport.', 'goblocks' ) }
+					help={ __(
+						'Plays when the block scrolls into the viewport.',
+						'goblocks'
+					) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
 
 			{ /* CSS classes */ }
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __( 'Space-separated list of extra classes.', 'goblocks' ) }
+					help={ __(
+						'Space-separated list of extra classes.',
+						'goblocks'
+					) }
 					onChange={ ( v ) =>
 						setAttributes( {
 							globalClasses: v.split( /\s+/ ).filter( Boolean ),

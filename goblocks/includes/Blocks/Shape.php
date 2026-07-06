@@ -1,4 +1,10 @@
 <?php
+/**
+ * Shape.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +18,11 @@ use GoBlocks\Utils\SvgSanitizer;
  */
 class Shape extends BlockBase {
 
-	/** @var array<string,array{w:int,h:int,inner:string}> */
+	/**
+	 * Shape preset definitions keyed by slug.
+	 *
+	 * @var array<string,array{w:int,h:int,inner:string}>
+	 */
 	private const SHAPES = array(
 		'wave'                => array(
 			'w'     => 1440,
@@ -96,10 +106,23 @@ class Shape extends BlockBase {
 		),
 	);
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'shape';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$shape_slug = sanitize_key( (string) ( $attributes['shapeSlug'] ?? 'wave' ) );
 		$shape      = self::SHAPES[ $shape_slug ] ?? self::SHAPES['wave'];

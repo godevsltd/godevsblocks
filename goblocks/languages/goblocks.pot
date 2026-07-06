@@ -1,28 +1,22 @@
-# Copyright (C) 2024 GoBlocks Contributors
-# This file is distributed under the same license as the GoBlocks plugin.
+﻿# Copyright (C) 2026 GoBlocks
+# This file is distributed under the GPL-2.0+ license.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GoBlocks 1.0.0\n"
+"Project-Id-Version: goBlocks 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/goblocks\n"
-"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"POT-Creation-Date: 2026-07-03T00:00:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-01-01 00:00:00+0000\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: WP-CLI 2.x\n"
+"X-Generator: GoBlocks make-pot 1.0.0\n"
 "X-Domain: goblocks\n"
-
-#. Plugin Name of the plugin
-msgid "goBlocks – Gutenberg Blocks Anywhere"
-msgstr ""
-
-#. Description of the plugin
-msgid "A world-class Gutenberg block library with a modern design system, responsive controls, dynamic content, and full FSE support."
+#: includes/Admin/Admin.php
+msgid "GoBlocks Settings"
 msgstr ""
 
 #: includes/Admin/Admin.php
@@ -30,19 +24,375 @@ msgid "GoBlocks"
 msgstr ""
 
 #: includes/Admin/Admin.php
-msgid "Settings"
+msgid "You do not have permission to access this page."
 msgstr ""
 
-#: includes/Admin/Admin.php
-msgid "GoBlocks Settings"
+#: includes/Blocks/Alert.php
+msgid "Dismiss"
+msgstr ""
+
+#: includes/Blocks/Countdown.php
+msgid "Days"
+msgstr ""
+
+#: includes/Blocks/Countdown.php
+msgid "Hours"
+msgstr ""
+
+#: includes/Blocks/Countdown.php
+msgid "Minutes"
+msgstr ""
+
+#: includes/Blocks/Countdown.php
+msgid "Seconds"
+msgstr ""
+
+#: includes/Blocks/Countdown.php
+msgid "Countdown timer"
+msgstr ""
+
+#: includes/Blocks/FlipCard.php
+msgid "Flip card â€” press to reveal the back side"
+msgstr ""
+
+#: includes/Blocks/Modal.php
+msgid "Don\'t show again"
+msgstr ""
+
+#: includes/Blocks/Modal.php
+msgid "Close"
+msgstr ""
+
+#: includes/Blocks/Navigation.php
+msgid "Select a menu in block settings."
+msgstr ""
+
+#: includes/Blocks/Navigation.php
+msgid "Toggle navigation"
+msgstr ""
+
+#: includes/Blocks/Navigation.php
+msgid "Menu not found."
+msgstr ""
+
+#: includes/Blocks/Navigation.php
+msgid "Toggle submenu"
+msgstr ""
+
+#: includes/Blocks/Pagination.php
+msgid "&laquo; Previous"
+msgstr ""
+
+#: includes/Blocks/Pagination.php
+msgid "Next &raquo;"
+msgstr ""
+
+#: includes/Blocks/Pagination.php
+msgid "Page navigation"
+msgstr ""
+
+#: includes/Blocks/Pagination.php
+msgid "Load More"
+msgstr ""
+
+#: includes/Blocks/Pricing.php
+msgid "Plan"
+msgstr ""
+
+#: includes/Blocks/Slider.php
+msgid "Previous"
+msgstr ""
+
+#: includes/Blocks/Slider.php
+msgid "Next"
+msgstr ""
+
+#: includes/Blocks/Slider.php
+msgid "Pause slideshow"
+msgstr ""
+
+#: includes/Blocks/StarRating.php
+msgid "(%d review)"
+msgstr ""
+
+#: includes/Blocks/TableOfContents.php
+msgid "Back to top of page"
+msgstr ""
+
+#: includes/Blocks/TableOfContents.php
+msgid "â†‘ Back to top"
+msgstr ""
+
+#: includes/Blocks/TableOfContents.php
+msgid "Page outline"
+msgstr ""
+
+#: includes/Blocks/Tabs.php
+msgid "Tab %d"
+msgstr ""
+
+#: includes/Blocks/Video.php
+msgid "Play video"
+msgstr ""
+
+#: includes/Blocks/Video.php
+msgid "Video embed"
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorAvatar.php
+msgid "Author Avatar URL"
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorAvatar.php
+msgid "The Gravatar URL for the post author."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorAvatar.php
+msgid "Avatar size in pixels."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorMeta.php
+msgid "Author Meta"
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorMeta.php
+msgid "A public meta field from the post author (bio, website, etc.)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorMeta.php
+msgid "User field: description, url, user_email, user_url."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorName.php
+msgid "Author Name"
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorName.php
+msgid "The display name of the post author."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorName.php
+msgid "Name format: display (default), first, last, login."
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorUrl.php
+msgid "Author URL"
+msgstr ""
+
+#: includes/DynamicContent/Tags/AuthorUrl.php
+msgid "The archive URL for the post author."
+msgstr ""
+
+#: includes/DynamicContent/Tags/CurrentDate.php
+msgid "Current Date"
+msgstr ""
+
+#: includes/DynamicContent/Tags/CurrentDate.php
+msgid "Today's date at render time."
+msgstr ""
+
+#: includes/DynamicContent/Tags/CurrentDate.php
+msgid "PHP date format."
+msgstr ""
+
+#: includes/DynamicContent/Tags/FeaturedImage.php
+msgid "Featured Image"
+msgstr ""
+
+#: includes/DynamicContent/Tags/FeaturedImage.php
+msgid "A URL or attribute of the featured image."
+msgstr ""
+
+#: includes/DynamicContent/Tags/FeaturedImage.php
+msgid "Image size slug."
+msgstr ""
+
+#: includes/DynamicContent/Tags/FeaturedImage.php
+msgid "Attribute to return: src, alt, width, height, srcset."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostDate.php
+msgid "Post Date"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostDate.php
+msgid "The publication date of the post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostDate.php
+msgid "PHP date format (blank = site default)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostDate.php
+msgid "Use GMT date."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostExcerpt.php
+msgid "Post Excerpt"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostExcerpt.php
+msgid "The post excerpt (auto-generated if not set)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostExcerpt.php
+msgid "Word limit (0 = no limit)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostExcerpt.php
+msgid "Trailing \"more\" text."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostId.php
+msgid "Post ID"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostId.php
+msgid "The numeric ID of the current post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostMeta.php
+msgid "Post Meta"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostMeta.php
+msgid "A custom field value from the current post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostMeta.php
+msgid "Meta key (required)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostMeta.php
+msgid "Value to show when meta is empty."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostModified.php
+msgid "Post Modified Date"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostModified.php
+msgid "The last-modified date of the post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostStatus.php
+msgid "Post Status"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostStatus.php
+msgid "The status of the current post (publish, draft, etc.)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostTitle.php
+msgid "Post Title"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostTitle.php
+msgid "The title of the current post or page."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostType.php
+msgid "Post Type"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostType.php
+msgid "The post type slug of the current post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostUrl.php
+msgid "Post URL"
+msgstr ""
+
+#: includes/DynamicContent/Tags/PostUrl.php
+msgid "The permalink of the current post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/QueryParam.php
+msgid "URL Query Param"
+msgstr ""
+
+#: includes/DynamicContent/Tags/QueryParam.php
+msgid "A value from the URL query string (?key=value)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/QueryParam.php
+msgid "Query parameter name (required)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/QueryParam.php
+msgid "Value when parameter is absent."
+msgstr ""
+
+#: includes/DynamicContent/Tags/SiteTitle.php
+msgid "Site Title"
+msgstr ""
+
+#: includes/DynamicContent/Tags/SiteTitle.php
+msgid "The site name from Settings â†’ General."
+msgstr ""
+
+#: includes/DynamicContent/Tags/SiteUrl.php
+msgid "Site URL"
+msgstr ""
+
+#: includes/DynamicContent/Tags/SiteUrl.php
+msgid "The base URL of the site."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermCount.php
+msgid "Term Count"
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermCount.php
+msgid "Number of terms from a taxonomy assigned to the post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermCount.php
+msgid "Taxonomy slug."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermName.php
+msgid "Term Name"
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermName.php
+msgid "The name of a taxonomy term assigned to the post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermName.php
+msgid "Zero-based term index."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermName.php
+msgid "Join separator (empty = single term by index)."
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermUrl.php
+msgid "Term URL"
+msgstr ""
+
+#: includes/DynamicContent/Tags/TermUrl.php
+msgid "The archive URL of a taxonomy term assigned to the post."
+msgstr ""
+
+#: includes/DynamicContent/Tags/UserMeta.php
+msgid "Current User Meta"
+msgstr ""
+
+#: includes/DynamicContent/Tags/UserMeta.php
+msgid "A meta field for the currently logged-in user."
+msgstr ""
+
+#: includes/DynamicContent/Tags/UserMeta.php
+msgid "User meta key."
+msgstr ""
+
+#: includes/GlobalStyles/GlobalStyles.php
+msgid "GoBlocks â€” Global Styles"
 msgstr ""
 
 #: includes/GlobalStyles/GlobalStyles.php
 msgid "Global Styles"
-msgstr ""
-
-#: includes/GlobalStyles/GlobalStyles.php
-msgid "GoBlocks Global Styles"
 msgstr ""
 
 #: includes/Patterns/PatternLibrary.php
@@ -53,8 +403,36 @@ msgstr ""
 msgid "Patterns"
 msgstr ""
 
+#: includes/REST/DynamicContentController.php
+msgid "Invalid tag identifier."
+msgstr ""
+
+#: includes/REST/DynamicContentController.php
+msgid "[%s]"
+msgstr ""
+
+#: includes/REST/PatternsController.php
+msgid "Pattern not found."
+msgstr ""
+
+#: includes/REST/QueryController.php
+msgid "Invalid taxonomy."
+msgstr ""
+
+#: includes/REST/QueryController.php
+msgid "Request body must be a JSON object."
+msgstr ""
+
 #: includes/REST/RestController.php
 msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/REST/StylesController.php
+msgid "Post not found."
+msgstr ""
+
+#: includes/REST/StylesController.php
+msgid "You do not have permission to edit this post."
 msgstr ""
 
 #: includes/Settings/Schema.php
@@ -69,30 +447,3 @@ msgstr ""
 msgid "Invalid option value."
 msgstr ""
 
-#: includes/REST/SettingsController.php
-msgid "Request body must be a JSON object."
-msgstr ""
-
-#: includes/REST/SettingsController.php
-msgid "Failed to save settings."
-msgstr ""
-
-#: includes/REST/SettingsController.php
-msgid "Settings saved."
-msgstr ""
-
-#: includes/REST/SettingsController.php
-msgid "Settings reset to defaults."
-msgstr ""
-
-#: includes/REST/StylesController.php
-msgid "Invalid CSS."
-msgstr ""
-
-#: includes/REST/StylesController.php
-msgid "CSS saved."
-msgstr ""
-
-#: includes/Blocks/TabPanel.php
-msgid "Tab"
-msgstr ""

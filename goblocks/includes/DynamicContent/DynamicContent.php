@@ -1,4 +1,10 @@
 <?php
+/**
+ * Dynamic Content.
+ *
+ * @package GoBlocks\DynamicContent
+ */
+
 namespace GoBlocks\DynamicContent;
 
 defined( 'ABSPATH' ) || exit;
@@ -56,7 +62,7 @@ class DynamicContent {
 		add_filter( 'goblocks_dynamic_content_tags', array( self::class, 'handle_tags_list' ), 10, 1 );
 	}
 
-	// ── Filter handlers ───────────────────────────────────────────────────────
+	// ── Filter handlers ───────────────────────────────────────────────────────.
 
 	/**
 	 * Resolve a single tag for the REST preview endpoint.
@@ -106,13 +112,13 @@ class DynamicContent {
 		return array_merge( $tags, TagRegistry::to_rest_list() );
 	}
 
-	// ── Context helpers ───────────────────────────────────────────────────────
+	// ── Context helpers ───────────────────────────────────────────────────────.
 
 	/**
 	 * Build a dynamic content context from a block's WP_Block instance.
 	 *
-	 * @param  \WP_Block $block
-	 * @return array<string, mixed>
+	 * @param  \WP_Block $block Block instance with context values.
+	 * @return array<string, mixed> Dynamic content context array.
 	 */
 	public static function make_context( \WP_Block $block ): array {
 		$post_id = absint( $block->context['postId'] ?? get_the_ID() ?? 0 );
@@ -129,8 +135,8 @@ class DynamicContent {
 	/**
 	 * Build a context for REST preview (editor-side).
 	 *
-	 * @param  int $post_id
-	 * @return array<string, mixed>
+	 * @param  int $post_id Post ID for preview context.
+	 * @return array<string, mixed> Dynamic content context array.
 	 */
 	public static function make_preview_context( int $post_id ): array {
 		return array(
@@ -142,7 +148,7 @@ class DynamicContent {
 		);
 	}
 
-	// ── Private helpers ───────────────────────────────────────────────────────
+	// ── Private helpers ───────────────────────────────────────────────────────.
 
 	/**
 	 * Register all built-in dynamic content tags.
@@ -151,7 +157,7 @@ class DynamicContent {
 	 */
 	private static function register_built_in_tags(): void {
 		$built_in = array(
-			// Post
+			// Post.
 			new PostTitle(),
 			new PostExcerpt(),
 			new PostDate(),
@@ -162,23 +168,23 @@ class DynamicContent {
 			new PostType(),
 			new PostMeta(),
 			new FeaturedImage(),
-			// Author
+			// Author.
 			new AuthorName(),
 			new AuthorMeta(),
 			new AuthorUrl(),
 			new AuthorAvatar(),
-			// Term
+			// Term.
 			new TermName(),
 			new TermUrl(),
 			new TermCount(),
-			// User
+			// User.
 			new UserMeta(),
-			// Date
+			// Date.
 			new CurrentDate(),
-			// Site
+			// Site.
 			new SiteTitle(),
 			new SiteUrl(),
-			// Query
+			// Query.
 			new QueryParam(),
 		);
 

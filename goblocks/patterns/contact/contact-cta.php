@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Contact — Split Panel
  * Slug: goblocks/contact-cta

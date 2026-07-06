@@ -9,13 +9,13 @@
 	"keywords": [ "spacer", "gap", "space", "height", "vertical" ],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":     { "type": "string",  "default": "" },
+		"uniqueId": { "type": "string", "default": "" },
 		"styles": {
 			"type": "object",
 			"default": {
@@ -24,9 +24,13 @@
 				}
 			}
 		},
-		"globalClasses":  { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 }
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 }
 	},
 	"editorScript": "file:./index.js"
 }

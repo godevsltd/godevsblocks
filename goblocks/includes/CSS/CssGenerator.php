@@ -77,9 +77,9 @@ class CssGenerator {
 			return '';
 		}
 
-		// Deduplicate identical CSS strings — guards against duplicated blocks that
-		// share a uniqueId before the editor regenerates it. Using the full CSS
-		// string as key prevents false collisions that occurred when two blocks
+		// Deduplicate identical CSS strings — guards against duplicated blocks that.
+		// share a uniqueId before the editor regenerates it. Using the full CSS.
+		// string as key prevents false collisions that occurred when two blocks.
 		// had CSS starting with the same @media prefix.
 		$css_by_selector = array();
 		foreach ( $css_parts as $css ) {
@@ -172,7 +172,7 @@ class CssGenerator {
 	 * @return string RTL-flipped CSS string.
 	 */
 	public static function flip_rtl( string $css ): string {
-		// Swap compound left/right property pairs first, using unique placeholders
+		// Swap compound left/right property pairs first, using unique placeholders.
 		// so the generic left:/right: pass below doesn't undo the swap.
 		$compound = array(
 			array( 'margin-left:', 'margin-right:' ),
@@ -188,7 +188,7 @@ class CssGenerator {
 			$css           = str_replace( $ph, $b, $css );
 		}
 
-		// Standalone left:/right: — only swap when the property starts a rule
+		// Standalone left:/right: — only swap when the property starts a rule.
 		// or follows a semicolon. This avoids matching inside margin-left: etc.
 		$css = (string) preg_replace( '/([{;])\s*left:/', '$1%%GBPOS%%:', $css );
 		$css = (string) preg_replace( '/([{;])\s*right:/', '$1left:', $css );

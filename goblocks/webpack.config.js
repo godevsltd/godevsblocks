@@ -19,6 +19,11 @@ module.exports = {
 		// Editor bootstrap: addFilter calls, sidebar registration, store init
 		editor: './src/editor.ts',
 
+		// Shared scroll-triggered animation observer (used by Group and Column).
+		// Registered as handle 'goblocks-anim-observer' so WordPress loads it once
+		// even when both block types appear on the same page.
+		'anim-observer': './src/utils/animation-observer.ts',
+
 		// Admin settings page React SPA
 		settings: './src/settings.ts',
 
@@ -32,9 +37,7 @@ module.exports = {
 		// Uncomment each line when the corresponding block src files exist.
 		//
 		'blocks/group/index':          './src/blocks/group/index.ts',
-		'blocks/group/view':           './src/blocks/group/view.ts',
 		'blocks/column/index':         './src/blocks/column/index.ts',
-		'blocks/column/view':          './src/blocks/column/view.ts',
 		'blocks/text/index':           './src/blocks/text/index.ts',
 		'blocks/heading/index':        './src/blocks/heading/index.ts',
 		'blocks/button/index':         './src/blocks/button/index.ts',

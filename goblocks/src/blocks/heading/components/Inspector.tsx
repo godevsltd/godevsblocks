@@ -1,5 +1,10 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
@@ -76,7 +81,8 @@ export function HeadingInspector( {
 			setAttributes( { textGradient: '' } );
 			responsive.setStyle( 'variables', '--gb-text-grad', '' );
 		} else {
-			const defaultGrad = 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)';
+			const defaultGrad =
+				'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)';
 			setAttributes( { textGradient: defaultGrad } );
 			responsive.setStyle( 'variables', '--gb-text-grad', defaultGrad );
 		}
@@ -99,7 +105,10 @@ export function HeadingInspector( {
 			>
 				<ToggleControl
 					label={ __( 'Enable gradient text', 'goblocks' ) }
-					help={ __( 'Applies a CSS gradient to the heading text.', 'goblocks' ) }
+					help={ __(
+						'Applies a CSS gradient to the heading text.',
+						'goblocks'
+					) }
 					checked={ hasGradient }
 					onChange={ onGradientToggle }
 				/>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Portfolio — Project Grid
  * Slug: goblocks/portfolio-grid

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Text.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +39,7 @@ class Text extends BlockBase {
 		$unique_id = $this->get_unique_id( $attributes );
 
 		$tag_name       = $this->get_tag_name( $attributes, 'p' );
-		$block_class    = $this->get_block_class( $unique_id );   // gb-text-{uniqueId}
+		$block_class    = $this->get_block_class( $unique_id );   // gb-text-{uniqueId}.
 		$global_classes = $this->get_global_classes( $attributes );
 
 		$drop_cap = ! empty( $attributes['dropCap'] ) && true === $attributes['dropCap'];
@@ -53,8 +59,8 @@ class Text extends BlockBase {
 		return sprintf(
 			'<%1$s class="%2$s"%3$s>%4$s</%1$s>',
 			esc_attr( $tag_name ),
-			$classes,       // already escaped by build_class_string
-			$html_attrs,    // already escaped, has leading space when non-empty
+			$classes,       // Already escaped by build_class_string.
+			$html_attrs,    // Already escaped, has leading space when non-empty.
 			$text_content
 		);
 	}

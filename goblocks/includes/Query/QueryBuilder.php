@@ -1,4 +1,10 @@
 <?php
+/**
+ * Query Builder.
+ *
+ * @package GoBlocks\Query
+ */
+
 namespace GoBlocks\Query;
 
 defined( 'ABSPATH' ) || exit;

@@ -335,6 +335,44 @@ h6.gb-heading { font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; t
 	margin-right: max( -40px, calc( 50% - 700px ) );
 }
 
+/* ── Block styles ─────────────────────────────────────────────────────────── */
+
+.gb-group.is-style-card {
+	background: #fff;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 4px 16px rgba(0, 0, 0, .04);
+}
+
+.gb-group.is-style-bordered {
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	padding: 24px;
+}
+
+.gb-group.is-style-shadow {
+	border-radius: 12px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, .07), 0 10px 36px rgba(0, 0, 0, .12);
+	padding: 24px;
+}
+
+.gb-group.is-style-glass {
+	background: rgba(255, 255, 255, .15);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-radius: 16px;
+	padding: 32px;
+}
+
+.gb-group.is-style-pill {
+	border-radius: 9999px;
+	padding: 16px 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
 /* ── Editor placeholder for empty group ──────────────────────────────────── */
 
 .editor-styles-wrapper .gb-group:not(:has(*)) {
@@ -356,8 +394,9 @@ h6.gb-heading { font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; t
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .gb-column {
-	flex: 1;
+	flex: 1 1 0%;
 	min-width: 0;
+	box-sizing: border-box;
 }
 
 /* Editor placeholder for empty column */
@@ -1478,6 +1517,20 @@ details.gb-accordion-item[open] > .gb-accordion-item__content {
 	width: 100%;
 }
 
+/* Wide / Full alignment (requires theme support for .alignwide / .alignfull) */
+.gb-query.alignwide {
+	max-width: var( --wp--style--global--wide-size, 1200px );
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.gb-query.alignfull {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc( 50% - 50vw );
+	margin-right: calc( 50% - 50vw );
+}
+
 /* ── Query Loop ───────────────────────────────────────────────────────────── */
 
 .gb-query-loop {
@@ -1486,9 +1539,210 @@ details.gb-accordion-item[open] > .gb-accordion-item__content {
 	gap: 1.5rem;
 }
 
-@media ( max-width: 639px ) {
-	.gb-query-loop {
+.gb-query-loop.gb-query-loop--grid {
+	display: grid;
+}
+
+.gb-query-loop.gb-query-loop--cols-1 { grid-template-columns: repeat( 1, 1fr ); }
+.gb-query-loop.gb-query-loop--cols-2 { grid-template-columns: repeat( 2, 1fr ); }
+.gb-query-loop.gb-query-loop--cols-3 { grid-template-columns: repeat( 3, 1fr ); }
+.gb-query-loop.gb-query-loop--cols-4 { grid-template-columns: repeat( 4, 1fr ); }
+
+.gb-query-loop.gb-query-loop--list {
+	display: flex;
+	flex-direction: column;
+	grid-template-columns: none;
+	gap: 1rem;
+}
+
+/* ── Post card — each post is wrapped in .gb-query-loop__item ─────────────── */
+
+.gb-query-loop__item {
+	background: #fff;
+	border: 1px solid var( --gb-color-gray-200, #e5e7eb );
+	border-radius: var( --gb-radius-md, 10px );
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.gb-query-loop__item:hover {
+	box-shadow: var( --gb-shadow-md, 0 4px 12px rgba(0,0,0,.10) );
+	transform: translateY( -2px );
+}
+
+/* Featured image — fill the top of the card */
+.gb-query-loop__item .wp-block-post-featured-image {
+	margin: 0;
+}
+
+.gb-query-loop__item .wp-block-post-featured-image img {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	display: block;
+}
+
+/* Text area padding */
+.gb-query-loop__item .wp-block-post-title,
+.gb-query-loop__item .wp-block-post-date,
+.gb-query-loop__item .wp-block-post-excerpt {
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+}
+
+.gb-query-loop__item .wp-block-post-title {
+	font-size: 1.0625rem;
+	font-weight: 700;
+	line-height: 1.4;
+	margin: 1rem 0 0.25rem;
+}
+
+.gb-query-loop__item .wp-block-post-title a {
+	color: var( --gb-color-gray-900, #111827 );
+	text-decoration: none;
+}
+
+.gb-query-loop__item .wp-block-post-title a:hover {
+	color: var( --gb-color-primary, #4f46e5 );
+}
+
+.gb-query-loop__item .wp-block-post-date {
+	font-size: 0.8125rem;
+	color: var( --gb-color-gray-500, #6b7280 );
+	margin: 0 0 0.5rem;
+}
+
+.gb-query-loop__item .wp-block-post-excerpt {
+	font-size: 0.9375rem;
+	color: var( --gb-color-gray-600, #4b5563 );
+	line-height: 1.65;
+	margin: 0 0 1.25rem;
+	flex: 1;
+}
+
+.gb-query-loop__item .wp-block-post-excerpt p {
+	margin: 0;
+}
+
+/* List layout: horizontal card */
+.gb-query-loop--list .gb-query-loop__item {
+	flex-direction: row;
+	align-items: flex-start;
+}
+
+.gb-query-loop--list .gb-query-loop__item .wp-block-post-featured-image {
+	width: 200px;
+	flex-shrink: 0;
+}
+
+.gb-query-loop--list .gb-query-loop__item .wp-block-post-featured-image img {
+	aspect-ratio: 1;
+	height: 100%;
+}
+
+/* Responsive */
+@media ( max-width: 768px ) {
+	.gb-query-loop.gb-query-loop--cols-3,
+	.gb-query-loop.gb-query-loop--cols-4 {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+}
+
+@media ( max-width: 479px ) {
+	.gb-query-loop,
+	.gb-query-loop.gb-query-loop--cols-2,
+	.gb-query-loop.gb-query-loop--cols-3,
+	.gb-query-loop.gb-query-loop--cols-4 {
 		grid-template-columns: 1fr;
+	}
+	.gb-query-loop--list .gb-query-loop__item {
+		flex-direction: column;
+	}
+	.gb-query-loop--list .gb-query-loop__item .wp-block-post-featured-image {
+		width: 100%;
+	}
+}
+
+/* ── Query fallback card (shown when post template is empty) ──────────────── */
+
+.gb-query-fallback-card {
+	background: #ffffff;
+	border: 1px solid var( --gb-color-gray-200, #e5e7eb );
+	border-radius: 10px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.gb-query-fallback-card:hover {
+	box-shadow: 0 6px 24px rgba( 0, 0, 0, 0.08 );
+	transform: translateY( -2px );
+}
+
+.gb-query-fallback-card__thumbnail {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	display: block;
+}
+
+.gb-query-fallback-card__body {
+	padding: 1.25rem 1.5rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	flex: 1;
+}
+
+.gb-query-fallback-card__title {
+	font-size: 1.0625rem;
+	font-weight: 700;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.gb-query-fallback-card__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.gb-query-fallback-card__title a:hover {
+	color: var( --gb-color-primary, #4f46e5 );
+}
+
+.gb-query-fallback-card__meta {
+	font-size: 0.8125rem;
+	color: var( --gb-color-gray-500, #6b7280 );
+}
+
+.gb-query-fallback-card__excerpt {
+	font-size: 0.9375rem;
+	color: var( --gb-color-gray-600, #4b5563 );
+	line-height: 1.65;
+	margin: 0;
+}
+
+.gb-query-loop--list .gb-query-fallback-card {
+	flex-direction: row;
+}
+
+.gb-query-loop--list .gb-query-fallback-card__thumbnail {
+	width: 200px;
+	flex-shrink: 0;
+	aspect-ratio: auto;
+	height: auto;
+}
+
+@media ( max-width: 479px ) {
+	.gb-query-loop--list .gb-query-fallback-card {
+		flex-direction: column;
+	}
+	.gb-query-loop--list .gb-query-fallback-card__thumbnail {
+		width: 100%;
+		aspect-ratio: 16 / 9;
 	}
 }
 
@@ -3768,6 +4022,15 @@ details.gb-accordion-item[open] > .gb-accordion-item__content {
 /* ═══════════════════════════════════════════════════════════════════════════
    GROUP — Editor canvas enhancements
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* In the editor Gutenberg wraps each inner block in .wp-block-goblocks-column.
+   That wrapper is the DIRECT child of the flex/grid Group, not .gb-column.
+   So it must participate in the layout. */
+.editor-styles-wrapper .gb-group > .wp-block-goblocks-column {
+	flex: 1 1 0%;
+	min-width: 0;
+	box-sizing: border-box;
+}
 
 /* Floating tag-name badge (shows on focus/selection) */
 .editor-styles-wrapper .gb-group {

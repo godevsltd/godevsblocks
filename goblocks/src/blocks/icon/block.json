@@ -6,13 +6,7 @@
 	"title": "Icon",
 	"category": "goblocks",
 	"description": "Standalone SVG icon — choose from 250+ Tabler icons or paste a custom SVG.",
-	"keywords": [
-		"icon",
-		"svg",
-		"symbol",
-		"logo",
-		"pictogram"
-	],
+	"keywords": [ "icon", "svg", "symbol", "logo", "pictogram" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,
@@ -20,10 +14,7 @@
 		"className": false,
 		"anchor": false
 	},
-	"usesContext": [
-		"postId",
-		"postType"
-	],
+	"usesContext": [ "postId", "postType" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",
@@ -129,6 +120,5 @@
 			"default": 1
 		}
 	},
-	"viewScript":   "file:./view.js",
 	"editorScript": "file:./index.js"
 }

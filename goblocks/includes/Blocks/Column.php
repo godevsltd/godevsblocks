@@ -1,16 +1,38 @@
 <?php
+/**
+ * Column.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
 use WP_Block;
 
+/**
+ * Column block — PHP render callback.
+ */
 class Column extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'column';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
@@ -23,7 +45,7 @@ class Column extends BlockBase {
 			$extra_classes
 		);
 
-		$tag_name   = isset( $attributes['tagName'] )   ? sanitize_key( $attributes['tagName'] )          : 'div';
+		$tag_name   = isset( $attributes['tagName'] ) ? sanitize_key( $attributes['tagName'] ) : 'div';
 		$aria_label = isset( $attributes['ariaLabel'] ) ? sanitize_text_field( $attributes['ariaLabel'] ) : '';
 
 		$allowed_tags = array( 'div', 'section', 'article', 'aside', 'header', 'footer', 'nav', 'main', 'figure', 'li', 'span' );

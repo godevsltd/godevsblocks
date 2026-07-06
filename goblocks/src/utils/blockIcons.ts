@@ -85,14 +85,26 @@ export const GridIcon: ReactElement = svg(
 /** Icon block — sparkle / star */
 export const IconBlockIcon: ReactElement = svg(
 	{},
-	el( 'path', { d: 'M12 2 L14 9 L21 9 L15.5 13.5 L17.5 20.5 L12 16 L6.5 20.5 L8.5 13.5 L3 9 L10 9 Z' } )
+	el( 'path', {
+		d: 'M12 2 L14 9 L21 9 L15.5 13.5 L17.5 20.5 L12 16 L6.5 20.5 L8.5 13.5 L3 9 L10 9 Z',
+	} )
 );
 
 /** Shape / Divider — wavy separator */
 export const ShapeIcon: ReactElement = svg(
 	{},
-	el( 'path', { d: 'M2 12 Q5.5 6 9 12 Q12.5 18 16 12 Q19.5 6 23 12', strokeWidth: '2', fill: 'none' } ),
-	el( 'line', { x1: '2', y1: '18', x2: '22', y2: '18', strokeDasharray: '4 3' } )
+	el( 'path', {
+		d: 'M2 12 Q5.5 6 9 12 Q12.5 18 16 12 Q19.5 6 23 12',
+		strokeWidth: '2',
+		fill: 'none',
+	} ),
+	el( 'line', {
+		x1: '2',
+		y1: '18',
+		x2: '22',
+		y2: '18',
+		strokeDasharray: '4 3',
+	} )
 );
 
 /** Tabs — folder tabs navigation */
@@ -128,7 +140,13 @@ export const SpacerIcon: ReactElement = svg(
 	el( 'polyline', { points: '9,6 12,3 15,6' } ),
 	el( 'line', { x1: '12', y1: '15', x2: '12', y2: '21' } ),
 	el( 'polyline', { points: '9,18 12,21 15,18' } ),
-	el( 'line', { x1: '6', y1: '12', x2: '18', y2: '12', strokeDasharray: '3 2' } )
+	el( 'line', {
+		x1: '6',
+		y1: '12',
+		x2: '18',
+		y2: '12',
+		strokeDasharray: '3 2',
+	} )
 );
 
 /** Query — stacked documents / database rows */
@@ -176,7 +194,9 @@ export const TabPanelIcon: ReactElement = svg(
 /** Query No Results — document with a ✕ */
 export const QueryNoResultsIcon: ReactElement = svg(
 	{},
-	el( 'path', { d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' } ),
+	el( 'path', {
+		d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z',
+	} ),
 	el( 'polyline', { points: '14 2 14 8 20 8' } ),
 	el( 'line', { x1: '9', y1: '13', x2: '15', y2: '19' } ),
 	el( 'line', { x1: '15', y1: '13', x2: '9', y2: '19' } )
@@ -195,7 +215,15 @@ export const CounterIcon: ReactElement = svg(
 export const ProgressBarIcon: ReactElement = svg(
 	{},
 	el( 'rect', { x: '2', y: '9', width: '20', height: '6', rx: '3' } ),
-	el( 'rect', { x: '2', y: '9', width: '13', height: '6', rx: '3', fill: 'currentColor', stroke: 'none' } )
+	el( 'rect', {
+		x: '2',
+		y: '9',
+		width: '13',
+		height: '6',
+		rx: '3',
+		fill: 'currentColor',
+		stroke: 'none',
+	} )
 );
 
 /** Alert — circle with exclamation */
@@ -203,13 +231,21 @@ export const AlertIcon: ReactElement = svg(
 	{},
 	el( 'circle', { cx: '12', cy: '12', r: '9' } ),
 	el( 'line', { x1: '12', y1: '8', x2: '12', y2: '12' } ),
-	el( 'circle', { cx: '12', cy: '16', r: '0.8', fill: 'currentColor', stroke: 'none' } )
+	el( 'circle', {
+		cx: '12',
+		cy: '16',
+		r: '0.8',
+		fill: 'currentColor',
+		stroke: 'none',
+	} )
 );
 
 /** Star Rating — single star */
 export const StarRatingIcon: ReactElement = svg(
 	{},
-	el( 'polygon', { points: '12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26' } )
+	el( 'polygon', {
+		points: '12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26',
+	} )
 );
 
 /** Lottie — play button with motion lines */
@@ -223,7 +259,14 @@ export const LottieIcon: ReactElement = svg(
 export const FlipCardIcon: ReactElement = svg(
 	{},
 	el( 'rect', { x: '4', y: '6', width: '14', height: '14', rx: '2' } ),
-	el( 'rect', { x: '6', y: '4', width: '14', height: '14', rx: '2', fill: 'none' } )
+	el( 'rect', {
+		x: '6',
+		y: '4',
+		width: '14',
+		height: '14',
+		rx: '2',
+		fill: 'none',
+	} )
 );
 
 /** Countdown — clock face */
@@ -270,7 +313,14 @@ export const SlideIcon: ReactElement = svg(
 /** Modal — window/dialog with overlay */
 export const ModalIcon: ReactElement = svg(
 	{},
-	el( 'rect', { x: '2', y: '2', width: '20', height: '20', rx: '2', strokeDasharray: '4 2' } ),
+	el( 'rect', {
+		x: '2',
+		y: '2',
+		width: '20',
+		height: '20',
+		rx: '2',
+		strokeDasharray: '4 2',
+	} ),
 	el( 'rect', { x: '5', y: '5', width: '14', height: '14', rx: '1' } ),
 	el( 'line', { x1: '12', y1: '5', x2: '12', y2: '7' } ),
 	el( 'line', { x1: '5', y1: '9', x2: '19', y2: '9' } )
@@ -279,17 +329,43 @@ export const ModalIcon: ReactElement = svg(
 /** Pricing — price tag */
 export const PricingIcon: ReactElement = svg(
 	{},
-	el( 'path', { d: 'M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z' } ),
-	el( 'circle', { cx: '7', cy: '7', r: '1.5', fill: 'currentColor', stroke: 'none' } )
+	el( 'path', {
+		d: 'M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z',
+	} ),
+	el( 'circle', {
+		cx: '7',
+		cy: '7',
+		r: '1.5',
+		fill: 'currentColor',
+		stroke: 'none',
+	} )
 );
 
 /** Timeline — vertical dots connected by line */
 export const TimelineIcon: ReactElement = svg(
 	{},
 	el( 'line', { x1: '9', y1: '4', x2: '9', y2: '20' } ),
-	el( 'circle', { cx: '9', cy: '7', r: '2', fill: 'currentColor', stroke: 'none' } ),
-	el( 'circle', { cx: '9', cy: '12', r: '2', fill: 'currentColor', stroke: 'none' } ),
-	el( 'circle', { cx: '9', cy: '17', r: '2', fill: 'currentColor', stroke: 'none' } ),
+	el( 'circle', {
+		cx: '9',
+		cy: '7',
+		r: '2',
+		fill: 'currentColor',
+		stroke: 'none',
+	} ),
+	el( 'circle', {
+		cx: '9',
+		cy: '12',
+		r: '2',
+		fill: 'currentColor',
+		stroke: 'none',
+	} ),
+	el( 'circle', {
+		cx: '9',
+		cy: '17',
+		r: '2',
+		fill: 'currentColor',
+		stroke: 'none',
+	} ),
 	el( 'line', { x1: '13', y1: '7', x2: '20', y2: '7' } ),
 	el( 'line', { x1: '13', y1: '12', x2: '20', y2: '12' } ),
 	el( 'line', { x1: '13', y1: '17', x2: '20', y2: '17' } )
@@ -299,7 +375,13 @@ export const TimelineIcon: ReactElement = svg(
 export const TimelineItemIcon: ReactElement = svg(
 	{},
 	el( 'line', { x1: '9', y1: '4', x2: '9', y2: '20' } ),
-	el( 'circle', { cx: '9', cy: '12', r: '3', fill: 'currentColor', stroke: 'none' } ),
+	el( 'circle', {
+		cx: '9',
+		cy: '12',
+		r: '3',
+		fill: 'currentColor',
+		stroke: 'none',
+	} ),
 	el( 'line', { x1: '13', y1: '12', x2: '20', y2: '12' } )
 );
 
@@ -322,8 +404,22 @@ export const VideoIcon: ReactElement = svg(
 export const ContainerIcon: ReactElement = svg(
 	{},
 	el( 'rect', { x: '3', y: '5', width: '18', height: '14', rx: '2' } ),
-	el( 'line', { x1: '3', y1: '5', x2: '3', y2: '19', strokeDasharray: '2 2', strokeOpacity: '0.4' } ),
-	el( 'line', { x1: '21', y1: '5', x2: '21', y2: '19', strokeDasharray: '2 2', strokeOpacity: '0.4' } ),
+	el( 'line', {
+		x1: '3',
+		y1: '5',
+		x2: '3',
+		y2: '19',
+		strokeDasharray: '2 2',
+		strokeOpacity: '0.4',
+	} ),
+	el( 'line', {
+		x1: '21',
+		y1: '5',
+		x2: '21',
+		y2: '19',
+		strokeDasharray: '2 2',
+		strokeOpacity: '0.4',
+	} ),
 	el( 'line', { x1: '7', y1: '9', x2: '17', y2: '9', strokeWidth: '1' } ),
 	el( 'line', { x1: '7', y1: '12', x2: '17', y2: '12', strokeWidth: '1' } ),
 	el( 'line', { x1: '7', y1: '15', x2: '13', y2: '15', strokeWidth: '1' } )
@@ -335,7 +431,14 @@ export const SectionIcon: ReactElement = svg(
 	el( 'rect', { x: '1', y: '3', width: '22', height: '18', rx: '2' } ),
 	el( 'line', { x1: '1', y1: '9', x2: '23', y2: '9' } ),
 	el( 'line', { x1: '1', y1: '15', x2: '23', y2: '15' } ),
-	el( 'line', { x1: '5', y1: '12', x2: '19', y2: '12', strokeWidth: '1', strokeOpacity: '0.5' } )
+	el( 'line', {
+		x1: '5',
+		y1: '12',
+		x2: '19',
+		y2: '12',
+		strokeWidth: '1',
+		strokeOpacity: '0.5',
+	} )
 );
 
 /** Inner Section — two equal columns side by side */

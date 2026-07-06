@@ -70,7 +70,7 @@ abstract class BlockBase {
 		);
 	}
 
-	// ── Protected helpers — available to all block render() implementations ──
+	// ── Protected helpers — available to all block render() implementations ──.
 
 	/**
 	 * Safely extract uniqueId from attributes, returning '' if absent.
@@ -206,6 +206,38 @@ abstract class BlockBase {
 		}
 
 		return $out;
+	}
+
+	/**
+	 * Sanitize a CSS color value — accepts hex, rgb(), rgba(), hsl(), hsla(),
+	 * and CSS named keywords (e.g. 'transparent', 'currentColor').
+	 *
+	 * Returns the sanitized value or $fallback when the value is empty/invalid.
+	 *
+	 * @param  mixed  $value    Raw attribute value.
+	 * @param  string $fallback Value returned on empty or invalid input.
+	 * @return string
+	 */
+	protected function sanitize_color( mixed $value, string $fallback = '' ): string {
+		$color = trim( (string) ( $value ?? '' ) );
+		if ( '' === $color ) {
+			return $fallback;
+		}
+		// Hex shorthand and full: #RGB, #RGBA, #RRGGBB, #RRGGBBAA.
+		if ( preg_match( '/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $color ) ) {
+			return $color;
+		}
+		// rgb() / rgba() / hsl() / hsla() — basic syntax check.
+		if ( preg_match( '/^(rgba?|hsla?)\s*\([^)]*\)$/i', $color ) ) {
+			// Strip any characters that could allow injection outside parens.
+			return preg_replace( '/[^a-zA-Z0-9\s,.()\/%#\-]/', '', $color );
+		}
+		// Safe CSS keyword list.
+		$keywords = array( 'transparent', 'currentcolor', 'inherit', 'initial', 'unset' );
+		if ( in_array( strtolower( $color ), $keywords, true ) ) {
+			return $color;
+		}
+		return $fallback;
 	}
 
 	/**

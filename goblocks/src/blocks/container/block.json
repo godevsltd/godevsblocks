@@ -6,28 +6,39 @@
 	"title": "Container",
 	"category": "goblocks",
 	"description": "A centered content-width wrapper. Constrains inner content to a readable max-width with auto side margins.",
-	"keywords": [ "container", "wrapper", "constrain", "content", "width", "centered", "max-width" ],
+	"keywords": [
+		"container",
+		"wrapper",
+		"constrain",
+		"content",
+		"width",
+		"centered",
+		"max-width"
+	],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"anchor": true
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
-		"uniqueId":    { "type": "string",  "default": "" },
-		"tagName":     { "type": "string",  "default": "div" },
+		"uniqueId": { "type": "string", "default": "" },
+		"tagName": { "type": "string", "default": "div" },
 		"styles": {
 			"type": "object",
 			"default": {}
 		},
-		"globalClasses": { "type": "array", "items": { "type": "string" }, "default": [] },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
 		"htmlAttributes": { "type": "object", "default": {} },
 		"dynamicContent": { "type": "object", "default": {} },
-		"generatedCss":   { "type": "string",  "default": "" },
-		"blockVersion":   { "type": "integer", "default": 1 },
-		"ariaLabel":      { "type": "string",  "default": "" }
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 },
+		"ariaLabel": { "type": "string", "default": "" }
 	},
 	"editorScript": "file:./index.js"
 }

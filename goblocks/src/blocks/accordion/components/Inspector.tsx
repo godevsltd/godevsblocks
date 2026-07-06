@@ -1,9 +1,5 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import {
-	PanelBody,
-	TextControl,
-	ToggleControl,
-} from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
@@ -76,9 +72,7 @@ export function AccordionInspector( {
 							  )
 					}
 					checked={ allowMultiple }
-					onChange={ ( v ) =>
-						setAttributes( { allowMultiple: v } )
-					}
+					onChange={ ( v ) => setAttributes( { allowMultiple: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>

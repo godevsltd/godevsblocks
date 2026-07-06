@@ -94,7 +94,8 @@ export function buildBlockCss(
 		return '';
 	}
 
-	const selector = ( options.selectorOverride || '' ) || makeSelector( blockSlug, uniqueId );
+	const selector =
+		options.selectorOverride || '' || makeSelector( blockSlug, uniqueId );
 	const breakpoints = options.breakpoints ?? getRuntimeBreakpoints();
 
 	// Stage 2: Build rule buckets.

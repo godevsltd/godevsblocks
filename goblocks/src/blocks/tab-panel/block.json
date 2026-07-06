@@ -6,15 +6,9 @@
 	"title": "Tab Panel",
 	"category": "goblocks",
 	"description": "A single tab panel — must be inside a Tabs block.",
-	"keywords": [
-		"tab",
-		"panel",
-		"tabpanel"
-	],
+	"keywords": [ "tab", "panel", "tabpanel" ],
 	"textdomain": "goblocks",
-	"parent": [
-		"goblocks/tabs"
-	],
+	"parent": [ "goblocks/tabs" ],
 	"supports": {
 		"html": false,
 		"customClassName": false,
@@ -59,8 +53,6 @@
 			"default": "Tab"
 		}
 	},
-	"usesContext": [
-		"goblocks/tabsId"
-	],
+	"usesContext": [ "goblocks/tabsId" ],
 	"editorScript": "file:./index.js"
 }

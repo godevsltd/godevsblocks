@@ -14,9 +14,7 @@
 		"navigation"
 	],
 	"textdomain": "goblocks",
-	"parent": [
-		"goblocks/query"
-	],
+	"parent": [ "goblocks/query" ],
 	"supports": {
 		"html": false,
 		"customClassName": false,
@@ -24,10 +22,7 @@
 		"anchor": false,
 		"reusable": false
 	},
-	"usesContext": [
-		"goblocks/queryId",
-		"goblocks/paginationType"
-	],
+	"usesContext": [ "goblocks/queryId", "goblocks/paginationType" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",

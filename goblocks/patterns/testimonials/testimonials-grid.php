@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Testimonials — 3 Card Grid
  * Slug: goblocks/testimonials-grid

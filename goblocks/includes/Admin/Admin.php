@@ -1,4 +1,10 @@
 <?php
+/**
+ * Admin.
+ *
+ * @package GoBlocks\Admin
+ */
+
 namespace GoBlocks\Admin;
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +23,11 @@ use GoBlocks\Patterns\PatternLibrary;
  */
 class Admin extends Singleton {
 
-	/** Admin page hook suffix returned by add_menu_page(). */
+	/**
+	 * Admin page hook suffix returned by add_menu_page().
+	 *
+	 * @var string
+	 */
 	private string $page_hook = '';
 
 	/**
@@ -27,7 +37,7 @@ class Admin extends Singleton {
 	 */
 	public function register_hooks(): void {
 		// Single callback registers parent + all submenus in guaranteed order.
-		// Splitting across separate hooks risks the parent not existing in
+		// Splitting across separate hooks risks the parent not existing in.
 		// $admin_page_hooks when a submenu calls get_plugin_page_hookname().
 		add_action( 'admin_menu', array( $this, 'register_all_menus' ), 9 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );

@@ -67,18 +67,47 @@ const DEFAULT_TEMPLATE: [ string, Record< string, unknown > ][] = [
 ];
 
 const ICON_PREV = (
-	<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-		<path d="M15 18l-6-6 6-6"/>
+	<svg
+		width="20"
+		height="20"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2.5"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		aria-hidden="true"
+	>
+		<path d="M15 18l-6-6 6-6" />
 	</svg>
 );
 const ICON_NEXT = (
-	<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-		<path d="M9 18l6-6-6-6"/>
+	<svg
+		width="20"
+		height="20"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2.5"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		aria-hidden="true"
+	>
+		<path d="M9 18l6-6-6-6" />
 	</svg>
 );
 const ICON_PLUS = (
-	<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-		<path d="M12 5v14M5 12h14"/>
+	<svg
+		width="14"
+		height="14"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2.5"
+		strokeLinecap="round"
+		aria-hidden="true"
+	>
+		<path d="M12 5v14M5 12h14" />
 	</svg>
 );
 
@@ -142,20 +171,20 @@ export function Edit( {
 		insertBlock( newSlide, undefined, clientId );
 	}
 
-	const spv = effect === 'slide' ? ( slidesPerView ?? 1 ) : 1;
+	const spv = effect === 'slide' ? slidesPerView ?? 1 : 1;
 	const gap = slideGap ?? 0;
 
 	const sliderVars = {
-		'--gb-sl-arrow-color':    arrowColor    || '#ffffff',
-		'--gb-sl-arrow-hover':    arrowHoverColor || '#ffffff',
-		'--gb-sl-arrow-bg':       arrowBgColor  || 'rgba(0,0,0,0.35)',
+		'--gb-sl-arrow-color': arrowColor || '#ffffff',
+		'--gb-sl-arrow-hover': arrowHoverColor || '#ffffff',
+		'--gb-sl-arrow-bg': arrowBgColor || 'rgba(0,0,0,0.35)',
 		'--gb-sl-arrow-bg-hover': arrowBgHoverColor || 'rgba(0,0,0,0.65)',
-		'--gb-sl-arrow-size':     `${ arrowSize ?? 44 }px`,
-		'--gb-sl-arrow-r':        `${ arrowRadius ?? 50 }%`,
-		'--gb-sl-dot':            dotColor      || 'rgba(255,255,255,0.45)',
-		'--gb-sl-dot-active':     dotActiveColor || '#ffffff',
-		'--gb-sl-dot-size':       `${ dotSize ?? 8 }px`,
-		'--gb-sl-dur':            `${ transitionDuration ?? 450 }ms`,
+		'--gb-sl-arrow-size': `${ arrowSize ?? 44 }px`,
+		'--gb-sl-arrow-r': `${ arrowRadius ?? 50 }%`,
+		'--gb-sl-dot': dotColor || 'rgba(255,255,255,0.45)',
+		'--gb-sl-dot-active': dotActiveColor || '#ffffff',
+		'--gb-sl-dot-size': `${ dotSize ?? 8 }px`,
+		'--gb-sl-dur': `${ transitionDuration ?? 450 }ms`,
 		...( spv > 1 ? { '--gb-spv': String( spv ) } : {} ),
 		...( gap > 0 ? { '--gb-sl-gap': `${ gap }px` } : {} ),
 	} as React.CSSProperties;
@@ -165,7 +194,10 @@ export function Edit( {
 		uniqueId && `gb-slider-${ uniqueId }`,
 		effect && `gb-slider--${ effect }`,
 		showArrows && arrowPosition && `gb-slider--arrows-${ arrowPosition }`,
-		showArrows && arrowVisibility && arrowVisibility !== 'always' && `gb-slider--arrow-vis-${ arrowVisibility }`,
+		showArrows &&
+			arrowVisibility &&
+			arrowVisibility !== 'always' &&
+			`gb-slider--arrow-vis-${ arrowVisibility }`,
 		showDots && dotPosition && `gb-slider--dots-${ dotPosition }`,
 		showDots && dotStyle && `gb-slider--dot-style-${ dotStyle }`,
 		...( globalClasses ?? [] )
@@ -202,7 +234,9 @@ export function Edit( {
 			<SliderInspector
 				attributes={ attributes }
 				setAttributes={
-					setAttributes as ( attrs: Partial< typeof attributes > ) => void
+					setAttributes as (
+						attrs: Partial< typeof attributes >
+					) => void
 				}
 			/>
 

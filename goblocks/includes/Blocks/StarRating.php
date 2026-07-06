@@ -1,4 +1,10 @@
 <?php
+/**
+ * Star Rating.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -12,12 +18,23 @@ use WP_Block;
  */
 class StarRating extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'star-rating';
 	}
 
 	private const STAR_POLYGON = '12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26';
 
+	/**
+	 * Build a single star span element.
+	 *
+	 * @param  string $type Star type: 'full', 'half', or 'empty'.
+	 * @return string       HTML span element.
+	 */
 	private function star_span( string $type ): string {
 		$poly = '<polygon points="' . self::STAR_POLYGON . '"/>';
 
@@ -32,11 +49,22 @@ class StarRating extends BlockBase {
 		return '<span class="gb-star gb-star--' . $type . '">' . $svg . '</span>';
 	}
 
+	/**
+	 * Build the schema.org JSON-LD markup for star ratings.
+	 *
+	 * @param  float  $rating       Numeric rating value.
+	 * @param  int    $max_rating   Maximum rating value.
+	 * @param  int    $review_count Number of reviews.
+	 * @param  string $item_name    Rated item name; falls back to post title.
+	 * @return string               JSON-LD script tag.
+	 */
 	private function build_schema( float $rating, int $max_rating, int $review_count, string $item_name ): string {
-		$schema = array(
+		$post_title  = (string) get_the_title();
+		$schema_name = '' !== $item_name ? $item_name : ( '' !== $post_title ? $post_title : '' );
+		$schema      = array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'Product',
-			'name'            => $item_name ?: ( get_the_title() ?: '' ),
+			'name'            => $schema_name,
 			'aggregateRating' => array(
 				'@type'       => 'AggregateRating',
 				'ratingValue' => (string) $rating,
@@ -51,20 +79,30 @@ class StarRating extends BlockBase {
 			. '</script>';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$rating       = isset( $attributes['rating'] )    ? floatval( $attributes['rating'] )               : 4.5;
-		$max_rating   = isset( $attributes['maxRating'] ) ? max( 1, intval( $attributes['maxRating'] ) )    : 5;
-		$show_num     = ! isset( $attributes['showNumber'] ) || ! empty( $attributes['showNumber'] );
-		$label        = isset( $attributes['label'] )     ? sanitize_text_field( $attributes['label'] )     : '';
-		$review_count = isset( $attributes['reviewCount'] ) ? max( 1, intval( $attributes['reviewCount'] ) ) : 1;
-		$show_count   = ! empty( $attributes['showCount'] );
+		$rating         = isset( $attributes['rating'] ) ? floatval( $attributes['rating'] ) : 4.5;
+		$max_rating     = isset( $attributes['maxRating'] ) ? max( 1, intval( $attributes['maxRating'] ) ) : 5;
+		$show_num       = ! isset( $attributes['showNumber'] ) || ! empty( $attributes['showNumber'] );
+		$label          = isset( $attributes['label'] ) ? sanitize_text_field( $attributes['label'] ) : '';
+		$review_count   = isset( $attributes['reviewCount'] ) ? max( 1, intval( $attributes['reviewCount'] ) ) : 1;
+		$show_count     = ! empty( $attributes['showCount'] );
 		$schema_enabled = ! isset( $attributes['schemaEnabled'] ) || ! empty( $attributes['schemaEnabled'] );
-		$item_name    = isset( $attributes['itemName'] )  ? sanitize_text_field( $attributes['itemName'] )  : '';
+		$item_name      = isset( $attributes['itemName'] ) ? sanitize_text_field( $attributes['itemName'] ) : '';
 
-		$star_color  = sanitize_hex_color( $attributes['starColor']  ?? '#f59e0b' ) ?: '#f59e0b';
-		$empty_color = sanitize_hex_color( $attributes['emptyColor'] ?? '#d1d5db' ) ?: '#d1d5db';
+		$star_hex    = sanitize_hex_color( $attributes['starColor'] ?? '#f59e0b' );
+		$star_color  = $star_hex ? $star_hex : '#f59e0b';
+		$empty_hex   = sanitize_hex_color( $attributes['emptyColor'] ?? '#d1d5db' );
+		$empty_color = $empty_hex ? $empty_hex : '#d1d5db';
 		$star_size   = max( 12, min( 64, intval( $attributes['starSize'] ?? 22 ) ) );
 
 		$css_vars = sprintf(
@@ -95,7 +133,7 @@ class StarRating extends BlockBase {
 			$stars_html .= $this->star_span( $type );
 		}
 
-		$label_html  = $label    ? '<span class="gb-star-rating__label">' . esc_html( $label ) . '</span>' : '';
+		$label_html  = $label ? '<span class="gb-star-rating__label">' . esc_html( $label ) . '</span>' : '';
 		$number_html = $show_num ? '<span class="gb-star-rating__number">' . esc_html( (string) $rating ) . '/' . $max_rating . '</span>' : '';
 
 		$count_text = sprintf(
@@ -103,7 +141,7 @@ class StarRating extends BlockBase {
 			_n( '(%d review)', '(%d reviews)', $review_count, 'goblocks' ),
 			$review_count
 		);
-		$count_html  = $show_count ? '<span class="gb-star-rating__count">' . esc_html( $count_text ) . '</span>' : '';
+		$count_html = $show_count ? '<span class="gb-star-rating__count">' . esc_html( $count_text ) . '</span>' : '';
 
 		$schema_html = ( $schema_enabled && $review_count >= 1 )
 			? $this->build_schema( $rating, $max_rating, $review_count, $item_name )

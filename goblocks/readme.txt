@@ -1,6 +1,6 @@
-=== goBlocks – Blocks Anywhere ===
+=== GoBlocks ===
 Contributors: godevs
-Tags: blocks, page builder, full site editing, responsive, block editor
+Tags: gutenberg, blocks, block-editor, full-site-editing, page-builder
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.0
@@ -8,15 +8,15 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A world-class block library with a modern design system, responsive controls, dynamic content, and full FSE support.
+A lightweight, responsive block library for the WordPress block editor with full FSE support, dynamic content, and a real design token system.
 
 == Description ==
 
-GoBlocks is a production-ready WordPress Gutenberg block plugin that brings a
-world-class design system and responsive layout engine to the block editor. Built
-with TypeScript, modern React patterns, and a CSS Custom Property token system, it
-surpasses GenerateBlocks, Kadence Blocks, and Spectra in architecture quality,
-performance, and developer experience.
+GoBlocks is a free WordPress block plugin that extends the Gutenberg editor with
+36 production-ready blocks built on a modern CSS Custom Property design token
+system. Every block is responsive across 7 breakpoints, outputs clean semantic
+HTML, and ships with zero inline styles — all styling is compiled to a single
+per-page CSS file served as a static asset.
 
 = Core Blocks =
 
@@ -71,7 +71,7 @@ performance, and developer experience.
 
 = Pattern Library =
 
-* 15 built-in block patterns (Hero, Feature Cards, CTA Split, Stats Counter, Testimonial, Pricing Tiers, Newsletter, Team Grid, Blog Posts, FAQ Accordion, How It Works, Testimonials Grid, Logo Cloud, Contact CTA, Portfolio Grid)
+* 41 built-in block patterns across 18 categories: Hero (4), Features (4), Social Proof (5), Pricing (2), Stats (3), CTA (4), FAQ (2), Blog (3), Cards (2), Portfolio (2), Services (1), Team (2), About (1), Video (1), Newsletter (2), Contact (3), Logos (2), Announcement (1)
 * Pattern browser in **GoBlocks → Patterns** admin page
 * All patterns available in the block editor pattern inserter
 
@@ -81,13 +81,12 @@ performance, and developer experience.
 * Zustand for editor state (no Redux boilerplate)
 * Fully extensible via WordPress hooks and filters
 * PSR-4 PHP, WordPress Coding Standards compliant
-* PHPStan level 6 compliant
+* PHPStan level 8 compliant
 * REST API for settings, styles, queries, dynamic content, and patterns
 
 = Links =
 
-* [Documentation](https://goblocks.io/docs)
-* [GitHub](https://github.com/goblocks/goblocks)
+* [Plugin Page](https://godevs.net/goblocks)
 * [Support Forum](https://wordpress.org/support/plugin/goblocks)
 
 == Installation ==
@@ -170,29 +169,30 @@ Schema**. GoBlocks will automatically add `schema.org/FAQPage`, `Question`, and
 
 == Screenshots ==
 
-1. The GoBlocks block inserter category showing all available blocks.
-2. The Box block Inspector panel with responsive controls and breakpoint tabs.
-3. The Typography control with font family, size, weight, and line height.
-4. The Query block visual query builder with taxonomy and author filters.
-5. The Global Styles admin panel showing the color palette editor.
-6. The Pattern Library admin page with searchable pattern browser.
-7. Frontend rendering of a hero section built with GoBlocks blocks.
-8. The Tabs block in the editor with keyboard-navigable tab panels.
-9. The Accordion block with FAQ schema.org markup enabled.
+1. The GoBlocks block category in the block inserter showing Group, Column, Text, Heading, Icon, Tabs, Accordion, Query, and more.
+2. The GoBlocks Settings admin panel showing layout, performance (CSS output method), and editor preferences.
+3. Frontend rendering of a hero section built with GoBlocks Group and Heading blocks — gradient background, badge, and CTA buttons.
+4. The GoBlocks Column Demo page showing 2-column, 3-column, and 4-column flex layouts built with Group and Column blocks.
+5. The GoBlocks Pattern Library admin page — searchable browser of 41 ready-made block patterns across 18 categories.
+6. The GoBlocks All Patterns Showcase frontend page displaying the full pattern collection.
+7. The GoBlocks Global Styles admin panel showing the color palette editor with CSS custom property tokens.
+8. The GoBlocks Tabs block on the frontend — ARIA-compliant tabbed panels with keyboard navigation.
+9. The GoBlocks Query block rendering a responsive 3-column blog post grid with title, date, and pagination.
 
 == Changelog ==
 
 = 1.0.0 =
 * Initial release.
-* **Core Blocks:** Box, Text, Heading, Button, Image, Grid, Query, Query Loop, Pagination, Icon, Shape.
-* **Advanced Blocks:** Tabs (ARIA tablist/tabpanel, Arrow/Home/End keyboard nav), Accordion (details/summary, FAQ schema.org, single-open mode).
-* **Design Token System:** CSS custom properties with 6 breakpoints, RTL flip, minification, and deduplication.
+* **36 Blocks:** Group, Column, Container, Text, Heading, Button, Image, Icon, Shape, Separator, Spacer, Tabs, Tab Panel, Accordion, Accordion Item, Query, Query Loop, Query No Results, Pagination, Navigation, Counter, Progress Bar, Alert, Star Rating, Lottie, Flip Card, Countdown, Social Share, Table of Contents, Slider, Slide, Modal, Pricing, Timeline, Timeline Item, Video.
+* **Icon block:** Built-in visual icon picker with 112 icons across 13 categories (UI, Arrows, Communication, People, Files, Media, Commerce, Location, Sharing, Social, Time, Misc).
+* **Design Token System:** CSS custom properties with 7 breakpoints, RTL flip, minification, and deduplication.
 * **Dynamic Content System:** 15 built-in tags, loop/single/archive contexts, secure tag validation.
 * **Global Styles Framework:** Color palette editor, typography presets, container width, dark mode toggle, theme.json integration.
-* **Pattern Library:** 15 built-in patterns (Hero, Feature Cards, CTA Split, Stats Counter, Testimonial, Pricing Tiers, Newsletter, Team Grid, Blog Posts, FAQ Accordion, How It Works, Testimonials Grid, Logo Cloud, Contact CTA, Portfolio Grid) + pattern browser admin page.
-* **Performance:** Per-page CSS file cache, delta regeneration, zero frontend JS for layout blocks.
-* **Accessibility:** WCAG 2.1 AA, ARIA roles, semantic HTML output.
-* **Developer:** TypeScript strict, Zustand, PSR-4, WPCS, PHPStan level 6, REST API.
+* **Pattern Library:** 41 built-in patterns across 18 categories — pattern browser admin page + block editor inserter.
+* **FSE Support:** Full Site Editor compatible; template-level CSS injected at wp_head priority 8.
+* **Performance:** Per-page CSS file cache, delta regeneration, zero frontend JS for layout/text blocks, deferred animation observer script.
+* **Accessibility:** WCAG 2.1 AA, ARIA roles, keyboard navigation, semantic HTML output.
+* **Developer:** TypeScript strict, Zustand, PSR-4, WPCS, PHPStan level 8, REST API, i18n (.pot with 108 strings).
 
 == Upgrade Notice ==
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Pricing — 3 Tier
  * Slug: goblocks/pricing-3tier

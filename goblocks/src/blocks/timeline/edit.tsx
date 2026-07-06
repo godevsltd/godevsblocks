@@ -26,15 +26,15 @@ import { EffectsPanel } from '../../components/panels/EffectsPanel';
 import type { BlockStyles } from '../../types/styles';
 
 interface TimelineBlockAttributes {
-	uniqueId:           string;
-	layout:             string;
-	alternating:        boolean;
-	lineColor:          string;
-	entranceAnimation:  string;
-	styles:             BlockStyles;
-	globalClasses:      string[];
-	generatedCss:       string;
-	blockVersion:       number;
+	uniqueId: string;
+	layout: string;
+	alternating: boolean;
+	lineColor: string;
+	entranceAnimation: string;
+	styles: BlockStyles;
+	globalClasses: string[];
+	generatedCss: string;
+	blockVersion: number;
 }
 
 function makeUniqueId( clientId: string ): string {
@@ -42,8 +42,22 @@ function makeUniqueId( clientId: string ): string {
 }
 
 const DEFAULT_TEMPLATE: [ string, Record< string, unknown > ][] = [
-	[ 'goblocks/timeline-item', { date: '2023', title: 'First Event',  content: 'Describe what happened during this milestone.' } ],
-	[ 'goblocks/timeline-item', { date: '2024', title: 'Second Event', content: 'Another important milestone in the journey.' } ],
+	[
+		'goblocks/timeline-item',
+		{
+			date: '2023',
+			title: 'First Event',
+			content: 'Describe what happened during this milestone.',
+		},
+	],
+	[
+		'goblocks/timeline-item',
+		{
+			date: '2024',
+			title: 'Second Event',
+			content: 'Another important milestone in the journey.',
+		},
+	],
 ];
 
 export function Edit( {
@@ -51,7 +65,16 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< TimelineBlockAttributes > ) {
-	const { uniqueId, styles, globalClasses, generatedCss, layout, alternating, lineColor, entranceAnimation } = attributes;
+	const {
+		uniqueId,
+		styles,
+		globalClasses,
+		generatedCss,
+		layout,
+		alternating,
+		lineColor,
+		entranceAnimation,
+	} = attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {
@@ -64,7 +87,8 @@ export function Edit( {
 		uniqueId,
 		styles,
 		generatedCss,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< TimelineBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< TimelineBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
@@ -86,9 +110,9 @@ export function Edit( {
 	);
 
 	const blockProps = useBlockProps( {
-		className:         wrapperClass,
-		style:             timelineVars,
-		'data-animation':  entranceAnimation ?? 'fade-up',
+		className: wrapperClass,
+		style: timelineVars,
+		'data-animation': entranceAnimation ?? 'fade-up',
 	} );
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		allowedBlocks: [ 'goblocks/timeline-item' ],
@@ -100,7 +124,6 @@ export function Edit( {
 	const stylesContent = (
 		<>
 			<PanelBody title={ __( 'Timeline Style', 'goblocks' ) } initialOpen>
-
 				{ /* Live connector preview */ }
 				<div
 					style={ {
@@ -114,14 +137,47 @@ export function Edit( {
 						border: '1px solid #f1f5f9',
 					} }
 				>
-					<div style={ { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } }>
+					<div
+						style={ {
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '4px',
+						} }
+					>
 						{ [ 0, 1, 2 ].map( ( i ) => (
 							<div
 								key={ i }
-								style={ { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' } }
+								style={ {
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: '4px',
+								} }
 							>
-								<div style={ { width: '10px', height: '10px', borderRadius: '50%', background: line, border: '2px solid #fff', boxShadow: `0 0 0 1.5px ${ line }`, transition: 'background 150ms, box-shadow 150ms' } } />
-								{ i < 2 && <div style={ { width: '2px', height: '16px', background: line, opacity: 0.3, transition: 'background 150ms' } } /> }
+								<div
+									style={ {
+										width: '10px',
+										height: '10px',
+										borderRadius: '50%',
+										background: line,
+										border: '2px solid #fff',
+										boxShadow: `0 0 0 1.5px ${ line }`,
+										transition:
+											'background 150ms, box-shadow 150ms',
+									} }
+								/>
+								{ i < 2 && (
+									<div
+										style={ {
+											width: '2px',
+											height: '16px',
+											background: line,
+											opacity: 0.3,
+											transition: 'background 150ms',
+										} }
+									/>
+								) }
 							</div>
 						) ) }
 					</div>
@@ -134,27 +190,50 @@ export function Edit( {
 					label={ __( 'Connector Line Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ line }
-					onChange={ ( v ) => setAttributes( { lineColor: v || '#4f46e5' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { lineColor: v || '#4f46e5' } )
+					}
 				/>
 			</PanelBody>
 
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	/* ── Inspector: Advanced tab ──────────────────────────────────────────── */
 	const advancedContent = (
 		<>
-			<PanelBody title={ __( 'Timeline Settings', 'goblocks' ) } initialOpen>
+			<PanelBody
+				title={ __( 'Timeline Settings', 'goblocks' ) }
+				initialOpen
+			>
 				<SelectControl
 					label={ __( 'Layout', 'goblocks' ) }
 					value={ layout }
 					options={ [
-						{ label: __( 'Vertical',   'goblocks' ), value: 'vertical' },
-						{ label: __( 'Horizontal', 'goblocks' ), value: 'horizontal' },
+						{
+							label: __( 'Vertical', 'goblocks' ),
+							value: 'vertical',
+						},
+						{
+							label: __( 'Horizontal', 'goblocks' ),
+							value: 'horizontal',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { layout: v } ) }
 					// @ts-ignore
@@ -163,11 +242,21 @@ export function Edit( {
 				{ layout === 'vertical' && (
 					<ToggleControl
 						label={ __( 'Alternating layout', 'goblocks' ) }
-						help={ alternating
-							? __( 'Odd items left, even items right of the center line.', 'goblocks' )
-							: __( 'All items on the right side of the connector line.', 'goblocks' ) }
+						help={
+							alternating
+								? __(
+										'Odd items left, even items right of the center line.',
+										'goblocks'
+								  )
+								: __(
+										'All items on the right side of the connector line.',
+										'goblocks'
+								  )
+						}
 						checked={ alternating }
-						onChange={ ( v ) => setAttributes( { alternating: v } ) }
+						onChange={ ( v ) =>
+							setAttributes( { alternating: v } )
+						}
 						// @ts-ignore
 						__nextHasNoMarginBottom
 					/>
@@ -176,23 +265,39 @@ export function Edit( {
 					label={ __( 'Entrance animation', 'goblocks' ) }
 					value={ entranceAnimation ?? 'fade-up' }
 					options={ [
-						{ label: __( 'Fade up (default)', 'goblocks' ), value: 'fade-up' },
-						{ label: __( 'Slide from sides',  'goblocks' ), value: 'slide'   },
-						{ label: __( 'None',              'goblocks' ), value: 'none'    },
+						{
+							label: __( 'Fade up (default)', 'goblocks' ),
+							value: 'fade-up',
+						},
+						{
+							label: __( 'Slide from sides', 'goblocks' ),
+							value: 'slide',
+						},
+						{ label: __( 'None', 'goblocks' ), value: 'none' },
 					] }
-					onChange={ ( v ) => setAttributes( { entranceAnimation: v } ) }
-					help={ __( 'Items animate in when scrolled into view. Slide from sides works best with alternating layout.', 'goblocks' ) }
+					onChange={ ( v ) =>
+						setAttributes( { entranceAnimation: v } )
+					}
+					help={ __(
+						'Items animate in when scrolled into view. Slide from sides works best with alternating layout.',
+						'goblocks'
+					) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -204,7 +309,10 @@ export function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
 			<div { ...innerBlocksProps } />

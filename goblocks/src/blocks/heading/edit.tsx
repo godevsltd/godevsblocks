@@ -76,8 +76,16 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< HeadingBlockAttributes > ) {
-	const { uniqueId, tagName, content, styles, globalClasses, anchor, textGradient, generatedCss } =
-		attributes;
+	const {
+		uniqueId,
+		tagName,
+		content,
+		styles,
+		globalClasses,
+		anchor,
+		textGradient,
+		generatedCss,
+	} = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {

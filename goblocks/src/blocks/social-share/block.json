@@ -9,24 +9,32 @@
 	"keywords": [ "share", "social", "facebook", "twitter", "linkedin" ],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":      { "type": "string",  "default": "" },
-		"platforms":     { "type": "array",   "items": { "type": "string" }, "default": ["facebook","twitter","linkedin","whatsapp"] },
-		"showLabels":    { "type": "boolean", "default": false },
-		"size":          { "type": "string",  "default": "md" },
-		"layout":        { "type": "string",  "default": "horizontal" },
-		"buttonStyle":   { "type": "string",  "default": "filled" },
-		"customUrl":     { "type": "string",  "default": "" },
-		"styles":        { "type": "object",  "default": {} },
-		"globalClasses": { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":  { "type": "string",  "default": "" },
-		"blockVersion":  { "type": "integer", "default": 1 }
+		"uniqueId": { "type": "string", "default": "" },
+		"platforms": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": [ "facebook", "twitter", "linkedin", "whatsapp" ]
+		},
+		"showLabels": { "type": "boolean", "default": false },
+		"size": { "type": "string", "default": "md" },
+		"layout": { "type": "string", "default": "horizontal" },
+		"buttonStyle": { "type": "string", "default": "filled" },
+		"customUrl": { "type": "string", "default": "" },
+		"styles": { "type": "object", "default": {} },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 }
 	},
-	"viewScript":   "file:./view.js",
+	"viewScript": "file:./view.js",
 	"editorScript": "file:./index.js"
 }

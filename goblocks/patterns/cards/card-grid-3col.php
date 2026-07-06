@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Feature Cards — 3 Column
  * Slug: goblocks/card-grid-3col

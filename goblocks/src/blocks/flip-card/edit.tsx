@@ -23,21 +23,21 @@ import { EffectsPanel } from '../../components/panels/EffectsPanel';
 import type { BlockStyles } from '../../types/styles';
 
 interface FlipCardBlockAttributes {
-	uniqueId:       string;
-	frontTitle:     string;
-	frontContent:   string;
-	frontIcon:      string;
-	backTitle:      string;
-	backContent:    string;
-	backIcon:       string;
-	backLinkText:   string;
-	backLinkUrl:    string;
-	flipDirection:  string;
+	uniqueId: string;
+	frontTitle: string;
+	frontContent: string;
+	frontIcon: string;
+	backTitle: string;
+	backContent: string;
+	backIcon: string;
+	backLinkText: string;
+	backLinkUrl: string;
+	flipDirection: string;
 	triggerOnClick: boolean;
-	styles:         BlockStyles;
-	globalClasses:  string[];
-	generatedCss:   string;
-	blockVersion:   number;
+	styles: BlockStyles;
+	globalClasses: string[];
+	generatedCss: string;
+	blockVersion: number;
 }
 
 function makeUniqueId( clientId: string ): string {
@@ -50,10 +50,20 @@ export function Edit( {
 	clientId,
 }: BlockEditProps< FlipCardBlockAttributes > ) {
 	const {
-		uniqueId, styles, globalClasses, generatedCss,
-		frontTitle, frontContent, frontIcon,
-		backTitle, backContent, backIcon, backLinkText, backLinkUrl,
-		flipDirection, triggerOnClick,
+		uniqueId,
+		styles,
+		globalClasses,
+		generatedCss,
+		frontTitle,
+		frontContent,
+		frontIcon,
+		backTitle,
+		backContent,
+		backIcon,
+		backLinkText,
+		backLinkUrl,
+		flipDirection,
+		triggerOnClick,
 	} = attributes;
 
 	const [ showBack, setShowBack ] = useState( false );
@@ -69,7 +79,8 @@ export function Edit( {
 		uniqueId,
 		styles,
 		generatedCss,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< FlipCardBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< FlipCardBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
@@ -88,11 +99,26 @@ export function Edit( {
 	/* ── Inspector: Style tab ──────────────────────────────────────────────── */
 	const stylesContent = (
 		<>
-			<SizingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel   styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel   styles={ styles as BlockStyles } responsive={ responsive } />
+			<SizingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
@@ -104,8 +130,14 @@ export function Edit( {
 					label={ __( 'Flip Direction', 'goblocks' ) }
 					value={ flipDirection }
 					options={ [
-						{ label: __( 'Horizontal', 'goblocks' ), value: 'horizontal' },
-						{ label: __( 'Vertical',   'goblocks' ), value: 'vertical' },
+						{
+							label: __( 'Horizontal', 'goblocks' ),
+							value: 'horizontal',
+						},
+						{
+							label: __( 'Vertical', 'goblocks' ),
+							value: 'vertical',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { flipDirection: v } ) }
 					// @ts-ignore
@@ -113,9 +145,14 @@ export function Edit( {
 				/>
 				<ToggleControl
 					label={ __( 'Trigger on Click', 'goblocks' ) }
-					help={ triggerOnClick
-						? __( 'Card flips on click / keyboard (keyboard-accessible)', 'goblocks' )
-						: __( 'Card flips on hover', 'goblocks' ) }
+					help={
+						triggerOnClick
+							? __(
+									'Card flips on click / keyboard (keyboard-accessible)',
+									'goblocks'
+							  )
+							: __( 'Card flips on hover', 'goblocks' )
+					}
 					checked={ triggerOnClick }
 					onChange={ ( v ) => setAttributes( { triggerOnClick: v } ) }
 					// @ts-ignore
@@ -126,7 +163,10 @@ export function Edit( {
 			<PanelBody title={ __( 'Front Side', 'goblocks' ) } initialOpen>
 				<TextControl
 					label={ __( 'Icon / Emoji', 'goblocks' ) }
-					help={ __( 'Paste an emoji or Unicode symbol (e.g. ⭐ 🚀 ✦).', 'goblocks' ) }
+					help={ __(
+						'Paste an emoji or Unicode symbol (e.g. ⭐ 🚀 ✦).',
+						'goblocks'
+					) }
 					value={ frontIcon }
 					onChange={ ( v ) => setAttributes( { frontIcon: v } ) }
 					// @ts-ignore
@@ -149,10 +189,16 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'Back Side', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Back Side', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Icon / Emoji', 'goblocks' ) }
-					help={ __( 'Paste an emoji or Unicode symbol (e.g. ⭐ 🚀 ✦).', 'goblocks' ) }
+					help={ __(
+						'Paste an emoji or Unicode symbol (e.g. ⭐ 🚀 ✦).',
+						'goblocks'
+					) }
 					value={ backIcon }
 					onChange={ ( v ) => setAttributes( { backIcon: v } ) }
 					// @ts-ignore
@@ -193,12 +239,17 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -209,14 +260,17 @@ export function Edit( {
 
 	/* ── Live preview ──────────────────────────────────────────────────────── */
 	const activeFace = showBack ? 'back' : 'front';
-	const icon       = showBack ? backIcon   : frontIcon;
-	const title      = showBack ? backTitle  : frontTitle;
-	const body       = showBack ? backContent : frontContent;
+	const icon = showBack ? backIcon : frontIcon;
+	const title = showBack ? backTitle : frontTitle;
+	const body = showBack ? backContent : frontContent;
 
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
 			<div
@@ -227,11 +281,21 @@ export function Edit( {
 			>
 				<div className="gb-flip-card__inner">
 					<div className={ `gb-flip-card__${ activeFace }` }>
-						{ icon    && <span className="gb-flip-card__icon">{ icon }</span> }
-						{ title   && <h3 className="gb-flip-card__title">{ title }</h3> }
-						{ body    && <p className="gb-flip-card__content">{ body }</p> }
+						{ icon && (
+							<span className="gb-flip-card__icon">{ icon }</span>
+						) }
+						{ title && (
+							<h3 className="gb-flip-card__title">{ title }</h3>
+						) }
+						{ body && (
+							<p className="gb-flip-card__content">{ body }</p>
+						) }
 						{ showBack && backLinkText && backLinkUrl && (
-							<a className="gb-flip-card__cta" href={ backLinkUrl } onClick={ ( e ) => e.preventDefault() }>
+							<a
+								className="gb-flip-card__cta"
+								href={ backLinkUrl }
+								onClick={ ( e ) => e.preventDefault() }
+							>
 								{ backLinkText }
 							</a>
 						) }
@@ -244,7 +308,9 @@ export function Edit( {
 						size="small"
 						onClick={ () => setShowBack( ( v ) => ! v ) }
 					>
-						{ showBack ? __( 'Show Front', 'goblocks' ) : __( 'Preview Back', 'goblocks' ) }
+						{ showBack
+							? __( 'Show Front', 'goblocks' )
+							: __( 'Preview Back', 'goblocks' ) }
 					</Button>
 				</div>
 			</div>

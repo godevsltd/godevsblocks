@@ -25,20 +25,20 @@ import { EffectsPanel } from '../../components/panels/EffectsPanel';
 import type { BlockStyles } from '../../types/styles';
 
 interface CounterBlockAttributes {
-	uniqueId:     string;
-	target:       number;
-	startFrom:    number;
-	prefix:       string;
-	suffix:       string;
-	label:        string;
-	duration:     number;
-	easing:       string;
-	countDown:    boolean;
-	separator:    string;
-	decimals:     number;
-	numberColor:  string;
-	labelColor:   string;
-	styles:       BlockStyles;
+	uniqueId: string;
+	target: number;
+	startFrom: number;
+	prefix: string;
+	suffix: string;
+	label: string;
+	duration: number;
+	easing: string;
+	countDown: boolean;
+	separator: string;
+	decimals: number;
+	numberColor: string;
+	labelColor: string;
+	styles: BlockStyles;
 	globalClasses: string[];
 	generatedCss: string;
 	blockVersion: number;
@@ -91,8 +91,8 @@ export function Edit( {
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
-	const numColor  = numberColor || '#4f46e5';
-	const lblColor  = labelColor  || '#9ca3af';
+	const numColor = numberColor || '#4f46e5';
+	const lblColor = labelColor || '#9ca3af';
 
 	const counterVars = {
 		'--gb-counter-color': numColor,
@@ -110,17 +110,20 @@ export function Edit( {
 		style: counterVars,
 	} );
 
-	const previewValue = countDown ? ( startFrom || 0 ) : target;
-	const displayNumber = decimals > 0
-		? previewValue.toFixed( decimals )
-		: String( previewValue );
+	const previewValue = countDown ? startFrom || 0 : target;
+	const displayNumber =
+		decimals > 0
+			? previewValue.toFixed( decimals )
+			: String( previewValue );
 
 	/* ── Inspector: Style tab ─────────────────────────────────────────────── */
 	const stylesContent = (
 		<>
 			{ /* ── Counter Appearance ──────────────────────────────────── */ }
-			<PanelBody title={ __( 'Counter Appearance', 'goblocks' ) } initialOpen>
-
+			<PanelBody
+				title={ __( 'Counter Appearance', 'goblocks' ) }
+				initialOpen
+			>
 				{ /* Live preview */ }
 				<div
 					style={ {
@@ -142,7 +145,9 @@ export function Edit( {
 							transition: 'color 200ms',
 						} }
 					>
-						{ prefix }{ displayNumber }{ suffix }
+						{ prefix }
+						{ displayNumber }
+						{ suffix }
 					</div>
 					{ label && (
 						<div
@@ -165,7 +170,9 @@ export function Edit( {
 					label={ __( 'Number Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ numColor }
-					onChange={ ( v ) => setAttributes( { numberColor: v || '#4f46e5' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { numberColor: v || '#4f46e5' } )
+					}
 				/>
 
 				{ label && (
@@ -175,44 +182,82 @@ export function Edit( {
 							label={ __( 'Label Color', 'goblocks' ) }
 							breakpoint={ responsive.activeBreakpoint }
 							value={ lblColor }
-							onChange={ ( v ) => setAttributes( { labelColor: v || '#9ca3af' } ) }
+							onChange={ ( v ) =>
+								setAttributes( { labelColor: v || '#9ca3af' } )
+							}
 						/>
 					</>
 				) }
 			</PanelBody>
 
 			{ /* ── Standard style panels ──────────────────────────────────── */ }
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	/* ── Inspector: Advanced tab ──────────────────────────────────────────── */
 	const advancedContent = (
 		<>
-			<PanelBody title={ __( 'Counter Settings', 'goblocks' ) } initialOpen>
-					<ToggleControl
+			<PanelBody
+				title={ __( 'Counter Settings', 'goblocks' ) }
+				initialOpen
+			>
+				<ToggleControl
 					label={ __( 'Count down', 'goblocks' ) }
-					help={ __( 'Count from start value down to target instead of up.', 'goblocks' ) }
+					help={ __(
+						'Count from start value down to target instead of up.',
+						'goblocks'
+					) }
 					checked={ countDown }
 					onChange={ ( v ) => setAttributes( { countDown: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 				<NumberControl
-					label={ countDown ? __( 'Start value (counts down to target)', 'goblocks' ) : __( 'Start value', 'goblocks' ) }
+					label={
+						countDown
+							? __(
+									'Start value (counts down to target)',
+									'goblocks'
+							  )
+							: __( 'Start value', 'goblocks' )
+					}
 					value={ startFrom ?? 0 }
-					onChange={ ( v ) => setAttributes( { startFrom: parseFloat( String( v ?? 0 ) ) || 0 } ) }
+					onChange={ ( v ) =>
+						setAttributes( {
+							startFrom: parseFloat( String( v ?? 0 ) ) || 0,
+						} )
+					}
 					// @ts-ignore
 					__next40pxDefaultSize
 				/>
 				<NumberControl
 					label={ __( 'Target number', 'goblocks' ) }
 					value={ target }
-					onChange={ ( v ) => setAttributes( { target: parseFloat( String( v ?? 100 ) ) || 100 } ) }
+					onChange={ ( v ) =>
+						setAttributes( {
+							target: parseFloat( String( v ?? 100 ) ) || 100,
+						} )
+					}
 					// @ts-ignore
 					__next40pxDefaultSize
 				/>
@@ -253,10 +298,19 @@ export function Edit( {
 					label={ __( 'Thousands Separator', 'goblocks' ) }
 					value={ separator }
 					options={ [
-						{ label: __( 'None', 'goblocks' ),          value: '' },
-						{ label: __( 'Comma (1,000)', 'goblocks' ),  value: ',' },
-						{ label: __( 'Period (1.000)', 'goblocks' ), value: '.' },
-						{ label: __( 'Space (1 000)', 'goblocks' ),  value: ' ' },
+						{ label: __( 'None', 'goblocks' ), value: '' },
+						{
+							label: __( 'Comma (1,000)', 'goblocks' ),
+							value: ',',
+						},
+						{
+							label: __( 'Period (1.000)', 'goblocks' ),
+							value: '.',
+						},
+						{
+							label: __( 'Space (1 000)', 'goblocks' ),
+							value: ' ',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { separator: v } ) }
 					// @ts-ignore
@@ -265,7 +319,9 @@ export function Edit( {
 				<RangeControl
 					label={ __( 'Animation Duration (ms)', 'goblocks' ) }
 					value={ duration }
-					onChange={ ( v ) => setAttributes( { duration: v ?? 2000 } ) }
+					onChange={ ( v ) =>
+						setAttributes( { duration: v ?? 2000 } )
+					}
 					min={ 500 }
 					max={ 5000 }
 					step={ 100 }
@@ -276,10 +332,28 @@ export function Edit( {
 					label={ __( 'Easing', 'goblocks' ) }
 					value={ easing ?? 'ease-out' }
 					options={ [
-						{ label: __( 'Ease out (smooth decelerate)', 'goblocks' ), value: 'ease-out'    },
-						{ label: __( 'Linear (constant speed)',       'goblocks' ), value: 'linear'      },
-						{ label: __( 'Ease in-out (S-curve)',         'goblocks' ), value: 'ease-in-out' },
-						{ label: __( 'Spring (elastic overshoot)',    'goblocks' ), value: 'spring'      },
+						{
+							label: __(
+								'Ease out (smooth decelerate)',
+								'goblocks'
+							),
+							value: 'ease-out',
+						},
+						{
+							label: __( 'Linear (constant speed)', 'goblocks' ),
+							value: 'linear',
+						},
+						{
+							label: __( 'Ease in-out (S-curve)', 'goblocks' ),
+							value: 'ease-in-out',
+						},
+						{
+							label: __(
+								'Spring (elastic overshoot)',
+								'goblocks'
+							),
+							value: 'spring',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { easing: v } ) }
 					// @ts-ignore
@@ -287,12 +361,17 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -312,7 +391,9 @@ export function Edit( {
 
 			<div { ...blockProps }>
 				<span className="gb-counter__number">
-					{ prefix }{ displayNumber }{ suffix }
+					{ prefix }
+					{ displayNumber }
+					{ suffix }
 				</span>
 				{ label && (
 					<span className="gb-counter__label">{ label }</span>

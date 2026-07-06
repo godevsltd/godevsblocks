@@ -68,6 +68,8 @@ interface UseCssEngineOptions {
  *
  * Returns null when the element cannot yet be found (timing race on first
  * mount) — callers should fall back to `document` in that case.
+ * @param blockSlug
+ * @param uniqueId
  */
 function findBlockOwnerDoc(
 	blockSlug: string,
@@ -164,6 +166,8 @@ function removeStyleTag( id: string, targetDoc: Document ): void {
  * @param root0.styles
  * @param root0.setAttributes
  * @param root0.debounce
+ * @param root0.generatedCss
+ * @param root0.selectorOverride
  * @example
  * // In edit.tsx:
  * useCssEngine({ blockSlug: 'box', uniqueId, styles: attributes.styles, setAttributes });
@@ -192,14 +196,21 @@ export function useCssEngine( {
 		if ( ! uniqueId || ! generatedCss ) {
 			return;
 		}
-		const css = buildBlockCss( styles, blockSlug, uniqueId, selectorOverride ? { selectorOverride } : {} );
+		const css = buildBlockCss(
+			styles,
+			blockSlug,
+			uniqueId,
+			selectorOverride ? { selectorOverride } : {}
+		);
 		if ( css !== '' ) {
 			return; // CSS engine will inject via the main effect below.
 		}
 		if ( ! targetDocRef.current ) {
-			targetDocRef.current = findBlockOwnerDoc( blockSlug, uniqueId ) ?? document;
+			targetDocRef.current =
+				findBlockOwnerDoc( blockSlug, uniqueId ) ?? document;
 		}
-		getOrCreateStyleTag( styleTagId, targetDocRef.current ).textContent = generatedCss;
+		getOrCreateStyleTag( styleTagId, targetDocRef.current ).textContent =
+			generatedCss;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [] ); // Intentionally run once on mount only.
 
@@ -209,7 +220,12 @@ export function useCssEngine( {
 			return;
 		}
 
-		const css = buildBlockCss( styles, blockSlug, uniqueId, selectorOverride ? { selectorOverride } : {} );
+		const css = buildBlockCss(
+			styles,
+			blockSlug,
+			uniqueId,
+			selectorOverride ? { selectorOverride } : {}
+		);
 
 		// Skip DOM + setAttributes update if CSS hasn't changed.
 		if ( css === prevCssRef.current ) {
@@ -220,7 +236,8 @@ export function useCssEngine( {
 		// Resolve the document that contains this block (handles WP iframe canvas).
 		// Cache it after first successful lookup so injection is always consistent.
 		if ( ! targetDocRef.current ) {
-			targetDocRef.current = findBlockOwnerDoc( blockSlug, uniqueId ) ?? document;
+			targetDocRef.current =
+				findBlockOwnerDoc( blockSlug, uniqueId ) ?? document;
 		}
 		const targetDoc = targetDocRef.current;
 
@@ -230,7 +247,14 @@ export function useCssEngine( {
 
 		// Persist to block attributes.
 		setAttributes( { generatedCss: css } );
-	}, [ styles, blockSlug, uniqueId, setAttributes, styleTagId, selectorOverride ] );
+	}, [
+		styles,
+		blockSlug,
+		uniqueId,
+		setAttributes,
+		styleTagId,
+		selectorOverride,
+	] );
 
 	// Debounced effect: re-run whenever styles change.
 	// On the very first call (uniqueId already set) run immediately so

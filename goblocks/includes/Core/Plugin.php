@@ -1,4 +1,10 @@
 <?php
+/**
+ * Plugin.
+ *
+ * @package GoBlocks\Core
+ */
+
 namespace GoBlocks\Core;
 
 defined( 'ABSPATH' ) || exit;
@@ -117,7 +123,27 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	private function register_blocks(): void {
+		add_action( 'init', array( $this, 'register_shared_scripts' ), 5 );
 		add_action( 'init', array( $this, 'register_block_types' ) );
+	}
+
+	/**
+	 * Register shared frontend scripts that multiple blocks reference by handle.
+	 * Must run before register_block_types() so the handles exist when blocks render.
+	 *
+	 * @return void
+	 */
+	public function register_shared_scripts(): void {
+		wp_register_script(
+			'goblocks-anim-observer',
+			GOBLOCKS_URL . 'build/anim-observer.js',
+			array(),
+			GOBLOCKS_VERSION,
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
 	}
 
 	/**

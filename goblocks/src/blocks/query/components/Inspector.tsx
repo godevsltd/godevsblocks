@@ -8,6 +8,8 @@ import {
 	CheckboxControl,
 	Spinner,
 	Notice,
+	ButtonGroup,
+	Button,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
@@ -23,17 +25,19 @@ import { useTaxonomies } from '../../../hooks/useTaxonomies';
 import { useTerms } from '../../../hooks/useTerms';
 import { useAuthors } from '../../../hooks/useAuthors';
 import { useQueryPreview } from '../../../hooks/useQueryPreview';
-import type { QueryAttributes } from '../../../types/query';
+import type { QueryAttributes, QueryLayout } from '../../../types/query';
 import type { BlockStyles } from '../../../types/styles';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface QueryInspectorProps {
 	query: QueryAttributes;
+	layout: QueryLayout;
 	paginationType: string;
 	styles: BlockStyles;
 	globalClasses: string[];
 	setQuery: ( patch: Partial< QueryAttributes > ) => void;
+	setLayout: ( layout: QueryLayout ) => void;
 	setPagination: ( type: string ) => void;
 	setStyles: ( styles: BlockStyles ) => void;
 	setGlobalClasses: ( classes: string[] ) => void;
@@ -80,10 +84,12 @@ const PAGINATION_OPTIONS = [
 
 export function QueryInspector( {
 	query,
+	layout,
 	paginationType,
 	styles,
 	globalClasses,
 	setQuery,
+	setLayout,
 	setPagination,
 	setStyles,
 	setGlobalClasses,
@@ -312,9 +318,9 @@ export function QueryInspector( {
 								<CheckboxControl
 									key={ author.id }
 									label={ author.name }
-									checked={ (
-										query.author ?? []
-									).includes( author.id ) }
+									checked={ ( query.author ?? [] ).includes(
+										author.id
+									) }
 									onChange={ () => toggleAuthor( author.id ) }
 									// @ts-ignore
 									__nextHasNoMarginBottom
@@ -375,7 +381,89 @@ export function QueryInspector( {
 				</PanelBody>
 			) }
 
-			{ /* ── Layout & Spacing ──────────────────────────────────────── */ }
+			{ /* ── Layout ──────────────────────────────────────────────── */ }
+			<PanelBody
+				title={ __( 'Layout', 'goblocks' ) }
+				initialOpen={ false }
+			>
+				{ /* Display type */ }
+				<div style={ { marginBottom: '12px' } }>
+					<p
+						style={ {
+							fontSize: '11px',
+							fontWeight: 600,
+							textTransform: 'uppercase',
+							letterSpacing: '0.05em',
+							color: '#757575',
+							margin: '0 0 8px',
+						} }
+					>
+						{ __( 'Display', 'goblocks' ) }
+					</p>
+					<ButtonGroup>
+						<Button
+							size="compact"
+							variant={
+								layout.type === 'list' ? 'primary' : 'secondary'
+							}
+							onClick={ () =>
+								setLayout( { ...layout, type: 'list' } )
+							}
+						>
+							{ __( 'List', 'goblocks' ) }
+						</Button>
+						<Button
+							size="compact"
+							variant={
+								layout.type === 'grid' ? 'primary' : 'secondary'
+							}
+							onClick={ () =>
+								setLayout( { ...layout, type: 'grid' } )
+							}
+						>
+							{ __( 'Grid', 'goblocks' ) }
+						</Button>
+					</ButtonGroup>
+				</div>
+
+				{ /* Column count — only for grid */ }
+				{ layout.type === 'grid' && (
+					<div>
+						<p
+							style={ {
+								fontSize: '11px',
+								fontWeight: 600,
+								textTransform: 'uppercase',
+								letterSpacing: '0.05em',
+								color: '#757575',
+								margin: '0 0 8px',
+							} }
+						>
+							{ __( 'Columns', 'goblocks' ) }
+						</p>
+						<ButtonGroup>
+							{ ( [ 1, 2, 3, 4 ] as const ).map( ( n ) => (
+								<Button
+									key={ n }
+									size="compact"
+									variant={
+										layout.columns === n
+											? 'primary'
+											: 'secondary'
+									}
+									onClick={ () =>
+										setLayout( { ...layout, columns: n } )
+									}
+								>
+									{ n }
+								</Button>
+							) ) }
+						</ButtonGroup>
+					</div>
+				) }
+			</PanelBody>
+
+			{ /* ── Spacing / Background / Sizing ──────────────────────── */ }
 			<SpacingPanel styles={ styles } responsive={ responsive } />
 			<BackgroundPanel styles={ styles } responsive={ responsive } />
 			<SizingPanel styles={ styles } responsive={ responsive } />

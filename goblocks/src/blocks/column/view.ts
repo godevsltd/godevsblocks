@@ -3,10 +3,14 @@
 
 	// Guard: both group/view and column/view may load on the same page.
 	// Only run once regardless of how many blocks enqueue this script.
-	if ( document.body.hasAttribute( 'data-gb-anim-init' ) ) return;
+	if ( document.body.hasAttribute( 'data-gb-anim-init' ) ) {
+		return;
+	}
 	document.body.setAttribute( 'data-gb-anim-init', '' );
 
-	const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+	const reducedMotion = window.matchMedia(
+		'(prefers-reduced-motion: reduce)'
+	).matches;
 
 	const ANIM_CLASSES = [
 		'gb-anim-fade-in',
@@ -17,8 +21,12 @@
 	];
 
 	const selector = ANIM_CLASSES.map( ( c ) => `.${ c }` ).join( ',' );
-	const elements = Array.from( document.querySelectorAll< HTMLElement >( selector ) );
-	if ( ! elements.length ) return;
+	const elements = Array.from(
+		document.querySelectorAll< HTMLElement >( selector )
+	);
+	if ( ! elements.length ) {
+		return;
+	}
 
 	// Mark as JS-controlled so CSS pauses the animation until .is-animating is added.
 	elements.forEach( ( el ) => el.setAttribute( 'data-gb-animated', '' ) );
@@ -34,7 +42,9 @@
 			( entries ) => {
 				entries.forEach( ( entry ) => {
 					if ( entry.isIntersecting ) {
-						( entry.target as HTMLElement ).classList.add( 'is-animating' );
+						( entry.target as HTMLElement ).classList.add(
+							'is-animating'
+						);
 						observer.unobserve( entry.target );
 					}
 				} );

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Rest Controller.
+ *
+ * @package GoBlocks\REST
+ */
+
 namespace GoBlocks\REST;
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +25,7 @@ abstract class RestController extends \WP_REST_Controller {
 	 */
 	protected $namespace = 'goblocks/v1';
 
-	// ── Response helpers ──────────────────────────────────────────────────
+	// ── Response helpers ──────────────────────────────────────────────────.
 
 	/**
 	 * Return a success response.
@@ -48,7 +54,7 @@ abstract class RestController extends \WP_REST_Controller {
 		);
 	}
 
-	// ── Permission callbacks ──────────────────────────────────────────────
+	// ── Permission callbacks ──────────────────────────────────────────────.
 
 	/**
 	 * Permission callback: requires manage_options (admins only).

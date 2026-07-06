@@ -1,4 +1,10 @@
 <?php
+/**
+ * Editor Assets.
+ *
+ * @package GoBlocks\Admin
+ */
+
 namespace GoBlocks\Admin;
 
 defined( 'ABSPATH' ) || exit;

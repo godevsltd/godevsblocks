@@ -3,7 +3,13 @@
  */
 
 import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
-import { Icon, alignLeft, alignCenter, alignRight, alignJustify } from '@wordpress/icons';
+import {
+	Icon,
+	alignLeft,
+	alignCenter,
+	alignRight,
+	alignJustify,
+} from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { FontControl } from '../controls/FontControl';
 import { UnitInput } from '../controls/UnitInput';
@@ -28,10 +34,30 @@ const WEIGHT_OPTIONS = [
 ];
 
 const ALIGN_OPTIONS = [
-	{ label: 'Left',    value: 'left',    ariaLabel: __( 'Left', 'goblocks' ),    icon: <Icon icon={ alignLeft }    size={ 16 } /> },
-	{ label: 'Center',  value: 'center',  ariaLabel: __( 'Center', 'goblocks' ),  icon: <Icon icon={ alignCenter }  size={ 16 } /> },
-	{ label: 'Right',   value: 'right',   ariaLabel: __( 'Right', 'goblocks' ),   icon: <Icon icon={ alignRight }   size={ 16 } /> },
-	{ label: 'Justify', value: 'justify', ariaLabel: __( 'Justify', 'goblocks' ), icon: <Icon icon={ alignJustify } size={ 16 } /> },
+	{
+		label: 'Left',
+		value: 'left',
+		ariaLabel: __( 'Left', 'goblocks' ),
+		icon: <Icon icon={ alignLeft } size={ 16 } />,
+	},
+	{
+		label: 'Center',
+		value: 'center',
+		ariaLabel: __( 'Center', 'goblocks' ),
+		icon: <Icon icon={ alignCenter } size={ 16 } />,
+	},
+	{
+		label: 'Right',
+		value: 'right',
+		ariaLabel: __( 'Right', 'goblocks' ),
+		icon: <Icon icon={ alignRight } size={ 16 } />,
+	},
+	{
+		label: 'Justify',
+		value: 'justify',
+		ariaLabel: __( 'Justify', 'goblocks' ),
+		icon: <Icon icon={ alignJustify } size={ 16 } />,
+	},
 ];
 
 const TRANSFORM_OPTIONS = [
@@ -62,7 +88,8 @@ interface TypographyPanelProps {
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function TypographyPanel( { responsive }: TypographyPanelProps ) {
-	const { getStyle, getInheritedValue, setStyle, activeBreakpoint } = responsive;
+	const { getStyle, getInheritedValue, setStyle, activeBreakpoint } =
+		responsive;
 
 	function get( prop: string ) {
 		return getStyle( 'typography', prop );
@@ -179,9 +206,18 @@ export function TypographyPanel( { responsive }: TypographyPanelProps ) {
 				</p>
 				<ColorControl
 					label={ __( 'Hover color', 'goblocks' ) }
-					value={ responsive.getStyleState( 'typography', 'color', 'hover' ) }
+					value={ responsive.getStyleState(
+						'typography',
+						'color',
+						'hover'
+					) }
 					onChange={ ( v ) =>
-						responsive.setStyleState( 'typography', 'color', 'hover', v )
+						responsive.setStyleState(
+							'typography',
+							'color',
+							'hover',
+							v
+						)
 					}
 					breakpoint={ activeBreakpoint }
 				/>

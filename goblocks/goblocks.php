@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name:       goBlocks – Blocks Anywhere
- * Plugin URI:        https://goblocks.io
- * Description:       goBlocks - Gutenberg Blocks Anywhere, a lightweight Gutenberg block library similar to GenerateBlocks and compatible with all WordPress Gutenberg themes.
+ * Plugin Name:       GoBlocks
+ * Plugin URI:        https://godevs.net/goblocks
+ * Description:       A lightweight, responsive block library for WordPress with 36 production-ready blocks, FSE support, dynamic content tags, and a real design token system.
  * Version:           1.0.0
  * Author:            godevs
- * Author URI:        https://goblocks.io
- * License:           GPL-2.0+
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
+ * Author URI:        https://godevs.net/
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       goblocks
  * Domain Path:       /languages
  * Requires at least: 6.5
@@ -83,16 +83,24 @@ function goblocks_bootstrap(): void {
 add_action( 'goblocks_batch_css_regenerate', 'goblocks_batch_regenerate_css' );
 
 /**
- * WP-Cron callback: regenerate CSS for all published posts containing GoBlocks blocks.
+ * WP-Cron callback: regenerate CSS for published posts containing GoBlocks blocks.
+ *
+ * Processes 50 posts per run and stores a page cursor so large sites are never
+ * loaded into memory all at once. The cursor resets automatically when all pages
+ * have been processed.
  *
  * @return void
  */
 function goblocks_batch_regenerate_css(): void {
+	$per_page = 50;
+	$page     = max( 1, (int) get_option( 'goblocks_css_regen_page', 1 ) );
+
 	$posts = get_posts(
 		array(
 			'post_type'      => 'any',
 			'post_status'    => 'publish',
-			'posts_per_page' => -1,
+			'posts_per_page' => $per_page,
+			'paged'          => $page,
 			'fields'         => 'ids',
 		)
 	);
@@ -115,6 +123,13 @@ function goblocks_batch_regenerate_css(): void {
 			}
 			GoBlocks\CSS\CssCache::write( $post_id, $minified );
 		}
+	}
+
+	// Advance the cursor for the next cron run; reset when all pages are done.
+	if ( count( $posts ) === $per_page ) {
+		update_option( 'goblocks_css_regen_page', $page + 1, false );
+	} else {
+		delete_option( 'goblocks_css_regen_page' );
 	}
 }
 
@@ -140,6 +155,11 @@ function goblocks_activate(): void {
 	if ( ! is_dir( $css_dir ) ) {
 		wp_mkdir_p( $css_dir );
 	}
+
+	// Schedule daily CSS batch regeneration if not already scheduled.
+	if ( ! wp_next_scheduled( 'goblocks_batch_css_regenerate' ) ) {
+		wp_schedule_event( time(), 'daily', 'goblocks_batch_css_regenerate' );
+	}
 }
 
 /**
@@ -152,4 +172,8 @@ function goblocks_activate(): void {
 function goblocks_deactivate(): void {
 	// Flush rewrite rules in case any block added a rewrite slug.
 	flush_rewrite_rules();
+
+	// Remove the scheduled batch CSS regeneration and its page cursor.
+	wp_clear_scheduled_hook( 'goblocks_batch_css_regenerate' );
+	delete_option( 'goblocks_css_regen_page' );
 }

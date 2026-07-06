@@ -1,4 +1,10 @@
 <?php
+/**
+ * Accordion Item.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -13,22 +19,33 @@ defined( 'ABSPATH' ) || exit;
 class AccordionItem extends BlockBase {
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {
 		return 'accordion-item';
 	}
 
+	/**
+	 * Sanitize a hex color attribute, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback hex color.
+	 * @return string          Sanitized hex color.
+	 */
 	private function safe_color( mixed $value, string $default ): string {
 		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
-		return $sanitized ?: $default;
+		return $sanitized ? $sanitized : $default;
 	}
 
 	/**
-	 * @param array<string, mixed> $attributes Block attributes.
-	 * @param string               $content    Inner blocks HTML (the answer).
-	 * @param \WP_Block            $block      Block instance (context from Accordion).
-	 * @return string HTML output.
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner blocks HTML (the answer).
+	 * @param  \WP_Block            $block      Block instance (context from Accordion).
+	 * @return string               HTML output.
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$unique_id      = $this->get_unique_id( $attributes );
@@ -38,8 +55,8 @@ class AccordionItem extends BlockBase {
 		$is_open        = ! empty( $attributes['isOpen'] );
 		$faq_schema     = ! empty( $block->context['goblocks/accordionFaqSchema'] );
 
-		$hdr_color  = $this->safe_color( $attributes['headerColor']  ?? null, '#111827' );
-		$hdr_bg     = $this->safe_color( $attributes['headerBg']     ?? null, '#ffffff' );
+		$hdr_color  = $this->safe_color( $attributes['headerColor'] ?? null, '#111827' );
+		$hdr_bg     = $this->safe_color( $attributes['headerBg'] ?? null, '#ffffff' );
 		$cnt_color  = $this->safe_color( $attributes['contentColor'] ?? null, '#374151' );
 		$icon_style = sanitize_key( (string) ( $attributes['iconStyle'] ?? 'chevron' ) );
 		if ( ! in_array( $icon_style, array( 'chevron', 'plus', 'arrow', 'none' ), true ) ) {

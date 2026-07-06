@@ -48,7 +48,8 @@ export function Edit( {
 		blockSlug: 'slide',
 		uniqueId,
 		styles,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< SlideBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< SlideBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
@@ -61,27 +62,44 @@ export function Edit( {
 		...( globalClasses ?? [] )
 	);
 
-	const blockProps     = useBlockProps( { className: wrapperClass } );
+	const blockProps = useBlockProps( { className: wrapperClass } );
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		renderAppender: InnerBlocks.ButtonBlockAppender,
 	} );
 
 	const stylesContent = (
 		<>
-			<SpacingPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel styles={ styles as BlockStyles } responsive={ responsive } />
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	const advancedContent = (
-		<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+		<PanelBody
+			title={ __( 'CSS Classes', 'goblocks' ) }
+			initialOpen={ false }
+		>
 			<TextControl
 				label={ __( 'Additional CSS classes', 'goblocks' ) }
 				value={ ( globalClasses ?? [] ).join( ' ' ) }
 				onChange={ ( v ) =>
-					setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+					setAttributes( {
+						globalClasses: v.split( /\s+/ ).filter( Boolean ),
+					} )
 				}
 				// @ts-ignore
 				__nextHasNoMarginBottom
@@ -92,7 +110,10 @@ export function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
 			<div { ...innerBlocksProps } />

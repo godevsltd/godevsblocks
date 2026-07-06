@@ -1,4 +1,10 @@
 <?php
+/**
+ * Accordion.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
 class Accordion extends BlockBase {
 
 	/**
+	 * Block slug used to register the block type.
+	 *
 	 * @return string
 	 */
 	public function get_name(): string {
@@ -20,13 +28,15 @@ class Accordion extends BlockBase {
 	}
 
 	/**
-	 * @param array<string, mixed> $attributes Block attributes.
-	 * @param string               $content    Inner blocks HTML (accordion items).
-	 * @param \WP_Block            $block      Block instance.
-	 * @return string HTML output.
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner blocks HTML (accordion items).
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               HTML output.
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
-		$unique_id = $this->get_unique_id( $attributes );
+		$unique_id      = $this->get_unique_id( $attributes );
 		$block_class    = $this->get_block_class( $unique_id );
 		$global_classes = $this->get_global_classes( $attributes );
 		$enable_schema  = ! empty( $attributes['enableFaqSchema'] );
@@ -38,15 +48,15 @@ class Accordion extends BlockBase {
 			array( 'gb-accordion' )
 		);
 
-		$schema_attrs = $enable_schema
-			? ' itemscope itemtype="https://schema.org/FAQPage"'
-			: '';
+		$schema_attrs     = $enable_schema ? ' itemscope itemtype="https://schema.org/FAQPage"' : '';
+		$extra_html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
 
 		return sprintf(
-			'<div class="%s" data-allow-multiple="%s"%s>%s</div>',
+			'<div class="%s" data-allow-multiple="%s"%s%s>%s</div>',
 			$classes,
 			$allow_multiple ? 'true' : 'false',
 			$schema_attrs,
+			$extra_html_attrs,
 			$content
 		);
 	}

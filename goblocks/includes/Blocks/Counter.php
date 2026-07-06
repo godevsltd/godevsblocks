@@ -1,4 +1,10 @@
 <?php
+/**
+ * Counter.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,15 +16,34 @@ use WP_Block;
  */
 class Counter extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'counter';
 	}
 
+	/**
+	 * Sanitize a hex color attribute, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback hex color.
+	 * @return string          Sanitized hex color.
+	 */
 	private function safe_color( mixed $value, string $default ): string {
-		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
-		return $sanitized ?: $default;
+		return $this->sanitize_color( $value, $default );
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
@@ -28,15 +53,15 @@ class Counter extends BlockBase {
 			array( 'gb-counter' )
 		);
 
-		$target     = isset( $attributes['target'] )    ? floatval( $attributes['target'] )               : 100;
-		$start_from = isset( $attributes['startFrom'] ) ? floatval( $attributes['startFrom'] )            : 0;
-		$duration   = isset( $attributes['duration'] )  ? intval( $attributes['duration'] )               : 2000;
-		$easing     = isset( $attributes['easing'] )    ? sanitize_key( $attributes['easing'] )           : 'ease-out';
+		$target     = isset( $attributes['target'] ) ? floatval( $attributes['target'] ) : 100;
+		$start_from = isset( $attributes['startFrom'] ) ? floatval( $attributes['startFrom'] ) : 0;
+		$duration   = isset( $attributes['duration'] ) ? intval( $attributes['duration'] ) : 2000;
+		$easing     = isset( $attributes['easing'] ) ? sanitize_key( $attributes['easing'] ) : 'ease-out';
 		$count_down = ! empty( $attributes['countDown'] );
-		$prefix     = isset( $attributes['prefix'] )    ? sanitize_text_field( $attributes['prefix'] )    : '';
-		$suffix     = isset( $attributes['suffix'] )    ? sanitize_text_field( $attributes['suffix'] )    : '';
-		$label      = isset( $attributes['label'] )     ? sanitize_text_field( $attributes['label'] )     : '';
-		$decimals   = isset( $attributes['decimals'] )  ? intval( $attributes['decimals'] )               : 0;
+		$prefix     = isset( $attributes['prefix'] ) ? sanitize_text_field( $attributes['prefix'] ) : '';
+		$suffix     = isset( $attributes['suffix'] ) ? sanitize_text_field( $attributes['suffix'] ) : '';
+		$label      = isset( $attributes['label'] ) ? sanitize_text_field( $attributes['label'] ) : '';
+		$decimals   = isset( $attributes['decimals'] ) ? intval( $attributes['decimals'] ) : 0;
 		$separator  = isset( $attributes['separator'] ) ? sanitize_text_field( $attributes['separator'] ) : '';
 
 		$allowed_easings = array( 'linear', 'ease-out', 'ease-in-out', 'spring' );
@@ -45,7 +70,7 @@ class Counter extends BlockBase {
 		}
 
 		$num_color = $this->safe_color( $attributes['numberColor'] ?? null, '#4f46e5' );
-		$lbl_color = $this->safe_color( $attributes['labelColor']  ?? null, '#9ca3af' );
+		$lbl_color = $this->safe_color( $attributes['labelColor'] ?? null, '#9ca3af' );
 
 		$css_vars = sprintf(
 			'--gb-counter-color:%s;--gb-counter-label:%s;',
@@ -53,7 +78,7 @@ class Counter extends BlockBase {
 			$lbl_color
 		);
 
-		// Render the FINAL (target) value so screen readers and no-JS users see
+		// Render the FINAL (target) value so screen readers and no-JS users see.
 		// the correct number. The view script resets to startFrom before animating.
 		$final_number = number_format( $target, $decimals );
 
@@ -61,14 +86,14 @@ class Counter extends BlockBase {
 			? '<span class="gb-counter__label">' . esc_html( $label ) . '</span>'
 			: '';
 
-		$data  = ' data-target="'     . esc_attr( (string) $target )     . '"';
+		$data  = ' data-target="' . esc_attr( (string) $target ) . '"';
 		$data .= ' data-start-from="' . esc_attr( (string) $start_from ) . '"';
-		$data .= ' data-duration="'   . esc_attr( (string) $duration )   . '"';
-		$data .= ' data-easing="'     . esc_attr( $easing )              . '"';
-		$data .= ' data-prefix="'     . esc_attr( $prefix )              . '"';
-		$data .= ' data-suffix="'     . esc_attr( $suffix )              . '"';
-		$data .= ' data-decimals="'   . esc_attr( (string) $decimals )   . '"';
-		$data .= ' data-separator="'  . esc_attr( $separator )           . '"';
+		$data .= ' data-duration="' . esc_attr( (string) $duration ) . '"';
+		$data .= ' data-easing="' . esc_attr( $easing ) . '"';
+		$data .= ' data-prefix="' . esc_attr( $prefix ) . '"';
+		$data .= ' data-suffix="' . esc_attr( $suffix ) . '"';
+		$data .= ' data-decimals="' . esc_attr( (string) $decimals ) . '"';
+		$data .= ' data-separator="' . esc_attr( $separator ) . '"';
 		if ( $count_down ) {
 			$data .= ' data-count-down="true"';
 		}

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Heading.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +38,7 @@ class Heading extends BlockBase {
 		$unique_id = $this->get_unique_id( $attributes );
 
 		$tag_name       = $this->get_tag_name( $attributes, 'h2' );
-		$block_class    = $this->get_block_class( $unique_id );   // gb-heading-{uniqueId}
+		$block_class    = $this->get_block_class( $unique_id );   // gb-heading-{uniqueId}.
 		$global_classes = $this->get_global_classes( $attributes );
 
 		// WordPress className carries is-style-* when block styles are selected.
@@ -47,10 +53,10 @@ class Heading extends BlockBase {
 			$wp_classes
 		);
 
-		$classes  = $this->build_class_string( $block_class, $global_classes, $extra_classes );
+		$classes = $this->build_class_string( $block_class, $global_classes, $extra_classes );
 
-		// Merge the gradient CSS variable into the element's inline style so it
-		// is always present even when generatedCss was saved before the block had
+		// Merge the gradient CSS variable into the element's inline style so it.
+		// is always present even when generatedCss was saved before the block had.
 		// the variable (e.g. content imported via PHP or from an older version).
 		$html_attr_map = $this->get_html_attributes( $attributes );
 		$text_gradient = (string) ( $attributes['textGradient'] ?? '' );
@@ -62,7 +68,7 @@ class Heading extends BlockBase {
 				$html_attr_map['style'] = $grad_css;
 			}
 		}
-		$html_attrs    = $this->build_html_attrs( $html_attr_map );
+		$html_attrs = $this->build_html_attrs( $html_attr_map );
 
 		// Anchor ID.
 		$anchor = sanitize_key( (string) ( $attributes['anchor'] ?? '' ) );
@@ -77,7 +83,7 @@ class Heading extends BlockBase {
 			return '';
 		}
 
-		// Link wrapping: <hN><a href="...">content</a></hN>
+		// Link wrapping: <hN><a href="...">content</a></hN>.
 		$link = esc_url( (string) ( $attributes['link'] ?? '' ) );
 		if ( $link ) {
 			$text_content = $this->wrap_with_link( $text_content, $link, $attributes );
@@ -86,8 +92,8 @@ class Heading extends BlockBase {
 		return sprintf(
 			'<%1$s class="%2$s"%3$s>%4$s</%1$s>',
 			esc_attr( $tag_name ),
-			$classes,       // already escaped by build_class_string
-			$html_attrs,    // already escaped, has leading space when non-empty
+			$classes,       // Already escaped by build_class_string.
+			$html_attrs,    // Already escaped, has leading space when non-empty.
 			$text_content
 		);
 	}

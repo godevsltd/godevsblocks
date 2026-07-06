@@ -9,27 +9,31 @@
 	"keywords": [ "navigation", "menu", "nav", "header" ],
 	"textdomain": "goblocks",
 	"supports": {
-		"html":            false,
+		"html": false,
 		"customClassName": false,
-		"className":       false,
-		"anchor":          false
+		"className": false,
+		"anchor": false
 	},
 	"attributes": {
-		"uniqueId":           { "type": "string",  "default": "" },
-		"menuId":             { "type": "integer", "default": 0 },
-		"layout":             { "type": "string",  "default": "horizontal" },
-		"mobileBreakpoint":   { "type": "string",  "default": "768px" },
-		"showMobileToggle":   { "type": "boolean", "default": true },
-		"sticky":             { "type": "boolean", "default": false },
-		"scrollHide":         { "type": "boolean", "default": false },
-		"linkColor":          { "type": "string",  "default": "" },
-		"hoverColor":         { "type": "string",  "default": "" },
-		"activeColor":        { "type": "string",  "default": "" },
-		"dropdownBg":         { "type": "string",  "default": "" },
-		"styles":             { "type": "object",  "default": {} },
-		"globalClasses":      { "type": "array",   "items": { "type": "string" }, "default": [] },
-		"generatedCss":       { "type": "string",  "default": "" },
-		"blockVersion":       { "type": "integer", "default": 1 }
+		"uniqueId": { "type": "string", "default": "" },
+		"menuId": { "type": "integer", "default": 0 },
+		"layout": { "type": "string", "default": "horizontal" },
+		"mobileBreakpoint": { "type": "string", "default": "768px" },
+		"showMobileToggle": { "type": "boolean", "default": true },
+		"sticky": { "type": "boolean", "default": false },
+		"scrollHide": { "type": "boolean", "default": false },
+		"linkColor": { "type": "string", "default": "" },
+		"hoverColor": { "type": "string", "default": "" },
+		"activeColor": { "type": "string", "default": "" },
+		"dropdownBg": { "type": "string", "default": "" },
+		"styles": { "type": "object", "default": {} },
+		"globalClasses": {
+			"type": "array",
+			"items": { "type": "string" },
+			"default": []
+		},
+		"generatedCss": { "type": "string", "default": "" },
+		"blockVersion": { "type": "integer", "default": 1 }
 	},
 	"viewScript": "file:./view.js",
 	"editorScript": "file:./index.js"

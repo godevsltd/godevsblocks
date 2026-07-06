@@ -14,9 +14,7 @@
 		"dynamic"
 	],
 	"textdomain": "goblocks",
-	"parent": [
-		"goblocks/query"
-	],
+	"parent": [ "goblocks/query" ],
 	"supports": {
 		"html": false,
 		"customClassName": false,
@@ -27,7 +25,8 @@
 	"usesContext": [
 		"goblocks/queryId",
 		"goblocks/query",
-		"goblocks/paginationType"
+		"goblocks/paginationType",
+		"goblocks/layout"
 	],
 	"attributes": {
 		"blockVersion": {

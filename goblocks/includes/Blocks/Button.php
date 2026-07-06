@@ -1,4 +1,10 @@
 <?php
+/**
+ * Button.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -53,7 +59,7 @@ class Button extends BlockBase {
 		$unique_id = $this->get_unique_id( $attributes );
 
 		$tag_name       = $this->get_tag_name( $attributes, 'a' );
-		$block_class    = $this->get_block_class( $unique_id );   // gb-button-{uniqueId}
+		$block_class    = $this->get_block_class( $unique_id );   // gb-button-{uniqueId}.
 		$global_classes = $this->get_global_classes( $attributes );
 		$classes        = $this->build_class_string( $block_class, $global_classes, array( 'gb-button' ) );
 		$html_attrs     = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
@@ -101,7 +107,7 @@ class Button extends BlockBase {
 		}
 
 		$before_icon = ( $icon_html && 'before' === $icon_position ) ? $icon_html : '';
-		$after_icon  = ( $icon_html && 'after' === $icon_position )  ? $icon_html : '';
+		$after_icon  = ( $icon_html && 'after' === $icon_position ) ? $icon_html : '';
 
 		$inner = $before_icon
 			. '<span class="gb-button__text">' . $text . '</span>'

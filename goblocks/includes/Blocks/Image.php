@@ -1,4 +1,10 @@
-﻿<?php
+<?php
+/**
+ * Image.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -56,7 +62,7 @@ class Image extends BlockBase {
 		$media_url = sanitize_url( $raw_url );
 
 		// Blob URLs are browser-only object URLs generated before upload completes.
-		// They resolve on the client but are meaningless server-side. Skip render
+		// They resolve on the client but are meaningless server-side. Skip render.
 		// so the block outputs nothing rather than a broken <img src="">.
 		if ( str_starts_with( $raw_url, 'blob:' ) ) {
 			return '';
@@ -66,7 +72,7 @@ class Image extends BlockBase {
 			return '';
 		}
 
-		$block_class    = $this->get_block_class( $unique_id );   // gb-image-{uniqueId}
+		$block_class    = $this->get_block_class( $unique_id );   // gb-image-{uniqueId}.
 		$global_classes = $this->get_global_classes( $attributes );
 
 		$hover_effect = sanitize_key( (string) ( $attributes['hoverEffect'] ?? 'none' ) );
@@ -114,7 +120,7 @@ class Image extends BlockBase {
 
 			$img_html = '<a class="gb-image__lightbox-trigger"' . $lb_attrs . '>' . $img_html . '</a>';
 		} else {
-			// Optional link wrapping: <a href="..."><img></a>
+			// Optional link wrapping: <a href="..."><img></a>.
 			$href = esc_url( (string) ( $attributes['href'] ?? '' ) );
 			if ( $href ) {
 				$img_html = $this->wrap_with_link( $img_html, $href, $attributes );

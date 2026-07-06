@@ -1,6 +1,11 @@
 import { useEffect, useRef } from '@wordpress/element';
 // @ts-ignore
-import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	InspectorControls,
+	MediaUpload,
+	MediaUploadCheck,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	TextControl,
@@ -26,42 +31,48 @@ import type { BlockStyles } from '../../types/styles';
 declare global {
 	namespace JSX {
 		interface IntrinsicElements {
-			'lottie-player': React.DetailedHTMLProps< React.HTMLAttributes< HTMLElement >, HTMLElement > & {
-				src?:       string;
-				autoplay?:  boolean | string;
-				loop?:      boolean | string;
-				speed?:     number | string;
+			'lottie-player': React.DetailedHTMLProps<
+				React.HTMLAttributes< HTMLElement >,
+				HTMLElement
+			> & {
+				src?: string;
+				autoplay?: boolean | string;
+				loop?: boolean | string;
+				speed?: number | string;
 				direction?: number | string;
-				renderer?:  string;
-				mode?:      string;
+				renderer?: string;
+				mode?: string;
 			};
 		}
 	}
 }
 
-const LOTTIE_CDN = 'https://unpkg.com/@lottiefiles/lottie-player@2/dist/lottie-player.js';
+const LOTTIE_CDN =
+	'https://unpkg.com/@lottiefiles/lottie-player@2/dist/lottie-player.js';
 
 function loadLottiePlayerScript(): void {
-	if ( document.querySelector( `script[src="${ LOTTIE_CDN }"]` ) ) return;
+	if ( document.querySelector( `script[src="${ LOTTIE_CDN }"]` ) ) {
+		return;
+	}
 	const s = document.createElement( 'script' );
-	s.src  = LOTTIE_CDN;
+	s.src = LOTTIE_CDN;
 	s.type = 'module';
 	document.head.appendChild( s );
 }
 
 interface LottieBlockAttributes {
-	uniqueId:      string;
-	src:           string;
-	srcId:         number;
-	loop:          boolean;
-	speed:         number;
-	trigger:       string;
-	direction:     number;
-	renderer:      string;
-	styles:        BlockStyles;
+	uniqueId: string;
+	src: string;
+	srcId: number;
+	loop: boolean;
+	speed: number;
+	trigger: string;
+	direction: number;
+	renderer: string;
+	styles: BlockStyles;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 function makeUniqueId( clientId: string ): string {
@@ -69,10 +80,10 @@ function makeUniqueId( clientId: string ): string {
 }
 
 const TRIGGER_OPTIONS = [
-	{ label: __( 'Auto play', 'goblocks' ),               value: 'auto' },
-	{ label: __( 'Play on hover', 'goblocks' ),           value: 'hover' },
+	{ label: __( 'Auto play', 'goblocks' ), value: 'auto' },
+	{ label: __( 'Play on hover', 'goblocks' ), value: 'hover' },
 	{ label: __( 'Play on scroll into view', 'goblocks' ), value: 'scroll' },
-	{ label: __( 'Play on click', 'goblocks' ),           value: 'click' },
+	{ label: __( 'Play on click', 'goblocks' ), value: 'click' },
 ];
 
 export function Edit( {
@@ -80,15 +91,30 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< LottieBlockAttributes > ) {
-	const { uniqueId, styles, globalClasses, src, loop, speed, trigger, direction, renderer, generatedCss } = attributes;
+	const {
+		uniqueId,
+		styles,
+		globalClasses,
+		src,
+		loop,
+		speed,
+		trigger,
+		direction,
+		renderer,
+		generatedCss,
+	} = attributes;
 
 	useEffect( () => {
-		if ( ! uniqueId ) setAttributes( { uniqueId: makeUniqueId( clientId ) } );
+		if ( ! uniqueId ) {
+			setAttributes( { uniqueId: makeUniqueId( clientId ) } );
+		}
 	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Load lottie-player web component in the editor for live preview.
 	useEffect( () => {
-		if ( src ) loadLottiePlayerScript();
+		if ( src ) {
+			loadLottiePlayerScript();
+		}
 	}, [ src ] );
 
 	useCssEngine( {
@@ -96,7 +122,8 @@ export function Edit( {
 		uniqueId,
 		styles,
 		generatedCss,
-		setAttributes: ( patch ) => setAttributes( patch as Partial< LottieBlockAttributes > ),
+		setAttributes: ( patch ) =>
+			setAttributes( patch as Partial< LottieBlockAttributes > ),
 	} );
 
 	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
@@ -113,26 +140,50 @@ export function Edit( {
 
 	const stylesContent = (
 		<>
-			<SizingPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel styles={ styles as BlockStyles } responsive={ responsive } />
+			<SizingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	const advancedContent = (
 		<>
-			<PanelBody title={ __( 'Animation Source', 'goblocks' ) } initialOpen>
+			<PanelBody
+				title={ __( 'Animation Source', 'goblocks' ) }
+				initialOpen
+			>
 				<MediaUploadCheck>
 					<MediaUpload
 						title={ __( 'Select Lottie JSON', 'goblocks' ) }
 						allowedTypes={ [ 'application/json' ] }
 						value={ attributes.srcId }
 						onSelect={ ( media: { id: number; url: string } ) => {
-							setAttributes( { src: media.url, srcId: media.id } );
+							setAttributes( {
+								src: media.url,
+								srcId: media.id,
+							} );
 						} }
 						render={ ( { open }: { open: () => void } ) => (
-							<div style={ { display: 'flex', flexDirection: 'column', gap: '8px' } }>
+							<div
+								style={ {
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '8px',
+								} }
+							>
 								<Button
 									variant="secondary"
 									onClick={ open }
@@ -140,13 +191,21 @@ export function Edit( {
 								>
 									{ attributes.srcId
 										? __( 'Replace JSON file', 'goblocks' )
-										: __( 'Upload / Select JSON file', 'goblocks' ) }
+										: __(
+												'Upload / Select JSON file',
+												'goblocks'
+										  ) }
 								</Button>
 								{ attributes.srcId && (
 									<Button
 										variant="link"
 										isDestructive
-										onClick={ () => setAttributes( { src: '', srcId: 0 } ) }
+										onClick={ () =>
+											setAttributes( {
+												src: '',
+												srcId: 0,
+											} )
+										}
 									>
 										{ __( 'Remove file', 'goblocks' ) }
 									</Button>
@@ -160,7 +219,9 @@ export function Edit( {
 					<TextControl
 						label={ __( 'Or enter URL (.json)', 'goblocks' ) }
 						value={ src }
-						onChange={ ( v ) => setAttributes( { src: v, srcId: 0 } ) }
+						onChange={ ( v ) =>
+							setAttributes( { src: v, srcId: 0 } )
+						}
 						placeholder="https://example.com/animation.json"
 						// @ts-ignore
 						__nextHasNoMarginBottom
@@ -168,7 +229,10 @@ export function Edit( {
 				</div>
 			</PanelBody>
 
-			<PanelBody title={ __( 'Playback Settings', 'goblocks' ) } initialOpen>
+			<PanelBody
+				title={ __( 'Playback Settings', 'goblocks' ) }
+				initialOpen
+			>
 				<SelectControl
 					label={ __( 'Trigger', 'goblocks' ) }
 					value={ trigger }
@@ -188,7 +252,9 @@ export function Edit( {
 				<ToggleControl
 					label={ __( 'Reverse direction', 'goblocks' ) }
 					checked={ direction === -1 }
-					onChange={ ( v ) => setAttributes( { direction: v ? -1 : 1 } ) }
+					onChange={ ( v ) =>
+						setAttributes( { direction: v ? -1 : 1 } )
+					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
@@ -206,8 +272,17 @@ export function Edit( {
 					label={ __( 'Renderer', 'goblocks' ) }
 					value={ renderer }
 					options={ [
-						{ label: __( 'SVG (best quality)', 'goblocks' ),         value: 'svg' },
-						{ label: __( 'Canvas (better performance)', 'goblocks' ), value: 'canvas' },
+						{
+							label: __( 'SVG (best quality)', 'goblocks' ),
+							value: 'svg',
+						},
+						{
+							label: __(
+								'Canvas (better performance)',
+								'goblocks'
+							),
+							value: 'canvas',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { renderer: v } ) }
 					// @ts-ignore
@@ -215,12 +290,17 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -232,7 +312,10 @@ export function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<InspectorTabs stylesContent={ stylesContent } advancedContent={ advancedContent } />
+				<InspectorTabs
+					stylesContent={ stylesContent }
+					advancedContent={ advancedContent }
+				/>
 			</InspectorControls>
 
 			<div { ...blockProps }>
@@ -249,11 +332,28 @@ export function Edit( {
 					/>
 				) : (
 					<div className="gb-lottie__empty">
-						<svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-							<circle cx="24" cy="24" r="22" stroke="#c5c5c5" strokeWidth="2" />
+						<svg
+							width="48"
+							height="48"
+							viewBox="0 0 48 48"
+							fill="none"
+							aria-hidden="true"
+						>
+							<circle
+								cx="24"
+								cy="24"
+								r="22"
+								stroke="#c5c5c5"
+								strokeWidth="2"
+							/>
 							<path d="M18 16l14 8-14 8V16z" fill="#c5c5c5" />
 						</svg>
-						<p>{ __( 'Upload a Lottie JSON file or enter a URL to preview.', 'goblocks' ) }</p>
+						<p>
+							{ __(
+								'Upload a Lottie JSON file or enter a URL to preview.',
+								'goblocks'
+							) }
+						</p>
 					</div>
 				) }
 			</div>

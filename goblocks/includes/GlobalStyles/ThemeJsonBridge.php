@@ -1,4 +1,10 @@
 <?php
+/**
+ * Theme Json Bridge.
+ *
+ * @package GoBlocks\GlobalStyles
+ */
+
 namespace GoBlocks\GlobalStyles;
 
 defined( 'ABSPATH' ) || exit;

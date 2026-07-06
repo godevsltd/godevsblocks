@@ -6,7 +6,12 @@
  */
 
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { InspectorTabs } from '../../../components/ui/InspectorTabs';
@@ -46,21 +51,31 @@ export function AccordionItemInspector( {
 	attributes,
 	setAttributes,
 }: AccordionItemInspectorProps ) {
-	const { styles, globalClasses, isOpen, headerColor, headerBg, contentColor, iconStyle } = attributes;
+	const {
+		styles,
+		globalClasses,
+		isOpen,
+		headerColor,
+		headerBg,
+		contentColor,
+		iconStyle,
+	} = attributes;
 
 	const responsive = useResponsiveStyles( styles, ( patch ) =>
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
-	const hdrColor  = headerColor  || '#111827';
-	const hdrBg     = headerBg     || '#ffffff';
-	const cntColor  = contentColor || '#374151';
+	const hdrColor = headerColor || '#111827';
+	const hdrBg = headerBg || '#ffffff';
+	const cntColor = contentColor || '#374151';
 
 	const stylesContent = (
 		<>
 			{ /* ── Accordion Appearance ──────────────────────────────────── */ }
-			<PanelBody title={ __( 'Accordion Appearance', 'goblocks' ) } initialOpen>
-
+			<PanelBody
+				title={ __( 'Accordion Appearance', 'goblocks' ) }
+				initialOpen
+			>
 				{ /* Live preview */ }
 				<div
 					style={ {
@@ -127,21 +142,27 @@ export function AccordionItemInspector( {
 				<ColorControl
 					label={ __( 'Header text color', 'goblocks' ) }
 					value={ hdrColor }
-					onChange={ ( v ) => setAttributes( { headerColor: v || '#111827' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { headerColor: v || '#111827' } )
+					}
 					breakpoint="base"
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Header background', 'goblocks' ) }
 					value={ hdrBg }
-					onChange={ ( v ) => setAttributes( { headerBg: v || '#ffffff' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { headerBg: v || '#ffffff' } )
+					}
 					breakpoint="base"
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Content text color', 'goblocks' ) }
 					value={ cntColor }
-					onChange={ ( v ) => setAttributes( { contentColor: v || '#374151' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { contentColor: v || '#374151' } )
+					}
 					breakpoint="base"
 				/>
 			</PanelBody>
@@ -155,10 +176,19 @@ export function AccordionItemInspector( {
 					label={ __( 'Icon style', 'goblocks' ) }
 					value={ iconStyle ?? 'chevron' }
 					options={ [
-						{ label: __( 'Chevron (▼)', 'goblocks' ),  value: 'chevron' },
-						{ label: __( 'Plus / Minus (+/−)', 'goblocks' ), value: 'plus' },
-						{ label: __( 'Arrow (→)', 'goblocks' ),    value: 'arrow' },
-						{ label: __( 'None', 'goblocks' ),         value: 'none' },
+						{
+							label: __( 'Chevron (▼)', 'goblocks' ),
+							value: 'chevron',
+						},
+						{
+							label: __( 'Plus / Minus (+/−)', 'goblocks' ),
+							value: 'plus',
+						},
+						{
+							label: __( 'Arrow (→)', 'goblocks' ),
+							value: 'arrow',
+						},
+						{ label: __( 'None', 'goblocks' ), value: 'none' },
 					] }
 					onChange={ ( v ) => setAttributes( { iconStyle: v } ) }
 					// @ts-ignore

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Resolves an arbitrary meta field for the currently logged-in user.
+ *
+ * @package GoBlocks\DynamicContent\Tags
+ */
+
 namespace GoBlocks\DynamicContent\Tags;
 
 defined( 'ABSPATH' ) || exit;
@@ -22,19 +28,54 @@ class UserMeta extends TagBase {
 		'billing_country',
 	);
 
+	/**
+	 * Unique machine-readable slug.
+	 *
+	 * @return string
+	 */
 	public function get_slug(): string {
 		return 'user_meta'; }
+	/**
+	 * Human-readable label shown in the tag picker.
+	 *
+	 * @return string
+	 */
 	public function get_label(): string {
 		return __( 'Current User Meta', 'goblocks' ); }
+	/**
+	 * Group for the tag picker.
+	 *
+	 * @return string
+	 */
 	public function get_category(): string {
 		return 'user'; }
+	/**
+	 * Short description for the tag picker tooltip.
+	 *
+	 * @return string
+	 */
 	public function get_description(): string {
 		return __( 'A meta field for the currently logged-in user.', 'goblocks' ); }
+	/**
+	 * Output escape type applied after resolve().
+	 *
+	 * @return string
+	 */
 	public function get_escape_type(): string {
 		return 'html'; }
+	/**
+	 * Contexts in which this tag is valid.
+	 *
+	 * @return string[]
+	 */
 	public function get_contexts(): array {
 		return array( 'any' ); }
 
+	/**
+	 * Declared option schema.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
 	public function get_options(): array {
 		return array(
 			array(
@@ -46,6 +87,13 @@ class UserMeta extends TagBase {
 		);
 	}
 
+	/**
+	 * Resolve the tag to a string for frontend output.
+	 *
+	 * @param  array<string, mixed>  $context Dynamic content context.
+	 * @param  array<string, string> $options Parsed option key→value pairs.
+	 * @return string Unescaped resolved value.
+	 */
 	public function resolve( array $context, array $options ): string {
 		// TagSecurity already confirmed is_user_logged_in(); belt-and-braces.
 		if ( ! is_user_logged_in() ) {

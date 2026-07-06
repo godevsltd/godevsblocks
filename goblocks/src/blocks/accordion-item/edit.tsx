@@ -62,13 +62,13 @@ export function Edit( {
 			setAttributes( patch as Partial< AccordionItemAttributes > ),
 	} );
 
-	const hdrColor = headerColor  || '#111827';
-	const hdrBg    = headerBg     || '#ffffff';
+	const hdrColor = headerColor || '#111827';
+	const hdrBg = headerBg || '#ffffff';
 	const cntColor = contentColor || '#374151';
 
 	const accordionVars = {
-		'--gb-ai-header-color':  hdrColor,
-		'--gb-ai-header-bg':     hdrBg,
+		'--gb-ai-header-color': hdrColor,
+		'--gb-ai-header-bg': hdrBg,
 		'--gb-ai-content-color': cntColor,
 	} as React.CSSProperties;
 
@@ -78,7 +78,10 @@ export function Edit( {
 		...( globalClasses ?? [] )
 	);
 
-	const blockProps = useBlockProps( { className: wrapperClass, style: accordionVars } );
+	const blockProps = useBlockProps( {
+		className: wrapperClass,
+		style: accordionVars,
+	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'gb-accordion-item__content' },
 		{

@@ -6,16 +6,9 @@
 	"title": "Accordion Item",
 	"category": "goblocks",
 	"description": "A single accordion panel (<details>/<summary>) — must be inside an Accordion block.",
-	"keywords": [
-		"accordion",
-		"faq",
-		"collapse",
-		"details"
-	],
+	"keywords": [ "accordion", "faq", "collapse", "details" ],
 	"textdomain": "goblocks",
-	"parent": [
-		"goblocks/accordion"
-	],
+	"parent": [ "goblocks/accordion" ],
 	"supports": {
 		"html": false,
 		"customClassName": false,
@@ -80,8 +73,6 @@
 			"default": "chevron"
 		}
 	},
-	"usesContext": [
-		"goblocks/accordionFaqSchema"
-	],
+	"usesContext": [ "goblocks/accordionFaqSchema" ],
 	"editorScript": "file:./index.js"
 }

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tag Interface.
+ *
+ * @package GoBlocks\DynamicContent
+ */
+
 namespace GoBlocks\DynamicContent;
 
 defined( 'ABSPATH' ) || exit;
@@ -66,11 +72,12 @@ interface TagInterface {
 
 	/**
 	 * Return a preview value for the editor REST endpoint.
+	 *
 	 * May differ from resolve() (e.g., truncated, placeholder-safe).
 	 *
-	 * @param  array<string, mixed>  $context
-	 * @param  array<string, string> $options
-	 * @return string
+	 * @param  array<string, mixed>  $context Dynamic content context.
+	 * @param  array<string, string> $options Parsed option key-value pairs.
+	 * @return string                         Preview value for the editor.
 	 */
 	public function preview( array $context, array $options ): string;
 }

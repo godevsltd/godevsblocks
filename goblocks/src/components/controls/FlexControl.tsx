@@ -5,7 +5,13 @@
  * Controls: direction, wrap, justify-content, align-items, align-content, gap.
  */
 
-import { Icon, arrowRight, arrowLeft, arrowDown, arrowUp } from '@wordpress/icons';
+import {
+	Icon,
+	arrowRight,
+	arrowLeft,
+	arrowDown,
+	arrowUp,
+} from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { ToggleGroupControl } from './ToggleGroupControl';
 import { UnitInput } from './UnitInput';
@@ -32,10 +38,30 @@ interface FlexControlProps {
 // ── Option sets ───────────────────────────────────────────────────────────
 
 const DIRECTION_OPTIONS = [
-	{ label: 'Row',    value: 'row',            ariaLabel: __( 'Row', 'goblocks' ),            icon: <Icon icon={ arrowRight } size={ 16 } /> },
-	{ label: 'Row ←', value: 'row-reverse',     ariaLabel: __( 'Row reverse', 'goblocks' ),    icon: <Icon icon={ arrowLeft }  size={ 16 } /> },
-	{ label: 'Col',   value: 'column',          ariaLabel: __( 'Column', 'goblocks' ),         icon: <Icon icon={ arrowDown }  size={ 16 } /> },
-	{ label: 'Col ↑', value: 'column-reverse',  ariaLabel: __( 'Column reverse', 'goblocks' ), icon: <Icon icon={ arrowUp }    size={ 16 } /> },
+	{
+		label: 'Row',
+		value: 'row',
+		ariaLabel: __( 'Row', 'goblocks' ),
+		icon: <Icon icon={ arrowRight } size={ 16 } />,
+	},
+	{
+		label: 'Row ←',
+		value: 'row-reverse',
+		ariaLabel: __( 'Row reverse', 'goblocks' ),
+		icon: <Icon icon={ arrowLeft } size={ 16 } />,
+	},
+	{
+		label: 'Col',
+		value: 'column',
+		ariaLabel: __( 'Column', 'goblocks' ),
+		icon: <Icon icon={ arrowDown } size={ 16 } />,
+	},
+	{
+		label: 'Col ↑',
+		value: 'column-reverse',
+		ariaLabel: __( 'Column reverse', 'goblocks' ),
+		icon: <Icon icon={ arrowUp } size={ 16 } />,
+	},
 ];
 
 const WRAP_OPTIONS = [

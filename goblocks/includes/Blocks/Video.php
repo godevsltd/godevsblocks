@@ -1,4 +1,10 @@
 <?php
+/**
+ * Video.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -13,11 +19,21 @@ use WP_Block;
  */
 class Video extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'video';
 	}
 
-	/** Extract the 11-char YouTube video ID from any recognised URL shape. */
+	/**
+	 * Extract the 11-char YouTube video ID from any recognised URL shape.
+	 *
+	 * @param  string $url Public video URL.
+	 * @return string      11-character video ID, or empty string on no match.
+	 */
 	private function get_youtube_id( string $url ): string {
 		if ( preg_match( '/(?:v=|youtu\.be\/|\/shorts\/|\/embed\/)([a-zA-Z0-9_-]{11})/', $url, $m ) ) {
 			return $m[1];
@@ -25,7 +41,13 @@ class Video extends BlockBase {
 		return '';
 	}
 
-	/** Build a YouTube embed URL, appending requested query params. */
+	/**
+	 * Build a YouTube embed URL, appending requested query params.
+	 *
+	 * @param  string              $id         11-character YouTube video ID.
+	 * @param  array<string,mixed> $attributes Block attributes.
+	 * @return string                          Parameterised embed URL.
+	 */
 	private function build_youtube_url( string $id, array $attributes ): string {
 		$params = array();
 
@@ -47,7 +69,13 @@ class Video extends BlockBase {
 		return $params ? $base . '?' . http_build_query( $params ) : $base;
 	}
 
-	/** Build a Vimeo embed URL, appending requested query params. */
+	/**
+	 * Build a Vimeo embed URL, appending requested query params.
+	 *
+	 * @param  string              $id         Vimeo video ID.
+	 * @param  array<string,mixed> $attributes Block attributes.
+	 * @return string                          Parameterised embed URL.
+	 */
 	private function build_vimeo_url( string $id, array $attributes ): string {
 		$params = array();
 
@@ -63,7 +91,12 @@ class Video extends BlockBase {
 
 	/**
 	 * Convert a public video URL into a parameterised embed URL.
+	 *
 	 * Returns '' for self-hosted files.
+	 *
+	 * @param  string              $url        Public video URL.
+	 * @param  array<string,mixed> $attributes Block attributes.
+	 * @return string                          Embed URL, or empty string for self-hosted.
 	 */
 	private function get_embed_url( string $url, array $attributes = array() ): string {
 		if ( preg_match( '/youtube\.com|youtu\.be/i', $url ) ) {
@@ -80,13 +113,24 @@ class Video extends BlockBase {
 		return '';
 	}
 
-	/** Check whether the URL points to a self-hosted video file. */
+	/**
+	 * Check whether the URL points to a self-hosted video file.
+	 *
+	 * @param  string $url Video URL to check.
+	 * @return bool        True if URL has a recognised video file extension.
+	 */
 	private function is_self_hosted( string $url ): bool {
 		$path = wp_parse_url( $url, PHP_URL_PATH ) ?? '';
 		return (bool) preg_match( '/\.(mp4|webm|ogg|mov|m4v)$/i', $path );
 	}
 
-	/** Build the lazy-load facade: thumbnail image + YouTube play button overlay. */
+	/**
+	 * Build the lazy-load facade: thumbnail image + YouTube play button overlay.
+	 *
+	 * @param  string $embed_url   Parameterised YouTube embed URL.
+	 * @param  string $youtube_id  11-character YouTube video ID.
+	 * @return string              HTML markup for the lazy-load facade.
+	 */
 	private function render_lazy_facade( string $embed_url, string $youtube_id ): string {
 		$thumb_url = 'https://i.ytimg.com/vi/' . $youtube_id . '/hqdefault.jpg';
 		// Append autoplay=1 so clicking the button starts playback immediately.
@@ -110,6 +154,14 @@ class Video extends BlockBase {
 		);
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$url = isset( $attributes['url'] ) ? esc_url_raw( (string) $attributes['url'] ) : '';
 		if ( '' === $url ) {
@@ -126,7 +178,7 @@ class Video extends BlockBase {
 		$embed_url    = $this->get_embed_url( $url, $attributes );
 		$caption      = isset( $attributes['caption'] ) ? wp_kses_post( (string) $attributes['caption'] ) : '';
 		$video_title  = isset( $attributes['videoTitle'] ) ? sanitize_text_field( (string) $attributes['videoTitle'] ) : '';
-		$iframe_title = $video_title ?: __( 'Video embed', 'goblocks' );
+		$iframe_title = $video_title ? $video_title : __( 'Video embed', 'goblocks' );
 
 		$is_youtube = (bool) preg_match( '/youtube\.com|youtu\.be/i', $url );
 		$youtube_id = $is_youtube ? $this->get_youtube_id( $url ) : '';

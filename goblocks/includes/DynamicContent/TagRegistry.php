@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tag Registry.
+ *
+ * @package GoBlocks\DynamicContent
+ */
+
 namespace GoBlocks\DynamicContent;
 
 defined( 'ABSPATH' ) || exit;
@@ -15,13 +21,17 @@ defined( 'ABSPATH' ) || exit;
  */
 class TagRegistry {
 
-	/** @var array<string, TagInterface> */
+	/**
+	 * Map of tag slug to TagInterface implementation.
+	 *
+	 * @var array<string, TagInterface>
+	 */
 	private static array $tags = array();
 
 	/**
 	 * Register a tag implementation.
 	 *
-	 * @param  TagInterface $tag
+	 * @param  TagInterface $tag Tag implementation to register.
 	 * @return void
 	 */
 	public static function register( TagInterface $tag ): void {
@@ -31,8 +41,8 @@ class TagRegistry {
 	/**
 	 * Retrieve a tag by slug.
 	 *
-	 * @param  string $slug
-	 * @return TagInterface|null
+	 * @param  string $slug Tag slug to look up.
+	 * @return TagInterface|null Tag implementation or null if not registered.
 	 */
 	public static function get( string $slug ): ?TagInterface {
 		return self::$tags[ $slug ] ?? null;
@@ -58,7 +68,7 @@ class TagRegistry {
 	 *
 	 * @param  string               $content Arbitrary text that may contain {tags}.
 	 * @param  array<string, mixed> $context Dynamic content context.
-	 * @return string
+	 * @return string                        Content with tags resolved.
 	 */
 	public static function replace( string $content, array $context ): string {
 		if ( false === strpos( $content, '{' ) ) {

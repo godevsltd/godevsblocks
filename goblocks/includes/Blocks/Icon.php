@@ -1,4 +1,10 @@
 <?php
+/**
+ * Icon.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -12,10 +18,23 @@ use GoBlocks\Utils\SvgSanitizer;
  */
 class Icon extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'icon';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$svg_raw = (string) ( $attributes['svgContent'] ?? '' );
 		if ( '' === trim( $svg_raw ) ) {
@@ -29,11 +48,11 @@ class Icon extends BlockBase {
 
 		$unique_id = $this->get_unique_id( $attributes );
 
-		// ── Colors ────────────────────────────────────────────────────────────
+		// ── Colors ────────────────────────────────────────────────────────────.
 		$icon_color = isset( $attributes['iconColor'] ) ? sanitize_hex_color( (string) $attributes['iconColor'] ) : '';
 		$icon_hover = isset( $attributes['iconHoverColor'] ) ? sanitize_hex_color( (string) $attributes['iconHoverColor'] ) : '';
 
-		// ── Background shape ──────────────────────────────────────────────────
+		// ── Background shape ──────────────────────────────────────────────────.
 		$icon_bg       = sanitize_key( (string) ( $attributes['iconBg'] ?? 'none' ) );
 		$icon_bg_color = isset( $attributes['iconBgColor'] ) ? sanitize_hex_color( (string) $attributes['iconBgColor'] ) : '';
 		$icon_bg_hover = isset( $attributes['iconBgHoverColor'] ) ? sanitize_hex_color( (string) $attributes['iconBgHoverColor'] ) : '';
@@ -43,7 +62,7 @@ class Icon extends BlockBase {
 			$icon_bg = 'none';
 		}
 
-		// ── Animation ─────────────────────────────────────────────────────────
+		// ── Animation ─────────────────────────────────────────────────────────.
 		$animation    = sanitize_key( (string) ( $attributes['animation'] ?? 'none' ) );
 		$anim_trigger = sanitize_key( (string) ( $attributes['animationTrigger'] ?? 'load' ) );
 		$anim_dur     = floatval( $attributes['animationDuration'] ?? 1 );
@@ -60,7 +79,7 @@ class Icon extends BlockBase {
 			$anim_iter = '1';
 		}
 
-		// ── Classes ───────────────────────────────────────────────────────────
+		// ── Classes ───────────────────────────────────────────────────────────.
 		$classes_extra = array( 'gb-icon' );
 		if ( 'none' !== $icon_bg ) {
 			$classes_extra[] = 'gb-icon--bg-' . $icon_bg;
@@ -78,7 +97,7 @@ class Icon extends BlockBase {
 			$classes_extra
 		);
 
-		// ── CSS custom properties (inline style) ──────────────────────────────
+		// ── CSS custom properties (inline style) ──────────────────────────────.
 		$css_vars = '';
 		if ( $icon_color ) {
 			$css_vars .= '--gb-icon-color:' . $icon_color . ';';
@@ -102,7 +121,7 @@ class Icon extends BlockBase {
 		}
 		$style_attr = $css_vars ? ' style="' . esc_attr( $css_vars ) . '"' : '';
 
-		// ── Accessibility ─────────────────────────────────────────────────────
+		// ── Accessibility ─────────────────────────────────────────────────────.
 		$aria_hidden = (bool) ( $attributes['ariaHidden'] ?? true );
 		$aria_label  = sanitize_text_field( (string) ( $attributes['ariaLabel'] ?? '' ) );
 		$link        = (string) ( $attributes['link'] ?? '' );

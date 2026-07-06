@@ -1,4 +1,10 @@
 <?php
+/**
+ * Alert.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -26,21 +32,34 @@ class Alert extends BlockBase {
 		'span'   => array( 'class' => true ),
 	);
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'alert';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
-		$unique_id   = $this->get_unique_id( $attributes );
-		$alert_type  = isset( $attributes['alertType'] ) ? sanitize_key( (string) $attributes['alertType'] ) : 'info';
-		$alert_style = isset( $attributes['alertStyle'] ) ? sanitize_key( (string) $attributes['alertStyle'] ) : 'filled';
-		$title       = isset( $attributes['title'] )   ? sanitize_text_field( (string) $attributes['title'] )   : '';
-		$message     = isset( $attributes['message'] ) ? wp_kses( (string) $attributes['message'], self::MESSAGE_KSES ) : '';
+		$unique_id    = $this->get_unique_id( $attributes );
+		$alert_type   = isset( $attributes['alertType'] ) ? sanitize_key( (string) $attributes['alertType'] ) : 'info';
+		$alert_style  = isset( $attributes['alertStyle'] ) ? sanitize_key( (string) $attributes['alertStyle'] ) : 'filled';
+		$title        = isset( $attributes['title'] ) ? sanitize_text_field( (string) $attributes['title'] ) : '';
+		$message      = isset( $attributes['message'] ) ? wp_kses( (string) $attributes['message'], self::MESSAGE_KSES ) : '';
 		$dismissible  = ! empty( $attributes['dismissible'] );
 		$dismiss_mode = isset( $attributes['dismissMode'] ) ? sanitize_key( (string) $attributes['dismissMode'] ) : 'none';
-		$dismiss_days = isset( $attributes['dismissDays'] ) ? absint( $attributes['dismissDays'] )                : 30;
-		$show_icon   = ! isset( $attributes['icon'] ) || ! empty( $attributes['icon'] );
-		$sticky      = ! empty( $attributes['sticky'] );
+		$dismiss_days = isset( $attributes['dismissDays'] ) ? absint( $attributes['dismissDays'] ) : 30;
+		$show_icon    = ! isset( $attributes['icon'] ) || ! empty( $attributes['icon'] );
+		$sticky       = ! empty( $attributes['sticky'] );
 
 		if ( ! in_array( $alert_type, array( 'info', 'success', 'warning', 'error' ), true ) ) {
 			$alert_type = 'info';
@@ -81,12 +100,12 @@ class Alert extends BlockBase {
 			'error'   => '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
 		);
 
-		$dismiss_svg  = '<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>';
+		$dismiss_svg = '<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>';
 
 		$icon_html    = $show_icon && isset( $icons[ $alert_type ] )
 			? '<div class="gb-alert__icon" aria-hidden="true">' . $icons[ $alert_type ] . '</div>'
 			: '';
-		$title_html   = $title   ? '<strong class="gb-alert__title">' . esc_html( $title ) . '</strong>' : '';
+		$title_html   = $title ? '<strong class="gb-alert__title">' . esc_html( $title ) . '</strong>' : '';
 		$message_html = $message ? '<p class="gb-alert__message">' . $message . '</p>' : '';
 		$dismiss_html = $dismissible
 			? '<button class="gb-alert__dismiss" aria-label="' . esc_attr__( 'Dismiss', 'goblocks' ) . '">' . $dismiss_svg . '</button>'

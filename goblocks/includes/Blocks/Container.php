@@ -1,4 +1,10 @@
 <?php
+/**
+ * Container.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -14,21 +20,48 @@ use WP_Block;
  */
 class Container extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'container';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
 		$tag_name    = $this->get_tag_name( $attributes, 'div' );
-		$block_class = $this->get_block_class( $unique_id ); // gb-container-{uniqueId}
-		$classes     = $this->build_class_string(
+		$block_class = $this->get_block_class( $unique_id ); // gb-container-{uniqueId}.
+
+		// WordPress className carries is-style-* when block styles are selected.
+		$wp_classes = array();
+		if ( isset( $attributes['className'] ) && is_string( $attributes['className'] ) && '' !== $attributes['className'] ) {
+			$wp_classes = array_filter( array_map( 'sanitize_html_class', explode( ' ', $attributes['className'] ) ) );
+		}
+
+		$classes    = $this->build_class_string(
 			$block_class,
 			$this->get_global_classes( $attributes ),
-			array( 'gb-container' )
+			array_merge( array( 'gb-container' ), $wp_classes )
 		);
-		$html_attrs  = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+		$html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
+
+		$anchor = isset( $attributes['anchor'] ) && is_string( $attributes['anchor'] )
+			? sanitize_text_field( $attributes['anchor'] )
+			: '';
+		if ( $anchor ) {
+			$html_attrs = ' id="' . esc_attr( $anchor ) . '"' . $html_attrs;
+		}
 
 		$aria_label = sanitize_text_field( (string) ( $attributes['ariaLabel'] ?? '' ) );
 		if ( $aria_label ) {

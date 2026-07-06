@@ -6,12 +6,7 @@
 	"title": "Button",
 	"category": "goblocks",
 	"description": "CTA button or link with full hover/focus state styling.",
-	"keywords": [
-		"button",
-		"link",
-		"cta",
-		"call to action"
-	],
+	"keywords": [ "button", "link", "cta", "call to action" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,
@@ -19,11 +14,7 @@
 		"className": false,
 		"anchor": false
 	},
-	"usesContext": [
-		"postId",
-		"postType",
-		"queryId"
-	],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",

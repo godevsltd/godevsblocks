@@ -6,13 +6,7 @@
 	"title": "Text",
 	"category": "goblocks",
 	"description": "Rich text block for body copy with full typography and responsive controls.",
-	"keywords": [
-		"text",
-		"paragraph",
-		"copy",
-		"body",
-		"richtext"
-	],
+	"keywords": [ "text", "paragraph", "copy", "body", "richtext" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,
@@ -20,11 +14,7 @@
 		"className": false,
 		"anchor": false
 	},
-	"usesContext": [
-		"postId",
-		"postType",
-		"queryId"
-	],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
 		"uniqueId": {
 			"type": "string",

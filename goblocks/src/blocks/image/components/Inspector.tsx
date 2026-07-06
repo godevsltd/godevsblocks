@@ -20,24 +20,24 @@ import type { BlockStyles } from '../../../types/styles';
 // ── Types ─────────────────────────────────────────────────────────────────
 
 interface ImageAttributes {
-	mediaId:         number;
-	mediaAlt:        string;
-	mediaUrl:        string;
-	sizeSlug:        string;
-	caption:         string;
-	showCaption:     boolean;
-	href:            string;
-	target:          string;
-	rel:             string;
-	objectFit:       string;
-	focalPointX:     number;
-	focalPointY:     number;
-	lightbox:        boolean;
+	mediaId: number;
+	mediaAlt: string;
+	mediaUrl: string;
+	sizeSlug: string;
+	caption: string;
+	showCaption: boolean;
+	href: string;
+	target: string;
+	rel: string;
+	objectFit: string;
+	focalPointX: number;
+	focalPointY: number;
+	lightbox: boolean;
 	lightboxCaption: boolean;
-	lightboxEffect:  string;
-	hoverEffect:     string;
-	styles:          BlockStyles;
-	globalClasses:   string[];
+	lightboxEffect: string;
+	hoverEffect: string;
+	styles: BlockStyles;
+	globalClasses: string[];
 }
 
 interface ImageInspectorProps {
@@ -49,45 +49,166 @@ interface ImageInspectorProps {
 
 const OBJECT_FIT_ICONS: Record< string, JSX.Element > = {
 	'': (
-		<svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
-			<rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none" />
-			<text x="10" y="10" textAnchor="middle" fontSize="6" fill="currentColor" fontWeight="700">—</text>
+		<svg
+			width="20"
+			height="16"
+			viewBox="0 0 20 16"
+			fill="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="1"
+				y="1"
+				width="18"
+				height="14"
+				rx="1.5"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				fill="none"
+			/>
+			<text
+				x="10"
+				y="10"
+				textAnchor="middle"
+				fontSize="6"
+				fill="currentColor"
+				fontWeight="700"
+			>
+				—
+			</text>
 		</svg>
 	),
 	cover: (
-		<svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
-			<rect x="0" y="0" width="20" height="16" rx="1.5" fill="currentColor" opacity="0.18" />
-			<rect x="2" y="2" width="16" height="12" rx="1" fill="currentColor" />
+		<svg
+			width="20"
+			height="16"
+			viewBox="0 0 20 16"
+			fill="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="0"
+				y="0"
+				width="20"
+				height="16"
+				rx="1.5"
+				fill="currentColor"
+				opacity="0.18"
+			/>
+			<rect
+				x="2"
+				y="2"
+				width="16"
+				height="12"
+				rx="1"
+				fill="currentColor"
+			/>
 		</svg>
 	),
 	contain: (
-		<svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
-			<rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none" />
-			<rect x="5" y="3" width="10" height="10" rx="1" fill="currentColor" />
+		<svg
+			width="20"
+			height="16"
+			viewBox="0 0 20 16"
+			fill="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="1"
+				y="1"
+				width="18"
+				height="14"
+				rx="1.5"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				fill="none"
+			/>
+			<rect
+				x="5"
+				y="3"
+				width="10"
+				height="10"
+				rx="1"
+				fill="currentColor"
+			/>
 		</svg>
 	),
 	fill: (
-		<svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
-			<rect x="0" y="0" width="20" height="16" rx="1.5" fill="currentColor" />
-			<line x1="4" y1="4" x2="16" y2="12" stroke="white" strokeWidth="1.5" opacity="0.6" />
-			<line x1="16" y1="4" x2="4" y2="12" stroke="white" strokeWidth="1.5" opacity="0.6" />
+		<svg
+			width="20"
+			height="16"
+			viewBox="0 0 20 16"
+			fill="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="0"
+				y="0"
+				width="20"
+				height="16"
+				rx="1.5"
+				fill="currentColor"
+			/>
+			<line
+				x1="4"
+				y1="4"
+				x2="16"
+				y2="12"
+				stroke="white"
+				strokeWidth="1.5"
+				opacity="0.6"
+			/>
+			<line
+				x1="16"
+				y1="4"
+				x2="4"
+				y2="12"
+				stroke="white"
+				strokeWidth="1.5"
+				opacity="0.6"
+			/>
 		</svg>
 	),
 	'scale-down': (
-		<svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
-			<rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+		<svg
+			width="20"
+			height="16"
+			viewBox="0 0 20 16"
+			fill="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="1"
+				y="1"
+				width="18"
+				height="14"
+				rx="1.5"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				fill="none"
+			/>
 			<rect x="6" y="4" width="8" height="8" rx="1" fill="currentColor" />
-			<path d="M14 2 L18 2 L18 6" stroke="currentColor" strokeWidth="1.2" fill="none" />
-			<path d="M6 14 L2 14 L2 10" stroke="currentColor" strokeWidth="1.2" fill="none" />
+			<path
+				d="M14 2 L18 2 L18 6"
+				stroke="currentColor"
+				strokeWidth="1.2"
+				fill="none"
+			/>
+			<path
+				d="M6 14 L2 14 L2 10"
+				stroke="currentColor"
+				strokeWidth="1.2"
+				fill="none"
+			/>
 		</svg>
 	),
 };
 
 const OBJECT_FIT_BTNS = [
-	{ value: '',           label: 'None' },
-	{ value: 'cover',      label: 'Cover' },
-	{ value: 'contain',    label: 'Contain' },
-	{ value: 'fill',       label: 'Fill' },
+	{ value: '', label: 'None' },
+	{ value: 'cover', label: 'Cover' },
+	{ value: 'contain', label: 'Contain' },
+	{ value: 'fill', label: 'Fill' },
 	{ value: 'scale-down', label: 'Scale' },
 ];
 
@@ -106,8 +227,8 @@ const TARGET_OPTIONS = [
 ];
 
 const LIGHTBOX_EFFECT_OPTIONS = [
-	{ label: __( 'Zoom', 'goblocks' ),  value: 'zoom' },
-	{ label: __( 'Fade', 'goblocks' ),  value: 'fade' },
+	{ label: __( 'Zoom', 'goblocks' ), value: 'zoom' },
+	{ label: __( 'Fade', 'goblocks' ), value: 'fade' },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────
@@ -139,7 +260,8 @@ export function ImageInspector( {
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
-	const hasFocal = !! objectFit && objectFit !== 'none' && objectFit !== 'fill';
+	const hasFocal =
+		!! objectFit && objectFit !== 'none' && objectFit !== 'fill';
 
 	function onObjectFitChange( value: string ) {
 		setAttributes( { objectFit: value } );
@@ -184,9 +306,21 @@ export function ImageInspector( {
 			) }
 
 			{ /* Focal point + object-fit */ }
-			<PanelBody title={ __( 'Focal Point', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Focal Point', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				{ /* Object-fit icon grid */ }
-				<p style={ { margin: '0 0 6px', fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#757575' } }>
+				<p
+					style={ {
+						margin: '0 0 6px',
+						fontSize: 11,
+						fontWeight: 600,
+						letterSpacing: '0.04em',
+						textTransform: 'uppercase',
+						color: '#757575',
+					} }
+				>
 					{ __( 'Object fit', 'goblocks' ) }
 				</p>
 				<div className="gb-object-fit-grid">
@@ -197,7 +331,9 @@ export function ImageInspector( {
 							className={ [
 								'gb-object-fit-grid__btn',
 								objectFit === btn.value ? 'is-active' : '',
-							].filter( Boolean ).join( ' ' ) }
+							]
+								.filter( Boolean )
+								.join( ' ' ) }
 							onClick={ () => onObjectFitChange( btn.value ) }
 							title={ btn.label }
 							aria-pressed={ objectFit === btn.value }
@@ -263,11 +399,14 @@ export function ImageInspector( {
 					label={ __( 'Hover effect', 'goblocks' ) }
 					value={ hoverEffect ?? 'none' }
 					options={ [
-						{ label: __( 'None', 'goblocks' ),     value: 'none' },
-						{ label: __( 'Zoom', 'goblocks' ),     value: 'zoom' },
-						{ label: __( 'Grayscale', 'goblocks' ), value: 'grayscale' },
-						{ label: __( 'Darken', 'goblocks' ),   value: 'darken' },
-						{ label: __( 'Lift', 'goblocks' ),     value: 'lift' },
+						{ label: __( 'None', 'goblocks' ), value: 'none' },
+						{ label: __( 'Zoom', 'goblocks' ), value: 'zoom' },
+						{
+							label: __( 'Grayscale', 'goblocks' ),
+							value: 'grayscale',
+						},
+						{ label: __( 'Darken', 'goblocks' ), value: 'darken' },
+						{ label: __( 'Lift', 'goblocks' ), value: 'lift' },
 					] }
 					onChange={ ( v ) => setAttributes( { hoverEffect: v } ) }
 					// @ts-ignore
@@ -276,10 +415,16 @@ export function ImageInspector( {
 			</PanelBody>
 
 			{ /* Lightbox */ }
-			<PanelBody title={ __( 'Lightbox', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Lightbox', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<ToggleControl
 					label={ __( 'Enable lightbox', 'goblocks' ) }
-					help={ __( 'Opens full-size image in an overlay on click.', 'goblocks' ) }
+					help={ __(
+						'Opens full-size image in an overlay on click.',
+						'goblocks'
+					) }
 					checked={ lightbox }
 					onChange={ ( v ) => setAttributes( { lightbox: v } ) }
 					// @ts-ignore
@@ -291,14 +436,21 @@ export function ImageInspector( {
 							label={ __( 'Open animation', 'goblocks' ) }
 							value={ lightboxEffect }
 							options={ LIGHTBOX_EFFECT_OPTIONS }
-							onChange={ ( v ) => setAttributes( { lightboxEffect: v } ) }
+							onChange={ ( v ) =>
+								setAttributes( { lightboxEffect: v } )
+							}
 							// @ts-ignore
 							__nextHasNoMarginBottom
 						/>
 						<ToggleControl
-							label={ __( 'Show caption in lightbox', 'goblocks' ) }
+							label={ __(
+								'Show caption in lightbox',
+								'goblocks'
+							) }
 							checked={ lightboxCaption }
-							onChange={ ( v ) => setAttributes( { lightboxCaption: v } ) }
+							onChange={ ( v ) =>
+								setAttributes( { lightboxCaption: v } )
+							}
 							// @ts-ignore
 							__nextHasNoMarginBottom
 						/>

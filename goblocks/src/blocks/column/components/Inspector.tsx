@@ -35,36 +35,36 @@ interface ColumnInspectorProps {
 // ── Static options ────────────────────────────────────────────────────────
 
 const TAG_OPTIONS = [
-	{ label: 'div',     value: 'div' },
+	{ label: 'div', value: 'div' },
 	{ label: 'section', value: 'section' },
 	{ label: 'article', value: 'article' },
-	{ label: 'aside',   value: 'aside' },
-	{ label: 'header',  value: 'header' },
-	{ label: 'footer',  value: 'footer' },
-	{ label: 'nav',     value: 'nav' },
-	{ label: 'main',    value: 'main' },
-	{ label: 'figure',  value: 'figure' },
-	{ label: 'li',      value: 'li' },
-	{ label: 'span',    value: 'span' },
+	{ label: 'aside', value: 'aside' },
+	{ label: 'header', value: 'header' },
+	{ label: 'footer', value: 'footer' },
+	{ label: 'nav', value: 'nav' },
+	{ label: 'main', value: 'main' },
+	{ label: 'figure', value: 'figure' },
+	{ label: 'li', value: 'li' },
+	{ label: 'span', value: 'span' },
 ];
 
 const ANIMATION_OPTIONS = [
-	{ label: __( 'None',        'goblocks' ), value: '' },
-	{ label: __( 'Fade in',     'goblocks' ), value: 'gb-anim-fade-in' },
-	{ label: __( 'Slide up',    'goblocks' ), value: 'gb-anim-slide-up' },
-	{ label: __( 'Slide left',  'goblocks' ), value: 'gb-anim-slide-left' },
+	{ label: __( 'None', 'goblocks' ), value: '' },
+	{ label: __( 'Fade in', 'goblocks' ), value: 'gb-anim-fade-in' },
+	{ label: __( 'Slide up', 'goblocks' ), value: 'gb-anim-slide-up' },
+	{ label: __( 'Slide left', 'goblocks' ), value: 'gb-anim-slide-left' },
 	{ label: __( 'Slide right', 'goblocks' ), value: 'gb-anim-slide-right' },
-	{ label: __( 'Zoom in',     'goblocks' ), value: 'gb-anim-zoom-in' },
+	{ label: __( 'Zoom in', 'goblocks' ), value: 'gb-anim-zoom-in' },
 ];
 
 // Width presets — label / flex-basis value
 const WIDTH_PRESETS = [
 	{ label: __( 'Auto', 'goblocks' ), value: '' },
-	{ label: '25%',  value: '25%' },
-	{ label: '33%',  value: '33.333%' },
-	{ label: '50%',  value: '50%' },
-	{ label: '66%',  value: '66.667%' },
-	{ label: '75%',  value: '75%' },
+	{ label: '25%', value: '25%' },
+	{ label: '33%', value: '33.333%' },
+	{ label: '50%', value: '50%' },
+	{ label: '66%', value: '66.667%' },
+	{ label: '75%', value: '75%' },
 	{ label: '100%', value: '100%' },
 ];
 
@@ -74,17 +74,11 @@ export function ColumnInspector( {
 	attributes,
 	setAttributes,
 }: ColumnInspectorProps ) {
-	const {
-		styles,
-		tagName,
-		ariaLabel,
-		animationClass,
-		globalClasses,
-	} = attributes;
+	const { styles, tagName, ariaLabel, animationClass, globalClasses } =
+		attributes;
 
-	const responsive = useResponsiveStyles(
-		styles as BlockStyles,
-		( patch ) => setAttributes( { styles: patch.styles as BlockStyles } )
+	const responsive = useResponsiveStyles( styles as BlockStyles, ( patch ) =>
+		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
 	const { getStyle } = responsive;
@@ -93,19 +87,19 @@ export function ColumnInspector( {
 
 	// Active width = flex-basis from layout category (set by our presets)
 	// or width from sizing category (set by SizingPanel manually)
-	const flexBasis   = getStyle( 'layout', 'flexBasis' ) ?? '';
+	const flexBasis = getStyle( 'layout', 'flexBasis' ) ?? '';
 	const sizingWidth = getStyle( 'sizing', 'width' ) ?? '';
 	const activeWidth = flexBasis || sizingWidth;
 
 	function handleWidthPreset( value: string ) {
-		const bp  = responsive.activeBreakpoint;
+		const bp = responsive.activeBreakpoint;
 		const isAuto = ! value;
 		setAttributes( {
 			styles: deepMerge( styles as any, {
 				layout: {
-					flexGrow:   { [ bp ]: isAuto ? '1' : '0' },
+					flexGrow: { [ bp ]: isAuto ? '1' : '0' },
 					flexShrink: { [ bp ]: isAuto ? '1' : '0' },
-					flexBasis:  { [ bp ]: isAuto ? '0%' : value },
+					flexBasis: { [ bp ]: isAuto ? '0%' : value },
 				},
 				sizing: {
 					// Keep sizing.width in sync so SizingPanel reflects the value
@@ -141,13 +135,34 @@ export function ColumnInspector( {
 				</div>
 			</PanelBody>
 
-			<LayoutPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<SizingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel   styles={ styles as BlockStyles } responsive={ responsive } />
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel   styles={ styles as BlockStyles } responsive={ responsive } />
+			<LayoutPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SizingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
@@ -166,7 +181,10 @@ export function ColumnInspector( {
 				<TextControl
 					label={ __( 'ARIA label', 'goblocks' ) }
 					value={ ariaLabel }
-					help={ __( "Overrides the element's accessible name.", 'goblocks' ) }
+					help={ __(
+						"Overrides the element's accessible name.",
+						'goblocks'
+					) }
 					onChange={ ( v ) => setAttributes( { ariaLabel: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -174,24 +192,36 @@ export function ColumnInspector( {
 			</PanelBody>
 
 			{ /* Entrance animation */ }
-			<PanelBody title={ __( 'Animation', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Animation', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<SelectControl
 					label={ __( 'Entrance animation', 'goblocks' ) }
 					value={ animationClass }
 					options={ ANIMATION_OPTIONS }
 					onChange={ ( v ) => setAttributes( { animationClass: v } ) }
-					help={ __( 'CSS-only animation applied via class. No JS required.', 'goblocks' ) }
+					help={ __(
+						'CSS-only animation applied via class. No JS required.',
+						'goblocks'
+					) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
 
 			{ /* CSS classes */ }
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __( 'Space-separated list of extra classes.', 'goblocks' ) }
+					help={ __(
+						'Space-separated list of extra classes.',
+						'goblocks'
+					) }
 					onChange={ ( v ) =>
 						setAttributes( {
 							globalClasses: v.split( /\s+/ ).filter( Boolean ),

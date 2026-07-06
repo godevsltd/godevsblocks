@@ -6,12 +6,7 @@
 	"title": "Tabs",
 	"category": "goblocks",
 	"description": "Accessible tabbed content panels with Arrow / Home / End keyboard navigation.",
-	"keywords": [
-		"tabs",
-		"tabbed",
-		"panels",
-		"navigation"
-	],
+	"keywords": [ "tabs", "tabbed", "panels", "navigation" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,

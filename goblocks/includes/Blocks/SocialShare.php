@@ -1,4 +1,10 @@
 <?php
+/**
+ * Social Share.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +20,11 @@ use WP_Block;
  */
 class SocialShare extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'social-share';
 	}
@@ -23,6 +34,14 @@ class SocialShare extends BlockBase {
 	private const ALLOWED_LAYOUTS   = array( 'horizontal', 'vertical' );
 	private const ALLOWED_STYLES    = array( 'filled', 'outline', 'minimal', 'rounded' );
 
+	/**
+	 * Build the share URL for a given platform.
+	 *
+	 * @param  string $platform Platform slug.
+	 * @param  string $url      URL to share.
+	 * @param  string $title    Post title to include in the share text.
+	 * @return string           Share URL.
+	 */
 	private function get_share_url( string $platform, string $url, string $title ): string {
 		$enc_url   = rawurlencode( $url );
 		$enc_title = rawurlencode( $title );
@@ -42,6 +61,12 @@ class SocialShare extends BlockBase {
 		return $map[ $platform ] ?? '#';
 	}
 
+	/**
+	 * Return the human-readable label for a platform.
+	 *
+	 * @param  string $platform Platform slug.
+	 * @return string           Platform label.
+	 */
 	private function get_platform_label( string $platform ): string {
 		$labels = array(
 			'facebook'  => 'Facebook',
@@ -57,6 +82,12 @@ class SocialShare extends BlockBase {
 		return $labels[ $platform ] ?? ucfirst( $platform );
 	}
 
+	/**
+	 * Return the SVG icon markup for a platform.
+	 *
+	 * @param  string $platform Platform slug.
+	 * @return string           SVG icon HTML.
+	 */
 	private function get_platform_icon( string $platform ): string {
 		$icons = array(
 			'facebook'  => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
@@ -73,6 +104,14 @@ class SocialShare extends BlockBase {
 		return $icons[ $platform ] ?? '';
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
@@ -102,8 +141,10 @@ class SocialShare extends BlockBase {
 			array( 'gb-social-share', "gb-social-share--{$layout}", "gb-social-share--{$size}", "gb-social-share--{$button_style}" )
 		);
 
-		$post_url   = $custom_url ?: ( get_permalink() ?: '' );
-		$post_title = get_the_title() ?: '';
+		$permalink  = get_permalink();
+		$post_url   = $custom_url ? $custom_url : ( $permalink ? $permalink : '' );
+		$raw_title  = (string) get_the_title();
+		$post_title = '' !== $raw_title ? $raw_title : '';
 
 		$buttons = '';
 		foreach ( $platforms as $platform ) {

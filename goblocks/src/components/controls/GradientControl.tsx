@@ -45,6 +45,7 @@ interface GradientControlProps {
  * Parse a CSS gradient string into GradientState.
  * Supports hex, rgb/rgba, hsl/hsla, and named color stops.
  * Returns null when the format is unrecognised.
+ * @param css
  */
 function parseGradient( css: string ): GradientState | null {
 	if ( ! css ) {
@@ -58,7 +59,11 @@ function parseGradient( css: string ): GradientState | null {
 	if ( linearMatch ) {
 		const stops = parseStops( linearMatch[ 2 ]! );
 		if ( stops ) {
-			return { type: 'linear-gradient', angle: linearMatch[ 1 ]!.trim(), stops };
+			return {
+				type: 'linear-gradient',
+				angle: linearMatch[ 1 ]!.trim(),
+				stops,
+			};
 		}
 	}
 
@@ -69,7 +74,11 @@ function parseGradient( css: string ): GradientState | null {
 	if ( conicMatch ) {
 		const stops = parseStops( conicMatch[ 2 ]! );
 		if ( stops ) {
-			return { type: 'conic-gradient', angle: conicMatch[ 1 ]!.trim(), stops };
+			return {
+				type: 'conic-gradient',
+				angle: conicMatch[ 1 ]!.trim(),
+				stops,
+			};
 		}
 	}
 
@@ -88,6 +97,7 @@ function parseGradient( css: string ): GradientState | null {
 /**
  * Extract color stops from the stops portion of a gradient string.
  * Handles hex, rgb/rgba/hsl/hsla with parentheses (no nested parens), and named colors.
+ * @param stopsStr
  */
 function parseStops( stopsStr: string ): ColorStop[] | null {
 	// Match: <color> <position>

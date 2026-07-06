@@ -27,10 +27,32 @@ import type { ControlProps } from '../../types/controls';
 function GlobalStyleBadge() {
 	return (
 		<span className="gb-control__global-badge">
-			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity="0.7"/>
-				<path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-				<path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+			<svg
+				width="12"
+				height="12"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M12 2L2 7L12 12L22 7L12 2Z"
+					fill="currentColor"
+					opacity="0.7"
+				/>
+				<path
+					d="M2 17L12 22L22 17"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<path
+					d="M2 12L12 17L22 12"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
 			</svg>
 			{ __( 'Global', 'goblocks' ) }
 		</span>
@@ -40,19 +62,19 @@ function GlobalStyleBadge() {
 // ── Default palette — always available out of the box ─────────────────────
 
 const DEFAULT_COLORS: Array< { label: string; color: string } > = [
-	{ label: 'White',   color: '#ffffff' },
-	{ label: 'Black',   color: '#000000' },
-	{ label: 'Slate',   color: '#475569' },
-	{ label: 'Gray',    color: '#9ca3af' },
-	{ label: 'Red',     color: '#ef4444' },
-	{ label: 'Orange',  color: '#f97316' },
-	{ label: 'Yellow',  color: '#eab308' },
-	{ label: 'Green',   color: '#22c55e' },
-	{ label: 'Teal',    color: '#14b8a6' },
-	{ label: 'Blue',    color: '#3b82f6' },
-	{ label: 'Indigo',  color: '#6366f1' },
-	{ label: 'Purple',  color: '#8b5cf6' },
-	{ label: 'Pink',    color: '#ec4899' },
+	{ label: 'White', color: '#ffffff' },
+	{ label: 'Black', color: '#000000' },
+	{ label: 'Slate', color: '#475569' },
+	{ label: 'Gray', color: '#9ca3af' },
+	{ label: 'Red', color: '#ef4444' },
+	{ label: 'Orange', color: '#f97316' },
+	{ label: 'Yellow', color: '#eab308' },
+	{ label: 'Green', color: '#22c55e' },
+	{ label: 'Teal', color: '#14b8a6' },
+	{ label: 'Blue', color: '#3b82f6' },
+	{ label: 'Indigo', color: '#6366f1' },
+	{ label: 'Purple', color: '#8b5cf6' },
+	{ label: 'Pink', color: '#ec4899' },
 ];
 
 // ── Types ─────────────────────────────────────────────────────────────────

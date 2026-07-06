@@ -6,13 +6,7 @@
 	"title": "Accordion",
 	"category": "goblocks",
 	"description": "Collapsible content panels using native <details>/<summary>. Supports FAQ schema and single-open mode.",
-	"keywords": [
-		"accordion",
-		"collapse",
-		"faq",
-		"details",
-		"summary"
-	],
+	"keywords": [ "accordion", "collapse", "faq", "details", "summary" ],
 	"textdomain": "goblocks",
 	"supports": {
 		"html": false,

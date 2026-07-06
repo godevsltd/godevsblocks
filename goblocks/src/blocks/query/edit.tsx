@@ -10,8 +10,8 @@ import type { BlockEditProps } from '@wordpress/blocks';
 import { useCssEngine } from '../../hooks/useCssEngine';
 import { clsx } from '../../utils/classNames';
 import { QueryInspector } from './components/Inspector';
-import { QUERY_DEFAULTS } from '../../types/query';
-import type { QueryAttributes } from '../../types/query';
+import { QUERY_DEFAULTS, LAYOUT_DEFAULTS } from '../../types/query';
+import type { QueryAttributes, QueryLayout } from '../../types/query';
 import type { BlockStyles } from '../../types/styles';
 
 // ── Attribute type ─────────────────────────────────────────────────────────────
@@ -19,6 +19,8 @@ import type { BlockStyles } from '../../types/styles';
 interface QueryBlockAttributes {
 	uniqueId: string;
 	query: QueryAttributes;
+	layout: QueryLayout;
+	align: string;
 	paginationType: string;
 	styles: BlockStyles;
 	globalClasses: string[];
@@ -48,9 +50,18 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< QueryBlockAttributes > ) {
-	const { uniqueId, query, paginationType, globalClasses, styles } = attributes;
+	const {
+		uniqueId,
+		query,
+		layout,
+		align,
+		paginationType,
+		globalClasses,
+		styles,
+	} = attributes;
 
 	const mergedQuery: QueryAttributes = { ...QUERY_DEFAULTS, ...query };
+	const mergedLayout: QueryLayout = { ...LAYOUT_DEFAULTS, ...layout };
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {
@@ -71,6 +82,7 @@ export function Edit( {
 	const wrapperClass = clsx(
 		'gb-query',
 		uniqueId && `gb-query-${ uniqueId }`,
+		align && `align${ align }`,
 		...( globalClasses ?? [] )
 	);
 
@@ -85,18 +97,18 @@ export function Edit( {
 		<>
 			<QueryInspector
 				query={ mergedQuery }
+				layout={ mergedLayout }
 				paginationType={ paginationType ?? 'standard' }
 				styles={ styles }
 				globalClasses={ globalClasses ?? [] }
 				setQuery={ ( patch ) =>
 					setAttributes( { query: { ...mergedQuery, ...patch } } )
 				}
+				setLayout={ ( l ) => setAttributes( { layout: l } ) }
 				setPagination={ ( type ) =>
 					setAttributes( { paginationType: type } )
 				}
-				setStyles={ ( patch ) =>
-					setAttributes( { styles: patch } )
-				}
+				setStyles={ ( patch ) => setAttributes( { styles: patch } ) }
 				setGlobalClasses={ ( classes ) =>
 					setAttributes( { globalClasses: classes } )
 				}

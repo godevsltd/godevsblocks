@@ -28,23 +28,23 @@ const CURSOR_OPTIONS = [
 ];
 
 const BLEND_MODE_OPTIONS = [
-	{ label: __( '— None —', 'goblocks' ),   value: '' },
-	{ label: 'Normal',        value: 'normal' },
-	{ label: 'Multiply',      value: 'multiply' },
-	{ label: 'Screen',        value: 'screen' },
-	{ label: 'Overlay',       value: 'overlay' },
-	{ label: 'Darken',        value: 'darken' },
-	{ label: 'Lighten',       value: 'lighten' },
-	{ label: 'Color dodge',   value: 'color-dodge' },
-	{ label: 'Color burn',    value: 'color-burn' },
-	{ label: 'Hard light',    value: 'hard-light' },
-	{ label: 'Soft light',    value: 'soft-light' },
-	{ label: 'Difference',    value: 'difference' },
-	{ label: 'Exclusion',     value: 'exclusion' },
-	{ label: 'Hue',           value: 'hue' },
-	{ label: 'Saturation',    value: 'saturation' },
-	{ label: 'Color',         value: 'color' },
-	{ label: 'Luminosity',    value: 'luminosity' },
+	{ label: __( '— None —', 'goblocks' ), value: '' },
+	{ label: 'Normal', value: 'normal' },
+	{ label: 'Multiply', value: 'multiply' },
+	{ label: 'Screen', value: 'screen' },
+	{ label: 'Overlay', value: 'overlay' },
+	{ label: 'Darken', value: 'darken' },
+	{ label: 'Lighten', value: 'lighten' },
+	{ label: 'Color dodge', value: 'color-dodge' },
+	{ label: 'Color burn', value: 'color-burn' },
+	{ label: 'Hard light', value: 'hard-light' },
+	{ label: 'Soft light', value: 'soft-light' },
+	{ label: 'Difference', value: 'difference' },
+	{ label: 'Exclusion', value: 'exclusion' },
+	{ label: 'Hue', value: 'hue' },
+	{ label: 'Saturation', value: 'saturation' },
+	{ label: 'Color', value: 'color' },
+	{ label: 'Luminosity', value: 'luminosity' },
 ];
 
 const TRANSITION_EASING = [
@@ -70,6 +70,7 @@ const TRANSITION_PROPERTY = [
 /**
  * Parse a CSS transition shorthand into structured fields.
  * Handles: "all 0.2s ease" / "transform 300ms ease-in-out" etc.
+ * @param css
  */
 function parseTransition( css: string | undefined ): {
 	property: string;
@@ -115,14 +116,19 @@ export function EffectsPanel( { responsive }: EffectsPanelProps ) {
 
 	const transition = parseTransition( get( 'transition' ) );
 
-	function onTransitionChange( patch: Partial< { property: string; duration: string; easing: string } > ) {
+	function onTransitionChange(
+		patch: Partial< { property: string; duration: string; easing: string } >
+	) {
 		const next = { ...transition, ...patch };
-		setStyle( 'effects', 'transition', buildTransition( next.property, next.duration, next.easing ) );
+		setStyle(
+			'effects',
+			'transition',
+			buildTransition( next.property, next.duration, next.easing )
+		);
 	}
 
 	return (
 		<PanelBody title={ __( 'Effects', 'goblocks' ) } initialOpen={ false }>
-
 			{ /* Opacity */ }
 			<RangeControl
 				label={ __( 'Opacity', 'goblocks' ) }
@@ -146,7 +152,10 @@ export function EffectsPanel( { responsive }: EffectsPanelProps ) {
 				value={ get( 'transform' ) ?? '' }
 				placeholder="translateY(-4px) scale(1.05)"
 				onChange={ set( 'transform' ) }
-				help={ __( 'CSS transform — translateX/Y, scale, rotate, skewX/Y', 'goblocks' ) }
+				help={ __(
+					'CSS transform — translateX/Y, scale, rotate, skewX/Y',
+					'goblocks'
+				) }
 				// @ts-ignore
 				__nextHasNoMarginBottom
 			/>
@@ -169,7 +178,9 @@ export function EffectsPanel( { responsive }: EffectsPanelProps ) {
 						label={ __( 'Duration', 'goblocks' ) }
 						value={ transition.duration }
 						placeholder="300ms"
-						onChange={ ( v ) => onTransitionChange( { duration: v } ) }
+						onChange={ ( v ) =>
+							onTransitionChange( { duration: v } )
+						}
 						// @ts-ignore
 						__nextHasNoMarginBottom
 					/>
@@ -177,7 +188,9 @@ export function EffectsPanel( { responsive }: EffectsPanelProps ) {
 						label={ __( 'Easing', 'goblocks' ) }
 						value={ transition.easing }
 						options={ TRANSITION_EASING }
-						onChange={ ( v ) => onTransitionChange( { easing: v } ) }
+						onChange={ ( v ) =>
+							onTransitionChange( { easing: v } )
+						}
 						// @ts-ignore
 						__nextHasNoMarginBottom
 					/>
@@ -190,7 +203,10 @@ export function EffectsPanel( { responsive }: EffectsPanelProps ) {
 				value={ get( 'filter' ) ?? '' }
 				placeholder="blur(4px) brightness(0.8)"
 				onChange={ set( 'filter' ) }
-				help={ __( 'CSS filter — blur, brightness, contrast, grayscale, etc.', 'goblocks' ) }
+				help={ __(
+					'CSS filter — blur, brightness, contrast, grayscale, etc.',
+					'goblocks'
+				) }
 				// @ts-ignore
 				__nextHasNoMarginBottom
 			/>

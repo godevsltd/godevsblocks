@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Title: Testimonial — Single Quote
  * Slug: goblocks/testimonial-card

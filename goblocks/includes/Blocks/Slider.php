@@ -1,4 +1,10 @@
 <?php
+/**
+ * Slider.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,38 +16,55 @@ use WP_Block;
  */
 class Slider extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'slider';
 	}
 
 	/**
-	 * Sanitize a hex or rgba/rgb color value. Falls back to $default.
+	 * Sanitize a hex or rgba/rgb color value, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback color string.
+	 * @return string          Sanitized color value.
 	 */
 	protected function sanitize_color( mixed $value, string $default = '' ): string {
 		$val = trim( (string) ( $value ?? '' ) );
 		if ( '' === $val ) {
 			return $default;
 		}
-		// Hex color
+		// Hex color.
 		$hex = sanitize_hex_color( $val );
 		if ( $hex ) {
 			return $hex;
 		}
-		// rgba / rgb
+		// rgba / rgb.
 		if ( preg_match( '/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(\s*,\s*[\d.]+)?\s*\)$/', $val ) ) {
 			return $val;
 		}
-		// Keyword "transparent"
+		// Keyword "transparent".
 		if ( 'transparent' === $val ) {
 			return $val;
 		}
 		return $default;
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		// ── Effect & Behavior ──────────────────────────────────────────────
+		// ── Effect & Behavior ──────────────────────────────────────────────.
 		$effect = sanitize_key( (string) ( $attributes['effect'] ?? 'slide' ) );
 		if ( ! in_array( $effect, array( 'slide', 'fade', 'zoom', 'cards' ), true ) ) {
 			$effect = 'slide';
@@ -56,7 +79,7 @@ class Slider extends BlockBase {
 		$trans_dur   = max( 50, min( 2000, intval( $attributes['transitionDuration'] ?? 450 ) ) );
 		$trans_ease  = sanitize_text_field( (string) ( $attributes['transitionEasing'] ?? 'ease' ) );
 
-		// Whitelist easing values to prevent injection
+		// Whitelist easing values to prevent injection.
 		$allowed_easings = array(
 			'ease',
 			'ease-in',
@@ -71,14 +94,14 @@ class Slider extends BlockBase {
 			$trans_ease = 'ease';
 		}
 
-		// ── Navigation ─────────────────────────────────────────────────────
+		// ── Navigation ─────────────────────────────────────────────────────.
 		$show_arrows    = ! isset( $attributes['showArrows'] ) || ! empty( $attributes['showArrows'] );
 		$show_dots      = ! isset( $attributes['showDots'] ) || ! empty( $attributes['showDots'] );
 		$show_counter   = ! empty( $attributes['showCounter'] );
 		$show_progress  = ! empty( $attributes['showProgressBar'] ) && 'true' === $autoplay;
 		$show_pause_btn = ( ! isset( $attributes['showPauseButton'] ) || ! empty( $attributes['showPauseButton'] ) ) && 'true' === $autoplay;
 
-		// ── Arrow appearance ───────────────────────────────────────────────
+		// ── Arrow appearance ───────────────────────────────────────────────.
 		$arrow_color       = $this->sanitize_color( $attributes['arrowColor'] ?? null, '#ffffff' );
 		$arrow_hover_color = $this->sanitize_color( $attributes['arrowHoverColor'] ?? null, '#ffffff' );
 		$arrow_bg          = $this->sanitize_color( $attributes['arrowBgColor'] ?? null, 'rgba(0,0,0,0.35)' );
@@ -94,7 +117,7 @@ class Slider extends BlockBase {
 			$arrow_vis = 'always';
 		}
 
-		// ── Dot appearance ─────────────────────────────────────────────────
+		// ── Dot appearance ─────────────────────────────────────────────────.
 		$dot_color        = $this->sanitize_color( $attributes['dotColor'] ?? null, 'rgba(255,255,255,0.45)' );
 		$dot_active_color = $this->sanitize_color( $attributes['dotActiveColor'] ?? null, '#ffffff' );
 		$dot_size         = max( 2, min( 40, intval( $attributes['dotSize'] ?? 8 ) ) );
@@ -107,7 +130,7 @@ class Slider extends BlockBase {
 			$dot_position = 'inside-bottom';
 		}
 
-		// ── CSS custom properties ──────────────────────────────────────────
+		// ── CSS custom properties ──────────────────────────────────────────.
 		$css_vars = sprintf(
 			'--gb-sl-arrow-color:%s;--gb-sl-arrow-hover:%s;--gb-sl-arrow-bg:%s;--gb-sl-arrow-bg-hover:%s;--gb-sl-arrow-size:%dpx;--gb-sl-arrow-r:%d%%;--gb-sl-dot:%s;--gb-sl-dot-active:%s;--gb-sl-dot-size:%dpx;--gb-sl-dur:%dms;',
 			$arrow_color,
@@ -128,7 +151,7 @@ class Slider extends BlockBase {
 			$css_vars .= '--gb-sl-gap:' . $slide_gap . 'px;';
 		}
 
-		// ── Classes ────────────────────────────────────────────────────────
+		// ── Classes ────────────────────────────────────────────────────────.
 		$extra_classes = array( 'gb-slider', 'gb-slider--' . $effect );
 		if ( $show_arrows ) {
 			$extra_classes[] = 'gb-slider--arrows-' . $arrow_position;
@@ -147,7 +170,7 @@ class Slider extends BlockBase {
 			$extra_classes
 		);
 
-		// ── Icons ──────────────────────────────────────────────────────────
+		// ── Icons ──────────────────────────────────────────────────────────.
 		$icon_prev = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
 		$icon_next = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
 
@@ -181,7 +204,7 @@ class Slider extends BlockBase {
 			)
 			: '';
 
-		// ── Output ─────────────────────────────────────────────────────────
+		// ── Output ─────────────────────────────────────────────────────────.
 		return sprintf(
 			'<div class="%s" style="%s" data-effect="%s" data-spv="%d" data-gap="%d" data-autoplay="%s" data-delay="%d" data-loop="%s" data-pause-hover="%s" data-duration="%d" data-easing="%s">'
 				. '<div class="gb-slider__clip"><div class="gb-slider__track">%s</div></div>'

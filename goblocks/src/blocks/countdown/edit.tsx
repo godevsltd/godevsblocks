@@ -1,4 +1,4 @@
-import { useEffect } from '@wordpress/element';
+import { useEffect, Fragment } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -24,26 +24,26 @@ import type { BlockStyles } from '../../types/styles';
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface CountdownBlockAttributes {
-	uniqueId:       string;
-	targetDate:     string;
-	timezone:       string;
+	uniqueId: string;
+	targetDate: string;
+	timezone: string;
 	countdownStyle: string;
-	showSeparator:  boolean;
-	showDays:       boolean;
-	showHours:      boolean;
-	showMinutes:    boolean;
-	showSeconds:    boolean;
-	expiredText:    string;
-	expiredAction:  string;
-	expiredUrl:     string;
-	numberColor:    string;
-	labelColor:     string;
-	unitBg:         string;
-	unitBorder:     string;
-	styles:         BlockStyles;
-	globalClasses:  string[];
-	generatedCss:   string;
-	blockVersion:   number;
+	showSeparator: boolean;
+	showDays: boolean;
+	showHours: boolean;
+	showMinutes: boolean;
+	showSeconds: boolean;
+	expiredText: string;
+	expiredAction: string;
+	expiredUrl: string;
+	numberColor: string;
+	labelColor: string;
+	unitBg: string;
+	unitBorder: string;
+	styles: BlockStyles;
+	globalClasses: string[];
+	generatedCss: string;
+	blockVersion: number;
 }
 
 // ── Timezone options ─────────────────────────────────────────────────────────
@@ -63,7 +63,10 @@ const TIMEZONE_OPTIONS = [
 	{ label: 'Canada Pacific (Vancouver)', value: 'America/Vancouver' },
 	{ label: 'Mexico (Mexico City)', value: 'America/Mexico_City' },
 	{ label: 'Brazil (São Paulo)', value: 'America/Sao_Paulo' },
-	{ label: 'Argentina (Buenos Aires)', value: 'America/Argentina/Buenos_Aires' },
+	{
+		label: 'Argentina (Buenos Aires)',
+		value: 'America/Argentina/Buenos_Aires',
+	},
 	{ label: 'Chile (Santiago)', value: 'America/Santiago' },
 	{ label: 'Colombia (Bogotá)', value: 'America/Bogota' },
 	// Europe
@@ -111,11 +114,53 @@ const STYLE_OPTIONS = [
 		value: 'card',
 		label: __( 'Card', 'goblocks' ),
 		preview: (
-			<svg width="56" height="36" viewBox="0 0 56 36" fill="none" aria-hidden="true">
-				<rect x="1" y="4" width="24" height="28" rx="5" fill="white" stroke="#e2e8f0" strokeWidth="1.5"/>
-				<text x="13" y="22" textAnchor="middle" fontSize="12" fontWeight="900" fill="#4f46e5">00</text>
-				<rect x="30" y="4" width="24" height="28" rx="5" fill="white" stroke="#e2e8f0" strokeWidth="1.5"/>
-				<text x="42" y="22" textAnchor="middle" fontSize="12" fontWeight="900" fill="#4f46e5">00</text>
+			<svg
+				width="56"
+				height="36"
+				viewBox="0 0 56 36"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="1"
+					y="4"
+					width="24"
+					height="28"
+					rx="5"
+					fill="white"
+					stroke="#e2e8f0"
+					strokeWidth="1.5"
+				/>
+				<text
+					x="13"
+					y="22"
+					textAnchor="middle"
+					fontSize="12"
+					fontWeight="900"
+					fill="#4f46e5"
+				>
+					00
+				</text>
+				<rect
+					x="30"
+					y="4"
+					width="24"
+					height="28"
+					rx="5"
+					fill="white"
+					stroke="#e2e8f0"
+					strokeWidth="1.5"
+				/>
+				<text
+					x="42"
+					y="22"
+					textAnchor="middle"
+					fontSize="12"
+					fontWeight="900"
+					fill="#4f46e5"
+				>
+					00
+				</text>
 			</svg>
 		),
 	},
@@ -123,11 +168,55 @@ const STYLE_OPTIONS = [
 		value: 'flat',
 		label: __( 'Flat', 'goblocks' ),
 		preview: (
-			<svg width="56" height="36" viewBox="0 0 56 36" fill="none" aria-hidden="true">
-				<text x="13" y="22" textAnchor="middle" fontSize="14" fontWeight="900" fill="#4f46e5">00</text>
-				<text x="13" y="32" textAnchor="middle" fontSize="6" fontWeight="700" fill="#9ca3af" letterSpacing="1">DAYS</text>
-				<text x="42" y="22" textAnchor="middle" fontSize="14" fontWeight="900" fill="#4f46e5">00</text>
-				<text x="42" y="32" textAnchor="middle" fontSize="6" fontWeight="700" fill="#9ca3af" letterSpacing="1">HRS</text>
+			<svg
+				width="56"
+				height="36"
+				viewBox="0 0 56 36"
+				fill="none"
+				aria-hidden="true"
+			>
+				<text
+					x="13"
+					y="22"
+					textAnchor="middle"
+					fontSize="14"
+					fontWeight="900"
+					fill="#4f46e5"
+				>
+					00
+				</text>
+				<text
+					x="13"
+					y="32"
+					textAnchor="middle"
+					fontSize="6"
+					fontWeight="700"
+					fill="#9ca3af"
+					letterSpacing="1"
+				>
+					DAYS
+				</text>
+				<text
+					x="42"
+					y="22"
+					textAnchor="middle"
+					fontSize="14"
+					fontWeight="900"
+					fill="#4f46e5"
+				>
+					00
+				</text>
+				<text
+					x="42"
+					y="32"
+					textAnchor="middle"
+					fontSize="6"
+					fontWeight="700"
+					fill="#9ca3af"
+					letterSpacing="1"
+				>
+					HRS
+				</text>
 			</svg>
 		),
 	},
@@ -135,11 +224,49 @@ const STYLE_OPTIONS = [
 		value: 'bold',
 		label: __( 'Bold', 'goblocks' ),
 		preview: (
-			<svg width="56" height="36" viewBox="0 0 56 36" fill="none" aria-hidden="true">
-				<rect x="1" y="1" width="24" height="34" rx="5" fill="#4f46e5"/>
-				<text x="13" y="22" textAnchor="middle" fontSize="13" fontWeight="900" fill="white">00</text>
-				<rect x="30" y="1" width="24" height="34" rx="5" fill="#4f46e5"/>
-				<text x="42" y="22" textAnchor="middle" fontSize="13" fontWeight="900" fill="white">00</text>
+			<svg
+				width="56"
+				height="36"
+				viewBox="0 0 56 36"
+				fill="none"
+				aria-hidden="true"
+			>
+				<rect
+					x="1"
+					y="1"
+					width="24"
+					height="34"
+					rx="5"
+					fill="#4f46e5"
+				/>
+				<text
+					x="13"
+					y="22"
+					textAnchor="middle"
+					fontSize="13"
+					fontWeight="900"
+					fill="white"
+				>
+					00
+				</text>
+				<rect
+					x="30"
+					y="1"
+					width="24"
+					height="34"
+					rx="5"
+					fill="#4f46e5"
+				/>
+				<text
+					x="42"
+					y="22"
+					textAnchor="middle"
+					fontSize="13"
+					fontWeight="900"
+					fill="white"
+				>
+					00
+				</text>
 			</svg>
 		),
 	},
@@ -149,11 +276,18 @@ function StylePicker( {
 	value,
 	onChange,
 }: {
-	value:    string;
+	value: string;
 	onChange: ( v: string ) => void;
 } ) {
 	return (
-		<div style={ { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '6px', marginBottom: '12px' } }>
+		<div
+			style={ {
+				display: 'grid',
+				gridTemplateColumns: 'repeat(3,1fr)',
+				gap: '6px',
+				marginBottom: '12px',
+			} }
+		>
 			{ STYLE_OPTIONS.map( ( opt ) => {
 				const active = opt.value === value;
 				return (
@@ -163,20 +297,24 @@ function StylePicker( {
 						title={ opt.label }
 						onClick={ () => onChange( opt.value ) }
 						style={ {
-							display:       'flex',
+							display: 'flex',
 							flexDirection: 'column',
-							alignItems:    'center',
-							gap:           '4px',
-							padding:       '8px 4px 5px',
-							border:        active ? '2px solid #007cba' : '2px solid #ddd',
-							borderRadius:  '6px',
-							background:    active ? '#e8f4fb' : '#f9f9f9',
-							cursor:        'pointer',
-							color:         '#1e1e1e',
+							alignItems: 'center',
+							gap: '4px',
+							padding: '8px 4px 5px',
+							border: active
+								? '2px solid #007cba'
+								: '2px solid #ddd',
+							borderRadius: '6px',
+							background: active ? '#e8f4fb' : '#f9f9f9',
+							cursor: 'pointer',
+							color: '#1e1e1e',
 						} }
 					>
 						{ opt.preview }
-						<span style={ { fontSize: '10px', lineHeight: 1.2 } }>{ opt.label }</span>
+						<span style={ { fontSize: '10px', lineHeight: 1.2 } }>
+							{ opt.label }
+						</span>
 					</button>
 				);
 			} ) }
@@ -257,15 +395,15 @@ export function Edit( {
 	);
 
 	const numColor = numberColor || '#4f46e5';
-	const lblColor = labelColor  || '#9ca3af';
-	const bgColor  = unitBg     || '#ffffff';
-	const bdColor  = unitBorder || '#e2e8f0';
-	const cdStyle  = countdownStyle || 'card';
+	const lblColor = labelColor || '#9ca3af';
+	const bgColor = unitBg || '#ffffff';
+	const bdColor = unitBorder || '#e2e8f0';
+	const cdStyle = countdownStyle || 'card';
 
 	const countdownVars = {
-		'--gb-cd-color':  numColor,
-		'--gb-cd-label':  lblColor,
-		'--gb-cd-bg':     bgColor,
+		'--gb-cd-color': numColor,
+		'--gb-cd-label': lblColor,
+		'--gb-cd-bg': bgColor,
 		'--gb-cd-border': bdColor,
 	} as React.CSSProperties;
 
@@ -279,12 +417,13 @@ export function Edit( {
 
 	const blockProps = useBlockProps( {
 		className: wrapperClass,
-		style:     countdownVars,
+		style: countdownVars,
 	} );
 
 	// Which timezone label to show in the editor header
 	const tzLabel = timezone
-		? ( TIMEZONE_OPTIONS.find( ( o ) => o.value === timezone )?.label ?? timezone )
+		? TIMEZONE_OPTIONS.find( ( o ) => o.value === timezone )?.label ??
+		  timezone
 		: __( 'Browser local time', 'goblocks' );
 
 	/* ── Inspector: Style tab ─────────────────────────────────────────────── */
@@ -292,7 +431,10 @@ export function Edit( {
 		<>
 			{ /* ── Display Style ──────────────────────────────────────────── */ }
 			<PanelBody title={ __( 'Display Style', 'goblocks' ) } initialOpen>
-				<StylePicker value={ cdStyle } onChange={ ( v ) => setAttributes( { countdownStyle: v } ) } />
+				<StylePicker
+					value={ cdStyle }
+					onChange={ ( v ) => setAttributes( { countdownStyle: v } ) }
+				/>
 				<ToggleControl
 					label={ __( 'Show colon separators', 'goblocks' ) }
 					checked={ showSeparator }
@@ -303,41 +445,51 @@ export function Edit( {
 			</PanelBody>
 
 			{ /* ── Colors ───────────────────────────────────────────────── */ }
-			<PanelBody title={ __( 'Colors', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'Colors', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				{ /* Live unit preview */ }
 				<div
 					style={ {
-						display:        'flex',
+						display: 'flex',
 						justifyContent: 'center',
-						gap:            '8px',
-						padding:        '16px 12px',
-						background:     '#f8fafc',
-						borderRadius:   '10px',
-						marginBottom:   '16px',
-						border:         '1px solid #f1f5f9',
+						gap: '8px',
+						padding: '16px 12px',
+						background: '#f8fafc',
+						borderRadius: '10px',
+						marginBottom: '16px',
+						border: '1px solid #f1f5f9',
 					} }
 				>
 					{ [ 'Days', 'Hours', 'Min', 'Sec' ].map( ( lbl ) => (
 						<div
 							key={ lbl }
 							style={ {
-								display:       'flex',
+								display: 'flex',
 								flexDirection: 'column',
-								alignItems:    'center',
-								gap:           '4px',
-								minWidth:      '48px',
-								background:    cdStyle === 'bold' ? numColor : bgColor,
-								border:        cdStyle === 'flat' ? 'none' : `1px solid ${ bdColor }`,
-								borderRadius:  '8px',
-								padding:       '8px 6px 6px',
+								alignItems: 'center',
+								gap: '4px',
+								minWidth: '48px',
+								background:
+									cdStyle === 'bold' ? numColor : bgColor,
+								border:
+									cdStyle === 'flat'
+										? 'none'
+										: `1px solid ${ bdColor }`,
+								borderRadius: '8px',
+								padding: '8px 6px 6px',
 							} }
 						>
 							<span
 								style={ {
-									fontSize:          '1.25rem',
-									fontWeight:        900,
-									lineHeight:        1,
-									color:             cdStyle === 'bold' ? '#ffffff' : numColor,
+									fontSize: '1.25rem',
+									fontWeight: 900,
+									lineHeight: 1,
+									color:
+										cdStyle === 'bold'
+											? '#ffffff'
+											: numColor,
 									fontVariantNumeric: 'tabular-nums',
 								} }
 							>
@@ -345,11 +497,14 @@ export function Edit( {
 							</span>
 							<span
 								style={ {
-									fontSize:      '0.5rem',
-									fontWeight:    700,
+									fontSize: '0.5rem',
+									fontWeight: 700,
 									textTransform: 'uppercase',
 									letterSpacing: '0.08em',
-									color:         cdStyle === 'bold' ? 'rgba(255,255,255,0.75)' : lblColor,
+									color:
+										cdStyle === 'bold'
+											? 'rgba(255,255,255,0.75)'
+											: lblColor,
 								} }
 							>
 								{ lbl }
@@ -362,14 +517,18 @@ export function Edit( {
 					label={ __( 'Number Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ numColor }
-					onChange={ ( v ) => setAttributes( { numberColor: v || '#4f46e5' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { numberColor: v || '#4f46e5' } )
+					}
 				/>
 				<div style={ { height: '12px' } } />
 				<ColorControl
 					label={ __( 'Label Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ lblColor }
-					onChange={ ( v ) => setAttributes( { labelColor: v || '#9ca3af' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { labelColor: v || '#9ca3af' } )
+					}
 				/>
 				{ cdStyle !== 'bold' && (
 					<>
@@ -378,32 +537,54 @@ export function Edit( {
 							label={ __( 'Unit Background', 'goblocks' ) }
 							breakpoint={ responsive.activeBreakpoint }
 							value={ bgColor }
-							onChange={ ( v ) => setAttributes( { unitBg: v || '#ffffff' } ) }
+							onChange={ ( v ) =>
+								setAttributes( { unitBg: v || '#ffffff' } )
+							}
 						/>
 						<div style={ { height: '12px' } } />
 						<ColorControl
 							label={ __( 'Unit Border Color', 'goblocks' ) }
 							breakpoint={ responsive.activeBreakpoint }
 							value={ bdColor }
-							onChange={ ( v ) => setAttributes( { unitBorder: v || '#e2e8f0' } ) }
+							onChange={ ( v ) =>
+								setAttributes( { unitBorder: v || '#e2e8f0' } )
+							}
 						/>
 					</>
 				) }
 			</PanelBody>
 
 			{ /* ── Standard style panels ────────────────────────────────── */ }
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	/* ── Inspector: Advanced tab ──────────────────────────────────────────── */
 	const advancedContent = (
 		<>
-			<PanelBody title={ __( 'Countdown Settings', 'goblocks' ) } initialOpen>
+			<PanelBody
+				title={ __( 'Countdown Settings', 'goblocks' ) }
+				initialOpen
+			>
 				<TextControl
 					label={ __( 'Target Date & Time', 'goblocks' ) }
 					type="datetime-local"
@@ -415,7 +596,10 @@ export function Edit( {
 
 				<SelectControl
 					label={ __( 'Timezone', 'goblocks' ) }
-					help={ __( 'The timezone that the target date/time is set in.', 'goblocks' ) }
+					help={ __(
+						'The timezone that the target date/time is set in.',
+						'goblocks'
+					) }
 					value={ timezone }
 					options={ TIMEZONE_OPTIONS }
 					onChange={ ( v ) => setAttributes( { timezone: v } ) }
@@ -424,7 +608,13 @@ export function Edit( {
 				/>
 
 				{ timezone && (
-					<p style={ { margin: '4px 0 12px', fontSize: '11px', color: '#757575' } }>
+					<p
+						style={ {
+							margin: '4px 0 12px',
+							fontSize: '11px',
+							color: '#757575',
+						} }
+					>
 						{ `⏰ ${ tzLabel }` }
 					</p>
 				) }
@@ -459,14 +649,26 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'After Expiry', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'After Expiry', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<SelectControl
 					label={ __( 'Action when expired', 'goblocks' ) }
 					value={ expiredAction }
 					options={ [
-						{ label: __( 'Show message', 'goblocks' ), value: 'message' },
-						{ label: __( 'Redirect to URL', 'goblocks' ), value: 'redirect' },
-						{ label: __( 'Hide countdown', 'goblocks' ), value: 'hide' },
+						{
+							label: __( 'Show message', 'goblocks' ),
+							value: 'message',
+						},
+						{
+							label: __( 'Redirect to URL', 'goblocks' ),
+							value: 'redirect',
+						},
+						{
+							label: __( 'Hide countdown', 'goblocks' ),
+							value: 'hide',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { expiredAction: v } ) }
 					// @ts-ignore
@@ -476,7 +678,9 @@ export function Edit( {
 					<TextControl
 						label={ __( 'Expired Message', 'goblocks' ) }
 						value={ expiredText }
-						onChange={ ( v ) => setAttributes( { expiredText: v } ) }
+						onChange={ ( v ) =>
+							setAttributes( { expiredText: v } )
+						}
 						// @ts-ignore
 						__nextHasNoMarginBottom
 					/>
@@ -486,7 +690,10 @@ export function Edit( {
 						label={ __( 'Redirect URL', 'goblocks' ) }
 						value={ expiredUrl }
 						type="url"
-						help={ __( 'Visitors are redirected here when the countdown expires.', 'goblocks' ) }
+						help={ __(
+							'Visitors are redirected here when the countdown expires.',
+							'goblocks'
+						) }
 						onChange={ ( v ) => setAttributes( { expiredUrl: v } ) }
 						// @ts-ignore
 						__nextHasNoMarginBottom
@@ -494,12 +701,17 @@ export function Edit( {
 				) }
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -508,11 +720,36 @@ export function Edit( {
 		</>
 	);
 
-	const units: { show: boolean; value: string; label: string; key: string }[] = [
-		{ show: showDays,    value: '00', label: __( 'Days',    'goblocks' ), key: 'days'    },
-		{ show: showHours,   value: '00', label: __( 'Hours',   'goblocks' ), key: 'hours'   },
-		{ show: showMinutes, value: '00', label: __( 'Minutes', 'goblocks' ), key: 'minutes' },
-		{ show: showSeconds, value: '00', label: __( 'Seconds', 'goblocks' ), key: 'seconds' },
+	const units: {
+		show: boolean;
+		value: string;
+		label: string;
+		key: string;
+	}[] = [
+		{
+			show: showDays,
+			value: '00',
+			label: __( 'Days', 'goblocks' ),
+			key: 'days',
+		},
+		{
+			show: showHours,
+			value: '00',
+			label: __( 'Hours', 'goblocks' ),
+			key: 'hours',
+		},
+		{
+			show: showMinutes,
+			value: '00',
+			label: __( 'Minutes', 'goblocks' ),
+			key: 'minutes',
+		},
+		{
+			show: showSeconds,
+			value: '00',
+			label: __( 'Seconds', 'goblocks' ),
+			key: 'seconds',
+		},
 	].filter( ( u ) => u.show );
 
 	return (
@@ -526,14 +763,25 @@ export function Edit( {
 
 			<div { ...blockProps }>
 				{ units.map( ( u, idx ) => (
-					<>
-						<div key={ u.key } className={ `gb-countdown__unit gb-countdown__${ u.key }` }>
-							<CountdownUnit value={ u.value } label={ u.label } style={ cdStyle } />
+					<Fragment key={ u.key }>
+						<div
+							className={ `gb-countdown__unit gb-countdown__${ u.key }` }
+						>
+							<CountdownUnit
+								value={ u.value }
+								label={ u.label }
+								style={ cdStyle }
+							/>
 						</div>
 						{ showSeparator && idx < units.length - 1 && (
-							<span key={ `sep-${ idx }` } className="gb-countdown__sep" aria-hidden="true">:</span>
+							<span
+								className="gb-countdown__sep"
+								aria-hidden="true"
+							>
+								:
+							</span>
 						) }
-					</>
+					</Fragment>
 				) ) }
 			</div>
 		</>

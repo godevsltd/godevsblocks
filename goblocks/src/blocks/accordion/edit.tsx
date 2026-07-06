@@ -39,8 +39,14 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< AccordionBlockAttributes > ) {
-	const { uniqueId, styles, globalClasses, enableFaqSchema, allowMultiple, generatedCss } =
-		attributes;
+	const {
+		uniqueId,
+		styles,
+		globalClasses,
+		enableFaqSchema,
+		allowMultiple,
+		generatedCss,
+	} = attributes;
 
 	useEffect( () => {
 		if ( ! uniqueId ) {

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Svg Sanitizer.
+ *
+ * @package GoBlocks\Utils
+ */
+
 namespace GoBlocks\Utils;
 
 defined( 'ABSPATH' ) || exit;

@@ -14,17 +14,17 @@ import type { BlockStyles } from '../../../types/styles';
 // ── Types ─────────────────────────────────────────────────────────────────
 
 export interface SeparatorBlockAttributes {
-	uniqueId:      string;
-	lineStyle:     string;
-	label:         string;
-	styles:        BlockStyles;
+	uniqueId: string;
+	lineStyle: string;
+	label: string;
+	styles: BlockStyles;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 interface SeparatorInspectorProps {
-	attributes:    SeparatorBlockAttributes;
+	attributes: SeparatorBlockAttributes;
 	setAttributes: ( attrs: Partial< SeparatorBlockAttributes > ) => void;
 }
 
@@ -47,21 +47,21 @@ export function SeparatorInspector( {
 					label={ __( 'Line style', 'goblocks' ) }
 					value={ lineStyle ?? 'solid' }
 					options={ [
-						{ label: __( 'Solid',   'goblocks' ), value: 'solid'  },
-						{ label: __( 'Dashed',  'goblocks' ), value: 'dashed' },
-						{ label: __( 'Dotted',  'goblocks' ), value: 'dotted' },
-						{ label: __( 'Double',  'goblocks' ), value: 'double' },
+						{ label: __( 'Solid', 'goblocks' ), value: 'solid' },
+						{ label: __( 'Dashed', 'goblocks' ), value: 'dashed' },
+						{ label: __( 'Dotted', 'goblocks' ), value: 'dotted' },
+						{ label: __( 'Double', 'goblocks' ), value: 'double' },
 					] }
 					onChange={ ( v ) => setAttributes( { lineStyle: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
-			<SizingPanel    styles={ styles } responsive={ responsive } />
-			<SpacingPanel   styles={ styles } responsive={ responsive } />
+			<SizingPanel styles={ styles } responsive={ responsive } />
+			<SpacingPanel styles={ styles } responsive={ responsive } />
 			<BackgroundPanel styles={ styles } responsive={ responsive } />
-			<BorderPanel    styles={ styles } responsive={ responsive } />
-			<EffectsPanel   styles={ styles } responsive={ responsive } />
+			<BorderPanel styles={ styles } responsive={ responsive } />
+			<EffectsPanel styles={ styles } responsive={ responsive } />
 		</>
 	);
 
@@ -72,17 +72,26 @@ export function SeparatorInspector( {
 					label={ __( 'Center label', 'goblocks' ) }
 					value={ label ?? '' }
 					placeholder={ __( 'e.g. OR', 'goblocks' ) }
-					help={ __( 'Optional text centered on the line. Leave blank for a plain rule.', 'goblocks' ) }
+					help={ __(
+						'Optional text centered on the line. Leave blank for a plain rule.',
+						'goblocks'
+					) }
 					onChange={ ( v ) => setAttributes( { label: v } ) }
 					// @ts-ignore
 					__nextHasNoMarginBottom
 				/>
 			</PanelBody>
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
-					help={ __( 'Space-separated list of extra classes.', 'goblocks' ) }
+					help={ __(
+						'Space-separated list of extra classes.',
+						'goblocks'
+					) }
 					onChange={ ( v ) =>
 						setAttributes( {
 							globalClasses: v.split( /\s+/ ).filter( Boolean ),

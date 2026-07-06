@@ -1,4 +1,10 @@
 <?php
+/**
+ * Timeline Item.
+ *
+ * @package GoBlocks\Blocks
+ */
+
 namespace GoBlocks\Blocks;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,32 +16,56 @@ use WP_Block;
  */
 class TimelineItem extends BlockBase {
 
+	/**
+	 * Block slug used to register the block type.
+	 *
+	 * @return string
+	 */
 	public function get_name(): string {
 		return 'timeline-item';
 	}
 
+	/**
+	 * Sanitize a hex color attribute, falling back to a default.
+	 *
+	 * @param  mixed  $value   Raw attribute value.
+	 * @param  string $default Fallback hex color.
+	 * @return string          Sanitized hex color.
+	 */
 	private function safe_color( mixed $value, string $default ): string {
 		$sanitized = sanitize_hex_color( (string) ( $value ?? '' ) );
-		return $sanitized ?: $default;
+		return $sanitized ? $sanitized : $default;
 	}
 
+	/**
+	 * Render the block.
+	 *
+	 * @param  array<string, mixed> $attributes Block attributes.
+	 * @param  string               $content    Inner HTML content.
+	 * @param  \WP_Block            $block      Block instance.
+	 * @return string               Rendered HTML output.
+	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$unique_id = $this->get_unique_id( $attributes );
 
-		$date    = isset( $attributes['date'] )    ? wp_kses_post( $attributes['date'] )    : '';
-		$title   = isset( $attributes['title'] )   ? sanitize_text_field( $attributes['title'] ) : '';
-		$body    = isset( $attributes['content'] ) ? wp_kses_post( $attributes['content'] ) : '';
-		$icon    = isset( $attributes['icon'] )    ? sanitize_text_field( $attributes['icon'] )  : '';
+		$date  = isset( $attributes['date'] ) ? wp_kses_post( $attributes['date'] ) : '';
+		$title = isset( $attributes['title'] ) ? sanitize_text_field( $attributes['title'] ) : '';
+		$body  = isset( $attributes['content'] ) ? wp_kses_post( $attributes['content'] ) : '';
+		$icon  = isset( $attributes['icon'] ) ? sanitize_text_field( $attributes['icon'] ) : '';
 
-		$dot     = $this->safe_color( $attributes['dotColor']     ?? null, '#4f46e5' );
-		$ttl     = $this->safe_color( $attributes['titleColor']   ?? null, '#0f172a' );
-		$date_c  = $this->safe_color( $attributes['dateColor']    ?? null, '#4f46e5' );
-		$date_bg = $this->safe_color( $attributes['dateBg']       ?? null, '#ede9fe' );
+		$dot     = $this->safe_color( $attributes['dotColor'] ?? null, '#4f46e5' );
+		$ttl     = $this->safe_color( $attributes['titleColor'] ?? null, '#0f172a' );
+		$date_c  = $this->safe_color( $attributes['dateColor'] ?? null, '#4f46e5' );
+		$date_bg = $this->safe_color( $attributes['dateBg'] ?? null, '#ede9fe' );
 		$cnt     = $this->safe_color( $attributes['contentColor'] ?? null, '#475569' );
 
 		$css_vars = sprintf(
 			'--gb-ti-dot:%s;--gb-ti-title:%s;--gb-ti-date:%s;--gb-ti-date-bg:%s;--gb-ti-content:%s;',
-			$dot, $ttl, $date_c, $date_bg, $cnt
+			$dot,
+			$ttl,
+			$date_c,
+			$date_bg,
+			$cnt
 		);
 
 		$extra_classes = array( 'gb-timeline-item' );
@@ -53,13 +83,18 @@ class TimelineItem extends BlockBase {
 			? sprintf( '<span class="gb-timeline-item__dot-icon" aria-hidden="true">%s</span>', esc_html( $icon ) )
 			: '';
 
-		$dot_html  = sprintf( '<div class="gb-timeline-item__dot">%s</div>', $icon_html );
+		$dot_html = sprintf( '<div class="gb-timeline-item__dot">%s</div>', $icon_html );
 
-		$content_html = implode( '', array_filter( array(
-			$date  ? sprintf( '<span class="gb-timeline-item__date">%s</span>', $date )            : '',
-			$title ? sprintf( '<h3 class="gb-timeline-item__title">%s</h3>', esc_html( $title ) )  : '',
-			$body  ? sprintf( '<p class="gb-timeline-item__body">%s</p>', $body )                  : '',
-		) ) );
+		$content_html = implode(
+			'',
+			array_filter(
+				array(
+					$date ? sprintf( '<span class="gb-timeline-item__date">%s</span>', $date ) : '',
+					$title ? sprintf( '<h3 class="gb-timeline-item__title">%s</h3>', esc_html( $title ) ) : '',
+					$body ? sprintf( '<p class="gb-timeline-item__body">%s</p>', $body ) : '',
+				)
+			)
+		);
 
 		return sprintf(
 			'<div class="%s" style="%s">%s<div class="gb-timeline-item__content">%s</div></div>',

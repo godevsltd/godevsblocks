@@ -1,4 +1,10 @@
 <?php
+/**
+ * Settings Store.
+ *
+ * @package GoBlocks\Settings
+ */
+
 namespace GoBlocks\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -85,9 +91,9 @@ final class SettingsStore {
 				: 'file',
 
 			// Auth / REST context.
-			'nonce'   => wp_create_nonce( 'wp_rest' ),
-			'restUrl' => rest_url(),
-			'version' => defined( 'GOBLOCKS_VERSION' ) ? GOBLOCKS_VERSION : '',
+			'nonce'              => wp_create_nonce( 'wp_rest' ),
+			'restUrl'            => rest_url(),
+			'version'            => defined( 'GOBLOCKS_VERSION' ) ? GOBLOCKS_VERSION : '',
 		);
 	}
 

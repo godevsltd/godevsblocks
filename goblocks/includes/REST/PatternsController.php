@@ -1,4 +1,10 @@
 <?php
+/**
+ * Patterns Controller.
+ *
+ * @package GoBlocks\REST
+ */
+
 namespace GoBlocks\REST;
 
 defined( 'ABSPATH' ) || exit;
@@ -65,7 +71,7 @@ class PatternsController extends RestController {
 				continue;
 			}
 
-			$result[] = $this->format_pattern( $pattern ); // content always included
+			$result[] = $this->format_pattern( $pattern ); // Content always included.
 		}
 
 		return $this->success( $result );

@@ -70,8 +70,15 @@ export function Edit( {
 	setAttributes,
 	clientId,
 }: BlockEditProps< GroupBlockAttributes > ) {
-	const { uniqueId, tagName, styles, globalClasses, animationClass, generatedCss, layout } =
-		attributes;
+	const {
+		uniqueId,
+		tagName,
+		styles,
+		globalClasses,
+		animationClass,
+		generatedCss,
+		layout,
+	} = attributes;
 
 	// Assign uniqueId once on first insertion.
 	useEffect( () => {
@@ -94,6 +101,7 @@ export function Edit( {
 	const wrapperClass = clsx(
 		'gb-group',
 		uniqueId && `gb-group-${ uniqueId }`,
+		layout && layout !== 'default' && `gb-group--${ layout }`,
 		...( globalClasses ?? [] ),
 		animationClass || undefined
 	);
@@ -107,10 +115,6 @@ export function Edit( {
 	// Inner blocks props — makes this block a container.
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		renderAppender: InnerBlocks.ButtonBlockAppender,
-		template: [
-			[ 'goblocks/column', {} ],
-			[ 'goblocks/column', {} ],
-		],
 	} );
 
 	const Tag = ( tagName || 'div' ) as keyof JSX.IntrinsicElements;
@@ -137,6 +141,7 @@ export function Edit( {
 
 			{ /* Inspector Controls */ }
 			<GroupInspector
+				clientId={ clientId }
 				attributes={ attributes as any }
 				setAttributes={ setAttributes as any }
 			/>

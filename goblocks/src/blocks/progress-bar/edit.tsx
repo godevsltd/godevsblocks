@@ -23,23 +23,23 @@ import { EffectsPanel } from '../../components/panels/EffectsPanel';
 import type { BlockStyles } from '../../types/styles';
 
 interface ProgressBarBlockAttributes {
-	uniqueId:      string;
-	label:         string;
-	value:         number;
-	showLabel:     boolean;
-	showValue:     boolean;
-	fillColor:     string;
-	fillColor2:    string;
-	trackColor:    string;
-	barHeight:     number;
-	striped:       boolean;
-	easing:        string;
-	duration:      number;
+	uniqueId: string;
+	label: string;
+	value: number;
+	showLabel: boolean;
+	showValue: boolean;
+	fillColor: string;
+	fillColor2: string;
+	trackColor: string;
+	barHeight: number;
+	striped: boolean;
+	easing: string;
+	duration: number;
 	labelPosition: string;
-	styles:        BlockStyles;
+	styles: BlockStyles;
 	globalClasses: string[];
-	generatedCss:  string;
-	blockVersion:  number;
+	generatedCss: string;
+	blockVersion: number;
 }
 
 function makeUniqueId( clientId: string ): string {
@@ -89,15 +89,15 @@ export function Edit( {
 		setAttributes( { styles: patch.styles as BlockStyles } )
 	);
 
-	const fill1  = fillColor  || '#4f46e5';
-	const fill2  = fillColor2 || '#7c3aed';
-	const track  = trackColor || '#e5e7eb';
-	const height = barHeight  || 10;
+	const fill1 = fillColor || '#4f46e5';
+	const fill2 = fillColor2 || '#7c3aed';
+	const track = trackColor || '#e5e7eb';
+	const height = barHeight || 10;
 
 	const barVars = {
-		'--gb-bar-fill':   fill1,
-		'--gb-bar-fill2':  fill2,
-		'--gb-bar-track':  track,
+		'--gb-bar-fill': fill1,
+		'--gb-bar-fill2': fill2,
+		'--gb-bar-track': track,
 		'--gb-bar-height': `${ height }px`,
 	} as React.CSSProperties;
 
@@ -117,8 +117,12 @@ export function Edit( {
 
 	const headerContent = (
 		<>
-			{ showLabel && <span className="gb-progress__label">{ label }</span> }
-			{ showValue && <span className="gb-progress__value">{ value }%</span> }
+			{ showLabel && (
+				<span className="gb-progress__label">{ label }</span>
+			) }
+			{ showValue && (
+				<span className="gb-progress__value">{ value }%</span>
+			) }
 		</>
 	);
 	const hasHeader = showLabel || showValue;
@@ -127,11 +131,12 @@ export function Edit( {
 	const stylesContent = (
 		<>
 			<PanelBody title={ __( 'Bar Style', 'goblocks' ) } initialOpen>
-
 				<RangeControl
 					label={ __( 'Bar Height', 'goblocks' ) }
 					value={ height }
-					onChange={ ( v ) => setAttributes( { barHeight: v ?? 10 } ) }
+					onChange={ ( v ) =>
+						setAttributes( { barHeight: v ?? 10 } )
+					}
 					min={ 4 }
 					max={ 32 }
 					step={ 1 }
@@ -147,13 +152,17 @@ export function Edit( {
 						style={ {
 							height: `${ height }px`,
 							borderRadius: '999px',
-							background: fill1 === fill2
-								? fill1
-								: `linear-gradient(90deg, ${ fill1 } 0%, ${ fill2 } 100%)`,
+							background:
+								fill1 === fill2
+									? fill1
+									: `linear-gradient(90deg, ${ fill1 } 0%, ${ fill2 } 100%)`,
 							transition: 'background 200ms',
 						} }
 					/>
-					<p className="components-base-control__help" style={ { marginTop: '6px', marginBottom: 0 } }>
+					<p
+						className="components-base-control__help"
+						style={ { marginTop: '6px', marginBottom: 0 } }
+					>
 						{ __( 'Fill preview', 'goblocks' ) }
 					</p>
 				</div>
@@ -162,7 +171,9 @@ export function Edit( {
 					label={ __( 'Fill Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ fill1 }
-					onChange={ ( v ) => setAttributes( { fillColor: v || '#4f46e5' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { fillColor: v || '#4f46e5' } )
+					}
 				/>
 
 				<div style={ { height: '12px' } } />
@@ -171,8 +182,13 @@ export function Edit( {
 					label={ __( 'Fill Color End (gradient)', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ fill2 }
-					onChange={ ( v ) => setAttributes( { fillColor2: v || '#7c3aed' } ) }
-					help={ __( 'Set same as Fill Color for a solid bar.', 'goblocks' ) }
+					onChange={ ( v ) =>
+						setAttributes( { fillColor2: v || '#7c3aed' } )
+					}
+					help={ __(
+						'Set same as Fill Color for a solid bar.',
+						'goblocks'
+					) }
 				/>
 
 				<div style={ { height: '12px' } } />
@@ -181,16 +197,23 @@ export function Edit( {
 					label={ __( 'Track Color', 'goblocks' ) }
 					breakpoint={ responsive.activeBreakpoint }
 					value={ track }
-					onChange={ ( v ) => setAttributes( { trackColor: v || '#e5e7eb' } ) }
+					onChange={ ( v ) =>
+						setAttributes( { trackColor: v || '#e5e7eb' } )
+					}
 				/>
 
 				<div style={ { height: '12px' } } />
 
 				<ToggleControl
 					label={ __( 'Striped Fill', 'goblocks' ) }
-					help={ striped
-						? __( 'Diagonal stripe overlay is on.', 'goblocks' )
-						: __( 'Enable for a striped fill style.', 'goblocks' ) }
+					help={
+						striped
+							? __( 'Diagonal stripe overlay is on.', 'goblocks' )
+							: __(
+									'Enable for a striped fill style.',
+									'goblocks'
+							  )
+					}
 					checked={ striped }
 					onChange={ ( v ) => setAttributes( { striped: v } ) }
 					// @ts-ignore
@@ -202,7 +225,9 @@ export function Edit( {
 				<RangeControl
 					label={ __( 'Animation Duration (ms)', 'goblocks' ) }
 					value={ duration ?? 800 }
-					onChange={ ( v ) => setAttributes( { duration: v ?? 800 } ) }
+					onChange={ ( v ) =>
+						setAttributes( { duration: v ?? 800 } )
+					}
 					min={ 200 }
 					max={ 3000 }
 					step={ 100 }
@@ -216,10 +241,28 @@ export function Edit( {
 					label={ __( 'Animation Easing', 'goblocks' ) }
 					value={ easing ?? 'ease-out' }
 					options={ [
-						{ label: __( 'Ease out (smooth decelerate)', 'goblocks' ), value: 'ease-out'    },
-						{ label: __( 'Linear (constant speed)',       'goblocks' ), value: 'linear'      },
-						{ label: __( 'Ease in-out (S-curve)',         'goblocks' ), value: 'ease-in-out' },
-						{ label: __( 'Spring (slight overshoot)',     'goblocks' ), value: 'spring'      },
+						{
+							label: __(
+								'Ease out (smooth decelerate)',
+								'goblocks'
+							),
+							value: 'ease-out',
+						},
+						{
+							label: __( 'Linear (constant speed)', 'goblocks' ),
+							value: 'linear',
+						},
+						{
+							label: __( 'Ease in-out (S-curve)', 'goblocks' ),
+							value: 'ease-in-out',
+						},
+						{
+							label: __(
+								'Spring (slight overshoot)',
+								'goblocks'
+							),
+							value: 'spring',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { easing: v } ) }
 					// @ts-ignore
@@ -228,18 +271,36 @@ export function Edit( {
 			</PanelBody>
 
 			{ /* ── Standard style panels ──────────────────────────────────── */ }
-			<TypographyPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<SpacingPanel    styles={ styles as BlockStyles } responsive={ responsive } />
-			<BackgroundPanel styles={ styles as BlockStyles } responsive={ responsive } />
-			<BorderPanel     styles={ styles as BlockStyles } responsive={ responsive } />
-			<EffectsPanel    styles={ styles as BlockStyles } responsive={ responsive } />
+			<TypographyPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<SpacingPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BackgroundPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<BorderPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
+			<EffectsPanel
+				styles={ styles as BlockStyles }
+				responsive={ responsive }
+			/>
 		</>
 	);
 
 	/* ── Inspector: Advanced tab ──────────────────────────────────────────── */
 	const advancedContent = (
 		<>
-			<PanelBody title={ __( 'Progress Bar Settings', 'goblocks' ) } initialOpen>
+			<PanelBody
+				title={ __( 'Progress Bar Settings', 'goblocks' ) }
+				initialOpen
+			>
 				<RangeControl
 					label={ __( 'Value (%)', 'goblocks' ) }
 					value={ value }
@@ -276,9 +337,15 @@ export function Edit( {
 					label={ __( 'Label Position', 'goblocks' ) }
 					value={ labelPosition ?? 'top' }
 					options={ [
-						{ label: __( 'Above bar', 'goblocks' ),  value: 'top'    },
-						{ label: __( 'Inside bar', 'goblocks' ), value: 'inside' },
-						{ label: __( 'Below bar', 'goblocks' ),  value: 'bottom' },
+						{ label: __( 'Above bar', 'goblocks' ), value: 'top' },
+						{
+							label: __( 'Inside bar', 'goblocks' ),
+							value: 'inside',
+						},
+						{
+							label: __( 'Below bar', 'goblocks' ),
+							value: 'bottom',
+						},
 					] }
 					onChange={ ( v ) => setAttributes( { labelPosition: v } ) }
 					// @ts-ignore
@@ -286,12 +353,17 @@ export function Edit( {
 				/>
 			</PanelBody>
 
-			<PanelBody title={ __( 'CSS Classes', 'goblocks' ) } initialOpen={ false }>
+			<PanelBody
+				title={ __( 'CSS Classes', 'goblocks' ) }
+				initialOpen={ false }
+			>
 				<TextControl
 					label={ __( 'Additional CSS classes', 'goblocks' ) }
 					value={ ( globalClasses ?? [] ).join( ' ' ) }
 					onChange={ ( v ) =>
-						setAttributes( { globalClasses: v.split( /\s+/ ).filter( Boolean ) } )
+						setAttributes( {
+							globalClasses: v.split( /\s+/ ).filter( Boolean ),
+						} )
 					}
 					// @ts-ignore
 					__nextHasNoMarginBottom
@@ -311,11 +383,17 @@ export function Edit( {
 			aria-label={ label ? `${ label }: ${ value }%` : `${ value }%` }
 		>
 			{ labelPosition === 'inside' ? (
-				<div className="gb-progress__fill" style={ { width: `${ value }%` } }>
+				<div
+					className="gb-progress__fill"
+					style={ { width: `${ value }%` } }
+				>
 					{ hasHeader && headerContent }
 				</div>
 			) : (
-				<div className="gb-progress__fill" style={ { width: `${ value }%` } } />
+				<div
+					className="gb-progress__fill"
+					style={ { width: `${ value }%` } }
+				/>
 			) }
 		</div>
 	);
@@ -330,9 +408,13 @@ export function Edit( {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ labelPosition !== 'bottom' && labelPosition !== 'inside' && hasHeader && (
-					<div className="gb-progress__header">{ headerContent }</div>
-				) }
+				{ labelPosition !== 'bottom' &&
+					labelPosition !== 'inside' &&
+					hasHeader && (
+						<div className="gb-progress__header">
+							{ headerContent }
+						</div>
+					) }
 				{ trackEl }
 				{ labelPosition === 'bottom' && hasHeader && (
 					<div className="gb-progress__header">{ headerContent }</div>
