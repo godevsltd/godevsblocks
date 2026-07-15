@@ -1,0 +1,255 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REST API — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks REST API reference: all 14 endpoints for settings, styles, CSS cache, patterns, and block metadata.">
+<meta property="og:title" content="REST API — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/developer/rest-api.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="../index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Developer</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">REST API</span>
+      </nav>
+
+      <article class="prose">
+        <h1>REST API Reference</h1>
+        <p>GoBlocks registers <strong>14 REST API endpoints</strong> under the namespace <code>goblocks/v1</code>. All endpoints require the user to be authenticated and have the <code>manage_options</code> capability.</p>
+        <p><strong>Base URL:</strong> <code>/wp-json/goblocks/v1/</code></p>
+        <p><strong>Authentication:</strong> Include the WordPress REST nonce in the <code>X-WP-Nonce</code> request header. In the block editor, the nonce is available at <code>wpApiSettings.nonce</code>.</p>
+
+        <h2 id="settings-endpoints">Settings Endpoints</h2>
+
+        <h3 id="get-settings"><span class="badge badge-info">GET</span> <code>/settings</code></h3>
+        <p>Returns the full GoBlocks settings object.</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>{
+  "container_width": 1200,
+  "css_print_method": "file",
+  "sync_responsive": true,
+  "disable_google_fonts": false,
+  "enable_dark_mode": false,
+  "breakpoints": { "xs": 480, "sm": 640, "md": 768, "lg": 1024, "xl": 1280, "2xl": 1536 },
+  "global_color_palette": [],
+  "global_typography": []
+}</code></pre>
+
+        <h3 id="post-settings"><span class="badge badge-success">POST</span> <code>/settings</code></h3>
+        <p>Updates one or more settings. Only keys included in the request body are updated; omitted keys retain their current values.</p>
+        <p><strong>Request body:</strong></p>
+        <pre data-lang="json"><code>{
+  "container_width": 1440,
+  "css_print_method": "inline"
+}</code></pre>
+        <p><strong>Response:</strong> Updated full settings object.</p>
+
+        <h3 id="post-settings-reset"><span class="badge badge-warning">POST</span> <code>/settings/reset</code></h3>
+        <p>Resets all settings to their default values. No request body required.</p>
+        <p><strong>Response:</strong> Default settings object.</p>
+
+        <hr>
+
+        <h2 id="styles-endpoints">Global Styles Endpoints</h2>
+
+        <h3 id="get-styles"><span class="badge badge-info">GET</span> <code>/styles</code></h3>
+        <p>Returns the current global color palette and typography presets as a CSS custom property string ready to inject.</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>{
+  "css": ":root { --gb-color-primary: #3858E9; --gb-color-accent: #5CE0E6; }",
+  "palette": [ { "slug": "primary", "name": "Brand Blue", "color": "#3858E9" } ],
+  "typography": []
+}</code></pre>
+
+        <h3 id="post-styles"><span class="badge badge-success">POST</span> <code>/styles</code></h3>
+        <p>Updates the global color palette and/or typography presets.</p>
+        <p><strong>Request body:</strong></p>
+        <pre data-lang="json"><code>{
+  "palette": [
+    { "slug": "primary", "name": "Brand Blue", "color": "#3858E9" },
+    { "slug": "accent", "name": "Cyan", "color": "#5CE0E6" }
+  ]
+}</code></pre>
+        <p><strong>Response:</strong> Updated styles object.</p>
+
+        <hr>
+
+        <h2 id="css-cache-endpoints">CSS Cache Endpoints</h2>
+
+        <h3 id="get-css-cache"><span class="badge badge-info">GET</span> <code>/css/cache</code></h3>
+        <p>Returns information about the current CSS cache: total files, total size, and a list of cached post IDs.</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>{
+  "total_files": 42,
+  "total_size_bytes": 284672,
+  "cached_post_ids": [1, 5, 12, 42, 107]
+}</code></pre>
+
+        <h3 id="delete-css-cache"><span class="badge badge-danger">DELETE</span> <code>/css/cache</code></h3>
+        <p>Deletes all CSS cache files. CSS will be regenerated on the next frontend request for each page.</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>{ "deleted": 42 }</code></pre>
+
+        <h3 id="delete-css-cache-post"><span class="badge badge-danger">DELETE</span> <code>/css/cache/{post_id}</code></h3>
+        <p>Deletes the CSS cache file for a specific post ID.</p>
+        <p><strong>Path parameter:</strong> <code>{post_id}</code> — integer post ID</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>{ "deleted": true, "post_id": 42 }</code></pre>
+
+        <hr>
+
+        <h2 id="patterns-endpoints">Pattern Endpoints</h2>
+
+        <h3 id="get-patterns"><span class="badge badge-info">GET</span> <code>/patterns</code></h3>
+        <p>Returns a list of all registered GoBlocks patterns with their metadata (no block content).</p>
+        <p><strong>Response:</strong></p>
+        <pre data-lang="json"><code>[
+  {
+    "name": "goblocks/hero-centered",
+    "title": "Centered Hero",
+    "categories": ["goblocks"],
+    "keywords": ["hero", "header"]
+  }
+]</code></pre>
+
+        <h3 id="get-pattern"><span class="badge badge-info">GET</span> <code>/patterns/{name}</code></h3>
+        <p>Returns a single pattern by its registered name, including its full block content string.</p>
+        <p><strong>Path parameter:</strong> <code>{name}</code> — URL-encoded pattern name, e.g. <code>goblocks%2Fhero-centered</code></p>
+
+        <h3 id="post-patterns"><span class="badge badge-success">POST</span> <code>/patterns</code></h3>
+        <p>Registers a new pattern programmatically. Equivalent to <code>register_block_pattern()</code>.</p>
+        <p><strong>Request body:</strong></p>
+        <pre data-lang="json"><code>{
+  "name": "my-plugin/dark-hero",
+  "title": "Dark Hero",
+  "categories": ["goblocks"],
+  "content": "&lt;!-- wp:goblocks/group --&gt;…&lt;!-- /wp:goblocks/group --&gt;"
+}</code></pre>
+
+        <h3 id="delete-pattern"><span class="badge badge-danger">DELETE</span> <code>/patterns/{name}</code></h3>
+        <p>Unregisters a pattern. Equivalent to <code>unregister_block_pattern()</code>. Only patterns registered via the REST API can be deleted this way — built-in GoBlocks patterns cannot be removed.</p>
+
+        <hr>
+
+        <h2 id="blocks-endpoints">Block Metadata Endpoints</h2>
+
+        <h3 id="get-blocks"><span class="badge badge-info">GET</span> <code>/blocks</code></h3>
+        <p>Returns metadata for all 36 registered GoBlocks block types: name, title, description, category, and attribute schema.</p>
+        <p><strong>Response excerpt:</strong></p>
+        <pre data-lang="json"><code>[
+  {
+    "name": "goblocks/group",
+    "title": "Group",
+    "description": "A flexible layout container.",
+    "category": "goblocks",
+    "attributes": { "tag": { "type": "string", "default": "div" } }
+  }
+]</code></pre>
+
+        <h3 id="get-block"><span class="badge badge-info">GET</span> <code>/blocks/{name}</code></h3>
+        <p>Returns full metadata for a single block type.</p>
+        <p><strong>Path parameter:</strong> <code>{name}</code> — URL-encoded block name, e.g. <code>goblocks%2Fgroup</code></p>
+
+        <hr>
+
+        <h2 id="error-responses">Error Responses</h2>
+        <p>All endpoints return standard WordPress REST API error responses:</p>
+        <pre data-lang="json"><code>{
+  "code": "rest_forbidden",
+  "message": "Sorry, you are not allowed to do that.",
+  "data": { "status": 403 }
+}</code></pre>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>HTTP Status</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>200</td><td>Success</td></tr>
+              <tr><td>400</td><td>Bad request (invalid parameters)</td></tr>
+              <tr><td>401</td><td>Authentication required (not logged in)</td></tr>
+              <tr><td>403</td><td>Forbidden (logged in but lacks manage_options)</td></tr>
+              <tr><td>404</td><td>Resource not found (e.g. pattern name does not exist)</td></tr>
+              <tr><td>500</td><td>Server error (e.g. unable to write CSS file)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='developer/rest-api';window.GB_BASE='../';</script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/search-data.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developer Guide — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks developer guide: architecture overview, custom dynamic tags, query modification, CSS tokens, REST API, and building from source.">
+<meta property="og:title" content="Developer Guide — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/developer/guide.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="../index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Developer</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Developer Guide</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Developer Guide</h1>
+        <p>This guide covers GoBlocks's architecture, PHP extension points, CSS token system, REST API client usage, and the build process for contributing to the plugin.</p>
+
+        <h2 id="architecture">Architecture Overview</h2>
+        <pre data-lang="text"><code>goblocks/
+├── goblocks.php              Plugin entry point, version constants
+├── includes/
+│   ├── Core/
+│   │   └── Plugin.php        Bootstraps all systems on 'plugins_loaded'
+│   ├── Blocks/
+│   │   ├── BlockBase.php     Abstract render callback base class
+│   │   ├── Group.php         Per-block render classes extend BlockBase
+│   │   └── …
+│   ├── CSS/
+│   │   └── CssEnqueue.php   Per-page CSS file generation and enqueue
+│   ├── DynamicContent/
+│   │   └── TagParser.php     Dynamic tag resolver; reads goblocks_dynamic_tags filter
+│   ├── Patterns/
+│   │   └── PatternLibrary.php  Registers 41 patterns
+│   └── REST/
+│       └── RestController.php  14 REST endpoints
+├── src/
+│   └── blocks/               TypeScript / TSX block editor source (one dir per block)
+│       └── group/
+│           ├── block.json
+│           ├── edit.tsx
+│           ├── save.tsx
+│           └── index.ts
+└── assets/
+    ├── js/                   Compiled block editor and frontend scripts
+    └── css/                  Compiled editor stylesheets</code></pre>
+
+        <h2 id="custom-dynamic-tags">Adding Custom Dynamic Tags</h2>
+        <p>Register new tags via the <code>goblocks_dynamic_tags</code> filter. Each tag is a PHP callable keyed by its slug.</p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_dynamic_tags', function( array $tags ): array {
+    // {reading_time} — estimated reading time in minutes
+    $tags['reading_time'] = function( array $options, WP_Post $post ): string {
+        $words   = str_word_count( strip_tags( $post-&gt;post_content ) );
+        $minutes = (int) ceil( $words / 200 );
+        $suffix  = esc_html( $options['suffix'] ?? 'min read' );
+        return $minutes . ' ' . $suffix;
+    };
+
+    // {acf_field} — read an Advanced Custom Fields value
+    $tags['acf_field'] = function( array $options, WP_Post $post ): string {
+        if ( ! function_exists( 'get_field' ) ) {
+            return esc_html( $options['fallback'] ?? '' );
+        }
+        $key   = sanitize_key( $options['key'] ?? '' );
+        $value = get_field( $key, $post-&gt;ID );
+        return esc_html( $value ?: ( $options['fallback'] ?? '' ) );
+    };
+
+    return $tags;
+} );</code></pre>
+        <p>Usage in the editor:</p>
+        <pre data-lang="text"><code>{reading_time}
+{reading_time|suffix:minutes}
+{acf_field|key:product_sku|fallback:N/A}</code></pre>
+
+        <h2 id="query-modification">Modifying Query Block Arguments</h2>
+        <p>Use the <code>goblocks_query_args</code> filter to modify the <code>WP_Query</code> arguments for any Query block.</p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_query_args', function( array $args, array $block_attrs ): array {
+    // Only modify queries for a specific post type
+    if ( ( $args['post_type'] ?? '' ) === 'product' ) {
+        // Order WooCommerce products by menu_order (custom sort)
+        $args['orderby']   = 'menu_order';
+        $args['order']     = 'ASC';
+        // Only show featured products
+        $args['tax_query'] = [
+            [
+                'taxonomy' =&gt; 'product_visibility',
+                'field'    =&gt; 'name',
+                'terms'    =&gt; 'featured',
+            ],
+        ];
+    }
+    return $args;
+}, 10, 2 );</code></pre>
+
+        <h2 id="css-modification">Modifying Block CSS Output</h2>
+        <p>Use the <code>goblocks_block_css</code> filter to append or modify the CSS generated for any block.</p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_block_css', function( string $css, array $block, WP_Post $post ): string {
+    if ( $block['blockName'] !== 'goblocks/group' ) {
+        return $css;
+    }
+    // Append a print-specific style to every Group block
+    $uid = esc_attr( $block['attrs']['uid'] ?? '' );
+    $css .= "@media print { .gb-block-{$uid} { page-break-inside: avoid; } }";
+    return $css;
+}, 10, 3 );</code></pre>
+
+        <h2 id="custom-patterns">Registering Custom Patterns</h2>
+        <pre data-lang="php"><code>&lt;?php
+add_action( 'init', function(): void {
+    register_block_pattern(
+        'my-plugin/hero-dark',
+        [
+            'title'      =&gt; __( 'Dark Hero Section', 'my-plugin' ),
+            'categories' =&gt; [ 'goblocks' ], // appears in GoBlocks category
+            'content'    =&gt; '&lt;!-- wp:goblocks/group {"backgroundColor":"#17182B"} --&gt;…&lt;!-- /wp:goblocks/group --&gt;',
+        ]
+    );
+} );</code></pre>
+
+        <h2 id="css-tokens">CSS Token Reference</h2>
+        <p>GoBlocks uses a three-tier CSS custom property system. All properties start with <code>--gb-</code>.</p>
+        <p><strong>Tier 1 — Primitive tokens</strong> (raw values):</p>
+        <pre data-lang="css"><code>--gb-color-blue-500: #3858E9;
+--gb-color-cyan-400: #5CE0E6;
+--gb-space-4: 1rem;
+--gb-space-8: 2rem;
+--gb-radius-md: 8px;</code></pre>
+        <p><strong>Tier 2 — Semantic tokens</strong> (role-based, reference primitive tokens):</p>
+        <pre data-lang="css"><code>--gb-color-brand: var(--gb-color-blue-500);
+--gb-color-accent: var(--gb-color-cyan-400);
+--gb-color-surface: #ffffff;
+--gb-color-text: #17182B;
+--gb-container-site: 1200px;</code></pre>
+        <p><strong>Tier 3 — Component tokens</strong> (block-specific, reference semantic tokens):</p>
+        <pre data-lang="css"><code>--gb-btn-bg: var(--gb-color-brand);
+--gb-btn-radius: var(--gb-radius-md);
+--gb-card-shadow: 0 2px 16px rgba(0,0,0,.08);
+--gb-tab-active-color: var(--gb-color-brand);</code></pre>
+
+        <h2 id="settings-php">Accessing Settings in PHP</h2>
+        <pre data-lang="php"><code>&lt;?php
+$settings        = get_option( 'goblocks_settings', [] );
+$container_width = $settings['container_width'] ?? 1200;
+$css_method      = $settings['css_print_method'] ?? 'file';
+$palette         = $settings['global_color_palette'] ?? [];
+
+// Iterate the color palette
+foreach ( $palette as $color ) {
+    // $color['slug'], $color['name'], $color['color']
+    printf( '--gb-color-%s: %s;', esc_attr( $color['slug'] ), esc_attr( $color['color'] ) );
+}</code></pre>
+        <p>To use GoBlocks's settings class directly:</p>
+        <pre data-lang="php"><code>&lt;?php
+use GoBlocks\Core\Plugin;
+$settings = Plugin::get_settings(); // returns typed Settings object
+$width    = $settings-&gt;container_width;</code></pre>
+
+        <h2 id="rest-api-js">REST API Access from JavaScript</h2>
+        <pre data-lang="js"><code>const response = await fetch( '/wp-json/goblocks/v1/settings', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-WP-Nonce': wpApiSettings.nonce,
+  },
+} );
+const settings = await response.json();
+console.log( settings.container_width ); // 1200</code></pre>
+        <p>All endpoints require the user to be authenticated with <code>manage_options</code> capability. See <a href="rest-api.html">REST API Reference</a> for the full endpoint list.</p>
+
+        <h2 id="build-from-source">Build from Source</h2>
+        <h3>Prerequisites</h3>
+        <ul>
+          <li>Node.js 20+ and npm 10+</li>
+          <li>PHP 8.0+ and Composer</li>
+          <li>WP-CLI (for development environment management)</li>
+        </ul>
+        <h3>Setup</h3>
+        <pre data-lang="bash"><code>git clone https://github.com/godevsltd/goblocks.git
+cd goblocks
+
+# Install PHP dependencies
+composer install
+
+# Install JavaScript dependencies
+npm install</code></pre>
+        <h3>Build Commands</h3>
+        <pre data-lang="bash"><code># Development build with file watcher
+npm run start
+
+# Production build (minified, no source maps)
+npm run build
+
+# Type check TypeScript
+npm run type-check
+
+# Lint PHP (WPCS + PHPStan)
+composer run lint
+
+# Run PHP tests
+composer run test</code></pre>
+        <h3>Output</h3>
+        <p>Built JavaScript and CSS files are output to <code>assets/js/</code> and <code>assets/css/</code>. These compiled files are committed to the repository and are what gets distributed in the plugin ZIP.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='developer/guide';window.GB_BASE='../';</script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/search-data.js"></script>
+</body>
+</html>

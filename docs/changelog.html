@@ -1,0 +1,179 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks version history: release notes for every version including new blocks, improvements, and bug fixes.">
+<meta property="og:title" content="Changelog — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/changelog.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Reference</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Changelog</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Changelog</h1>
+        <p>All notable changes to GoBlocks are documented here. GoBlocks follows <a href="https://semver.org/" rel="noopener noreferrer">Semantic Versioning</a>. Security patches are released immediately as patch versions.</p>
+
+        <h2 id="v1-0-0">1.0.0 — 2026-07-01</h2>
+        <p><span class="badge badge-success">Initial Release</span></p>
+        <p>The first public release of GoBlocks on WordPress.org.</p>
+
+        <h3>36 New Blocks</h3>
+
+        <p><strong>Layout</strong></p>
+        <ul>
+          <li><strong>Group</strong> — Flexbox and CSS Grid container with any semantic HTML tag, background, border, shadow, and link mode</li>
+          <li><strong>Column</strong> — Independent column block for use inside a Group block</li>
+          <li><strong>Container</strong> — Max-width centering wrapper aligned to the global container width setting</li>
+        </ul>
+
+        <p><strong>Content</strong></p>
+        <ul>
+          <li><strong>Text</strong> — Rich-text paragraph with dynamic content tag support</li>
+          <li><strong>Heading</strong> — h1–h6 heading with gradient text support and dynamic content tags</li>
+          <li><strong>Button</strong> — CTA button/anchor with icon support, hover states, and ARIA label</li>
+          <li><strong>Image</strong> — Responsive image with dynamic src/alt, lazy loading, srcset/sizes</li>
+          <li><strong>Icon</strong> — Inline SVG icon with 112-icon built-in library across 13 categories</li>
+          <li><strong>Shape Divider</strong> — SVG decorative shapes (wave, triangle, slant, curve, zigzag) for section transitions</li>
+          <li><strong>Separator</strong> — Styled horizontal rule with width, thickness, color, and style</li>
+          <li><strong>Spacer</strong> — Fixed-height vertical spacer with per-breakpoint height</li>
+        </ul>
+
+        <p><strong>Interactive</strong></p>
+        <ul>
+          <li><strong>Tabs + Tab Panel</strong> — ARIA tablist/tab/tabpanel pattern; arrow key navigation; deep-linkable via hash</li>
+          <li><strong>Accordion + Accordion Item</strong> — Native <code>&lt;details&gt;/&lt;summary&gt;</code>; optional FAQ Schema; no JavaScript needed</li>
+          <li><strong>Modal</strong> — <code>&lt;dialog&gt;</code>-based; focus trap; Escape closes; focus returned to trigger on close</li>
+          <li><strong>Flip Card</strong> — Front/back flip on hover or click; horizontal or vertical direction</li>
+        </ul>
+
+        <p><strong>Media</strong></p>
+        <ul>
+          <li><strong>Video</strong> — YouTube, Vimeo, and self-hosted; lazy facade poster improves LCP</li>
+          <li><strong>Lottie Animation</strong> — JSON animation player with IntersectionObserver trigger</li>
+          <li><strong>Slider + Slide</strong> — Touch-enabled carousel; autoplay; responsive slides-per-view</li>
+        </ul>
+
+        <p><strong>Query &amp; Archive</strong></p>
+        <ul>
+          <li><strong>Query</strong> — Visual post query builder: post type, taxonomy, author, date range, order, exclusions</li>
+          <li><strong>Query Loop</strong> — Loop template container; all dynamic content tags supported</li>
+          <li><strong>No Results</strong> — Fallback content for empty query results</li>
+          <li><strong>Pagination</strong> — Standard, numbered, Load More (Ajax), and Infinite Scroll modes</li>
+          <li><strong>Navigation</strong> — Full site nav from a WordPress menu; hamburger mobile toggle; submenus with <code>aria-expanded</code></li>
+        </ul>
+
+        <p><strong>Showcase</strong></p>
+        <ul>
+          <li><strong>Counter</strong> — Animated counting number with IntersectionObserver trigger and <code>aria-live</code></li>
+          <li><strong>Progress Bar</strong> — Animated width fill with <code>role="progressbar"</code> ARIA</li>
+          <li><strong>Alert</strong> — Info / Success / Warning / Error variants with semantic ARIA roles</li>
+          <li><strong>Star Rating</strong> — 0–5 star display with optional Schema.org AggregateRating output</li>
+          <li><strong>Countdown</strong> — Live countdown timer; expired action: hide, message, or redirect</li>
+          <li><strong>Pricing Card</strong> — Plan name, price, billing period, feature list with CTA button and badge</li>
+          <li><strong>Social Share</strong> — Share links for Twitter/X, Facebook, LinkedIn, Pinterest, WhatsApp, Telegram, Email, Copy Link</li>
+          <li><strong>Table of Contents</strong> — Auto-generated page TOC from headings; sticky mode; smooth scroll</li>
+          <li><strong>Timeline + Timeline Item</strong> — Vertical timeline with alternating or single-column layout</li>
+        </ul>
+
+        <h3>41 Built-in Patterns</h3>
+        <p>Hero (3), Features / How-It-Works (2), Cards (2), Pricing (1), FAQ (1), Stats (1), CTA (1), Blog (2), Portfolio (1), Team (1), Testimonials (2), Newsletter (1), Contact (1), Logo Cloud (1).</p>
+
+        <h3>Core Systems</h3>
+        <ul>
+          <li><strong>Per-page CSS generation</strong> — Static CSS file per post; delta regeneration via block fingerprinting; cache-busting version query string</li>
+          <li><strong>CSS Design Token System</strong> — Three-tier <code>--gb-*</code> CSS custom property architecture: primitive / semantic / component</li>
+          <li><strong>Dynamic Content Tag System</strong> — 22 tags across Post Data, Author, Featured Image, Taxonomy, Site, and User categories; custom tag registration via <code>goblocks_dynamic_tags</code> filter</li>
+          <li><strong>Six-Breakpoint Responsive Controls</strong> — xs/sm/md/lg/xl/2xl; mobile-first; sync inheritance mode</li>
+          <li><strong>Global Styles</strong> — Color palette and typography presets registered as CSS custom properties and WordPress editor presets</li>
+          <li><strong>REST API</strong> — 14 endpoints under <code>/wp-json/goblocks/v1/</code> for settings, styles, CSS cache, patterns, and blocks</li>
+          <li><strong>WP-CLI commands</strong> — Cache clear, CSS regeneration, settings export/import</li>
+          <li><strong>WCAG 2.1 AA</strong> — Full ARIA implementation on all interactive blocks; keyboard navigation; focus management; prefers-reduced-motion support</li>
+          <li><strong>Full Site Editing</strong> — All blocks and patterns available in the Site Editor; theme.json integration; template-level CSS generation</li>
+          <li><strong>Multisite compatible</strong> — Independent CSS cache and settings per sub-site</li>
+          <li><strong>WordPress Plugin Check (PCP) compliant</strong> — Passes all automated WP.org plugin review checks</li>
+        </ul>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='changelog';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

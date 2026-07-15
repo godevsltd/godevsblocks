@@ -1,0 +1,423 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocks Reference — GoDevs Blocks Documentation</title>
+<meta name="description" content="All 36 GoBlocks blocks organized by category with descriptions, features, and usage examples.">
+<meta property="og:title" content="Blocks Reference — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/blocks.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Blocks Reference</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Blocks Reference</h1>
+        <p>GoBlocks registers <strong>36 blocks</strong> under the <code>goblocks</code> namespace. All blocks are available in the <strong>GoBlocks</strong> category in the block inserter and in the Site Editor.</p>
+
+        <h2 id="layout-blocks">Layout Blocks</h2>
+
+        <h3 id="group">Group <code>goblocks/group</code></h3>
+        <p>The primary layout container. Wraps child blocks in a <code>&lt;div&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, or <code>&lt;main&gt;</code> element. Supports both <strong>Flexbox</strong> and <strong>CSS Grid</strong> layout modes.</p>
+        <ul>
+          <li>Configurable semantic HTML tag</li>
+          <li>Flex: direction, wrap, alignment, justify-content, gap</li>
+          <li>Grid: columns, rows, auto-flow, gap</li>
+          <li>Background: solid color, gradient, image with overlay</li>
+          <li>Border, border-radius, box shadow, full responsive control on all spacing</li>
+          <li>Link mode: wraps the entire block in an <code>&lt;a&gt;</code> tag</li>
+          <li>Animation: fade-in, slide-up, etc. via data attribute</li>
+        </ul>
+
+        <h3 id="column">Column <code>goblocks/column</code></h3>
+        <p>A single column for use inside a Group block in flex or grid mode. Controls its own width, padding, and alignment independently of sibling columns.</p>
+        <ul>
+          <li>Column span in grid context</li>
+          <li>Flex grow / shrink / basis</li>
+          <li>Independent background, border, padding</li>
+        </ul>
+
+        <h3 id="container">Container <code>goblocks/container</code></h3>
+        <p>A max-width centering wrapper. Renders a <code>&lt;div&gt;</code> with <code>max-width</code> set to the <strong>Container Width</strong> from Settings (default: 1200px) and <code>margin: 0 auto</code>. Use inside a full-width Group to center page content.</p>
+        <ul>
+          <li>Respects the global container width setting</li>
+          <li>Can be overridden per-block for narrow or wide containers</li>
+          <li>Optional padding override</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="content-blocks">Content Blocks</h2>
+
+        <h3 id="text">Text <code>goblocks/text</code></h3>
+        <p>A rich-text paragraph block with full design token integration, dynamic content support, and typography tokens from the Global Styles panel. Supports <a href="dynamic-content.html">dynamic content tags</a> in content.</p>
+
+        <h3 id="heading">Heading <code>goblocks/heading</code></h3>
+        <p>Semantic heading block supporting <code>h1</code> through <code>h6</code>. All standard Typography controls plus gradient text support and dynamic content tags.</p>
+        <ul>
+          <li>Heading level selector (h1–h6)</li>
+          <li>Gradient text via <code>background-clip: text</code></li>
+          <li>Dynamic content in the heading text</li>
+          <li>Per-breakpoint font-size overrides</li>
+        </ul>
+
+        <h3 id="button">Button <code>goblocks/button</code></h3>
+        <p>A CTA button or anchor link. Renders as <code>&lt;a&gt;</code> (for links) or <code>&lt;button&gt;</code> (for non-navigational actions). Full styling control with hover state support via CSS custom properties.</p>
+        <ul>
+          <li>Href, target, rel attributes</li>
+          <li>Primary / secondary / outline style variants</li>
+          <li>Icon support (left or right of label)</li>
+          <li>ARIA label for accessibility</li>
+        </ul>
+
+        <h3 id="image">Image <code>goblocks/image</code></h3>
+        <p>A responsive image block with dynamic content support for <code>src</code> and <code>alt</code>, making it possible to show the post's featured image inside a Query Loop.</p>
+        <ul>
+          <li>Dynamic <code>src</code> from <code>{featured_image}</code> tag</li>
+          <li>Dynamic <code>alt</code> text</li>
+          <li>Object fit / object position, responsive width and aspect ratio</li>
+          <li>Outputs <code>loading="lazy"</code>, <code>srcset</code>, and <code>sizes</code> automatically</li>
+        </ul>
+
+        <h3 id="icon">Icon <code>goblocks/icon</code></h3>
+        <p>An inline SVG icon block with a built-in visual picker of 112 icons across 13 categories: UI, Arrows, Communication, People, Files, Media, Commerce, Location, Sharing, Social, Time, Misc.</p>
+        <ul>
+          <li>Stroke / fill / both color controls</li>
+          <li>Configurable size (responsive)</li>
+          <li>Optional link wrapping</li>
+        </ul>
+
+        <h3 id="shape">Shape Divider <code>goblocks/shape</code></h3>
+        <p>Decorative SVG shapes for section transitions. Positioned at the top or bottom edge of a container.</p>
+        <ul>
+          <li>Multiple shape presets: wave, triangle, slant, curve, zigzag</li>
+          <li>Flip horizontally / vertically</li>
+          <li>Responsive height</li>
+        </ul>
+
+        <h3 id="separator">Separator <code>goblocks/separator</code></h3>
+        <p>A styled horizontal rule (<code>&lt;hr&gt;</code>) with more configuration than WordPress's core Separator: width, thickness, color, and style (solid, dashed, dotted, double).</p>
+
+        <h3 id="spacer">Spacer <code>goblocks/spacer</code></h3>
+        <p>A fixed-height vertical spacer with per-breakpoint height, so it can collapse on mobile or expand on desktop. Min-height / max-height constraints supported.</p>
+
+        <hr>
+
+        <h2 id="interactive-blocks">Interactive Blocks</h2>
+
+        <h3 id="tabs">Tabs <code>goblocks/tabs</code></h3>
+        <p>An ARIA-compliant tabbed interface following the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" rel="noopener noreferrer">ARIA Tabs Pattern</a>. Arrow keys move between tabs, Home/End jump to first/last, Enter/Space activates.</p>
+        <ul>
+          <li>Any number of tabs</li>
+          <li>Orientation: horizontal or vertical</li>
+          <li>Alignment: left, center, right</li>
+          <li>Custom active tab color tokens</li>
+          <li>Deep-linkable via URL hash</li>
+        </ul>
+        <p>Generates <code>role="tablist"</code>, <code>role="tab"</code>, <code>role="tabpanel"</code>, <code>aria-selected</code>, <code>aria-controls</code>, <code>aria-labelledby</code> automatically.</p>
+
+        <h3 id="tab-panel">Tab Panel <code>goblocks/tab-panel</code></h3>
+        <p>A single panel within a Tabs block. Contains any child blocks. Insert Tab Panel blocks directly inside the Tabs block via the block inserter.</p>
+
+        <h3 id="accordion">Accordion <code>goblocks/accordion</code></h3>
+        <p>A disclosure widget built on native <code>&lt;details&gt;/&lt;summary&gt;</code> HTML elements — <strong>no JavaScript required</strong> for the expand/collapse behavior.</p>
+        <ul>
+          <li>Native <code>&lt;details&gt;/&lt;summary&gt;</code> — works without JS</li>
+          <li>Optional FAQ schema markup (<code>schema.org/FAQPage</code>)</li>
+          <li>Animation on open/close via CSS transition</li>
+          <li>Allow one open at a time (exclusive) mode</li>
+        </ul>
+        <blockquote><p><strong>SEO:</strong> Enable <strong>FAQ Schema</strong> in the block Inspector to output structured data that Google can show as rich results in search.</p></blockquote>
+
+        <h3 id="accordion-item">Accordion Item <code>goblocks/accordion-item</code></h3>
+        <p>A single question/answer pair within an Accordion. The summary (question) is rendered as <code>&lt;summary&gt;</code>, the content (answer) can contain any child blocks.</p>
+
+        <h3 id="modal">Modal <code>goblocks/modal</code></h3>
+        <p>A dialog overlay triggered by a button click. Renders content inside a <code>&lt;dialog&gt;</code> element with proper focus management.</p>
+        <ul>
+          <li>Trigger button fully customizable</li>
+          <li>Backdrop click closes modal</li>
+          <li>Keyboard: Escape closes, Tab is trapped inside while open</li>
+          <li>Accessible: <code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code></li>
+        </ul>
+
+        <h3 id="flip-card">Flip Card <code>goblocks/flip-card</code></h3>
+        <p>A card with a front face and a back face that flips on hover or click.</p>
+        <ul>
+          <li>Flip direction: horizontal or vertical</li>
+          <li>Trigger: hover or click</li>
+          <li>Independent front/back backgrounds and content</li>
+          <li>ARIA toggle for keyboard users</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="media-blocks">Media Blocks</h2>
+
+        <h3 id="video">Video <code>goblocks/video</code></h3>
+        <p>A video embed block supporting YouTube, Vimeo, and self-hosted MP4/WebM. Includes a lazy-load facade (poster image) that defers the video iframe until user interaction, improving Core Web Vitals.</p>
+        <ul>
+          <li>YouTube and Vimeo embed support (auto-extracts ID from URL)</li>
+          <li>Self-hosted video via <code>&lt;video&gt;</code> element</li>
+          <li>Lazy facade: shows poster image, loads iframe on click</li>
+          <li>Aspect ratio control, autoplay, loop, mute (self-hosted)</li>
+        </ul>
+
+        <h3 id="lottie">Lottie Animation <code>goblocks/lottie</code></h3>
+        <p>Renders a Lottie JSON animation file hosted on your server or via URL.</p>
+        <ul>
+          <li>URL or media library JSON source</li>
+          <li>Autoplay, loop, speed controls</li>
+          <li>Play on viewport entry (IntersectionObserver)</li>
+          <li>Responsive width</li>
+        </ul>
+
+        <h3 id="slider">Slider <code>goblocks/slider</code></h3>
+        <p>A touch-enabled slide carousel.</p>
+        <ul>
+          <li>Autoplay with configurable interval</li>
+          <li>Navigation arrows and dot indicators (optional)</li>
+          <li>Responsive slides-per-view</li>
+          <li>Loop mode, keyboard navigation between slides</li>
+        </ul>
+
+        <h3 id="slide">Slide <code>goblocks/slide</code></h3>
+        <p>A single slide within a Slider block. Contains any child blocks. Insert Slide blocks directly inside the Slider block.</p>
+
+        <hr>
+
+        <h2 id="query-blocks">Query &amp; Archive Blocks</h2>
+
+        <h3 id="query">Query <code>goblocks/query</code></h3>
+        <p>A visual post query builder replacing WordPress's core Query Loop block with a richer filtering interface. Configure the query entirely from the block Inspector — no code required.</p>
+        <p><strong>Filter options:</strong> Post type, Taxonomy / term, Author, Date range, Post status, Posts per page, Orderby and order, Exclude current post.</p>
+        <p>Fully customizable via the <code>goblocks_query_args</code> filter. See <a href="developer/hooks-filters.html">Hooks &amp; Filters</a>.</p>
+
+        <h3 id="query-loop">Query Loop <code>goblocks/query-loop</code></h3>
+        <p>The loop template rendered inside the Query block. Contains any child blocks — typically Image, Heading, Text, and Button blocks using dynamic content tags.</p>
+        <pre data-lang="text"><code>{post_title}            — displays the title of each post
+{post_date|format:M j, Y} — displays the date formatted
+{post_excerpt}          — displays the excerpt
+{featured_image|size:medium} — displays the featured image</code></pre>
+
+        <h3 id="no-results">No Results <code>goblocks/query-no-results</code></h3>
+        <p>Fallback content shown when the Query block returns zero posts. Contains any child blocks. Typical use: a friendly "No posts found" message with a search form.</p>
+
+        <h3 id="pagination">Pagination <code>goblocks/pagination</code></h3>
+        <p>Pagination for the Query block with four modes:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mode</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Standard</strong></td><td>Previous / Next page links</td></tr>
+              <tr><td><strong>Numbered</strong></td><td>Page number links (1, 2, 3 …)</td></tr>
+              <tr><td><strong>Load More</strong></td><td>Ajax button that appends posts without a full reload</td></tr>
+              <tr><td><strong>Infinite Scroll</strong></td><td>Posts load automatically as the user scrolls</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="navigation">Navigation <code>goblocks/navigation</code></h3>
+        <p>A full site navigation menu block with mobile hamburger toggle, mega menu support, and submenu chevron indicators.</p>
+        <ul>
+          <li>Renders from a WordPress nav menu</li>
+          <li>Responsive: hamburger toggle on mobile</li>
+          <li>Submenu support with <code>aria-expanded</code> toggle</li>
+          <li>Sticky / fixed positioning option</li>
+          <li>Logo + menu + CTA button layout</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="showcase-blocks">Showcase Blocks</h2>
+
+        <h3 id="counter">Counter <code>goblocks/counter</code></h3>
+        <p>An animated number counter that counts up when it enters the viewport via IntersectionObserver.</p>
+        <ul>
+          <li>Start and end values, duration, prefix and suffix (e.g., <code>$</code> / <code>+</code> / <code>%</code>)</li>
+          <li>Easing: linear or ease-out</li>
+          <li><code>aria-live="polite"</code> announces final value to screen readers</li>
+        </ul>
+
+        <h3 id="progress-bar">Progress Bar <code>goblocks/progress-bar</code></h3>
+        <p>An animated horizontal progress bar that animates on viewport entry.</p>
+        <ul>
+          <li>Configurable percentage value, label (inside or above), color (solid or gradient)</li>
+          <li>ARIA: <code>role="progressbar"</code>, <code>aria-valuenow</code>, <code>aria-valuemax</code></li>
+        </ul>
+
+        <h3 id="alert">Alert <code>goblocks/alert</code></h3>
+        <p>A contextual notification banner with four variants: <strong>Info</strong>, <strong>Success</strong>, <strong>Warning</strong>, <strong>Error</strong>. Each maps to semantic color tokens and an appropriate ARIA role (<code>role="alert"</code> for errors).</p>
+        <ul>
+          <li>Icon (optional, auto-matched to variant)</li>
+          <li>Dismissible (close button) mode</li>
+          <li>Bordered or filled style</li>
+        </ul>
+
+        <h3 id="star-rating">Star Rating <code>goblocks/star-rating</code></h3>
+        <p>A visual star rating display (read-only). Rating value from 0.0 to 5.0 with half-star support. Optional Schema.org <code>AggregateRating</code> structured data output.</p>
+
+        <h3 id="countdown">Countdown <code>goblocks/countdown</code></h3>
+        <p>A live countdown timer to a target date and time.</p>
+        <ul>
+          <li>Target date/time picker with timezone support</li>
+          <li>Display: days, hours, minutes, seconds (any combination)</li>
+          <li>Expired action: hide block, show message, or redirect URL</li>
+          <li>Labels for each unit (localizable)</li>
+        </ul>
+
+        <h3 id="pricing">Pricing Card <code>goblocks/pricing</code></h3>
+        <p>A structured pricing tier card with plan name, price, billing period, feature list with checkmarks, highlighted / featured tier style, built-in CTA button, and "Most popular" badge.</p>
+
+        <h3 id="social-share">Social Share <code>goblocks/social-share</code></h3>
+        <p>Generates social sharing links for the current page. Supported platforms: Twitter/X, Facebook, LinkedIn, Pinterest, WhatsApp, Telegram, Email, Copy Link.</p>
+        <ul>
+          <li>Icon-only, icon + label, or label-only style</li>
+          <li>Circle or rounded-square icon shape</li>
+          <li>URL is dynamically resolved from the current post permalink</li>
+        </ul>
+
+        <h3 id="toc">Table of Contents <code>goblocks/table-of-contents</code></h3>
+        <p>Auto-generates a linked table of contents from the headings on the current page.</p>
+        <ul>
+          <li>Heading level range (e.g., h2–h4 only)</li>
+          <li>Smooth scroll to anchor, sticky position mode</li>
+          <li>Collapsible on mobile, numbered or bulleted list style</li>
+        </ul>
+
+        <h3 id="timeline">Timeline <code>goblocks/timeline</code></h3>
+        <p>A vertical timeline layout with alternating left/right or single-column layout. Connector line styling: color, style, width. Contains Timeline Item child blocks.</p>
+
+        <h3 id="timeline-item">Timeline Item <code>goblocks/timeline-item</code></h3>
+        <p>A single event in a Timeline block. Features: Date / label, Icon or marker dot, Content (any child blocks), Animation on viewport entry.</p>
+
+        <hr>
+
+        <h2 id="quick-table">Block Reference Quick Table</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Block</th><th>Namespace name</th><th>Frontend JS?</th></tr></thead>
+            <tbody>
+              <tr><td>Accordion</td><td><code>goblocks/accordion</code></td><td>No (native <code>&lt;details&gt;</code>)</td></tr>
+              <tr><td>Accordion Item</td><td><code>goblocks/accordion-item</code></td><td>No</td></tr>
+              <tr><td>Alert</td><td><code>goblocks/alert</code></td><td>No</td></tr>
+              <tr><td>Button</td><td><code>goblocks/button</code></td><td>No</td></tr>
+              <tr><td>Column</td><td><code>goblocks/column</code></td><td>No</td></tr>
+              <tr><td>Container</td><td><code>goblocks/container</code></td><td>No</td></tr>
+              <tr><td>Countdown</td><td><code>goblocks/countdown</code></td><td>Yes (~1 KB)</td></tr>
+              <tr><td>Counter</td><td><code>goblocks/counter</code></td><td>Yes (~1 KB)</td></tr>
+              <tr><td>Flip Card</td><td><code>goblocks/flip-card</code></td><td>Yes (~500 B)</td></tr>
+              <tr><td>Group</td><td><code>goblocks/group</code></td><td>No</td></tr>
+              <tr><td>Heading</td><td><code>goblocks/heading</code></td><td>No</td></tr>
+              <tr><td>Icon</td><td><code>goblocks/icon</code></td><td>No</td></tr>
+              <tr><td>Image</td><td><code>goblocks/image</code></td><td>No</td></tr>
+              <tr><td>Lottie Animation</td><td><code>goblocks/lottie</code></td><td>Yes (Lottie player)</td></tr>
+              <tr><td>Modal</td><td><code>goblocks/modal</code></td><td>Yes (~1 KB)</td></tr>
+              <tr><td>Navigation</td><td><code>goblocks/navigation</code></td><td>Yes (~2 KB)</td></tr>
+              <tr><td>No Results</td><td><code>goblocks/query-no-results</code></td><td>No</td></tr>
+              <tr><td>Pagination</td><td><code>goblocks/pagination</code></td><td>Yes (load-more mode)</td></tr>
+              <tr><td>Pricing Card</td><td><code>goblocks/pricing</code></td><td>No</td></tr>
+              <tr><td>Progress Bar</td><td><code>goblocks/progress-bar</code></td><td>Yes (~500 B)</td></tr>
+              <tr><td>Query</td><td><code>goblocks/query</code></td><td>No</td></tr>
+              <tr><td>Query Loop</td><td><code>goblocks/query-loop</code></td><td>No</td></tr>
+              <tr><td>Separator</td><td><code>goblocks/separator</code></td><td>No</td></tr>
+              <tr><td>Shape Divider</td><td><code>goblocks/shape</code></td><td>No</td></tr>
+              <tr><td>Slide</td><td><code>goblocks/slide</code></td><td>No</td></tr>
+              <tr><td>Slider</td><td><code>goblocks/slider</code></td><td>Yes (~3 KB)</td></tr>
+              <tr><td>Social Share</td><td><code>goblocks/social-share</code></td><td>No</td></tr>
+              <tr><td>Spacer</td><td><code>goblocks/spacer</code></td><td>No</td></tr>
+              <tr><td>Star Rating</td><td><code>goblocks/star-rating</code></td><td>No</td></tr>
+              <tr><td>Tab Panel</td><td><code>goblocks/tab-panel</code></td><td>No</td></tr>
+              <tr><td>Table of Contents</td><td><code>goblocks/table-of-contents</code></td><td>Yes (~1 KB)</td></tr>
+              <tr><td>Tabs</td><td><code>goblocks/tabs</code></td><td>Yes (~1 KB)</td></tr>
+              <tr><td>Text</td><td><code>goblocks/text</code></td><td>No</td></tr>
+              <tr><td>Timeline</td><td><code>goblocks/timeline</code></td><td>No</td></tr>
+              <tr><td>Timeline Item</td><td><code>goblocks/timeline-item</code></td><td>No</td></tr>
+              <tr><td>Video</td><td><code>goblocks/video</code></td><td>Yes (lazy facade)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p>Scripts are enqueued conditionally — only when the block is present on the page.</p></blockquote>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='blocks';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

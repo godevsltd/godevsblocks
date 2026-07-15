@@ -1,0 +1,199 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — GoDevs Blocks Documentation</title>
+<meta name="description" content="Frequently asked questions about GoBlocks: blocks, patterns, styling, dynamic content, performance, and third-party compatibility.">
+<meta property="og:title" content="FAQ — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/faq.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Reference</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">FAQ</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Frequently Asked Questions</h1>
+
+        <h2 id="general">General</h2>
+
+        <h3 id="faq-cost">Is GoBlocks free?</h3>
+        <p>Yes. GoBlocks is free and open source, licensed under <strong>GPL-2.0-or-later</strong>. It is available on WordPress.org and all features documented here are included at no cost.</p>
+
+        <h3 id="faq-theme">Does GoBlocks require a specific theme?</h3>
+        <p>No. GoBlocks works with any WordPress theme that runs WordPress 6.5+. For the <a href="fse.html">Site Editor</a> and template editing, a Full Site Editing (block theme) is required.</p>
+
+        <h3 id="faq-classic-editor">Does GoBlocks work with the Classic Editor plugin?</h3>
+        <p>No. GoBlocks blocks are registered for the block editor (Gutenberg). The Classic Editor plugin disables the block editor, making GoBlocks blocks unavailable for editing. The blocks will still render on the frontend if content was saved before switching to the Classic Editor.</p>
+
+        <h3 id="faq-elementor">Can I use GoBlocks alongside Elementor or Divi?</h3>
+        <p>GoBlocks is a Gutenberg block plugin and does not conflict with Elementor or Divi at the PHP level. However, Elementor and Divi replace the WordPress block editor with their own builders. GoBlocks blocks are not available in those builders — they are only available in the WordPress block editor.</p>
+
+        <h3 id="faq-multisite">Does GoBlocks support WordPress Multisite?</h3>
+        <p>Yes. GoBlocks is fully multisite-compatible. Each site in the network has its own settings and CSS cache. See <a href="installation.html#multisite">Installation → Multisite</a> for details.</p>
+
+        <hr>
+
+        <h2 id="blocks-faq">Blocks</h2>
+
+        <h3 id="faq-insert-blocks">How do I find GoBlocks blocks in the editor?</h3>
+        <p>Click the <strong>+</strong> block inserter. Scroll to the <strong>GoBlocks</strong> category, or type <code>gb</code> in the search field to filter all GoBlocks blocks.</p>
+
+        <h3 id="faq-nest">Can I nest GoBlocks blocks inside core WordPress blocks?</h3>
+        <p>Yes, in most cases. GoBlocks Group, Column, and Container blocks accept any child block including core blocks. Core blocks like the Group or Columns block also accept GoBlocks blocks as children.</p>
+
+        <h3 id="faq-custom-block">Can I create my own block?</h3>
+        <p>GoBlocks provides a framework for extending blocks via PHP filters. To add an entirely custom block type, use the standard WordPress block registration API (<code>register_block_type()</code>) — this is independent of GoBlocks.</p>
+
+        <h3 id="faq-tabs-hash">Can I deep-link to a specific tab?</h3>
+        <p>Yes. Add a URL hash that matches the tab's ID (set in the Tab Panel's Advanced settings). When the page loads with a matching hash, the corresponding tab is activated automatically.</p>
+
+        <h3 id="faq-accordion-open">How do I keep an accordion item open by default?</h3>
+        <p>Select the Accordion Item block, open the Inspector, and enable <strong>Open by default</strong>. This sets the <code>open</code> attribute on the <code>&lt;details&gt;</code> element.</p>
+
+        <hr>
+
+        <h2 id="patterns-faq">Patterns</h2>
+
+        <h3 id="faq-edit-pattern">How do I edit a GoBlocks pattern after inserting it?</h3>
+        <p>Click any element inside the inserted pattern to select it, then use the Inspector to modify it. Pattern content is immediately editable after insertion — the original GoBlocks pattern is not modified.</p>
+
+        <h3 id="faq-custom-pattern">Can I create my own patterns?</h3>
+        <p>Yes. Build a layout in the editor → right-click a block → <strong>Create pattern</strong>. Or register patterns in PHP using <code>register_block_pattern()</code>. See <a href="developer/guide.html#custom-patterns">Developer Guide → Custom Patterns</a>.</p>
+
+        <h3 id="faq-pattern-not-showing">My pattern isn't showing in the pattern library. Why?</h3>
+        <p>Ensure your pattern is assigned to the <code>goblocks</code> or another registered category. Unassigned patterns may appear under <strong>Uncategorized</strong> in the inserter.</p>
+
+        <hr>
+
+        <h2 id="styling-faq">Styling</h2>
+
+        <h3 id="faq-global-styles">What is the difference between GoBlocks Global Styles and the theme's Global Styles?</h3>
+        <p>WordPress's Global Styles (the paintbrush icon in the editor) applies to all blocks site-wide via <code>theme.json</code>. GoBlocks's Global Styles (in GoBlocks → Global Styles) applies specifically to GoBlocks blocks and registers colors and typography as CSS custom properties with the <code>--gb-*</code> prefix. On FSE themes, both systems are accessible from the same Global Styles panel.</p>
+
+        <h3 id="faq-custom-css">Can I add custom CSS to a block?</h3>
+        <p>Yes. Every GoBlocks block has an <strong>Advanced → Additional CSS class</strong> field where you can add one or more custom class names. You can then style those classes in your theme's stylesheet or the WordPress Customizer's Additional CSS field.</p>
+
+        <h3 id="faq-css-not-applying">My CSS changes are not appearing on the frontend. Why?</h3>
+        <p>The most common cause is a stale CSS cache. Go to <strong>GoBlocks → Settings → Clear CSS Cache</strong> and reload the page. If you are using a caching plugin, purge its cache as well.</p>
+
+        <hr>
+
+        <h2 id="dynamic-content-faq">Dynamic Content</h2>
+
+        <h3 id="faq-tags-in-editor">Why do I see <code>{post_title}</code> in the editor instead of the actual title?</h3>
+        <p>Dynamic tags are resolved server-side at render time. In the block editor (which previews content in the browser), the raw tag is shown as a placeholder. The resolved value appears on the actual frontend page.</p>
+
+        <h3 id="faq-tags-outside-query">Can I use dynamic tags outside a Query Loop?</h3>
+        <p>Yes. Tags resolve relative to the current page's post when used outside a Query Loop. On a single post page, <code>{post_title}</code> shows that post's title. On an archive or the home page, post-specific tags return empty strings.</p>
+
+        <h3 id="faq-custom-meta">How do I display a custom field value?</h3>
+        <p>Use the <code>{post_meta}</code> tag with the <code>key</code> option: <code>{post_meta|key:your_field_name}</code>.</p>
+
+        <hr>
+
+        <h2 id="performance-faq">Performance</h2>
+
+        <h3 id="faq-pagespeed">Will GoBlocks hurt my PageSpeed score?</h3>
+        <p>No — GoBlocks is designed to improve PageSpeed scores compared to monolithic page builders. Per-page CSS files are small and browser-cacheable. JavaScript is loaded only when the relevant block is present on the page. The heaviest optional JS (Lottie player) only loads on pages with a Lottie block.</p>
+
+        <h3 id="faq-css-regenerating">My CSS file is regenerating on every page load. What is wrong?</h3>
+        <p>This usually means the uploads directory is not writable, or a server-level cache is preventing GoBlocks from detecting the existing file. See <a href="troubleshooting.html#css-regenerating">Troubleshooting → CSS regenerating on every load</a>.</p>
+
+        <h3 id="faq-wprocket">Do I need any special WP Rocket configuration?</h3>
+        <p>Exclude <code>wp-content/uploads/goblocks/</code> from WP Rocket's CSS minification and file optimization. CSS files in that directory are already minified by GoBlocks. For all other WP Rocket settings, GoBlocks works with the defaults.</p>
+
+        <hr>
+
+        <h2 id="compatibility-faq">Compatibility</h2>
+
+        <h3 id="faq-woocommerce">Does GoBlocks work with WooCommerce?</h3>
+        <p>Yes. GoBlocks blocks can be used on WooCommerce pages. The Query block can query <code>product</code> post type with all WooCommerce taxonomy filters. Dynamic tags like <code>{post_title}</code> and <code>{featured_image}</code> resolve for product posts.</p>
+
+        <h3 id="faq-cloudflare">Does GoBlocks work with Cloudflare?</h3>
+        <p>Yes. Cloudflare serves GoBlocks CSS files from its cache. Cache busting is handled by GoBlocks's version query string, so Cloudflare serves the updated file after a CSS regeneration within the configured cache TTL. If you experience stale CSS after design changes, purge the Cloudflare cache for the affected page's CSS URL.</p>
+
+        <h3 id="faq-beaver">Does GoBlocks work with Beaver Builder?</h3>
+        <p>GoBlocks and Beaver Builder can coexist on the same site if used on different pages. They cannot be used on the same page at the same time, as Beaver Builder replaces the WordPress block editor for pages it manages.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='faq';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

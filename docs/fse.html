@@ -1,0 +1,191 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Site Editing — GoDevs Blocks Documentation</title>
+<meta name="description" content="Using GoBlocks with the WordPress Site Editor: templates, theme.json integration, dynamic tags in FSE, and the Pattern Library.">
+<meta property="og:title" content="Full Site Editing — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/fse.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Full Site Editing</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Full Site Editing</h1>
+        <p>GoBlocks is fully compatible with the WordPress <strong>Site Editor</strong> (FSE). All 36 blocks and 41 patterns are available in the Site Editor, and GoBlocks integrates with <code>theme.json</code>, template CSS generation, and the Global Styles panel.</p>
+
+        <h2 id="requirements">Requirements</h2>
+        <p>Full Site Editing requires an FSE-compatible theme — a theme that includes a <code>theme.json</code> file and a <code>/templates</code> folder. Compatible themes include:</p>
+        <ul>
+          <li><strong>Twenty Twenty-Four</strong> and <strong>Twenty Twenty-Five</strong> (bundled with WordPress)</li>
+          <li>Any block theme in the WordPress.org theme directory</li>
+          <li>Custom block themes with <code>"blockTheme": true</code> in <code>theme.json</code></li>
+        </ul>
+        <p>Classic themes (PHP template files, no <code>theme.json</code>) do not support the Site Editor. GoBlocks blocks still work in the post editor on classic themes, but template-level editing is not available.</p>
+
+        <h2 id="opening-site-editor">Opening the Site Editor</h2>
+        <ol>
+          <li>Go to <strong>Appearance → Editor</strong> (visible only when an FSE theme is active).</li>
+          <li>The Site Editor opens. The left panel shows <strong>Templates</strong>, <strong>Template Parts</strong>, and <strong>Patterns</strong>.</li>
+          <li>Click any template (e.g. <strong>Single Post</strong>) to edit it.</li>
+          <li>Insert GoBlocks blocks anywhere in the template the same way you would in the post editor.</li>
+        </ol>
+
+        <h2 id="blocks-in-templates">Using GoBlocks Blocks in Templates</h2>
+        <p>All GoBlocks blocks are available in templates. Most are useful for static decoration — layouts, dividers, heading sections. For dynamic post data in templates, use the <a href="dynamic-content.html">Dynamic Content tag system</a>.</p>
+        <p><strong>Typical single-post template structure:</strong></p>
+        <pre data-lang="text"><code>Template: Single Post
+  └── goblocks/group  (hero section)
+       ├── goblocks/heading  {post_title}
+       └── goblocks/text     {post_date|format:M j, Y} · {author_name}
+  └── core/post-content
+  └── goblocks/group  (related posts section)
+       └── goblocks/query
+            └── goblocks/query-loop
+                 ├── goblocks/image    {featured_image|size:medium}
+                 └── goblocks/heading  {post_title|linked:true}</code></pre>
+
+        <h2 id="template-css">Template-Level CSS</h2>
+        <p>GoBlocks generates per-page CSS files (see <a href="performance.html">Performance</a>). For templates:</p>
+        <ul>
+          <li>Each <strong>template type</strong> (single, archive, front-page) gets its own CSS file.</li>
+          <li>Template CSS is cached in <code>wp-content/uploads/goblocks/template-{slug}.css</code>.</li>
+          <li>CSS is regenerated when the template is saved in the Site Editor.</li>
+        </ul>
+
+        <h2 id="theme-json-integration">theme.json Integration</h2>
+        <p>GoBlocks reads your theme's <code>theme.json</code> to align its design tokens:</p>
+        <ul>
+          <li><strong>Color palette</strong>: Colors defined in <code>theme.json</code> under <code>settings.color.palette</code> are available in GoBlocks color pickers, merged with the GoBlocks Global Styles palette.</li>
+          <li><strong>Font sizes</strong>: Font size presets from <code>settings.typography.fontSizes</code> are available in GoBlocks Typography controls.</li>
+          <li><strong>Spacing scale</strong>: Spacing presets from <code>settings.spacing.spacingSizes</code> are offered as quick-pick options in padding/margin controls.</li>
+          <li><strong>CSS custom properties</strong>: GoBlocks injects its own <code>--gb-*</code> CSS custom properties alongside the <code>--wp--preset--*</code> properties from <code>theme.json</code>. Both namespaces are available in your custom CSS.</li>
+        </ul>
+        <p><strong>Example:</strong> If your theme defines a primary color in <code>theme.json</code>:</p>
+        <pre data-lang="json"><code>{
+  "settings": {
+    "color": {
+      "palette": [
+        { "slug": "primary", "color": "#3858E9", "name": "Primary" }
+      ]
+    }
+  }
+}</code></pre>
+        <p>WordPress generates <code>--wp--preset--color--primary: #3858E9</code>. GoBlocks color pickers will show "Primary" and let you select it.</p>
+
+        <h2 id="global-styles-integration">Global Styles Panel</h2>
+        <p>When using an FSE theme, GoBlocks settings are accessible inside the WordPress Global Styles panel (the paintbrush icon in the Site Editor toolbar). This provides a unified design tokens UI instead of requiring a separate admin panel.</p>
+        <ul>
+          <li>Color palette, typography, and spacing presets from GoBlocks appear in the Global Styles panel.</li>
+          <li>Changes saved in the Global Styles panel are synced back to GoBlocks settings.</li>
+        </ul>
+
+        <h2 id="dynamic-tags-in-templates">Dynamic Content Tags in Templates</h2>
+        <p>Dynamic content tags work in templates just as they do in the post editor. The tags resolve at render time relative to the post or archive being rendered.</p>
+        <p><strong>On single post templates:</strong> All post data, author, and featured image tags resolve for the current post.</p>
+        <p><strong>On archive templates:</strong> The Query block powers the loop; tags inside the Query Loop resolve for each post in the loop. Term-level tags (<code>{term_name}</code>, <code>{term_description}</code>) resolve for the current archive term.</p>
+        <p><strong>On static templates (front page, 404, search):</strong> Post-specific tags that require a post context will return empty strings. Use <code>fallback</code> options for these contexts:</p>
+        <pre data-lang="text"><code>{post_title|fallback:Welcome}</code></pre>
+
+        <h2 id="pattern-library-fse">Pattern Library in the Site Editor</h2>
+        <p>All 41 GoBlocks patterns are available in the Site Editor's Patterns panel.</p>
+        <ol>
+          <li>In the Site Editor, click the <strong>+</strong> block inserter.</li>
+          <li>Switch to the <strong>Patterns</strong> tab.</li>
+          <li>Select the <strong>GoBlocks</strong> category.</li>
+          <li>Click any pattern to insert it into the template.</li>
+        </ol>
+        <p>You can also create <strong>custom synced patterns</strong> (formerly reusable blocks) from any GoBlocks block or group — right-click the block and select <strong>Create pattern</strong>. Synced patterns update everywhere they are used when you edit the pattern.</p>
+
+        <h2 id="template-parts">Template Parts</h2>
+        <p>GoBlocks blocks work inside WordPress template parts (header, footer, sidebar). Template parts are reusable fragments that can be embedded across multiple templates.</p>
+        <p>Recommended uses:</p>
+        <ul>
+          <li><strong>Header part</strong>: GoBlocks Navigation block for the site-wide header.</li>
+          <li><strong>Footer part</strong>: GoBlocks Group + Text for footer layout and copyright notice using <code>{current_year}</code> and <code>{site_name}</code> tags.</li>
+          <li><strong>CTA part</strong>: A GoBlocks Group with a call-to-action section inserted in multiple page templates.</li>
+        </ul>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='fse';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

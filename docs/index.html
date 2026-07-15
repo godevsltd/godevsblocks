@@ -1,0 +1,215 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks is a free, production-ready block library for WordPress — 36 blocks, 22 dynamic tags, 41 patterns, and a CSS design token system.">
+<meta property="og:title" content="GoDevs Blocks Documentation">
+<meta property="og:description" content="36 blocks · 22 dynamic content tags · 41 patterns · Zero jQuery · GPL-2.0">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span>
+        <span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <article class="prose">
+
+        <div class="doc-hero">
+          <span class="hero-eyebrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            v1.0.0 — Free &amp; Open Source
+          </span>
+          <h1>GoDevs Blocks Documentation</h1>
+          <p class="hero-lead">A production-ready block library for the WordPress block editor. Build anything with 36 blocks, dynamic content tags, 41 patterns, and a design token system — no page builder required.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="quick-start.html">Quick Start →</a>
+            <a class="btn btn-ghost" href="blocks.html">Browse Blocks</a>
+            <a class="btn btn-ghost" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">WordPress.org ↗</a>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num">36</div><div class="stat-label">Blocks</div></div>
+          <div class="stat-card"><div class="stat-num">41</div><div class="stat-label">Patterns</div></div>
+          <div class="stat-card"><div class="stat-num">22</div><div class="stat-label">Dynamic Tags</div></div>
+          <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">jQuery deps</div></div>
+        </div>
+
+        <h2 id="at-a-glance">At a Glance</h2>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><td><strong>Current version</strong></td><td>1.0.0</td></tr>
+              <tr><td><strong>WordPress</strong></td><td>6.5 or higher (tested up to 7.0)</td></tr>
+              <tr><td><strong>PHP</strong></td><td>8.0 or higher</td></tr>
+              <tr><td><strong>License</strong></td><td>GPL-2.0-or-later</td></tr>
+              <tr><td><strong>Author</strong></td><td><a href="https://godevs.net/" rel="noopener noreferrer">godevs</a></td></tr>
+              <tr><td><strong>Plugin page</strong></td><td><a href="https://godevs.net/goblocks" rel="noopener noreferrer">godevs.net/goblocks</a></td></tr>
+              <tr><td><strong>Support</strong></td><td><a href="https://wordpress.org/support/plugin/goblocks" rel="noopener noreferrer">wordpress.org/support/plugin/goblocks</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="what-makes-goblocks-different">What Makes GoBlocks Different</h2>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+            <div class="feature-title">Design Token System</div>
+            <div class="feature-desc">Three-tier CSS custom property architecture. Restyle every block by overriding a handful of <code>--gb-*</code> tokens — no PHP or JS changes needed.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div class="feature-title">Per-Page Static CSS</div>
+            <div class="feature-desc">One CSS file per page, written to disk, served with browser cache headers. Zero PHP execution for CSS on repeat page loads. Delta regeneration only rewrites changed blocks.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <div class="feature-title">Zero JS Static Blocks</div>
+            <div class="feature-desc">Layout, text, image, icon, button — no frontend JavaScript. Interactive blocks ship tiny vanilla IIFEs (~500 B) loaded only when the block is on the page.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+            <div class="feature-title">Full Site Editing</div>
+            <div class="feature-desc">All blocks available in the Site Editor. Dynamic content tags resolve in template context — build reusable post card templates once, use everywhere.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <div class="feature-title">Dynamic Content Tags</div>
+            <div class="feature-desc">22 built-in tags using <code>{tag|option:value}</code> syntax. Show post title, featured image, author, categories, site name — anywhere in any block.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M1 6s2-2 5-2 5 3 5 3-2 2-5 2-5-3-5-3z"/><path d="M13 6s2-2 5-2 5 3 5 3-2 2-5 2-5-3-5-3z"/><line x1="1" y1="18" x2="23" y2="6"/></svg></div>
+            <div class="feature-title">WCAG 2.1 AA</div>
+            <div class="feature-desc">ARIA patterns for every interactive block. Keyboard navigation, focus management, reduced-motion support, semantic HTML throughout.</div>
+          </div>
+        </div>
+
+        <h2 id="block-categories">Block Categories</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Category</th><th>Blocks</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Layout</strong></td><td>Group, Column, Container</td></tr>
+              <tr><td><strong>Content</strong></td><td>Text, Heading, Button, Image, Icon, Shape Divider, Separator, Spacer</td></tr>
+              <tr><td><strong>Interactive</strong></td><td>Tabs, Tab Panel, Accordion, Accordion Item, Modal, Flip Card</td></tr>
+              <tr><td><strong>Media</strong></td><td>Video, Lottie Animation, Slider, Slide</td></tr>
+              <tr><td><strong>Query &amp; Archive</strong></td><td>Query, Query Loop, No Results, Pagination, Navigation</td></tr>
+              <tr><td><strong>Showcase</strong></td><td>Counter, Progress Bar, Alert, Star Rating, Countdown, Pricing Card, Social Share, Table of Contents, Timeline, Timeline Item</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="documentation">Documentation</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Guide</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><a href="installation.html">Installation &amp; Requirements</a></td><td>System requirements, four installation methods, multisite</td></tr>
+              <tr><td><a href="quick-start.html">Quick Start</a></td><td>Up and running in five minutes</td></tr>
+              <tr><td><a href="blocks.html">Blocks Reference</a></td><td>All 36 blocks with descriptions and usage</td></tr>
+              <tr><td><a href="settings.html">Settings</a></td><td>Container width, CSS output, breakpoints, global styles</td></tr>
+              <tr><td><a href="responsive-controls.html">Responsive Controls</a></td><td>6-breakpoint mobile-first system, per-property overrides</td></tr>
+              <tr><td><a href="dynamic-content.html">Dynamic Content</a></td><td>All 22 tags, syntax, examples, custom tags</td></tr>
+              <tr><td><a href="fse.html">Full Site Editing</a></td><td>Site Editor, theme.json, template-level CSS</td></tr>
+              <tr><td><a href="performance.html">Performance</a></td><td>CSS caching, zero-JS static blocks, Core Web Vitals</td></tr>
+              <tr><td><a href="accessibility.html">Accessibility</a></td><td>WCAG 2.1 AA, ARIA, keyboard navigation</td></tr>
+              <tr><td><a href="faq.html">FAQ</a></td><td>Frequently asked questions</td></tr>
+              <tr><td><a href="troubleshooting.html">Troubleshooting</a></td><td>Common issues and fixes</td></tr>
+              <tr><td><a href="changelog.html">Changelog</a></td><td>Version history</td></tr>
+              <tr><td><a href="security.html">Security</a></td><td>Sanitization, escaping, permissions</td></tr>
+              <tr><td><a href="translation.html">Translation &amp; i18n</a></td><td>Translating GoBlocks into your language</td></tr>
+              <tr><td><a href="support.html">Support &amp; License</a></td><td>Support channels, GPL-2.0+ license</td></tr>
+              <tr><td><a href="developer/guide.html">Developer Guide</a></td><td>Extending GoBlocks with code</td></tr>
+              <tr><td><a href="developer/hooks-filters.html">Hooks &amp; Filters</a></td><td>All 6 plugin-defined hooks</td></tr>
+              <tr><td><a href="developer/rest-api.html">REST API</a></td><td>All 14 REST endpoints</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="quick-links">Quick Links</h2>
+        <ul>
+          <li><a href="https://wordpress.org/support/plugin/goblocks" rel="noopener noreferrer">Report a bug</a></li>
+          <li><a href="https://wordpress.org/support/plugin/goblocks" rel="noopener noreferrer">Request a feature</a></li>
+          <li><a href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Plugin page on WordPress.org</a></li>
+          <li><a href="https://godevs.net/" rel="noopener noreferrer">godevs.net</a></li>
+        </ul>
+
+      </article>
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='index';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

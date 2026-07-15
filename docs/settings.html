@@ -1,0 +1,226 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — GoDevs Blocks Documentation</title>
+<meta name="description" content="Complete reference for GoBlocks settings: container width, CSS method, breakpoints, global styles, and more.">
+<meta property="og:title" content="Settings — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/settings.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Settings</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Settings</h1>
+        <p>GoBlocks settings are managed in <strong>WordPress Admin → GoBlocks → Settings</strong>. All settings are stored in <code>wp_options</code> under the key <code>goblocks_settings</code> as a JSON-encoded object.</p>
+
+        <h2 id="container-width">Container Width</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>container_width</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>integer</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>1200</code></td></tr>
+          <tr><td><strong>Min / Max</strong></td><td>320px / 3840px</td></tr>
+        </tbody></table></div>
+        <p>The global maximum width for the <strong>Container</strong> block. Injected as the CSS custom property <code>--gb-container-site</code> on every GoBlocks-enabled page.</p>
+        <p><strong>When to change:</strong> If your theme uses a different content width than 1200px, align this value to match.</p>
+
+        <h2 id="css-print-method">CSS Print Method</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>css_print_method</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>string</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>'file'</code></td></tr>
+          <tr><td><strong>Options</strong></td><td><code>'file'</code> or <code>'inline'</code></td></tr>
+        </tbody></table></div>
+        <p>Controls how GoBlocks delivers per-page CSS to the browser.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mode</th><th>How it works</th><th>Best for</th></tr></thead>
+            <tbody>
+              <tr><td><code>file</code></td><td>Writes a <code>.css</code> file to <code>wp-content/uploads/goblocks/</code> and enqueues it with a <code>&lt;link&gt;</code> tag.</td><td>Most sites — enables browser caching</td></tr>
+              <tr><td><code>inline</code></td><td>Injects CSS directly into <code>&lt;style&gt;</code> tags in <code>&lt;head&gt;</code>.</td><td>Hosts where the uploads directory is not writable</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Tip:</strong> Use <code>file</code> mode whenever possible. The generated file is served with <code>Cache-Control</code> headers, meaning repeat visitors load the CSS from their browser cache with zero additional HTTP requests.</p></blockquote>
+
+        <h2 id="breakpoints">Breakpoints</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>breakpoints</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>object <code>{xs, sm, md, lg, xl, 2xl}</code></td></tr>
+          <tr><td><strong>Default</strong></td><td>See table below</td></tr>
+        </tbody></table></div>
+        <p>Defines the six min-width breakpoints used by GoBlocks's responsive controls.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Key</th><th>Default (px)</th><th>Equivalent to</th></tr></thead>
+            <tbody>
+              <tr><td><code>xs</code></td><td>480</td><td>Large phones</td></tr>
+              <tr><td><code>sm</code></td><td>640</td><td>Small tablets</td></tr>
+              <tr><td><code>md</code></td><td>768</td><td>Tablets</td></tr>
+              <tr><td><code>lg</code></td><td>1024</td><td>Small laptops</td></tr>
+              <tr><td><code>xl</code></td><td>1280</td><td>Desktops</td></tr>
+              <tr><td><code>2xl</code></td><td>1536</td><td>Large screens</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Caution:</strong> Changing breakpoints after a site has content will invalidate cached CSS. All pages will regenerate their CSS on next load. Plan breakpoint changes during initial setup.</p></blockquote>
+
+        <h2 id="sync-responsive">Sync Responsive</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>sync_responsive</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>boolean</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>true</code></td></tr>
+        </tbody></table></div>
+        <p>When enabled, responsive control values are inherited down the breakpoint chain. Setting a value at <code>md</code> automatically applies to <code>lg</code>, <code>xl</code>, and <code>2xl</code> unless those breakpoints have explicit overrides.</p>
+        <p>When disabled, each breakpoint is fully independent — unset breakpoints fall back to the base value.</p>
+
+        <h2 id="disable-google-fonts">Disable Google Fonts</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>disable_google_fonts</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>boolean</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>false</code></td></tr>
+        </tbody></table></div>
+        <p>When enabled, GoBlocks will not load any Google Fonts, even if a typography preset references one. Use on sites requiring full GDPR compliance or that self-host all fonts.</p>
+
+        <h2 id="enable-dark-mode">Enable Dark Mode</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>enable_dark_mode</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>boolean</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>false</code></td></tr>
+        </tbody></table></div>
+        <p>When enabled, GoBlocks emits a <code>@media (prefers-color-scheme: dark)</code> block in the generated CSS that remaps semantic color tokens to a darker palette.</p>
+
+        <h2 id="global-color-palette">Global Color Palette</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>global_color_palette</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>array of <code>{slug, name, color}</code> objects</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>[]</code> (empty)</td></tr>
+        </tbody></table></div>
+        <p>Defines the site's brand color palette. Each entry:</p>
+        <pre data-lang="json"><code>{
+  "slug": "primary",
+  "name": "Brand Blue",
+  "color": "#3858E9"
+}</code></pre>
+        <p>Each color is injected as a CSS custom property:</p>
+        <pre data-lang="css"><code>:root {
+  --gb-color-primary: #3858E9;
+}</code></pre>
+        <p>And registered with the WordPress block editor as a theme color, available in all color pickers across GoBlocks and core blocks.</p>
+        <p><strong>Managing the palette:</strong> Go to <strong>GoBlocks → Global Styles → Color Palette</strong> → Add Color → Save.</p>
+
+        <h2 id="global-typography">Global Typography</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Key</strong></td><td><code>global_typography</code></td></tr>
+          <tr><td><strong>Type</strong></td><td>array of <code>{slug, label, fontFamily, fontSize, fontWeight, lineHeight}</code> objects</td></tr>
+          <tr><td><strong>Default</strong></td><td><code>[]</code> (empty)</td></tr>
+        </tbody></table></div>
+        <pre data-lang="json"><code>{
+  "slug": "body",
+  "label": "Body Text",
+  "fontFamily": "Inter, sans-serif",
+  "fontSize": "1rem",
+  "fontWeight": "400",
+  "lineHeight": "1.6"
+}</code></pre>
+
+        <hr>
+
+        <h2 id="settings-in-php">Accessing Settings in PHP</h2>
+        <pre data-lang="php"><code>&lt;?php
+$settings        = get_option( 'goblocks_settings', [] );
+$container_width = $settings['container_width'] ?? 1200;</code></pre>
+
+        <hr>
+
+        <h2 id="resetting">Resetting Settings</h2>
+        <p>Via the admin UI: <strong>GoBlocks → Settings → Reset to Defaults</strong>.</p>
+        <p>Via WP-CLI:</p>
+        <pre data-lang="bash"><code>wp option delete goblocks_settings</code></pre>
+        <p>Via REST API:</p>
+        <pre data-lang="bash"><code>POST /wp-json/goblocks/v1/settings/reset</code></pre>
+        <p>Requires <code>manage_options</code> capability.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='settings';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

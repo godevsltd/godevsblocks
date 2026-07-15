@@ -1,0 +1,227 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Controls — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks's mobile-first six-breakpoint responsive system — per-property overrides, inheritance, visibility, and custom breakpoints.">
+<meta property="og:title" content="Responsive Controls — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/responsive-controls.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Responsive Controls</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Responsive Controls</h1>
+        <p>GoBlocks implements a <strong>mobile-first, six-breakpoint</strong> responsive system. Any visual property that can be set in the block Inspector can also be overridden per breakpoint — no custom CSS required.</p>
+
+        <h2 id="breakpoints">Breakpoints</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Label</th><th>Key</th><th>Default min-width</th><th>Typical device</th></tr></thead>
+            <tbody>
+              <tr><td><em>(base)</em></td><td>—</td><td>0</td><td>All screens (mobile default)</td></tr>
+              <tr><td>XS</td><td><code>xs</code></td><td>480px</td><td>Large phones</td></tr>
+              <tr><td>SM</td><td><code>sm</code></td><td>640px</td><td>Small tablets / landscape phones</td></tr>
+              <tr><td>MD</td><td><code>md</code></td><td>768px</td><td>Tablets</td></tr>
+              <tr><td>LG</td><td><code>lg</code></td><td>1024px</td><td>Small laptops</td></tr>
+              <tr><td>XL</td><td><code>xl</code></td><td>1280px</td><td>Desktops</td></tr>
+              <tr><td>2XL</td><td><code>2xl</code></td><td>1536px</td><td>Large / ultra-wide screens</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Breakpoint pixel values can be customized in <strong>GoBlocks → Settings → Breakpoints</strong>.</p>
+
+        <h2 id="mobile-first">How Mobile-First Works</h2>
+        <p>The <strong>base value</strong> (no breakpoint selected) applies to all screen widths. Each breakpoint value overrides the base at that screen width and up, using a standard <code>@media (min-width: …)</code> rule.</p>
+        <p><strong>Example — padding on a Group block:</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Breakpoint</th><th>Value</th><th>What it means</th></tr></thead>
+            <tbody>
+              <tr><td>base</td><td>16px</td><td>16px padding on all screens</td></tr>
+              <tr><td>MD</td><td>32px</td><td>32px at 768px wide and above</td></tr>
+              <tr><td>LG</td><td>64px</td><td>64px at 1024px wide and above</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>This generates:</p>
+        <pre data-lang="css"><code>.gb-block-abc123 {
+  padding: 16px;
+}
+@media (min-width: 768px) {
+  .gb-block-abc123 {
+    padding: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .gb-block-abc123 {
+    padding: 64px;
+  }
+}</code></pre>
+
+        <h2 id="using-controls">Using Responsive Controls in the Editor</h2>
+        <p>Every block's Inspector contains a <strong>breakpoint toolbar</strong> above responsive-capable fields.</p>
+        <ol>
+          <li>Select a block.</li>
+          <li>Find a field like <strong>Padding</strong>, <strong>Font Size</strong>, or <strong>Columns</strong>.</li>
+          <li>Click a breakpoint label — for example, <strong>MD</strong>.</li>
+          <li>Set the value. The editor preview updates at the simulated viewport width.</li>
+          <li>Switch to <strong>LG</strong> and set a different value if needed.</li>
+          <li>Leave breakpoints blank if they should inherit from the lower breakpoint.</li>
+        </ol>
+        <blockquote><p><strong>Tip:</strong> Click the device icon in the editor top bar to switch the canvas preview to a specific viewport width, matching the breakpoint you are editing.</p></blockquote>
+
+        <h2 id="inheritance">Inheritance / Sync Mode</h2>
+        <p>When <strong>Sync Responsive</strong> is enabled in Settings (default: <code>true</code>):</p>
+        <ul>
+          <li>Setting a value at <strong>MD</strong> automatically applies to <strong>LG</strong>, <strong>XL</strong>, and <strong>2XL</strong> unless those have explicit values.</li>
+          <li>This is the most common mode — you usually only need to set two or three breakpoints.</li>
+        </ul>
+        <p>When Sync Responsive is disabled, each breakpoint is fully independent and unset breakpoints fall back to the base value only.</p>
+
+        <h2 id="responsive-properties">Which Properties Are Responsive</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Block(s)</th></tr></thead>
+            <tbody>
+              <tr><td>Padding (top, right, bottom, left)</td><td>Group, Column, Container</td></tr>
+              <tr><td>Margin (top, right, bottom, left)</td><td>Group, Column, Container</td></tr>
+              <tr><td>Width / max-width / min-width</td><td>Group, Column, Container</td></tr>
+              <tr><td>Height / min-height / max-height</td><td>Group, Spacer</td></tr>
+              <tr><td>Font size</td><td>Heading, Text, Button</td></tr>
+              <tr><td>Line height</td><td>Heading, Text</td></tr>
+              <tr><td>Letter spacing</td><td>Heading, Text</td></tr>
+              <tr><td>Gap (flex/grid)</td><td>Group</td></tr>
+              <tr><td>Columns (grid)</td><td>Group</td></tr>
+              <tr><td>Flex direction</td><td>Group</td></tr>
+              <tr><td>Justify content</td><td>Group</td></tr>
+              <tr><td>Align items</td><td>Group</td></tr>
+              <tr><td>Column span</td><td>Column</td></tr>
+              <tr><td>Border width, Border radius</td><td>Group, Column, Button</td></tr>
+              <tr><td>Display (show/hide)</td><td>All blocks</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="visibility">Hiding a Block at a Specific Breakpoint</h2>
+        <p>Every GoBlocks block has a <strong>Visibility</strong> toggle in the Inspector's <strong>Advanced</strong> tab.</p>
+        <p><strong>Example — hide a decorative block on mobile:</strong></p>
+        <ol>
+          <li>Select the block.</li>
+          <li>Open <strong>Advanced → Visibility</strong>.</li>
+          <li>Set the base value to <strong>Hidden</strong>.</li>
+          <li>Set the <strong>MD</strong> value to <strong>Visible</strong>.</li>
+        </ol>
+        <p>This outputs:</p>
+        <pre data-lang="css"><code>.gb-block-xyz {
+  display: none;
+}
+@media (min-width: 768px) {
+  .gb-block-xyz {
+    display: block;
+  }
+}</code></pre>
+
+        <h2 id="custom-breakpoints">Custom Breakpoints</h2>
+        <p>To change the default breakpoint values:</p>
+        <ol>
+          <li>Go to <strong>GoBlocks → Settings → Breakpoints</strong>.</li>
+          <li>Enter new pixel values for any breakpoint.</li>
+          <li>Click <strong>Save</strong>.</li>
+        </ol>
+        <blockquote><p><strong>Caution:</strong> Changing breakpoints on a live site with existing content will cause a brief CSS regeneration delay on every page on first load. Plan this change during low-traffic hours.</p></blockquote>
+
+        <h2 id="css-tokens">CSS Custom Properties and Breakpoints</h2>
+        <p>Design token values can also be scoped to a breakpoint. This is done automatically when you change a Global Styles token at a specific breakpoint:</p>
+        <pre data-lang="css"><code>:root {
+  --gb-font-size-heading-1: 2.5rem;
+}
+@media (min-width: 768px) {
+  :root {
+    --gb-font-size-heading-1: 3.5rem;
+  }
+}</code></pre>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='responsive-controls';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

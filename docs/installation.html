@@ -1,0 +1,222 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installation & Requirements — GoDevs Blocks Documentation</title>
+<meta name="description" content="System requirements, installation methods, multisite setup, and uninstall instructions for GoBlocks.">
+<meta property="og:title" content="Installation & Requirements — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/installation.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Getting Started</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Installation</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Installation &amp; Requirements</h1>
+
+        <h2 id="requirements">Requirements</h2>
+        <p>Before installing GoBlocks, verify your environment meets these minimum requirements:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Requirement</th><th>Minimum</th><th>Recommended</th></tr></thead>
+            <tbody>
+              <tr><td><strong>WordPress</strong></td><td>6.5</td><td>Latest (7.0)</td></tr>
+              <tr><td><strong>PHP</strong></td><td>8.0</td><td>8.2+</td></tr>
+              <tr><td><strong>Browser (editor)</strong></td><td>Last 2 major versions</td><td>Latest Chrome / Firefox</td></tr>
+              <tr><td><strong>Browser (frontend)</strong></td><td>Last 2 major versions</td><td>Any modern browser</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <blockquote><p><strong>Note:</strong> GoBlocks uses <code>block.json</code> block registration (Block API v3), which requires WordPress 6.5+. PHP 8.0 is required because the plugin uses typed properties, union types, and named arguments introduced in PHP 8.0.</p></blockquote>
+
+        <h3 id="php-extensions">PHP Extensions Required</h3>
+        <p>These extensions are bundled in every standard PHP build:</p>
+        <ul>
+          <li><code>json</code> — settings storage</li>
+          <li><code>mbstring</code> — string handling in CSS generation</li>
+          <li><code>fileinfo</code> — MIME type checks for uploaded assets</li>
+        </ul>
+
+        <h3 id="file-system">File System Permissions</h3>
+        <p>GoBlocks writes generated CSS files to <code>wp-content/uploads/goblocks/</code>. This directory is created automatically on first page load. WordPress's standard <code>WP_Filesystem</code> is used — the same permissions that allow media uploads are sufficient.</p>
+
+        <hr>
+
+        <h2 id="installation-methods">Installation Methods</h2>
+
+        <h3 id="method-1">Method 1 — WordPress Plugin Directory (Recommended)</h3>
+        <ol>
+          <li>Log in to your WordPress admin.</li>
+          <li>Go to <strong>Plugins → Add New Plugin</strong>.</li>
+          <li>Search for <strong>GoBlocks</strong>.</li>
+          <li>Click <strong>Install Now</strong> on the GoBlocks card.</li>
+          <li>Click <strong>Activate</strong>.</li>
+        </ol>
+        <p>That's it. No configuration required to start using blocks.</p>
+
+        <hr>
+
+        <h3 id="method-2">Method 2 — Upload via WordPress Admin</h3>
+        <p>Use this method if you have the plugin ZIP file.</p>
+        <ol>
+          <li>Download <code>goblocks.zip</code>.</li>
+          <li>In WordPress admin, go to <strong>Plugins → Add New Plugin → Upload Plugin</strong>.</li>
+          <li>Click <strong>Choose File</strong>, select <code>goblocks.zip</code>, click <strong>Install Now</strong>.</li>
+          <li>Click <strong>Activate Plugin</strong>.</li>
+        </ol>
+
+        <hr>
+
+        <h3 id="method-3">Method 3 — Manual FTP / SFTP Upload</h3>
+        <ol>
+          <li>Unzip <code>goblocks.zip</code> to get the <code>goblocks/</code> folder.</li>
+          <li>Upload the <code>goblocks/</code> folder to <code>/wp-content/plugins/</code> on your server.</li>
+          <li>In WordPress admin, go to <strong>Plugins → Installed Plugins</strong>.</li>
+          <li>Find <strong>GoBlocks</strong> and click <strong>Activate</strong>.</li>
+        </ol>
+
+        <hr>
+
+        <h3 id="method-4">Method 4 — WP-CLI</h3>
+        <pre data-lang="bash"><code>wp plugin install goblocks --activate</code></pre>
+        <p>For a specific version:</p>
+        <pre data-lang="bash"><code>wp plugin install goblocks --version=1.0.0 --activate</code></pre>
+
+        <hr>
+
+        <h2 id="first-run">First Run</h2>
+        <p>After activation, GoBlocks:</p>
+        <ol>
+          <li>Creates the uploads directory <code>wp-content/uploads/goblocks/</code> if it does not exist.</li>
+          <li>Registers all 36 block types using <code>block.json</code> definitions.</li>
+          <li>Registers the GoBlocks pattern category and 41 built-in patterns.</li>
+          <li>Adds the <strong>GoBlocks</strong> menu item to the WordPress admin sidebar.</li>
+        </ol>
+        <p>No database tables are created. Settings are stored in <code>wp_options</code> under the key <code>goblocks_settings</code>.</p>
+
+        <hr>
+
+        <h2 id="verifying">Verifying the Installation</h2>
+        <ol>
+          <li>Open any post or page in the block editor.</li>
+          <li>Click the <strong>+</strong> block inserter.</li>
+          <li>You should see a <strong>GoBlocks</strong> category with all 36 blocks listed.</li>
+        </ol>
+        <p>If the GoBlocks category does not appear, see <a href="troubleshooting.html#blocks-not-appearing">Troubleshooting → Blocks not appearing</a>.</p>
+
+        <hr>
+
+        <h2 id="multisite">Multisite Installation</h2>
+        <p>GoBlocks is fully multisite-compatible.</p>
+        <ul>
+          <li><strong>Network Activate</strong> the plugin from <strong>Network Admin → Plugins</strong> to enable it on all sites simultaneously.</li>
+          <li>Or activate it per-site from each site's <strong>Plugins</strong> screen.</li>
+        </ul>
+        <p>Each site in the network gets its own:</p>
+        <ul>
+          <li>CSS cache directory (<code>wp-content/uploads/sites/{id}/goblocks/</code>)</li>
+          <li>Plugin settings stored in that site's <code>wp_options</code></li>
+          <li>Independent global color palette and typography presets</li>
+        </ul>
+        <p>There is no shared network-wide configuration.</p>
+
+        <hr>
+
+        <h2 id="uninstalling">Uninstalling</h2>
+        <ol>
+          <li>In WordPress admin, go to <strong>Plugins → Installed Plugins</strong>.</li>
+          <li>Deactivate GoBlocks, then click <strong>Delete</strong>.</li>
+        </ol>
+        <p>GoBlocks does <strong>not</strong> remove its data on deactivation. To fully clean up, the <code>uninstall.php</code> file runs when you click <strong>Delete</strong> — it removes the <code>goblocks_settings</code> option and deletes the <code>wp-content/uploads/goblocks/</code> directory.</p>
+        <blockquote><p><strong>Warning:</strong> Deleting the plugin removes all cached CSS files. Pages using GoBlocks blocks will regenerate their CSS on the next page load, which may cause a brief delay.</p></blockquote>
+
+        <hr>
+
+        <h2 id="updating">Updating</h2>
+        <p>Updates are delivered through WordPress.org's standard update system. You will see a notification in <strong>Dashboard → Updates</strong> when a new version is available. Click <strong>Update Now</strong>.</p>
+        <p>For WP-CLI:</p>
+        <pre data-lang="bash"><code>wp plugin update goblocks</code></pre>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='installation';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

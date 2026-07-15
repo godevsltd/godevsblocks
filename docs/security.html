@@ -1,0 +1,196 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks security practices: input sanitization, output escaping, nonce verification, capability checks, SQL injection prevention, and XSS prevention.">
+<meta property="og:title" content="Security — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/security.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Reference</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Security</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Security</h1>
+        <p>GoBlocks follows WordPress security best practices throughout: every input is sanitized, every output is escaped, every state-modifying request is verified with a nonce or capability check, and no database queries use raw user input.</p>
+
+        <h2 id="input-sanitization">Input Sanitization</h2>
+
+        <h3 id="block-attributes">Block Attributes</h3>
+        <p>Block attributes are validated and sanitized by WordPress's block parser against the JSON schema in each block's <code>block.json</code> file. GoBlocks defines strict attribute types:</p>
+        <pre data-lang="json"><code>{
+  "attributes": {
+    "padding": { "type": "integer", "minimum": 0, "maximum": 500 },
+    "backgroundColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{3,8}$" },
+    "tag": { "type": "string", "enum": ["div","section","article","aside","header","footer","main"] }
+  }
+}</code></pre>
+        <p>Attributes that do not match the schema are rejected by the WordPress block parser before the render callback is reached. No raw attribute value is ever used without prior schema validation.</p>
+
+        <h3 id="settings-sanitization">Settings</h3>
+        <p>All values submitted to <strong>GoBlocks → Settings</strong> are validated against a JSON schema before saving:</p>
+        <ul>
+          <li><code>container_width</code> — sanitized with <code>absint()</code>, clamped to 320–3840</li>
+          <li><code>css_print_method</code> — validated against allowlist <code>['file', 'inline']</code></li>
+          <li><code>breakpoints</code> — each value sanitized with <code>absint()</code>, validated as ≥ 1</li>
+          <li><code>global_color_palette</code> — each color value matched against <code>/^#[0-9a-fA-F]{3,8}$/</code></li>
+        </ul>
+
+        <h3 id="dynamic-tags-sanitization">Dynamic Content Tags</h3>
+        <p>The dynamic tag parser uses a strict allowlist: only registered tag slugs are resolved. An unrecognized tag slug is returned as an empty string — it is never executed as code. Tag option values are sanitized at resolution time using the appropriate function for the output context.</p>
+
+        <h2 id="output-escaping">Output Escaping</h2>
+        <p>GoBlocks escapes all output at the point of output, using the function matched to the context:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Context</th><th>Function used</th></tr></thead>
+            <tbody>
+              <tr><td>HTML text content</td><td><code>esc_html()</code></td></tr>
+              <tr><td>HTML attribute values</td><td><code>esc_attr()</code></td></tr>
+              <tr><td>URLs (href, src)</td><td><code>esc_url()</code></td></tr>
+              <tr><td>Rich HTML content (allowed tags)</td><td><code>wp_kses_post()</code></td></tr>
+              <tr><td>CSS values</td><td><code>sanitize_hex_color()</code> / <code>absint()</code> / value allowlist</td></tr>
+              <tr><td>JavaScript (inline data)</td><td><code>wp_json_encode()</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Dynamic tag output is escaped with <code>esc_html()</code> by default. Custom tags that return HTML should escape their own output and not rely on GoBlocks's default escaping.</p>
+
+        <h2 id="capability-checks">Capability Checks</h2>
+        <p>All administrative actions require the <code>manage_options</code> capability (WordPress Administrator role):</p>
+        <ul>
+          <li>Saving settings via the admin UI</li>
+          <li>Clearing the CSS cache</li>
+          <li>All REST API endpoints under <code>/wp-json/goblocks/v1/</code></li>
+          <li>WP-CLI commands that modify data</li>
+        </ul>
+        <pre data-lang="php"><code>&lt;?php
+// REST API endpoint permission callback
+public function permissions_check(): bool {
+    return current_user_can( 'manage_options' );
+}</code></pre>
+
+        <h2 id="nonce-verification">Nonce Verification</h2>
+        <p>All admin form submissions and Ajax requests include a nonce:</p>
+        <ul>
+          <li><strong>Admin settings form</strong>: Verified with <code>check_admin_referer( 'goblocks_settings' )</code></li>
+          <li><strong>REST API</strong>: Authenticated via the <code>wp_rest</code> nonce in the request header (<code>X-WP-Nonce</code>), which WordPress validates automatically</li>
+          <li><strong>Ajax actions</strong>: Verified with <code>check_ajax_referer( 'goblocks_ajax' )</code></li>
+        </ul>
+
+        <h2 id="css-file-security">CSS File Security</h2>
+        <p>Generated CSS files are stored in <code>wp-content/uploads/goblocks/</code>. GoBlocks protects this directory:</p>
+        <ul>
+          <li>An <code>index.php</code> file with a blank body is placed in the directory to prevent directory listing.</li>
+          <li>CSS filenames are based on post IDs (e.g. <code>42.css</code>) — they do not contain user-supplied data and cannot be exploited for path traversal.</li>
+          <li>The CSS content is generated entirely from validated block attributes — no user-supplied content is written directly to the file.</li>
+        </ul>
+
+        <h2 id="sql-injection">SQL Injection Prevention</h2>
+        <p>GoBlocks does not construct raw SQL queries. All database interactions use WordPress's <code>$wpdb</code> methods with prepared statements where custom queries are needed:</p>
+        <pre data-lang="php"><code>&lt;?php
+$result = $wpdb-&gt;get_results(
+    $wpdb-&gt;prepare(
+        'SELECT post_id FROM %i WHERE option_name = %s',
+        $table_name,
+        $option_name
+    )
+);</code></pre>
+        <p>Query block arguments are filtered through <code>WP_Query</code>'s built-in argument sanitization. The <code>goblocks_query_args</code> filter exposes the final <code>WP_Query</code> args array — custom filter callbacks that add raw user input to this array should use <code>absint()</code> or explicit allowlists for any untrusted values.</p>
+
+        <h2 id="xss-prevention">XSS Prevention</h2>
+        <p>GoBlocks's block renderer never outputs unescaped HTML from user-supplied attributes. SVG output from the Icon block is generated entirely from the registered icon library (a server-side array of allowed SVG paths) — user input never reaches SVG path data.</p>
+        <p>The Icon block's 112 icons are registered as a PHP array of sanitized SVG strings. The block attribute only stores the icon slug — the slug is matched against the allowlist, and the pre-sanitized SVG is output. An unrecognized slug outputs nothing.</p>
+
+        <h2 id="reporting">Reporting a Vulnerability</h2>
+        <p>If you discover a security vulnerability in GoBlocks, please do not report it publicly. Instead:</p>
+        <ol>
+          <li>Email <a href="mailto:security@godevs.net">security@godevs.net</a> with a description of the vulnerability, steps to reproduce, and the affected version.</li>
+          <li>You will receive a response within 48 hours acknowledging the report.</li>
+          <li>We aim to release a patch within 7 days of confirmation for critical vulnerabilities.</li>
+        </ol>
+        <p>We follow responsible disclosure and will credit researchers in the release notes (with your permission).</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='security';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

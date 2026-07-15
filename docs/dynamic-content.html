@@ -1,0 +1,343 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Content — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks dynamic content tag system: 22 built-in tags for post data, author, featured image, taxonomy, site info, and users.">
+<meta property="og:title" content="Dynamic Content — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/dynamic-content.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Dynamic Content</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Dynamic Content</h1>
+        <p>GoBlocks's dynamic content system lets you display data from the current post, author, taxonomy, or site without writing PHP. Tags are written inline in any rich-text field and resolved at render time on the server.</p>
+
+        <h2 id="syntax">Tag Syntax</h2>
+        <pre data-lang="text"><code>{tag_slug}
+{tag_slug|option:value}
+{tag_slug|option:value|option2:value2}</code></pre>
+        <p>Tags are enclosed in <code>{</code> and <code>}</code>. Options are appended after a pipe <code>|</code> as key:value pairs separated by additional pipes.</p>
+        <p><strong>Examples:</strong></p>
+        <pre data-lang="text"><code>{post_title}
+{post_date|format:F j, Y}
+{post_excerpt|length:20}
+{featured_image|size:medium|linked:true}
+{post_terms|taxonomy:category|separator:, }</code></pre>
+
+        <h2 id="supported-blocks">Which Blocks Support Tags</h2>
+        <p>Dynamic tags are resolved in the following blocks and fields:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Block</th><th>Fields</th></tr></thead>
+            <tbody>
+              <tr><td>Text</td><td>Content</td></tr>
+              <tr><td>Heading</td><td>Content</td></tr>
+              <tr><td>Button</td><td>Label, Href, ARIA label</td></tr>
+              <tr><td>Image</td><td>Src (URL), Alt text</td></tr>
+              <tr><td>Alert</td><td>Content</td></tr>
+              <tr><td>Pricing Card</td><td>Name, Price, Description</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Primary use case:</strong> Use dynamic tags inside the <strong>Query Loop</strong> block to build post card templates — one layout that populates with each post's data automatically.</p></blockquote>
+
+        <hr>
+
+        <h2 id="post-data-tags">Post Data Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>{post_title}</code></td>
+                <td>The post title</td>
+                <td><code>linked:true</code> — wraps in permalink anchor</td>
+              </tr>
+              <tr>
+                <td><code>{post_date}</code></td>
+                <td>Published date</td>
+                <td><code>format:M j, Y</code> — PHP date format string</td>
+              </tr>
+              <tr>
+                <td><code>{post_modified}</code></td>
+                <td>Last modified date</td>
+                <td><code>format:M j, Y</code></td>
+              </tr>
+              <tr>
+                <td><code>{post_excerpt}</code></td>
+                <td>Post excerpt (auto-generated if not set)</td>
+                <td><code>length:30</code> — word count; <code>more:…</code> — ellipsis text</td>
+              </tr>
+              <tr>
+                <td><code>{post_content}</code></td>
+                <td>Full rendered post content</td>
+                <td><code>length:100</code> — character limit</td>
+              </tr>
+              <tr>
+                <td><code>{post_id}</code></td>
+                <td>Post ID (integer)</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{post_url}</code></td>
+                <td>Permalink URL</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{post_slug}</code></td>
+                <td>Post slug</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{post_type}</code></td>
+                <td>Post type name (e.g. <code>post</code>, <code>page</code>, <code>product</code>)</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{post_status}</code></td>
+                <td>Post status (e.g. <code>publish</code>, <code>draft</code>)</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{post_meta}</code></td>
+                <td>Value of a custom field</td>
+                <td><code>key:your_meta_key</code> — required; <code>fallback:N/A</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="author-tags">Author Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>{author_name}</code></td>
+                <td>Display name of the post author</td>
+                <td><code>linked:true</code> — links to author archive</td>
+              </tr>
+              <tr>
+                <td><code>{author_bio}</code></td>
+                <td>Author biographical info (from profile)</td>
+                <td><code>length:30</code> — word count</td>
+              </tr>
+              <tr>
+                <td><code>{author_avatar}</code></td>
+                <td>Author Gravatar <code>&lt;img&gt;</code> element</td>
+                <td><code>size:96</code> — pixel size</td>
+              </tr>
+              <tr>
+                <td><code>{author_url}</code></td>
+                <td>Author archive URL</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="featured-image-tags">Featured Image Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>{featured_image}</code></td>
+                <td>Full <code>&lt;img&gt;</code> element</td>
+                <td><code>size:medium</code> — WP image size; <code>linked:true</code>; <code>fallback:/img.jpg</code></td>
+              </tr>
+              <tr>
+                <td><code>{featured_image_url}</code></td>
+                <td>Image URL (no HTML)</td>
+                <td><code>size:large</code>; <code>fallback:url</code></td>
+              </tr>
+              <tr>
+                <td><code>{featured_image_alt}</code></td>
+                <td>Image alt text string</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{featured_image_id}</code></td>
+                <td>Attachment post ID</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="taxonomy-tags">Taxonomy Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>{post_terms}</code></td>
+                <td>Comma-separated list of terms</td>
+                <td><code>taxonomy:category</code> — slug required; <code>separator:, </code>; <code>linked:true</code></td>
+              </tr>
+              <tr>
+                <td><code>{post_terms_list}</code></td>
+                <td>HTML <code>&lt;ul&gt;</code> / <code>&lt;ol&gt;</code> list of terms</td>
+                <td><code>taxonomy:tag</code>; <code>type:ul</code> or <code>ol</code>; <code>linked:true</code></td>
+              </tr>
+              <tr>
+                <td><code>{term_name}</code></td>
+                <td>First term name (current archive page)</td>
+                <td><code>taxonomy:category</code></td>
+              </tr>
+              <tr>
+                <td><code>{term_description}</code></td>
+                <td>Term description (current archive)</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>{term_count}</code></td>
+                <td>Number of posts in the current term</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="site-tags">Site Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th></tr></thead>
+            <tbody>
+              <tr><td><code>{site_name}</code></td><td>Site title from General Settings</td></tr>
+              <tr><td><code>{site_url}</code></td><td>Site home URL</td></tr>
+              <tr><td><code>{site_description}</code></td><td>Site tagline</td></tr>
+              <tr><td><code>{current_year}</code></td><td>Current 4-digit year (e.g. 2026)</td></tr>
+              <tr><td><code>{current_date}</code></td><td>Today's date; supports <code>format:Y-m-d</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="user-tags">Logged-in User Tags</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tag</th><th>Output</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><code>{user_name}</code></td><td>Current user's display name</td><td>Empty string if not logged in</td></tr>
+              <tr><td><code>{user_email}</code></td><td>Current user's email</td><td>Empty string if not logged in</td></tr>
+              <tr><td><code>{user_role}</code></td><td>Current user's role (e.g. <code>subscriber</code>)</td><td>Empty if not logged in</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr>
+
+        <h2 id="fallback-option">Fallback Option</h2>
+        <p>All tags support a <code>fallback</code> option that is output when the tag resolves to an empty string:</p>
+        <pre data-lang="text"><code>{post_meta|key:badge_text|fallback:New}
+{featured_image_url|size:large|fallback:/images/placeholder.jpg}</code></pre>
+
+        <hr>
+
+        <h2 id="custom-tags">Registering Custom Tags</h2>
+        <p>Use the <code>goblocks_dynamic_tags</code> filter to add your own tags. Each tag is a callable that receives the tag options array and the current <code>WP_Post</code> object, and must return a string.</p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_dynamic_tags', function( array $tags ): array {
+    $tags['reading_time'] = function( array $options, WP_Post $post ): string {
+        $words   = str_word_count( strip_tags( $post-&gt;post_content ) );
+        $minutes = (int) ceil( $words / 200 );
+        $suffix  = $options['suffix'] ?? 'min read';
+        return $minutes . ' ' . $suffix;
+    };
+    return $tags;
+} );</code></pre>
+        <p><strong>Usage in the editor:</strong></p>
+        <pre data-lang="text"><code>{reading_time}
+{reading_time|suffix:min}</code></pre>
+        <blockquote><p><strong>Security:</strong> The return value of a custom tag is escaped with <code>esc_html()</code> before output. If your tag returns HTML (e.g. an image), escape it appropriately yourself and use <code>wp_kses_post()</code> output escaping in your block's PHP render callback.</p></blockquote>
+
+        <hr>
+
+        <h2 id="where-resolved">When Tags Are Resolved</h2>
+        <p>Tags are resolved server-side in the block's PHP render callback — they never appear in the HTML source as raw <code>{…}</code> strings. In the block editor preview, the tag slug is shown as a placeholder; the resolved value is only visible on the frontend.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='dynamic-content';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

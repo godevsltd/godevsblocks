@@ -1,0 +1,204 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Translation — GoDevs Blocks Documentation</title>
+<meta name="description" content="How to translate GoBlocks into any language: POT file, GlotPress, Loco Translate, Poedit, JavaScript translations, and RTL support.">
+<meta property="og:title" content="Translation — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/translation.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Reference</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Translation</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Translation</h1>
+        <p>GoBlocks is fully translatable. All user-facing strings are internationalized and available for translation through WordPress.org's GlotPress translation system.</p>
+
+        <h2 id="text-domain">Text Domain</h2>
+        <p>GoBlocks uses the text domain <code>goblocks</code>. All PHP strings use <code>__( 'string', 'goblocks' )</code>, <code>_e()</code>, <code>esc_html__()</code>, or their plural equivalents.</p>
+        <pre data-lang="php"><code>&lt;?php
+$label = __( 'Clear CSS Cache', 'goblocks' );</code></pre>
+
+        <h2 id="pot-file">POT File</h2>
+        <p>The POT (Portable Object Template) file is the source of all translatable strings. It is located at:</p>
+        <pre data-lang="text"><code>goblocks/languages/goblocks.pot</code></pre>
+        <p>This file is updated on every release. If you are maintaining a translation, update your PO file from the latest POT after each GoBlocks update.</p>
+        <p>To regenerate the POT file from source:</p>
+        <pre data-lang="bash"><code>wp i18n make-pot . languages/goblocks.pot \
+  --domain=goblocks \
+  --exclude=node_modules,vendor</code></pre>
+
+        <h2 id="translating-on-wp-org">Translating on WordPress.org (GlotPress)</h2>
+        <p>The recommended way to contribute translations is through <a href="https://translate.wordpress.org/projects/wp-plugins/goblocks/" rel="noopener noreferrer">translate.wordpress.org</a>:</p>
+        <ol>
+          <li>Log in with your WordPress.org account.</li>
+          <li>Go to the GoBlocks translation project.</li>
+          <li>Select your language.</li>
+          <li>Translate strings and submit them for review.</li>
+          <li>Once approved, translations are automatically available to users who have that language set in WordPress settings.</li>
+        </ol>
+        <blockquote><p><strong>Tip:</strong> Translations on GlotPress require approval by a General Translation Editor for your locale. If you need faster turnaround, use a local file (see below).</p></blockquote>
+
+        <h2 id="loco-translate">Loco Translate (Recommended for Site Admins)</h2>
+        <p>The <a href="https://wordpress.org/plugins/loco-translate/" rel="noopener noreferrer">Loco Translate</a> plugin provides a browser-based PO file editor — no FTP or command-line needed.</p>
+        <ol>
+          <li>Install and activate the Loco Translate plugin.</li>
+          <li>Go to <strong>Loco Translate → Plugins → GoBlocks</strong>.</li>
+          <li>Click <strong>New language</strong> and select your locale.</li>
+          <li>Translate strings in the browser-based editor.</li>
+          <li>Click <strong>Save</strong> — Loco Translate compiles the MO file automatically.</li>
+        </ol>
+
+        <h2 id="poedit">Manual Translation with Poedit</h2>
+        <ol>
+          <li>Download and open <a href="https://poedit.net/" rel="noopener noreferrer">Poedit</a>.</li>
+          <li>Open the POT file: <strong>File → New from POT/PO File</strong> → select <code>languages/goblocks.pot</code>.</li>
+          <li>Choose your language and save as <code>goblocks-{locale}.po</code> (e.g. <code>goblocks-fr_FR.po</code>).</li>
+          <li>Translate strings. When you save, Poedit compiles <code>goblocks-fr_FR.mo</code> automatically.</li>
+          <li>Upload both <code>.po</code> and <code>.mo</code> files to <code>wp-content/languages/plugins/</code>.</li>
+        </ol>
+
+        <h2 id="file-locations">Translation File Locations</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>File</th><th>Location</th></tr></thead>
+            <tbody>
+              <tr><td>POT (source)</td><td><code>wp-content/plugins/goblocks/languages/goblocks.pot</code></td></tr>
+              <tr><td>PO (editable translation)</td><td><code>wp-content/languages/plugins/goblocks-{locale}.po</code></td></tr>
+              <tr><td>MO (compiled binary)</td><td><code>wp-content/languages/plugins/goblocks-{locale}.mo</code></td></tr>
+              <tr><td>JSON (JavaScript strings)</td><td><code>wp-content/languages/plugins/goblocks-{locale}-{hash}.json</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Note:</strong> Do not place translation files inside <code>wp-content/plugins/goblocks/languages/</code> — files placed there are overwritten on plugin updates. Always use <code>wp-content/languages/plugins/</code> for site-specific translations.</p></blockquote>
+
+        <h2 id="javascript-translations">JavaScript Translations</h2>
+        <p>GoBlocks's block editor scripts use WordPress's JavaScript i18n API:</p>
+        <pre data-lang="js"><code>import { __ } from '@wordpress/i18n';
+
+const label = __( 'Add Block', 'goblocks' );</code></pre>
+        <p>For JavaScript strings to be translated, a JSON translation file must be generated from the PO file and registered with WordPress:</p>
+        <pre data-lang="bash"><code>wp i18n make-json languages/goblocks-fr_FR.po \
+  --no-purge \
+  --pretty-print</code></pre>
+        <p>This creates JSON files in the <code>languages/</code> directory. GoBlocks registers these files using <code>wp_set_script_translations()</code>:</p>
+        <pre data-lang="php"><code>&lt;?php
+wp_set_script_translations(
+    'goblocks-editor',
+    'goblocks',
+    plugin_dir_path( __FILE__ ) . 'languages'
+);</code></pre>
+        <p>If you are using Loco Translate, it handles JSON file generation automatically.</p>
+
+        <h2 id="rtl">RTL (Right-to-Left) Languages</h2>
+        <p>GoBlocks supports RTL languages (Arabic, Hebrew, Persian, Urdu, etc.):</p>
+        <ul>
+          <li>The plugin uses WordPress's built-in RTL detection (<code>is_rtl()</code>).</li>
+          <li>When RTL is active, GoBlocks loads a supplementary <code>goblocks-rtl.css</code> file that mirrors flex directions, text alignment, and margin/padding logical properties.</li>
+          <li>The block editor UI is also RTL-aware.</li>
+        </ul>
+        <p>To test RTL, set your WordPress site language to Arabic (<code>ar</code>) or Hebrew (<code>he_IL</code>) in <strong>Settings → General → Site Language</strong>.</p>
+
+        <h2 id="locale-codes">Common Locale Codes</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Language</th><th>Locale code</th></tr></thead>
+            <tbody>
+              <tr><td>French</td><td><code>fr_FR</code></td></tr>
+              <tr><td>German</td><td><code>de_DE</code></td></tr>
+              <tr><td>Spanish (Spain)</td><td><code>es_ES</code></td></tr>
+              <tr><td>Spanish (Latin America)</td><td><code>es_MX</code></td></tr>
+              <tr><td>Portuguese (Brazil)</td><td><code>pt_BR</code></td></tr>
+              <tr><td>Italian</td><td><code>it_IT</code></td></tr>
+              <tr><td>Dutch</td><td><code>nl_NL</code></td></tr>
+              <tr><td>Japanese</td><td><code>ja</code></td></tr>
+              <tr><td>Chinese (Simplified)</td><td><code>zh_CN</code></td></tr>
+              <tr><td>Arabic</td><td><code>ar</code></td></tr>
+              <tr><td>Russian</td><td><code>ru_RU</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='translation';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks performance architecture: per-page CSS file generation, delta caching, conditional JS loading, and Core Web Vitals strategy.">
+<meta property="og:title" content="Performance — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/performance.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Performance</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Performance</h1>
+        <p>GoBlocks is engineered to have minimal impact on page-load performance. This page explains how CSS delivery, JavaScript loading, and browser caching work.</p>
+
+        <h2 id="per-page-css">Per-Page Static CSS Files</h2>
+        <p>GoBlocks does not load a single global stylesheet containing CSS for all 36 blocks. Instead, it generates a <strong>per-page CSS file</strong> that contains only the styles needed by the blocks on that specific page.</p>
+        <p><strong>Flow:</strong></p>
+        <ol>
+          <li>A post or page is saved in the block editor.</li>
+          <li>GoBlocks traverses the parsed block tree and collects CSS declarations from each GoBlocks block's attributes.</li>
+          <li>A CSS string is assembled and written to <code>wp-content/uploads/goblocks/{post-id}.css</code>.</li>
+          <li>On the frontend, that file is enqueued with a <code>&lt;link&gt;</code> tag. Only that one file loads.</li>
+        </ol>
+        <p><strong>Benefits:</strong></p>
+        <ul>
+          <li>A page with 5 blocks loads a CSS file of a few kilobytes — not a 100 KB global stylesheet.</li>
+          <li>The CSS file is a static file served directly by your web server with browser cache headers — no PHP or WordPress needed for repeat visitors.</li>
+          <li>The file is served from <code>/wp-content/uploads/</code>, which is typically on a CDN or object storage when using managed WordPress hosts.</li>
+        </ul>
+
+        <h2 id="delta-caching">Delta Regeneration</h2>
+        <p>CSS files are not regenerated on every save. GoBlocks uses <strong>block fingerprinting</strong>: before writing a new file, it computes a hash of the block attributes and compares it to the stored hash. If the hash has not changed, the existing CSS file is kept and no write occurs.</p>
+        <p>A CSS file is <em>only</em> regenerated when:</p>
+        <ul>
+          <li>The post is saved with block attribute changes that affect CSS output.</li>
+          <li>GoBlocks settings that affect CSS (container width, breakpoints, global color palette) are updated.</li>
+          <li>The CSS cache is manually cleared via <strong>GoBlocks → Settings → Clear CSS Cache</strong> or the REST API.</li>
+        </ul>
+        <blockquote><p><strong>Result:</strong> Even on pages that are frequently updated, the CSS file is regenerated only when the visual design changes — not on every text edit.</p></blockquote>
+
+        <h2 id="cache-busting">Browser Cache Busting</h2>
+        <p>The CSS file is enqueued with a <strong>version query string</strong> derived from the file's last-modified timestamp:</p>
+        <pre data-lang="html"><code>&lt;link rel="stylesheet" href="/wp-content/uploads/goblocks/42.css?v=1704067200"&gt;</code></pre>
+        <p>When the CSS is regenerated (because the page design changed), the timestamp changes, which causes browsers to fetch the updated file instead of serving the stale cached version. Unchanged pages always serve the cached version.</p>
+
+        <h2 id="inline-fallback">Inline CSS Fallback</h2>
+        <p>When the CSS print method is set to <code>'inline'</code> (or when the uploads directory is not writable), GoBlocks injects styles directly into <code>&lt;style&gt;</code> tags in the page <code>&lt;head&gt;</code>. Inline CSS cannot be browser-cached across pages, but it eliminates the extra HTTP request for the CSS file — useful when the page is already cached at the full-page level by a caching plugin.</p>
+        <p>To switch between modes: <strong>GoBlocks → Settings → CSS Print Method</strong>.</p>
+
+        <h2 id="js-loading">Conditional JavaScript Loading</h2>
+        <p>GoBlocks block JavaScript is enqueued <strong>only when the block is present on the page</strong>. This is implemented using WordPress's <code>has_block()</code> function.</p>
+        <pre data-lang="php"><code>&lt;?php
+// Only enqueue slider.js if the Slider block is on the page.
+if ( has_block( 'goblocks/slider' ) ) {
+    wp_enqueue_script( 'goblocks-slider', ... );
+}</code></pre>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Block</th><th>Frontend JS size (minified)</th></tr></thead>
+            <tbody>
+              <tr><td>Accordion</td><td>~200 B (none — native <code>&lt;details&gt;</code>)</td></tr>
+              <tr><td>Alert (dismissible)</td><td>~300 B</td></tr>
+              <tr><td>Counter</td><td>~900 B</td></tr>
+              <tr><td>Countdown</td><td>~1.1 KB</td></tr>
+              <tr><td>Flip Card</td><td>~500 B</td></tr>
+              <tr><td>Modal</td><td>~900 B</td></tr>
+              <tr><td>Navigation</td><td>~1.8 KB</td></tr>
+              <tr><td>Pagination (load more)</td><td>~1.2 KB</td></tr>
+              <tr><td>Progress Bar</td><td>~500 B</td></tr>
+              <tr><td>Slider</td><td>~3.1 KB</td></tr>
+              <tr><td>Table of Contents</td><td>~900 B</td></tr>
+              <tr><td>Tabs</td><td>~1.1 KB</td></tr>
+              <tr><td>Video (lazy facade)</td><td>~600 B</td></tr>
+              <tr><td>Lottie Animation</td><td>~22 KB (lottie-web player)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Tip:</strong> Only pages that contain a Lottie block load the 22 KB Lottie player. A page without Lottie loads zero bytes of Lottie code.</p></blockquote>
+
+        <h2 id="core-web-vitals">Core Web Vitals Strategy</h2>
+        <p>GoBlocks is designed with Core Web Vitals in mind:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>GoBlocks technique</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>LCP</strong> (Largest Contentful Paint)</td>
+                <td>Per-page CSS is render-blocking but tiny (typically 2–8 KB). Hero images can use <code>fetchpriority="high"</code> via the Image block's priority setting. Video blocks use a lazy facade so the iframe does not block initial render.</td>
+              </tr>
+              <tr>
+                <td><strong>CLS</strong> (Cumulative Layout Shift)</td>
+                <td>Image blocks always output explicit <code>width</code> and <code>height</code> attributes (from media library metadata). Slider, Tabs, and Accordion do not cause layout shift on load — they render their initial state without JavaScript transitions.</td>
+              </tr>
+              <tr>
+                <td><strong>INP</strong> (Interaction to Next Paint)</td>
+                <td>All interactive block scripts are minimal, synchronous-free, and event-delegation based. The heaviest block JS (Slider at ~3 KB) executes in under 1 ms on a mid-range mobile device.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="caching-plugins">Compatibility with Caching Plugins</h2>
+        <p>GoBlocks is compatible with all major WordPress caching plugins. Recommended configuration:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Plugin</th><th>Recommendation</th></tr></thead>
+            <tbody>
+              <tr><td>WP Rocket</td><td>Exclude <code>/wp-content/uploads/goblocks/</code> from minification. Enable CDN for this path.</td></tr>
+              <tr><td>W3 Total Cache</td><td>No special configuration required. GoBlocks CSS files are detected as static assets.</td></tr>
+              <tr><td>WP Super Cache</td><td>No special configuration required.</td></tr>
+              <tr><td>LiteSpeed Cache</td><td>No special configuration required. GoBlocks CSS is served as a static file.</td></tr>
+              <tr><td>Cloudflare</td><td>GoBlocks CSS files are automatically cached at the CDN edge. Cache is busted by the version query string when CSS regenerates.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote><p><strong>Caution:</strong> Some aggressive minification plugins may attempt to inline or merge GoBlocks CSS files. If you notice styling issues after enabling a new caching/optimization plugin, exclude <code>/wp-content/uploads/goblocks/*.css</code> from that plugin's CSS processing.</p></blockquote>
+
+        <h2 id="clearing-cache">Clearing the CSS Cache</h2>
+        <p><strong>Via admin UI:</strong> GoBlocks → Settings → Clear CSS Cache.</p>
+        <p><strong>Via WP-CLI:</strong></p>
+        <pre data-lang="bash"><code># Clear all CSS cache files
+wp eval 'GoBlocks\CSS\CssEnqueue::clear_all_cache();'
+
+# Clear cache for a specific post
+wp eval 'GoBlocks\CSS\CssEnqueue::clear_post_cache( 42 );'</code></pre>
+        <p><strong>Via REST API:</strong></p>
+        <pre data-lang="bash"><code>DELETE /wp-json/goblocks/v1/css/cache
+DELETE /wp-json/goblocks/v1/css/cache/42</code></pre>
+        <p>After clearing the cache, each page's CSS will be regenerated on the next frontend request. On high-traffic sites, consider warming the cache by crawling the site after clearing.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='performance';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

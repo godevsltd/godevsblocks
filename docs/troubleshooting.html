@@ -1,0 +1,195 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Troubleshooting — GoDevs Blocks Documentation</title>
+<meta name="description" content="Solutions to common GoBlocks issues: blocks not appearing, CSS not loading, editor crashes, dynamic content, and more.">
+<meta property="og:title" content="Troubleshooting — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/troubleshooting.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Reference</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Troubleshooting</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Troubleshooting</h1>
+        <p>Before reporting a bug, please try the steps below. Most issues resolve with one of these solutions.</p>
+
+        <h2 id="blocks-not-appearing">Blocks Not Appearing in the Inserter</h2>
+        <p><strong>Symptoms:</strong> The GoBlocks category is missing from the block inserter, or individual GoBlocks blocks do not appear.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>Plugin not activated:</strong> Go to <strong>Plugins → Installed Plugins</strong> and verify GoBlocks shows <em>Active</em> status.</li>
+          <li><strong>Classic Editor plugin active:</strong> The Classic Editor plugin disables the block editor entirely. Deactivate the Classic Editor plugin to use GoBlocks.</li>
+          <li><strong>PHP version too low:</strong> GoBlocks requires PHP 8.0+. Check your PHP version in <strong>Tools → Site Health → Info → Server</strong>. Upgrade PHP if it is below 8.0.</li>
+          <li><strong>Plugin conflict:</strong> Deactivate all other plugins except GoBlocks and test. Reactivate one by one to identify the conflicting plugin.</li>
+          <li><strong>Theme conflict:</strong> Switch to the Twenty Twenty-Four theme temporarily and test. If blocks appear, the issue is theme-specific.</li>
+        </ol>
+
+        <h2 id="css-not-loading">CSS Not Loading / Blocks Appear Unstyled</h2>
+        <p><strong>Symptoms:</strong> GoBlocks blocks appear in the frontend but without styles — no colors, incorrect spacing, boxes without borders.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>Uploads directory not writable:</strong> GoBlocks needs write access to <code>wp-content/uploads/goblocks/</code>. Check permissions — the directory should be <code>755</code> or <code>775</code> and owned by the web server user.
+            <pre data-lang="bash"><code>ls -la wp-content/uploads/goblocks/</code></pre>
+          </li>
+          <li><strong>CSS Print Method set to inline but something is stripping <code>&lt;style&gt;</code> tags:</strong> Check if a security plugin or server-level WAF is removing inline style tags.</li>
+          <li><strong>CSS file blocked by server:</strong> Try accessing the CSS file URL directly in your browser (e.g. <code>/wp-content/uploads/goblocks/42.css</code>). A 403 or 404 response indicates a server configuration issue.</li>
+          <li><strong>Page not yet saved:</strong> CSS is generated on save. Open the page in the editor and save it to trigger CSS generation.</li>
+          <li><strong>Switch to inline mode temporarily:</strong> Go to <strong>GoBlocks → Settings → CSS Print Method</strong> → set to <code>inline</code> → Save. If styles appear, the file writing or serving is the problem.</li>
+        </ol>
+
+        <h2 id="editor-crashes">Block Editor Crashes or Shows "Block has encountered an error"</h2>
+        <p><strong>Symptoms:</strong> A GoBlocks block shows an error boundary in the editor with "Block has encountered an error" and an "Attempt Recovery" button.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>WordPress version too low:</strong> Update WordPress to 6.5 or newer. GoBlocks uses Block API v3 features not available in older versions.</li>
+          <li><strong>Stale browser cache:</strong> After a GoBlocks update, your browser may have cached the old block editor scripts. Hard-refresh with Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac).</li>
+          <li><strong>JavaScript conflict:</strong> Open your browser's developer tools → Console. Look for JavaScript errors. If an error mentions another plugin, that plugin may be conflicting. Deactivate other plugins one by one to isolate.</li>
+          <li><strong>Corrupted block markup:</strong> Use <strong>Attempt Recovery</strong> which will try to parse the block from its saved attributes. If recovery fails, you may need to edit the post in Code view and correct the block comment.</li>
+        </ol>
+
+        <h2 id="dynamic-content-not-resolving">Dynamic Content Tags Not Resolving</h2>
+        <p><strong>Symptoms:</strong> <code>{post_title}</code> or other tags appear literally in the frontend HTML source.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>Used in an unsupported block or field:</strong> Dynamic tags only work in the blocks and fields listed in <a href="dynamic-content.html#supported-blocks">Dynamic Content → Supported Blocks</a>. Tags in core WordPress blocks are not parsed.</li>
+          <li><strong>Used outside a Query Loop without post context:</strong> On archive or home pages, post-specific tags resolve to an empty string. Use <code>fallback</code>: <code>{post_title|fallback:No title}</code>.</li>
+          <li><strong>Full-page cache serving old content:</strong> If you recently added dynamic tags to an existing page, purge your full-page cache to regenerate the HTML.</li>
+          <li><strong>Tag syntax error:</strong> Check that the tag uses curly braces (<code>{}</code>) and not square brackets or other delimiters. Options must use a pipe: <code>{post_date|format:Y}</code>.</li>
+        </ol>
+
+        <h2 id="interactive-blocks-not-working">Interactive Blocks Not Working on Frontend</h2>
+        <p><strong>Symptoms:</strong> Tabs, Accordion, Modal, Slider, or Counter do not respond to user interaction on the frontend.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>JavaScript file not loaded:</strong> Open browser devtools → Network tab → search for <code>goblocks</code>. If the block's JS file is absent, GoBlocks may not be detecting the block with <code>has_block()</code>.
+            <ul>
+              <li>Verify the block is present on the page (not inside a nested Query Loop on a template). Some server-side caches cache the page before GoBlocks can detect the block.</li>
+              <li>Try adding the block directly to a standard post or page (not a template) and testing there.</li>
+            </ul>
+          </li>
+          <li><strong>JavaScript error from another plugin:</strong> Open browser devtools → Console. If there is a JS error from another plugin on the same line as GoBlocks initialization, that error may be preventing GoBlocks scripts from running. Deactivate plugins one by one.</li>
+          <li><strong>Optimization plugin deferring or merging GoBlocks JS:</strong> Plugins like WP Rocket's JS optimization can break GoBlocks's event listeners by deferring scripts. Exclude GoBlocks JS files from deferral:</li>
+        </ol>
+        <pre data-lang="text"><code>wp-content/plugins/goblocks/assets/js/</code></pre>
+
+        <h2 id="patterns-not-appearing">Patterns Not Appearing in the Pattern Library</h2>
+        <p><strong>Symptoms:</strong> GoBlocks patterns are missing from the Patterns tab in the block inserter.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>Pattern category not registered:</strong> GoBlocks registers its pattern category on the <code>init</code> hook. If a conflict occurs during <code>init</code>, the category may not be registered. Check the PHP error log for fatal errors.</li>
+          <li><strong>WordPress version below 6.0:</strong> The block pattern API used by GoBlocks requires WordPress 6.0+. Update WordPress.</li>
+          <li><strong>Block pattern caching:</strong> In some configurations, WordPress caches the pattern registry. Deactivate any pattern-caching plugins and test.</li>
+        </ol>
+
+        <h2 id="css-regenerating">CSS Regenerating on Every Page Load</h2>
+        <p><strong>Symptoms:</strong> Every frontend page load takes slightly longer than expected. Checking the uploads directory shows the CSS file's timestamp changing on every request.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>Object cache not persisting post meta:</strong> GoBlocks uses WordPress's object cache to store the block fingerprint (hash). If your site does not have a persistent object cache (Redis or Memcached), the hash is re-computed on every request. Install a persistent object cache plugin (Redis Object Cache is recommended for most hosts).</li>
+          <li><strong>File system permissions preventing the CSS file from being read:</strong> GoBlocks checks whether the existing CSS file is up-to-date by reading its modification time. If the file cannot be read (due to permissions), GoBlocks regenerates it. Check permissions on <code>wp-content/uploads/goblocks/</code>.</li>
+        </ol>
+
+        <h2 id="wpcli-errors">WP-CLI Commands Fail</h2>
+        <p><strong>Symptoms:</strong> Running <code>wp goblocks cache clear</code> or GoBlocks WP-CLI commands returns an error.</p>
+        <p><strong>Causes and solutions:</strong></p>
+        <ol>
+          <li><strong>WP-CLI version too low:</strong> GoBlocks requires WP-CLI 2.7+. Run <code>wp cli version</code> to check. Update with <code>wp cli update</code>.</li>
+          <li><strong>WordPress not fully loaded in CLI context:</strong> Some WP-CLI commands run without the full WordPress initialization. GoBlocks CLI commands require the full WordPress environment. Use <code>wp --require=wp-load.php goblocks …</code> if commands fail to bootstrap.</li>
+          <li><strong>Missing capability:</strong> WP-CLI commands that modify GoBlocks settings run as the configured CLI user. Ensure the CLI user has the <code>manage_options</code> capability.</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="getting-help">Still Stuck?</h2>
+        <p>If none of the above solutions resolve your issue:</p>
+        <ol>
+          <li>Check the <a href="https://wordpress.org/support/plugin/goblocks" rel="noopener noreferrer">WordPress.org support forum</a> for similar reports.</li>
+          <li>Enable <strong>WP_DEBUG</strong> in <code>wp-config.php</code> and check <code>wp-content/debug.log</code> for PHP errors related to GoBlocks.</li>
+          <li>Open a new thread in the support forum with your WordPress version, PHP version, list of active plugins, and a description of the issue including any error messages.</li>
+        </ol>
+        <p>See <a href="support.html">Support</a> for full contact information and response time expectations.</p>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='troubleshooting';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>

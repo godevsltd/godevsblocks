@@ -1,0 +1,210 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hooks & Filters — GoDevs Blocks Documentation</title>
+<meta name="description" content="Complete reference for GoBlocks PHP hooks and filters: actions and filters with full signatures and usage examples.">
+<meta property="og:title" content="Hooks & Filters — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/developer/hooks-filters.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="../index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Developer</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Hooks &amp; Filters</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Hooks &amp; Filters</h1>
+        <p>GoBlocks provides <strong>2 action hooks</strong> and <strong>4 filter hooks</strong> for extending plugin behaviour without modifying plugin files.</p>
+
+        <h2 id="actions">Action Hooks</h2>
+
+        <h3 id="goblocks-block-registered"><code>goblocks_block_registered</code></h3>
+        <pre data-lang="php"><code>do_action( string $block_name, array $block_args );</code></pre>
+        <p>Fired immediately after each GoBlocks block type is registered with <code>register_block_type()</code>.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$block_name</code></td><td><code>string</code></td><td>The registered block name, e.g. <code>goblocks/group</code></td></tr>
+          <tr><td><code>$block_args</code></td><td><code>array</code></td><td>The arguments passed to <code>register_block_type()</code></td></tr>
+        </tbody></table></div>
+        <p><strong>Example — log all block registrations:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_action( 'goblocks_block_registered', function( string $name, array $args ): void {
+    error_log( 'Registered block: ' . $name );
+}, 10, 2 );</code></pre>
+        <p><strong>Hook priority:</strong> Fires on <code>init</code> at priority 10 (after WordPress's own block registration).</p>
+
+        <hr>
+
+        <h3 id="goblocks-css-generated"><code>goblocks_css_generated</code></h3>
+        <pre data-lang="php"><code>do_action( string $css, int $post_id, string $file_path );</code></pre>
+        <p>Fired after a new per-page CSS file has been written to disk.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$css</code></td><td><code>string</code></td><td>The full CSS string that was written</td></tr>
+          <tr><td><code>$post_id</code></td><td><code>int</code></td><td>The ID of the post the CSS was generated for</td></tr>
+          <tr><td><code>$file_path</code></td><td><code>string</code></td><td>Absolute path to the written CSS file</td></tr>
+        </tbody></table></div>
+        <p><strong>Example — invalidate a CDN cache after CSS regeneration:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_action( 'goblocks_css_generated', function( string $css, int $post_id, string $file_path ): void {
+    $url = get_permalink( $post_id );
+    cloudflare_purge_url( $url );
+}, 10, 3 );</code></pre>
+
+        <hr>
+
+        <h2 id="filters">Filter Hooks</h2>
+
+        <h3 id="goblocks-dynamic-tags"><code>goblocks_dynamic_tags</code></h3>
+        <pre data-lang="php"><code>apply_filters( 'goblocks_dynamic_tags', array $tags ): array;</code></pre>
+        <p>Allows registering custom dynamic content tags or overriding existing ones. The filter receives the full associative array of registered tags — key is the tag slug, value is a callable.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$tags</code></td><td><code>array</code></td><td>Associative array of <code>slug =&gt; callable</code>. Each callable receives <code>(array $options, WP_Post $post)</code> and must return <code>string</code>.</td></tr>
+        </tbody></table></div>
+        <p><strong>Example:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_dynamic_tags', function( array $tags ): array {
+    $tags['my_tag'] = function( array $options, WP_Post $post ): string {
+        return esc_html( get_post_meta( $post-&gt;ID, 'my_meta_key', true ) );
+    };
+    return $tags;
+} );</code></pre>
+        <p>See <a href="../dynamic-content.html#custom-tags">Dynamic Content → Registering Custom Tags</a> for a full example.</p>
+
+        <hr>
+
+        <h3 id="goblocks-query-args"><code>goblocks_query_args</code></h3>
+        <pre data-lang="php"><code>apply_filters( 'goblocks_query_args', array $args, array $block_attributes ): array;</code></pre>
+        <p>Modifies the <code>WP_Query</code> arguments before the Query block executes its query.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$args</code></td><td><code>array</code></td><td>The full <code>WP_Query</code> arguments array</td></tr>
+          <tr><td><code>$block_attributes</code></td><td><code>array</code></td><td>The Query block's attributes as saved in the editor</td></tr>
+        </tbody></table></div>
+        <p><strong>Example — add sticky posts to every query:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_query_args', function( array $args, array $attrs ): array {
+    $args['ignore_sticky_posts'] = false;
+    return $args;
+}, 10, 2 );</code></pre>
+
+        <hr>
+
+        <h3 id="goblocks-block-css"><code>goblocks_block_css</code></h3>
+        <pre data-lang="php"><code>apply_filters( 'goblocks_block_css', string $css, array $block, WP_Post $post ): string;</code></pre>
+        <p>Allows appending to or replacing the CSS generated for a specific block instance. Called once per block during the CSS generation pass.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$css</code></td><td><code>string</code></td><td>The CSS string generated by GoBlocks for this block</td></tr>
+          <tr><td><code>$block</code></td><td><code>array</code></td><td>The parsed block array (<code>blockName</code>, <code>attrs</code>, <code>innerBlocks</code>)</td></tr>
+          <tr><td><code>$post</code></td><td><code>WP_Post</code></td><td>The post the CSS is being generated for</td></tr>
+        </tbody></table></div>
+        <p><strong>Example — append a hover CSS rule to all Button blocks:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_block_css', function( string $css, array $block, WP_Post $post ): string {
+    if ( $block['blockName'] !== 'goblocks/button' ) {
+        return $css;
+    }
+    $uid = esc_attr( $block['attrs']['uid'] ?? '' );
+    $css .= ".gb-block-{$uid}:hover { transform: translateY(-2px); }";
+    return $css;
+}, 10, 3 );</code></pre>
+
+        <hr>
+
+        <h3 id="goblocks-settings-defaults"><code>goblocks_settings_defaults</code></h3>
+        <pre data-lang="php"><code>apply_filters( 'goblocks_settings_defaults', array $defaults ): array;</code></pre>
+        <p>Modifies the default settings values used when <code>goblocks_settings</code> is not yet set in the database (fresh install) or when a key is missing.</p>
+        <div class="table-wrap"><table><tbody>
+          <tr><td><strong>Parameter</strong></td><td><strong>Type</strong></td><td><strong>Description</strong></td></tr>
+          <tr><td><code>$defaults</code></td><td><code>array</code></td><td>The default settings array (all 8 settings keys with their built-in defaults)</td></tr>
+        </tbody></table></div>
+        <p><strong>Example — change the default container width for a theme that uses 1440px:</strong></p>
+        <pre data-lang="php"><code>&lt;?php
+add_filter( 'goblocks_settings_defaults', function( array $defaults ): array {
+    $defaults['container_width'] = 1440;
+    return $defaults;
+} );</code></pre>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='developer/hooks-filters';window.GB_BASE='../';</script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/search-data.js"></script>
+</body>
+</html>

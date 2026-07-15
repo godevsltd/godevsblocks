@@ -1,0 +1,231 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessibility — GoDevs Blocks Documentation</title>
+<meta name="description" content="GoBlocks WCAG 2.1 AA compliance: per-block ARIA patterns, keyboard navigation, focus management, and accessible HTML semantics.">
+<meta property="og:title" content="Accessibility — GoDevs Blocks Docs">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://godevs.net/goblocks/docs/accessibility.html">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="top-nav" role="banner">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="nav-logo" href="index.html">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="white" opacity="0.95"/><rect x="13" y="2" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="2" y="13" width="9" height="9" rx="2" fill="white" opacity="0.65"/><rect x="13" y="13" width="9" height="9" rx="2" fill="white" opacity="0.35"/></svg></span>
+        <span class="logo-wordmark">GoBlocks</span><span class="logo-badge">Docs</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" id="search-open" aria-label="Search documentation" aria-haspopup="dialog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="s-text">Search docs…</span><kbd>⌘K</kbd>
+      </button>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a class="nav-cta" href="https://wordpress.org/plugins/goblocks" rel="noopener noreferrer">Download Free</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-layout">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+    <div class="sidebar-inner">
+      <button class="sidebar-search-mini" id="sidebar-search-btn" aria-label="Search" aria-haspopup="dialog">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search…
+      </button>
+      <nav aria-label="Site navigation"><ul id="sidebar-nav"></ul></nav>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <div class="content-wrap">
+    <main class="content" id="main">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Docs</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Core Concepts</span>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Accessibility</span>
+      </nav>
+
+      <article class="prose">
+        <h1>Accessibility</h1>
+        <p>GoBlocks is built to comply with <strong>WCAG 2.1 Level AA</strong>. Every interactive block implements the relevant <a href="https://www.w3.org/WAI/ARIA/apg/" rel="noopener noreferrer">ARIA Authoring Practices Guide</a> pattern. This page documents the ARIA semantics, keyboard support, and focus management for each interactive block.</p>
+
+        <h2 id="general">General Practices</h2>
+        <ul>
+          <li>All blocks use <strong>semantic HTML5 elements</strong> as the primary structure before falling back to ARIA roles.</li>
+          <li>Every focusable element has a <strong>visible focus indicator</strong> that meets the WCAG 2.1 AA focus-visible requirement.</li>
+          <li>Color is never the sole means of conveying information — icons, labels, or patterns supplement color-coded states.</li>
+          <li>All image blocks output <code>alt</code> text (either from the media library metadata or the author-supplied field). Empty alt (<code>alt=""</code>) is used for purely decorative images.</li>
+          <li>GoBlocks honors <code>prefers-reduced-motion</code>: all CSS transitions and JavaScript animations respect this media query and are disabled or shortened when the user prefers reduced motion.</li>
+        </ul>
+
+        <h2 id="tabs-accessibility">Tabs Block</h2>
+        <p>Implements the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" rel="noopener noreferrer">ARIA Tabs Pattern</a>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>Role / Attribute</th></tr></thead>
+            <tbody>
+              <tr><td>Tab container</td><td><code>role="tablist"</code>, <code>aria-label</code></td></tr>
+              <tr><td>Each tab button</td><td><code>role="tab"</code>, <code>aria-selected="true/false"</code>, <code>aria-controls="{panel-id}"</code>, <code>id="{tab-id}"</code></td></tr>
+              <tr><td>Each panel</td><td><code>role="tabpanel"</code>, <code>aria-labelledby="{tab-id}"</code>, <code>id="{panel-id}"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Keyboard support:</strong></p>
+        <ul>
+          <li><kbd>←</kbd> / <kbd>→</kbd> — move focus between tabs (horizontal tablist)</li>
+          <li><kbd>↑</kbd> / <kbd>↓</kbd> — move focus between tabs (vertical tablist)</li>
+          <li><kbd>Home</kbd> — move focus to the first tab</li>
+          <li><kbd>End</kbd> — move focus to the last tab</li>
+          <li><kbd>Space</kbd> / <kbd>Enter</kbd> — activate the focused tab</li>
+        </ul>
+
+        <h2 id="accordion-accessibility">Accordion Block</h2>
+        <p>Built on native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> HTML elements — keyboard and screen reader support is provided natively by the browser.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>HTML Element</th></tr></thead>
+            <tbody>
+              <tr><td>Accordion item</td><td><code>&lt;details&gt;</code></td></tr>
+              <tr><td>Trigger (question)</td><td><code>&lt;summary&gt;</code></td></tr>
+              <tr><td>Content (answer)</td><td><code>&lt;div&gt;</code> inside <code>&lt;details&gt;</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>No additional ARIA is required. <kbd>Enter</kbd> or <kbd>Space</kbd> on <code>&lt;summary&gt;</code> toggles the disclosure.</p>
+        <p>When FAQ Schema is enabled, the Accordion outputs <code>itemscope</code> and <code>itemtype="https://schema.org/Question"</code> / <code>Answer</code> attributes without affecting the HTML semantics used by assistive technologies.</p>
+
+        <h2 id="modal-accessibility">Modal Block</h2>
+        <p>Implements the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/" rel="noopener noreferrer">ARIA Dialog Pattern</a>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>Role / Attribute</th></tr></thead>
+            <tbody>
+              <tr><td>Dialog container</td><td><code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby="{title-id}"</code></td></tr>
+              <tr><td>Trigger button</td><td><code>&lt;button&gt;</code> with descriptive label</td></tr>
+              <tr><td>Close button</td><td><code>aria-label="Close dialog"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Focus management:</strong> When the modal opens, focus is moved to the first focusable element inside the dialog. Focus is <strong>trapped</strong> inside the dialog while it is open — Tab and Shift+Tab cycle only within the dialog. When the dialog closes, focus is returned to the trigger button.</p>
+        <p><strong>Keyboard support:</strong></p>
+        <ul>
+          <li><kbd>Escape</kbd> — closes the dialog</li>
+          <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — cycles focus within the dialog</li>
+        </ul>
+
+        <h2 id="navigation-accessibility">Navigation Block</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>Role / Attribute</th></tr></thead>
+            <tbody>
+              <tr><td>Nav wrapper</td><td><code>&lt;nav aria-label="Primary navigation"&gt;</code></td></tr>
+              <tr><td>Submenu toggle</td><td><code>aria-expanded="true/false"</code>, <code>aria-controls="{submenu-id}"</code></td></tr>
+              <tr><td>Submenu list</td><td><code>id="{submenu-id}"</code></td></tr>
+              <tr><td>Mobile hamburger</td><td><code>aria-label="Toggle menu"</code>, <code>aria-expanded</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Submenus open on both click and keyboard (Enter or Space on the toggle button). <kbd>Escape</kbd> closes an open submenu and returns focus to the toggle.</p>
+
+        <h2 id="slider-accessibility">Slider Block</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>Role / Attribute</th></tr></thead>
+            <tbody>
+              <tr><td>Slider region</td><td><code>role="region"</code>, <code>aria-label="Slider"</code></td></tr>
+              <tr><td>Slide list</td><td><code>role="tablist"</code> (dot indicators)</td></tr>
+              <tr><td>Dot indicator</td><td><code>role="tab"</code>, <code>aria-selected</code>, <code>aria-label="Slide N"</code></td></tr>
+              <tr><td>Previous / Next buttons</td><td><code>aria-label="Previous slide"</code> / <code>"Next slide"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Autoplay is paused when the slider receives keyboard focus or the user's mouse enters the slider, preventing users from missing content.</p>
+
+        <h2 id="counter-accessibility">Counter Block</h2>
+        <p>The animated number element is wrapped in a <code>&lt;span aria-live="polite"&gt;</code>. Screen readers will announce the final value once the animation completes. The element is not announced during each frame of the animation to avoid overwhelming assistive technology users.</p>
+
+        <h2 id="progress-bar-accessibility">Progress Bar Block</h2>
+        <pre data-lang="html"><code>&lt;div
+  role="progressbar"
+  aria-valuenow="75"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-label="Skill level: JavaScript"
+&gt;</code></pre>
+        <p>The <code>aria-label</code> is set from the label field in the block Inspector. Ensure the label is descriptive (e.g. "JavaScript proficiency: 75%") rather than generic ("Progress bar").</p>
+
+        <h2 id="alert-accessibility">Alert Block</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Variant</th><th>ARIA role</th></tr></thead>
+            <tbody>
+              <tr><td>Info</td><td><code>role="note"</code></td></tr>
+              <tr><td>Success</td><td><code>role="status"</code></td></tr>
+              <tr><td>Warning</td><td><code>role="note"</code></td></tr>
+              <tr><td>Error</td><td><code>role="alert"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><code>role="alert"</code> causes screen readers to announce the content immediately when the element appears in the DOM. Use the Error variant only for critical messages. The Info and Warning variants use <code>role="note"</code>, which is read in document order without interrupting the screen reader's current position.</p>
+
+        <h2 id="video-accessibility">Video Block</h2>
+        <p>The lazy facade (poster image with a play button) is rendered as a <code>&lt;button&gt;</code> element with <code>aria-label="Play video: {title}"</code>. This ensures the play trigger is keyboard-accessible and properly announced by screen readers.</p>
+        <p>For self-hosted videos, GoBlocks passes through the <code>&lt;video&gt;</code> element's native browser controls, which are keyboard and screen reader accessible. For embedded videos (YouTube, Vimeo), the iframe is given a descriptive <code>title</code> attribute.</p>
+
+        <h2 id="best-practices">Authoring Best Practices</h2>
+        <ul>
+          <li><strong>Headings:</strong> Use the Heading block with the correct heading level for your document outline. Do not skip heading levels (h2 → h4) for visual appearance — use padding/margin instead.</li>
+          <li><strong>Links vs. buttons:</strong> Use Button blocks with a valid <code>href</code> for navigation links. Use <code>&lt;button&gt;</code> (the default when href is empty) for actions that do not navigate.</li>
+          <li><strong>Images:</strong> Always set meaningful alt text on Image blocks. For decorative images (backgrounds, illustration accents), use the <strong>Decorative image</strong> toggle to output <code>alt=""</code>.</li>
+          <li><strong>Color contrast:</strong> GoBlocks's default color palette meets WCAG AA 4.5:1 contrast for normal text and 3:1 for large text. Verify custom palette colors with a contrast checker before use.</li>
+          <li><strong>Animation:</strong> Keep animations subtle and short. GoBlocks automatically disables block animations when <code>prefers-reduced-motion</code> is active.</li>
+        </ul>
+      </article>
+
+      <nav class="doc-nav" id="doc-nav" aria-label="Documentation pages"></nav>
+    </main>
+
+    <aside class="toc-panel" aria-label="On this page">
+      <p class="toc-label">On this page</p>
+      <nav id="toc-nav" aria-label="Table of contents"></nav>
+    </aside>
+  </div>
+</div>
+
+<button class="back-top" id="back-top" aria-label="Scroll to top">↑</button>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search documentation">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="search-input" placeholder="Search documentation…" autocomplete="off" spellcheck="false" aria-label="Search">
+      <button class="search-esc" id="search-close" aria-label="Close search">ESC</button>
+    </div>
+    <div id="search-results" role="listbox"></div>
+    <div class="search-footer">
+      <span class="search-hint"><kbd>↑↓</kbd> navigate</span>
+      <span class="search-hint"><kbd>↵</kbd> select</span>
+      <span class="search-hint"><kbd>ESC</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>window.GB_PAGE='accessibility';window.GB_BASE='';</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/search-data.js"></script>
+</body>
+</html>
