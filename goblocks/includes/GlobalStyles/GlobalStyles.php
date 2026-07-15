@@ -27,7 +27,8 @@ class GlobalStyles {
 	 * @return void
 	 */
 	public static function boot(): void {
-		add_action( 'wp_head', array( self::class, 'output_frontend_css' ), 5 );
+		// Priority 20 so goblocks-frontend-base (priority 15) is registered first.
+		add_action( 'wp_enqueue_scripts', array( self::class, 'output_frontend_css' ), 20 );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'output_editor_css' ) );
 		// admin_menu registration is handled centrally by Admin::register_all_menus().
 		// to guarantee the parent page exists before this submenu is added.
@@ -44,8 +45,8 @@ class GlobalStyles {
 	public static function add_submenu_page(): void {
 		add_submenu_page(
 			'goblocks-settings',
-			__( 'GoBlocks — Global Styles', 'goblocks' ),
-			__( 'Global Styles', 'goblocks' ),
+			__( 'GoBlocks — Global Styles', 'godevs-block-library' ),
+			__( 'Global Styles', 'godevs-block-library' ),
 			'manage_options',
 			'goblocks-global-styles',
 			array( self::class, 'render_page' )
@@ -61,7 +62,7 @@ class GlobalStyles {
 	 */
 	public static function render_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'goblocks' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'godevs-block-library' ) );
 		}
 
 		echo '<div id="goblocks-global-styles-root" class="gb-global-styles-root"></div>';
@@ -126,7 +127,7 @@ class GlobalStyles {
 			);
 		}
 
-		wp_set_script_translations( 'goblocks-global-styles', 'goblocks', GOBLOCKS_DIR . 'languages' );
+		wp_set_script_translations( 'goblocks-global-styles', 'godevs-block-library', GOBLOCKS_DIR . 'languages' );
 
 		wp_localize_script(
 			'goblocks-global-styles',
@@ -153,9 +154,13 @@ class GlobalStyles {
 		if ( '' === $css ) {
 			return;
 		}
-		// All values are sanitized in build_token_css() — safe to echo.
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo "\n<style id=\"goblocks-global-styles\">\n" . $css . "\n</style>\n";
+		// Use wp_add_inline_style() to attach token overrides via WordPress's
+		// enqueue system. Attached to a virtual handle so the :root {} block
+		// is output after the base stylesheet.
+		$handle = 'goblocks-global-tokens';
+		wp_register_style( $handle, false, array( 'goblocks-frontend-base' ), GOBLOCKS_VERSION );
+		wp_enqueue_style( $handle );
+		wp_add_inline_style( $handle, $css );
 	}
 
 	/**

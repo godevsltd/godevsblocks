@@ -36,22 +36,16 @@ class CssEnqueue extends Singleton {
 	private ?array $template_block_cache = null;
 
 	/**
-	 * Whether we've already printed inline CSS for the current request.
-	 *
-	 * @var bool
-	 */
-	private bool $printed_inline = false;
-
-	/**
 	 * Register all WordPress hooks.
 	 *
 	 * @return void
 	 */
 	public function register_hooks(): void {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_base' ), 15 );
+		// Template CSS must be enqueued before per-post CSS (priority 20 vs 25).
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_template_css' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_nav_breakpoint_css' ), 22 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ), 25 );
-		// FSE template CSS must print before per-post inline CSS (priority 8 vs 9).
-		add_action( 'wp_head', array( $this, 'print_template_css' ), 8 );
 		add_action( 'save_post', array( $this, 'on_save_post' ), 10, 1 );
 		add_action( 'delete_post', array( $this, 'on_delete_post' ), 10, 1 );
 	}
@@ -118,28 +112,7 @@ class CssEnqueue extends Singleton {
 			return;
 		}
 
-		// Fallback: generate on the fly and print inline.
-		add_action( 'wp_head', array( $this, 'print_inline_css' ), 9 );
-	}
-
-	/**
-	 * Print CSS inline in <head> as a fallback.
-	 *
-	 * @return void
-	 */
-	public function print_inline_css(): void {
-		if ( $this->printed_inline ) {
-			return;
-		}
-
-		$post_id = get_queried_object_id();
-
-		if ( ! $post_id ) {
-			return;
-		}
-
-		// Use get_queried_object() so preview/revision content is included.
-		// get_post_field() reads from the DB and misses unsaved preview changes.
+		// Fallback: generate CSS on the fly and attach via wp_add_inline_style().
 		$queried = get_queried_object();
 		if ( $queried instanceof \WP_Post ) {
 			$css = CssGenerator::collect_from_blocks( parse_blocks( $queried->post_content ) );
@@ -153,28 +126,26 @@ class CssEnqueue extends Singleton {
 			$css = CssGenerator::flip_rtl( $css );
 		}
 
-		if ( '' !== $css ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo '<style id="goblocks-inline-' . absint( $post_id ) . '">' . $css . '</style>' . "\n";
+		if ( '' === $css ) {
+			return;
 		}
 
-		$this->printed_inline = true;
+		$handle = 'goblocks-inline-' . $post_id;
+		wp_register_style( $handle, false, array(), GOBLOCKS_VERSION );
+		wp_enqueue_style( $handle );
+		wp_add_inline_style( $handle, $css );
 	}
 
 	/**
-	 * Print inline CSS for GoBlocks in FSE block-theme templates.
+	 * Enqueue CSS for GoBlocks blocks in FSE block-theme templates.
 	 *
-	 * Classic themes: template markup is assembled via template files, not block
-	 * markup, so this method exits immediately.
-	 * Block themes: WordPress stores the active template's block HTML in the
-	 * $_wp_current_template_content global (set during template_include, before
-	 * wp_head fires).  We parse it, collect GoBlocks CSS, and print it inline so
-	 * header/footer/global-template blocks are styled even when no post content
-	 * is loaded on the page (e.g. 404, search, archive).
+	 * $_wp_current_template_content is set during template_include (before
+	 * wp_enqueue_scripts fires), so the template blocks are available here.
+	 * Uses wp_add_inline_style() so WordPress manages the output.
 	 *
 	 * @return void
 	 */
-	public function print_template_css(): void {
+	public function enqueue_template_css(): void {
 		$blocks = $this->get_template_blocks();
 		if ( ! $this->blocks_contain_goblocks( $blocks ) ) {
 			return;
@@ -191,8 +162,89 @@ class CssEnqueue extends Singleton {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo '<style id="goblocks-template-css">' . $css . '</style>' . "\n";
+		$handle = 'goblocks-template-css';
+		wp_register_style( $handle, false, array(), GOBLOCKS_VERSION );
+		wp_enqueue_style( $handle );
+		wp_add_inline_style( $handle, $css );
+	}
+
+	/**
+	 * Pre-enqueue responsive breakpoint CSS for Navigation blocks.
+	 *
+	 * Navigation blocks with a custom mobileBreakpoint (not the default 768px)
+	 * need a per-instance @media rule. Scanning blocks here during
+	 * wp_enqueue_scripts lets us use wp_add_inline_style() instead of
+	 * outputting a <style> tag inside the render callback.
+	 *
+	 * @return void
+	 */
+	public function enqueue_nav_breakpoint_css(): void {
+		if ( is_admin() ) {
+			return;
+		}
+
+		$css = '';
+
+		// Scan post content blocks.
+		$post_id = get_queried_object_id();
+		if ( $post_id ) {
+			$queried = get_queried_object();
+			if ( $queried instanceof \WP_Post ) {
+				if ( ! isset( $this->block_cache[ $post_id ] ) ) {
+					$this->block_cache[ $post_id ] = parse_blocks( $queried->post_content );
+				}
+				$css .= $this->collect_nav_breakpoint_css( $this->block_cache[ $post_id ] );
+			}
+		}
+
+		// Scan FSE template blocks (header/footer navigation).
+		$css .= $this->collect_nav_breakpoint_css( $this->get_template_blocks() );
+
+		if ( '' === $css ) {
+			return;
+		}
+
+		$handle = 'goblocks-nav-breakpoints';
+		wp_register_style( $handle, false, array(), GOBLOCKS_VERSION );
+		wp_enqueue_style( $handle );
+		wp_add_inline_style( $handle, $css );
+	}
+
+	/**
+	 * Recursively collect @media breakpoint CSS for Navigation block instances.
+	 *
+	 * @param  array<int, array<string, mixed>> $blocks Parsed blocks.
+	 * @return string Generated CSS.
+	 */
+	private function collect_nav_breakpoint_css( array $blocks ): string {
+		$css = '';
+		foreach ( $blocks as $block ) {
+			if ( 'goblocks/navigation' === ( $block['blockName'] ?? '' ) ) {
+				$attrs      = $block['attrs'] ?? array();
+				$breakpoint = sanitize_text_field( (string) ( $attrs['mobileBreakpoint'] ?? '768px' ) );
+				if ( ! preg_match( '/^\d+(px|em|rem)$/', $breakpoint ) ) {
+					$breakpoint = '768px';
+				}
+				if ( '768px' !== $breakpoint ) {
+					$uid = preg_replace( '/[^a-z0-9\-]/', '', strtolower( (string) ( $attrs['uniqueId'] ?? '' ) ) );
+					$uid = substr( $uid, 0, 32 );
+					if ( '' !== $uid ) {
+						$sel  = '.gb-navigation-' . $uid;
+						$css .= sprintf(
+							'@media(max-width:%s){%s .gb-navigation__toggle{display:flex}%s .gb-navigation__menu{display:none;flex-direction:column;width:100%%;padding:.5rem 0;margin-top:.25rem;border-top:1px solid #e2e8f0}%s .gb-navigation__menu.is-open{display:flex}}',
+							esc_attr( $breakpoint ),
+							$sel,
+							$sel,
+							$sel
+						);
+					}
+				}
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$css .= $this->collect_nav_breakpoint_css( $block['innerBlocks'] );
+			}
+		}
+		return $css;
 	}
 
 	/**

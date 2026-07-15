@@ -86,32 +86,21 @@ class Navigation extends BlockBase {
 		}
 		$style_attr = $css_vars ? ' style="' . esc_attr( $css_vars ) . '"' : '';
 
-		// Dynamic mobile breakpoint — only output if different from default 768px.
-		$bp_css = '';
-		if ( '768px' !== $breakpoint ) {
-			$sel    = '.gb-navigation-' . esc_attr( $unique_id );
-			$bp_css = sprintf(
-				'<style>@media(max-width:%s){%s .gb-navigation__toggle{display:flex}%s .gb-navigation__menu{display:none;flex-direction:column;width:100%%;padding:.5rem 0;margin-top:.25rem;border-top:1px solid #e2e8f0}%s .gb-navigation__menu.is-open{display:flex}}</style>',
-				esc_attr( $breakpoint ),
-				$sel,
-				$sel,
-				$sel
-			);
-		}
+		// Breakpoint CSS is pre-enqueued via CssEnqueue::enqueue_nav_breakpoint_css().
 
 		if ( ! $menu_id ) {
-			return $bp_css . sprintf(
+			return sprintf(
 				'<nav class="%s"%s><p class="gb-navigation__placeholder">%s</p></nav>',
 				$classes,
 				$style_attr,
-				esc_html__( 'Select a menu in block settings.', 'goblocks' )
+				esc_html__( 'Select a menu in block settings.', 'godevs-block-library' )
 			);
 		}
 
 		$toggle_html = '';
 		if ( $show_toggle ) {
 			$toggle_html = '<button class="gb-navigation__toggle" aria-expanded="false" aria-label="'
-				. esc_attr__( 'Toggle navigation', 'goblocks' )
+				. esc_attr__( 'Toggle navigation', 'godevs-block-library' )
 				. '"><span></span><span></span><span></span></button>';
 		}
 
@@ -131,7 +120,7 @@ class Navigation extends BlockBase {
 		remove_filter( 'nav_menu_link_attributes', array( $this, 'add_submenu_toggle_attr' ), 10 );
 
 		if ( ! $menu_html ) {
-			$menu_html = '<ul class="gb-navigation__menu"><li>' . esc_html__( 'Menu not found.', 'goblocks' ) . '</li></ul>';
+			$menu_html = '<ul class="gb-navigation__menu"><li>' . esc_html__( 'Menu not found.', 'godevs-block-library' ) . '</li></ul>';
 		}
 
 		$data_attrs = ' data-breakpoint="' . esc_attr( $breakpoint ) . '"';
@@ -139,7 +128,7 @@ class Navigation extends BlockBase {
 			$data_attrs .= ' data-scroll-hide="true"';
 		}
 
-		return $bp_css . sprintf(
+		return sprintf(
 			'<nav class="%s"%s%s>%s%s</nav>',
 			$classes,
 			$style_attr,
