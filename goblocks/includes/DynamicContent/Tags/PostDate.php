@@ -28,7 +28,7 @@ class PostDate extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Date', 'goblocks' ); }
+		return __( 'Post Date', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostDate extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The publication date of the post.', 'goblocks' ); }
+		return __( 'The publication date of the post.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,13 +69,13 @@ class PostDate extends TagBase {
 				'key'         => 'format',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'PHP date format (blank = site default).', 'goblocks' ),
+				'description' => __( 'PHP date format (blank = site default).', 'godevs-block-library' ),
 			),
 			array(
 				'key'         => 'gmt',
 				'type'        => 'bool',
 				'default'     => 'false',
-				'description' => __( 'Use GMT date.', 'goblocks' ),
+				'description' => __( 'Use GMT date.', 'godevs-block-library' ),
 			),
 		);
 	}

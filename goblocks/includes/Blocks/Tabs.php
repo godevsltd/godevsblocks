@@ -61,7 +61,7 @@ class Tabs extends BlockBase {
 		foreach ( $block->inner_blocks as $idx => $inner_block ) {
 			$panel_attrs = $inner_block->parsed_block['attrs'] ?? array();
 			/* translators: %d: 1-based tab number used as fallback label */
-			$label    = sanitize_text_field( (string) ( $panel_attrs['label'] ?? sprintf( __( 'Tab %d', 'goblocks' ), $idx + 1 ) ) );
+			$label    = sanitize_text_field( (string) ( $panel_attrs['label'] ?? sprintf( __( 'Tab %d', 'godevs-block-library' ), $idx + 1 ) ) );
 			$tab_id   = 'tab-' . $unique_id . '-' . $idx;
 			$panel_id = 'panel-' . $unique_id . '-' . $idx;
 			$active   = ( $idx === $default_tab );

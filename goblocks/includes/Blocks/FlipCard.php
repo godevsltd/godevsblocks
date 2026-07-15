@@ -90,7 +90,7 @@ class FlipCard extends BlockBase {
 
 		// ARIA label for click-trigger keyboard users.
 		$aria_label = $on_click
-			? sprintf( ' data-aria-label="%s"', esc_attr__( 'Flip card — press to reveal the back side', 'goblocks' ) )
+			? sprintf( ' data-aria-label="%s"', esc_attr__( 'Flip card — press to reveal the back side', 'godevs-block-library' ) )
 			: '';
 
 		return sprintf(

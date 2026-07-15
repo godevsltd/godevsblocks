@@ -122,17 +122,17 @@ final class Schema {
 			case 'integer':
 				$int = (int) $value;
 				if ( isset( $def['min'] ) && $int < $def['min'] ) {
-					return new \WP_Error( 'goblocks_settings_range', esc_html__( 'Value below minimum.', 'goblocks' ) );
+					return new \WP_Error( 'goblocks_settings_range', esc_html__( 'Value below minimum.', 'godevs-block-library' ) );
 				}
 				if ( isset( $def['max'] ) && $int > $def['max'] ) {
-					return new \WP_Error( 'goblocks_settings_range', esc_html__( 'Value above maximum.', 'goblocks' ) );
+					return new \WP_Error( 'goblocks_settings_range', esc_html__( 'Value above maximum.', 'godevs-block-library' ) );
 				}
 				return $int;
 
 			case 'string':
 				$str = sanitize_text_field( (string) $value );
 				if ( isset( $def['enum'] ) && ! in_array( $str, $def['enum'], true ) ) {
-					return new \WP_Error( 'goblocks_settings_enum', esc_html__( 'Invalid option value.', 'goblocks' ) );
+					return new \WP_Error( 'goblocks_settings_enum', esc_html__( 'Invalid option value.', 'godevs-block-library' ) );
 				}
 				return $str;
 

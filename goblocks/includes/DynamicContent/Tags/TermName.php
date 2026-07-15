@@ -28,7 +28,7 @@ class TermName extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Term Name', 'goblocks' ); }
+		return __( 'Term Name', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class TermName extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The name of a taxonomy term assigned to the post.', 'goblocks' ); }
+		return __( 'The name of a taxonomy term assigned to the post.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,19 +69,19 @@ class TermName extends TagBase {
 				'key'         => 'taxonomy',
 				'type'        => 'string',
 				'default'     => 'category',
-				'description' => __( 'Taxonomy slug.', 'goblocks' ),
+				'description' => __( 'Taxonomy slug.', 'godevs-block-library' ),
 			),
 			array(
 				'key'         => 'index',
 				'type'        => 'int',
 				'default'     => 0,
-				'description' => __( 'Zero-based term index.', 'goblocks' ),
+				'description' => __( 'Zero-based term index.', 'godevs-block-library' ),
 			),
 			array(
 				'key'         => 'separator',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'Join separator (empty = single term by index).', 'goblocks' ),
+				'description' => __( 'Join separator (empty = single term by index).', 'godevs-block-library' ),
 			),
 		);
 	}

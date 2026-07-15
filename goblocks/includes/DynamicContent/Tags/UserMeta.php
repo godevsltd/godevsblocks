@@ -41,7 +41,7 @@ class UserMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Current User Meta', 'goblocks' ); }
+		return __( 'Current User Meta', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -55,7 +55,7 @@ class UserMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'A meta field for the currently logged-in user.', 'goblocks' ); }
+		return __( 'A meta field for the currently logged-in user.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -82,7 +82,7 @@ class UserMeta extends TagBase {
 				'key'         => 'key',
 				'type'        => 'string',
 				'default'     => 'first_name',
-				'description' => __( 'User meta key.', 'goblocks' ),
+				'description' => __( 'User meta key.', 'godevs-block-library' ),
 			),
 		);
 	}

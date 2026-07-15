@@ -92,7 +92,7 @@ class PatternsController extends RestController {
 		if ( ! $pattern || ! $this->is_goblocks_pattern( $pattern ) ) {
 			return $this->error(
 				'goblocks_pattern_not_found',
-				__( 'Pattern not found.', 'goblocks' ),
+				__( 'Pattern not found.', 'godevs-block-library' ),
 				404
 			);
 		}
@@ -146,6 +146,9 @@ class PatternsController extends RestController {
 		if ( $content ) {
 			$css       = $this->collect_css( parse_blocks( $content ) );
 			$safe_html = wp_kses_post( do_blocks( $content ) );
+			// The <style> is part of the HTML string returned in a REST response
+			// for block editor pattern preview iframes — wp_add_inline_style()
+			// cannot be used here because this is not a page render context.
 			$rendered  = $css
 				? '<style>' . wp_strip_all_tags( $css ) . '</style>' . $safe_html
 				: $safe_html;

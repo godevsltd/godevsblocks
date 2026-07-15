@@ -176,7 +176,7 @@ class QueryLoop extends BlockBase {
 			$excerpt = wp_trim_words( get_the_content(), 20, '&hellip;' );
 		}
 		$card_title = (string) get_the_title();
-		$card_title = '' !== $card_title ? $card_title : (string) __( '(Untitled)', 'goblocks' );
+		$card_title = '' !== $card_title ? $card_title : (string) __( '(Untitled)', 'godevs-block-library' );
 
 		return sprintf(
 			'<article class="gb-query-fallback-card">%s<div class="gb-query-fallback-card__body"><h3 class="gb-query-fallback-card__title"><a href="%s">%s</a></h3><div class="gb-query-fallback-card__meta"><time datetime="%s">%s</time></div>%s</div></article>',

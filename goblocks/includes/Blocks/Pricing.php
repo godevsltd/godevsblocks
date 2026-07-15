@@ -200,7 +200,7 @@ class Pricing extends BlockBase {
 			esc_attr( $css_vars ),
 			$data_attrs,
 			$badge,
-			esc_html__( 'Plan', 'goblocks' ),
+			esc_html__( 'Plan', 'godevs-block-library' ),
 			esc_html( $plan_name ),
 			$price_html,
 			$desc_html,

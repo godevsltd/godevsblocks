@@ -89,7 +89,7 @@ class DynamicContentController extends RestController {
 		if ( ! preg_match( '/^[a-z0-9_-]+$/', $tag ) ) {
 			return $this->error(
 				'goblocks_invalid_tag',
-				__( 'Invalid tag identifier.', 'goblocks' ),
+				__( 'Invalid tag identifier.', 'godevs-block-library' ),
 				400
 			);
 		}
@@ -118,7 +118,7 @@ class DynamicContentController extends RestController {
 			// TagRegistry not yet active or tag unknown — return placeholder.
 			$preview = esc_html(
 				/* translators: %s: tag name */
-				sprintf( __( '[%s]', 'goblocks' ), $tag )
+				sprintf( __( '[%s]', 'godevs-block-library' ), $tag )
 			);
 		}
 

@@ -28,7 +28,7 @@ class PostStatus extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Status', 'goblocks' ); }
+		return __( 'Post Status', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostStatus extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The status of the current post (publish, draft, etc.).', 'goblocks' ); }
+		return __( 'The status of the current post (publish, draft, etc.).', 'godevs-block-library' ); }
 	/**
 	 * Declared option schema.
 	 *

@@ -108,7 +108,7 @@ class Alert extends BlockBase {
 		$title_html   = $title ? '<strong class="gb-alert__title">' . esc_html( $title ) . '</strong>' : '';
 		$message_html = $message ? '<p class="gb-alert__message">' . $message . '</p>' : '';
 		$dismiss_html = $dismissible
-			? '<button class="gb-alert__dismiss" aria-label="' . esc_attr__( 'Dismiss', 'goblocks' ) . '">' . $dismiss_svg . '</button>'
+			? '<button class="gb-alert__dismiss" aria-label="' . esc_attr__( 'Dismiss', 'godevs-block-library' ) . '">' . $dismiss_svg . '</button>'
 			: '';
 
 		return sprintf(

@@ -99,8 +99,8 @@ class Pagination extends BlockBase {
 			array(
 				'total'     => $total_pages,
 				'current'   => $current,
-				'prev_text' => $show_prev_next ? ( $prev_label ? $prev_label : __( '&laquo; Previous', 'goblocks' ) ) : false,
-				'next_text' => $show_prev_next ? ( $next_label ? $next_label : __( 'Next &raquo;', 'goblocks' ) ) : false,
+				'prev_text' => $show_prev_next ? ( $prev_label ? $prev_label : __( '&laquo; Previous', 'godevs-block-library' ) ) : false,
+				'next_text' => $show_prev_next ? ( $next_label ? $next_label : __( 'Next &raquo;', 'godevs-block-library' ) ) : false,
 				'type'      => 'array',
 				'end_size'  => $show_first_last ? 1 : 0,
 				'mid_size'  => 2,
@@ -119,7 +119,7 @@ class Pagination extends BlockBase {
 		return sprintf(
 			'<nav class="%s" aria-label="%s"><ul class="gb-pagination__list">%s</ul></nav>',
 			$classes,
-			esc_attr__( 'Page navigation', 'goblocks' ),
+			esc_attr__( 'Page navigation', 'godevs-block-library' ),
 			$items
 		);
 	}
@@ -155,7 +155,7 @@ class Pagination extends BlockBase {
 			esc_attr( $query_id ),
 			$total_pages,
 			$current,
-			esc_html( $label ? $label : __( 'Load More', 'goblocks' ) )
+			esc_html( $label ? $label : __( 'Load More', 'godevs-block-library' ) )
 		);
 	}
 

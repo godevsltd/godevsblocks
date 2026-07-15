@@ -28,7 +28,7 @@ class TermUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Term URL', 'goblocks' ); }
+		return __( 'Term URL', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class TermUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The archive URL of a taxonomy term assigned to the post.', 'goblocks' ); }
+		return __( 'The archive URL of a taxonomy term assigned to the post.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,13 +69,13 @@ class TermUrl extends TagBase {
 				'key'         => 'taxonomy',
 				'type'        => 'string',
 				'default'     => 'category',
-				'description' => __( 'Taxonomy slug.', 'goblocks' ),
+				'description' => __( 'Taxonomy slug.', 'godevs-block-library' ),
 			),
 			array(
 				'key'         => 'index',
 				'type'        => 'int',
 				'default'     => 0,
-				'description' => __( 'Zero-based term index.', 'goblocks' ),
+				'description' => __( 'Zero-based term index.', 'godevs-block-library' ),
 			),
 		);
 	}

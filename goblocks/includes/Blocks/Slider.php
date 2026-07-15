@@ -175,8 +175,8 @@ class Slider extends BlockBase {
 		$icon_next = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
 
 		$arrows_html = $show_arrows
-			? '<button class="gb-slider__prev" aria-label="' . esc_attr__( 'Previous', 'goblocks' ) . '" type="button">' . $icon_prev . '</button>'
-				. '<button class="gb-slider__next" aria-label="' . esc_attr__( 'Next', 'goblocks' ) . '" type="button">' . $icon_next . '</button>'
+			? '<button class="gb-slider__prev" aria-label="' . esc_attr__( 'Previous', 'godevs-block-library' ) . '" type="button">' . $icon_prev . '</button>'
+				. '<button class="gb-slider__next" aria-label="' . esc_attr__( 'Next', 'godevs-block-library' ) . '" type="button">' . $icon_next . '</button>'
 			: '';
 
 		$dots_html = $show_dots ? '<div class="gb-slider__dots" aria-hidden="true"></div>' : '';
@@ -198,7 +198,7 @@ class Slider extends BlockBase {
 					'<span class="gb-slider__pause-icon gb-slider__pause-icon--pause">%2$s</span>' .
 					'<span class="gb-slider__pause-icon gb-slider__pause-icon--play">%3$s</span>' .
 				'</button>',
-				esc_attr__( 'Pause slideshow', 'goblocks' ),
+				esc_attr__( 'Pause slideshow', 'godevs-block-library' ),
 				$icon_pause,
 				$icon_play
 			)

@@ -90,7 +90,7 @@ class Modal extends BlockBase {
 			: sprintf( '<a class="gb-modal__trigger" href="#modal" aria-label="%s" aria-haspopup="dialog">%s</a>', $trigger_aria, esc_html( $trigger_text ) );
 
 		$dismiss_html = $show_dismiss
-			? sprintf( '<div class="gb-modal__footer"><button type="button" class="gb-modal__dismiss">%s</button></div>', esc_html__( 'Don\'t show again', 'goblocks' ) )
+			? sprintf( '<div class="gb-modal__footer"><button type="button" class="gb-modal__dismiss">%s</button></div>', esc_html__( 'Don\'t show again', 'godevs-block-library' ) )
 			: '';
 
 		$extra_html_attrs = $this->build_html_attrs( $this->get_html_attributes( $attributes ) );
@@ -102,7 +102,7 @@ class Modal extends BlockBase {
 			$extra_html_attrs,
 			$trigger,
 			esc_attr( $trigger_text ),
-			esc_attr__( 'Close', 'goblocks' ),
+			esc_attr__( 'Close', 'godevs-block-library' ),
 			$content,
 			$dismiss_html
 		);

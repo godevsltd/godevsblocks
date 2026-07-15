@@ -57,8 +57,8 @@ class Admin extends Singleton {
 	public function register_all_menus(): void {
 		// 1. Top-level page — populates $admin_page_hooks['goblocks-settings'].
 		$this->page_hook = add_menu_page(
-			__( 'GoBlocks Settings', 'goblocks' ),
-			__( 'GoBlocks', 'goblocks' ),
+			__( 'GoDevs Block Library Settings', 'godevs-block-library' ),
+			__( 'GoDevs Block Library', 'godevs-block-library' ),
 			'manage_options',
 			'goblocks-settings',
 			array( $this, 'render_settings_page' ),
@@ -121,7 +121,7 @@ class Admin extends Singleton {
 
 		wp_set_script_translations(
 			'goblocks-settings',
-			'goblocks',
+			'godevs-block-library',
 			GOBLOCKS_DIR . 'languages'
 		);
 
@@ -141,7 +141,7 @@ class Admin extends Singleton {
 	 */
 	public function render_settings_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'goblocks' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'godevs-block-library' ) );
 		}
 
 		echo '<div id="goblocks-settings-root" class="gb-settings-root"></div>';

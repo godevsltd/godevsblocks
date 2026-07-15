@@ -66,7 +66,7 @@ abstract class RestController extends \WP_REST_Controller {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'goblocks_forbidden',
-				__( 'You do not have permission to perform this action.', 'goblocks' ),
+				__( 'You do not have permission to perform this action.', 'godevs-block-library' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -83,7 +83,7 @@ abstract class RestController extends \WP_REST_Controller {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'goblocks_forbidden',
-				__( 'You do not have permission to perform this action.', 'goblocks' ),
+				__( 'You do not have permission to perform this action.', 'godevs-block-library' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}

@@ -148,7 +148,7 @@ class Video extends BlockBase {
 			. '<span class="gb-video__play-btn">%s</span>'
 			. '</button>',
 			esc_attr( $click_url ),
-			esc_attr__( 'Play video', 'goblocks' ),
+			esc_attr__( 'Play video', 'godevs-block-library' ),
 			esc_url( $thumb_url ),
 			$play_icon
 		);
@@ -178,7 +178,7 @@ class Video extends BlockBase {
 		$embed_url    = $this->get_embed_url( $url, $attributes );
 		$caption      = isset( $attributes['caption'] ) ? wp_kses_post( (string) $attributes['caption'] ) : '';
 		$video_title  = isset( $attributes['videoTitle'] ) ? sanitize_text_field( (string) $attributes['videoTitle'] ) : '';
-		$iframe_title = $video_title ? $video_title : __( 'Video embed', 'goblocks' );
+		$iframe_title = $video_title ? $video_title : __( 'Video embed', 'godevs-block-library' );
 
 		$is_youtube = (bool) preg_match( '/youtube\.com|youtu\.be/i', $url );
 		$youtube_id = $is_youtube ? $this->get_youtube_id( $url ) : '';

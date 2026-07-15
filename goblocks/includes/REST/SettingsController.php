@@ -78,7 +78,7 @@ class SettingsController extends RestController {
 		if ( ! is_array( $body ) ) {
 			return $this->error(
 				'goblocks_invalid_body',
-				__( 'Request body must be a JSON object.', 'goblocks' )
+				__( 'Request body must be a JSON object.', 'godevs-block-library' )
 			);
 		}
 

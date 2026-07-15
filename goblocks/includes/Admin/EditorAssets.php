@@ -56,7 +56,7 @@ class EditorAssets extends Singleton {
 
 		wp_set_script_translations(
 			'goblocks-editor',
-			'goblocks',
+			'godevs-block-library',
 			GOBLOCKS_DIR . 'languages'
 		);
 

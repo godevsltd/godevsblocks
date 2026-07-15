@@ -28,7 +28,7 @@ class CurrentDate extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Current Date', 'goblocks' ); }
+		return __( 'Current Date', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class CurrentDate extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( "Today's date at render time.", 'goblocks' ); }
+		return __( "Today's date at render time.", 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,7 +69,7 @@ class CurrentDate extends TagBase {
 				'key'         => 'format',
 				'type'        => 'string',
 				'default'     => 'F j, Y',
-				'description' => __( 'PHP date format.', 'goblocks' ),
+				'description' => __( 'PHP date format.', 'godevs-block-library' ),
 			),
 		);
 	}

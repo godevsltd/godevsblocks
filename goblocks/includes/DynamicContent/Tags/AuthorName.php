@@ -28,7 +28,7 @@ class AuthorName extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Author Name', 'goblocks' ); }
+		return __( 'Author Name', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class AuthorName extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The display name of the post author.', 'goblocks' ); }
+		return __( 'The display name of the post author.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,7 +69,7 @@ class AuthorName extends TagBase {
 				'key'         => 'format',
 				'type'        => 'string',
 				'default'     => 'display',
-				'description' => __( 'Name format: display (default), first, last, login.', 'goblocks' ),
+				'description' => __( 'Name format: display (default), first, last, login.', 'godevs-block-library' ),
 			),
 		);
 	}

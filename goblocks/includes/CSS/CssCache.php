@@ -31,7 +31,7 @@ class CssCache {
 	/**
 	 * Subdirectory inside wp-content/uploads/ for CSS files.
 	 */
-	private const UPLOAD_SUBDIR = 'goblocks';
+	private const UPLOAD_SUBDIR = 'godevs-block-library';
 
 	/**
 	 * Write CSS to the per-post cache file, only if the content changed.

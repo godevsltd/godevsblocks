@@ -138,7 +138,7 @@ class StarRating extends BlockBase {
 
 		$count_text = sprintf(
 			/* translators: %d: number of reviews */
-			_n( '(%d review)', '(%d reviews)', $review_count, 'goblocks' ),
+			_n( '(%d review)', '(%d reviews)', $review_count, 'godevs-block-library' ),
 			$review_count
 		);
 		$count_html = $show_count ? '<span class="gb-star-rating__count">' . esc_html( $count_text ) . '</span>' : '';

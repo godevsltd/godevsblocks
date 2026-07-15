@@ -28,7 +28,7 @@ class AuthorUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Author URL', 'goblocks' ); }
+		return __( 'Author URL', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class AuthorUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The archive URL for the post author.', 'goblocks' ); }
+		return __( 'The archive URL for the post author.', 'godevs-block-library' ); }
 	/**
 	 * Declared option schema.
 	 *

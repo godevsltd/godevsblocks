@@ -1,4 +1,4 @@
-=== GoBlocks ===
+=== GoDevs Block Library ===
 Contributors: godevs
 Tags: gutenberg, blocks, block-editor, full-site-editing, page-builder
 Requires at least: 6.5

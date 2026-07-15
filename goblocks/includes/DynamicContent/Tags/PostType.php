@@ -28,7 +28,7 @@ class PostType extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Type', 'goblocks' ); }
+		return __( 'Post Type', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostType extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The post type slug of the current post.', 'goblocks' ); }
+		return __( 'The post type slug of the current post.', 'godevs-block-library' ); }
 	/**
 	 * Declared option schema.
 	 *

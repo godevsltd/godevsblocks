@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       GoBlocks
+ * Plugin Name:       GoDevs Block Library
  * Plugin URI:        https://godevs.net/goblocks
  * Description:       A lightweight, responsive block library for WordPress with 36 production-ready blocks, FSE support, dynamic content tags, and a real design token system.
  * Version:           1.0.0
@@ -8,7 +8,7 @@
  * Author URI:        https://godevs.net/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       goblocks
+ * Text Domain:       godevs-block-library
  * Domain Path:       /languages
  * Requires at least: 6.5
  * Requires PHP:      8.0
