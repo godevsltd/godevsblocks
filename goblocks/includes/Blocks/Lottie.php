@@ -19,7 +19,8 @@ use WP_Block;
  */
 class Lottie extends BlockBase {
 
-	const LOTTIE_CDN = 'https://unpkg.com/@lottiefiles/lottie-player@2/dist/lottie-player.js';
+	// Bundled locally — do not load from CDN.
+	const LOTTIE_LOCAL = 'assets/js/vendor/lottie-player.js';
 
 	/**
 	 * Block slug used to register the block type.
@@ -62,13 +63,13 @@ class Lottie extends BlockBase {
 			$direction = 1;
 		}
 
-		// Enqueue lottie-player CDN once per page.
+		// Enqueue lottie-player from the bundled local copy.
 		if ( ! wp_script_is( 'lottie-player', 'enqueued' ) ) {
 			wp_enqueue_script(
 				'lottie-player',
-				self::LOTTIE_CDN,
+				GOBLOCKS_URL . self::LOTTIE_LOCAL,
 				array(),
-				null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+				GOBLOCKS_VERSION,
 				array(
 					'strategy'  => 'defer',
 					'in_footer' => true,
