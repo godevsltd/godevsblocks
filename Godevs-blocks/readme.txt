@@ -2,7 +2,7 @@
 Contributors: godevs
 Tags: gutenberg, blocks, block-editor, full-site-editing, page-builder
 Requires at least: 6.5
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 8.0
 Stable tag: 1.0.0
 License: GPLv2 or later
