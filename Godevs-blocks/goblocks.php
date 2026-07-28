@@ -12,10 +12,9 @@
  * Domain Path:       /languages
  * Requires at least: 6.5
  * Requires PHP:      8.0
- * Tested up to:      7.0
- * Network:           true
+ * Tested up to:      6.8
  *
- * @package GoBlocks
+ * @package GoDevs_Blocks
  */
 
 defined( 'ABSPATH' ) || exit;
