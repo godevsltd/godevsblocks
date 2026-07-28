@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       GoDevs Blocks
- * Plugin URI:        https://godevs.net/goblocks
+ * Plugin URI:        https://godevs.net/godevs-blocks
  * Description:       A lightweight, responsive block library for WordPress with 36 production-ready blocks, FSE support, dynamic content tags, and a real design token system.
  * Version:           1.0.0
  * Author:            godevs
@@ -67,7 +67,7 @@ if ( file_exists( GOBLOCKS_DIR . 'vendor/autoload.php' ) ) {
 add_action( 'plugins_loaded', 'goblocks_bootstrap' );
 
 /**
- * Initialise the GoBlocks plugin.
+ * Initialise the GoDevs Blocks plugin.
  *
  * @return void
  */
@@ -83,7 +83,7 @@ function goblocks_bootstrap(): void {
 add_action( 'goblocks_batch_css_regenerate', 'goblocks_batch_regenerate_css' );
 
 /**
- * WP-Cron callback: regenerate CSS for published posts containing GoBlocks blocks.
+ * WP-Cron callback: regenerate CSS for published posts containing GoDevs Blocks blocks.
  *
  * Processes 50 posts per run and stores a page cursor so large sites are never
  * loaded into memory all at once. The cursor resets automatically when all pages
@@ -109,7 +109,7 @@ function goblocks_batch_regenerate_css(): void {
 		$post_id = absint( $post_id );
 		$content = get_post_field( 'post_content', $post_id );
 
-		// Only regenerate posts that contain GoBlocks blocks.
+		// Only regenerate posts that contain GoDevs Blocks blocks.
 		if ( false === strpos( $content, '<!-- wp:goblocks/' ) ) {
 			continue;
 		}

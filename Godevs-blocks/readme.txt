@@ -12,7 +12,7 @@ A lightweight, responsive block library for the WordPress block editor with full
 
 == Description ==
 
-GoBlocks is a free WordPress block plugin that extends the Gutenberg editor with
+GoDevs Blocks is a free WordPress block plugin that extends the Gutenberg editor with
 36 production-ready blocks built on a modern CSS Custom Property design token
 system. Every block is responsive across 7 breakpoints, outputs clean semantic
 HTML, and ships with zero inline styles — all styling is compiled to a single
@@ -41,7 +41,7 @@ per-page CSS file served as a static asset.
 
 * Full CSS Custom Property design token system (`--gb-*` prefix)
 * Responsive controls for every property (6 breakpoints: xs, sm, md, lg, xl, 2xl)
-* Global color and typography presets managed in the **GoBlocks → Global Styles** panel
+* Global color and typography presets managed in the **GoDevs Blocks → Global Styles** panel
 * Theme.json integration — reads and writes to WordPress global styles color palette
 * Dark mode support via CSS custom properties
 * RTL language support with automatic CSS flip
@@ -72,7 +72,7 @@ per-page CSS file served as a static asset.
 = Pattern Library =
 
 * 41 built-in block patterns across 18 categories: Hero (4), Features (4), Social Proof (5), Pricing (2), Stats (3), CTA (4), FAQ (2), Blog (3), Cards (2), Portfolio (2), Services (1), Team (2), About (1), Video (1), Newsletter (2), Contact (3), Logos (2), Announcement (1)
-* Pattern browser in **GoBlocks → Patterns** admin page
+* Pattern browser in **GoDevs Blocks → Patterns** admin page
 * All patterns available in the block editor pattern inserter
 
 = Developer Friendly =
@@ -86,17 +86,17 @@ per-page CSS file served as a static asset.
 
 = Links =
 
-* [Plugin Page](https://godevs.net/goblocks)
-* [Support Forum](https://wordpress.org/support/plugin/goblocks)
+* [Plugin Page](https://godevs.net/godevs-blocks)
+* [Support Forum](https://wordpress.org/support/plugin/godevs-blocks)
 
 == Installation ==
 
-1. Upload the `goblocks` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
+1. Upload the `godevs-blocks` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Open any post or page in the block editor.
-4. Find GoBlocks blocks in the block inserter under the **GoBlocks** category.
-5. (Optional) Visit **GoBlocks → Global Styles** to set up your color palette and typography presets.
-6. (Optional) Visit **GoBlocks → Settings** to configure breakpoints, CSS output method, and other options.
+4. Find GoDevs Blocks in the block inserter under the **GoDevs Blocks** category.
+5. (Optional) Visit **GoDevs Blocks → Global Styles** to set up your color palette and typography presets.
+6. (Optional) Visit **GoDevs Blocks → Settings** to configure breakpoints, CSS output method, and other options.
 
 **Requirements:**
 
@@ -106,27 +106,27 @@ per-page CSS file served as a static asset.
 
 == Frequently Asked Questions ==
 
-= Does GoBlocks work with my theme? =
+= Does GoDevs Blocks work with my theme? =
 
-Yes. GoBlocks works with any WordPress theme — FSE (Full Site Editing) themes,
+Yes. GoDevs Blocks works with any WordPress theme — FSE (Full Site Editing) themes,
 classic themes, and hybrid themes. It uses CSS custom properties that integrate
 with your theme's existing design system without overriding it.
 
-= Does GoBlocks work with Full Site Editing? =
+= Does GoDevs Blocks work with Full Site Editing? =
 
-Yes. All GoBlocks blocks use block API v3 with full `block.json` registration,
-making them fully compatible with the Site Editor. GoBlocks also integrates with
+Yes. All GoDevs Blocks blocks use block API v3 with full `block.json` registration,
+making them fully compatible with the Site Editor. GoDevs Blocks also integrates with
 `theme.json` via the `wp_theme_json_data_theme` filter to share color palettes
 with the global styles system.
 
-= Does GoBlocks work with WordPress Multisite? =
+= Does GoDevs Blocks work with WordPress Multisite? =
 
-Yes. GoBlocks is multisite-compatible. Each site in a network has its own CSS
+Yes. GoDevs Blocks is multisite-compatible. Each site in a network has its own CSS
 cache directory, its own settings, and its own global styles — fully isolated.
 
-= Will GoBlocks slow down my site? =
+= Will GoDevs Blocks slow down my site? =
 
-No. GoBlocks generates a single CSS file per page, served as a static file from
+No. GoDevs Blocks generates a single CSS file per page, served as a static file from
 your uploads directory with standard browser caching. There is zero frontend
 JavaScript for all layout, text, heading, image, and icon blocks. Interactive
 blocks (Tabs, Accordion) use tiny vanilla JS IIFE scripts (~500 bytes each) that
@@ -149,35 +149,35 @@ add_action( 'goblocks_register_dynamic_tags', function( $registry ) {
 } );
 ```
 
-= Does GoBlocks generate bloated HTML? =
+= Does GoDevs Blocks generate bloated HTML? =
 
-No. GoBlocks outputs minimal semantic HTML. There are no wrapper divs, no
+No. GoDevs Blocks outputs minimal semantic HTML. There are no wrapper divs, no
 data-attributes on most elements, and no inline styles. All styling is done
 through CSS custom properties scoped to the block's unique class.
 
 = What is the CSS output method? =
 
-By default, GoBlocks writes a single CSS file per page to `wp-content/uploads/goblocks/`
+By default, GoDevs Blocks writes a single CSS file per page to `wp-content/uploads/goblocks/`
 and serves it with a `<link>` tag. This can be changed to inline `<style>` output
-in **GoBlocks → Settings → CSS Print Method**.
+in **GoDevs Blocks → Settings → CSS Print Method**.
 
 = How do I add the FAQ schema markup to my accordion? =
 
 Select your Accordion block, open the Inspector panel, and toggle **Enable FAQ
-Schema**. GoBlocks will automatically add `schema.org/FAQPage`, `Question`, and
+Schema**. GoDevs Blocks will automatically add `schema.org/FAQPage`, `Question`, and
 `Answer` structured data to the rendered HTML.
 
 == Screenshots ==
 
-1. The GoBlocks block category in the block inserter showing Group, Column, Text, Heading, Icon, Tabs, Accordion, Query, and more.
-2. The GoBlocks Settings admin panel showing layout, performance (CSS output method), and editor preferences.
-3. Frontend rendering of a hero section built with GoBlocks Group and Heading blocks — gradient background, badge, and CTA buttons.
-4. The GoBlocks Column Demo page showing 2-column, 3-column, and 4-column flex layouts built with Group and Column blocks.
-5. The GoBlocks Pattern Library admin page — searchable browser of 41 ready-made block patterns across 18 categories.
-6. The GoBlocks All Patterns Showcase frontend page displaying the full pattern collection.
-7. The GoBlocks Global Styles admin panel showing the color palette editor with CSS custom property tokens.
-8. The GoBlocks Tabs block on the frontend — ARIA-compliant tabbed panels with keyboard navigation.
-9. The GoBlocks Query block rendering a responsive 3-column blog post grid with title, date, and pagination.
+1. The GoDevs Blocks block category in the block inserter showing Group, Column, Text, Heading, Icon, Tabs, Accordion, Query, and more.
+2. The GoDevs Blocks Settings admin panel showing layout, performance (CSS output method), and editor preferences.
+3. Frontend rendering of a hero section built with GoDevs Blocks Group and Heading blocks — gradient background, badge, and CTA buttons.
+4. The GoDevs Blocks Column Demo page showing 2-column, 3-column, and 4-column flex layouts built with Group and Column blocks.
+5. The GoDevs Blocks Pattern Library admin page — searchable browser of 41 ready-made block patterns across 18 categories.
+6. The GoDevs Blocks All Patterns Showcase frontend page displaying the full pattern collection.
+7. The GoDevs Blocks Global Styles admin panel showing the color palette editor with CSS custom property tokens.
+8. The GoDevs Blocks Tabs block on the frontend — ARIA-compliant tabbed panels with keyboard navigation.
+9. The GoDevs Blocks Query block rendering a responsive 3-column blog post grid with title, date, and pagination.
 
 == Changelog ==
 
