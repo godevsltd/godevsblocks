@@ -92,7 +92,7 @@ class PatternsController extends RestController {
 		if ( ! $pattern || ! $this->is_goblocks_pattern( $pattern ) ) {
 			return $this->error(
 				'goblocks_pattern_not_found',
-				__( 'Pattern not found.', 'godevs-blocks' ),
+				__( 'Pattern not found.', 'godevs-block-library' ),
 				404
 			);
 		}

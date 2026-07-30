@@ -28,7 +28,7 @@ class PostUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post URL', 'godevs-blocks' ); }
+		return __( 'Post URL', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The permalink of the current post.', 'godevs-blocks' ); }
+		return __( 'The permalink of the current post.', 'godevs-block-library' ); }
 	/**
 	 * Declared option schema.
 	 *

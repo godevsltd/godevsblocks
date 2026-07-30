@@ -28,7 +28,7 @@ class SiteTitle extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Site Title', 'godevs-blocks' ); }
+		return __( 'Site Title', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class SiteTitle extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The site name from Settings → General.', 'godevs-blocks' ); }
+		return __( 'The site name from Settings → General.', 'godevs-block-library' ); }
 	/**
 	 * Declared option schema.
 	 *

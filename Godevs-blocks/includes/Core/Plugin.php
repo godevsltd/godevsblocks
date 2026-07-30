@@ -63,7 +63,7 @@ class Plugin extends Singleton {
 					$categories,
 					array(
 						'slug'  => 'goblocks',
-						'title' => __( 'GoDevs Blocks', 'godevs-blocks' ),
+						'title' => __( 'GoDevs Blocks', 'godevs-block-library' ),
 						'icon'  => null,
 					)
 				);
