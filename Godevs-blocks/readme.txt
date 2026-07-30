@@ -87,11 +87,11 @@ per-page CSS file served as a static asset.
 = Links =
 
 * [Plugin Page](https://godevs.net/godevs-blocks)
-* [Support Forum](https://wordpress.org/support/plugin/godevs-blocks)
+* [Support Forum](https://wordpress.org/support/plugin/godevs-block-library)
 
 == Installation ==
 
-1. Upload the `godevs-blocks` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
+1. Upload the `godevs-block-library` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Open any post or page in the block editor.
 4. Find GoDevs Blocks in the block inserter under the **GoDevs Blocks** category.

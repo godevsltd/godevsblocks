@@ -28,7 +28,7 @@ class AuthorAvatar extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Author Avatar URL', 'godevs-blocks' ); }
+		return __( 'Author Avatar URL', 'godevs-block-library' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class AuthorAvatar extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The Gravatar URL for the post author.', 'godevs-blocks' ); }
+		return __( 'The Gravatar URL for the post author.', 'godevs-block-library' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,7 +69,7 @@ class AuthorAvatar extends TagBase {
 				'key'         => 'size',
 				'type'        => 'int',
 				'default'     => 96,
-				'description' => __( 'Avatar size in pixels.', 'godevs-blocks' ),
+				'description' => __( 'Avatar size in pixels.', 'godevs-block-library' ),
 			),
 		);
 	}

@@ -169,7 +169,7 @@ class QueryController extends RestController {
 		if ( ! taxonomy_exists( $taxonomy ) ) {
 			return $this->error(
 				'goblocks_invalid_taxonomy',
-				__( 'Invalid taxonomy.', 'godevs-blocks' ),
+				__( 'Invalid taxonomy.', 'godevs-block-library' ),
 				400
 			);
 		}
@@ -241,7 +241,7 @@ class QueryController extends RestController {
 		if ( ! is_array( $body ) ) {
 			return $this->error(
 				'goblocks_invalid_body',
-				__( 'Request body must be a JSON object.', 'godevs-blocks' )
+				__( 'Request body must be a JSON object.', 'godevs-block-library' )
 			);
 		}
 
