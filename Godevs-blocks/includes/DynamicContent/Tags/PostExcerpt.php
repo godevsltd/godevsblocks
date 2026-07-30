@@ -28,7 +28,7 @@ class PostExcerpt extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Excerpt', 'godevs-block-library' ); }
+		return __( 'Post Excerpt', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostExcerpt extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The post excerpt (auto-generated if not set).', 'godevs-block-library' ); }
+		return __( 'The post excerpt (auto-generated if not set).', 'godevs-blocks' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,13 +69,13 @@ class PostExcerpt extends TagBase {
 				'key'         => 'length',
 				'type'        => 'int',
 				'default'     => 55,
-				'description' => __( 'Word limit (0 = no limit).', 'godevs-block-library' ),
+				'description' => __( 'Word limit (0 = no limit).', 'godevs-blocks' ),
 			),
 			array(
 				'key'         => 'more',
 				'type'        => 'string',
 				'default'     => '…',
-				'description' => __( 'Trailing "more" text.', 'godevs-block-library' ),
+				'description' => __( 'Trailing "more" text.', 'godevs-blocks' ),
 			),
 		);
 	}

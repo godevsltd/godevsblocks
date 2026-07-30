@@ -123,22 +123,22 @@ class Countdown extends BlockBase {
 			array(
 				'show'  => $show_days,
 				'key'   => 'days',
-				'label' => __( 'Days', 'godevs-block-library' ),
+				'label' => __( 'Days', 'godevs-blocks' ),
 			),
 			array(
 				'show'  => $show_hours,
 				'key'   => 'hours',
-				'label' => __( 'Hours', 'godevs-block-library' ),
+				'label' => __( 'Hours', 'godevs-blocks' ),
 			),
 			array(
 				'show'  => $show_minutes,
 				'key'   => 'minutes',
-				'label' => __( 'Minutes', 'godevs-block-library' ),
+				'label' => __( 'Minutes', 'godevs-blocks' ),
 			),
 			array(
 				'show'  => $show_seconds,
 				'key'   => 'seconds',
-				'label' => __( 'Seconds', 'godevs-block-library' ),
+				'label' => __( 'Seconds', 'godevs-blocks' ),
 			),
 		);
 		$visible = array_values( array_filter( $ordered, fn( $u ) => $u['show'] ) );
@@ -170,7 +170,7 @@ class Countdown extends BlockBase {
 			'<div class="%s" style="%s" role="timer" aria-label="%s"%s>%s</div>',
 			esc_attr( $classes ),
 			esc_attr( $css_vars ),
-			esc_attr( __( 'Countdown timer', 'godevs-block-library' ) ),
+			esc_attr( __( 'Countdown timer', 'godevs-blocks' ) ),
 			$data,
 			$units
 		);

@@ -93,14 +93,14 @@ class Navigation extends BlockBase {
 				'<nav class="%s"%s><p class="gb-navigation__placeholder">%s</p></nav>',
 				$classes,
 				$style_attr,
-				esc_html__( 'Select a menu in block settings.', 'godevs-block-library' )
+				esc_html__( 'Select a menu in block settings.', 'godevs-blocks' )
 			);
 		}
 
 		$toggle_html = '';
 		if ( $show_toggle ) {
 			$toggle_html = '<button class="gb-navigation__toggle" aria-expanded="false" aria-label="'
-				. esc_attr__( 'Toggle navigation', 'godevs-block-library' )
+				. esc_attr__( 'Toggle navigation', 'godevs-blocks' )
 				. '"><span></span><span></span><span></span></button>';
 		}
 
@@ -120,7 +120,7 @@ class Navigation extends BlockBase {
 		remove_filter( 'nav_menu_link_attributes', array( $this, 'add_submenu_toggle_attr' ), 10 );
 
 		if ( ! $menu_html ) {
-			$menu_html = '<ul class="gb-navigation__menu"><li>' . esc_html__( 'Menu not found.', 'godevs-block-library' ) . '</li></ul>';
+			$menu_html = '<ul class="gb-navigation__menu"><li>' . esc_html__( 'Menu not found.', 'godevs-blocks' ) . '</li></ul>';
 		}
 
 		$data_attrs = ' data-breakpoint="' . esc_attr( $breakpoint ) . '"';

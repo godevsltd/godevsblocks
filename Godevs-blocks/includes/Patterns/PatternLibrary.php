@@ -42,7 +42,7 @@ class PatternLibrary {
 	public static function register_category(): void {
 		register_block_pattern_category(
 			self::CATEGORY_SLUG,
-			array( 'label' => __( 'GoDevs Blocks', 'godevs-block-library' ) )
+			array( 'label' => __( 'GoDevs Blocks', 'godevs-blocks' ) )
 		);
 	}
 
@@ -248,8 +248,8 @@ class PatternLibrary {
 	public static function add_submenu_page(): void {
 		add_submenu_page(
 			'goblocks-settings',
-			__( 'Pattern Library', 'godevs-block-library' ),
-			__( 'Patterns', 'godevs-block-library' ),
+			__( 'Pattern Library', 'godevs-blocks' ),
+			__( 'Patterns', 'godevs-blocks' ),
 			'edit_posts',
 			'goblocks-patterns',
 			array( self::class, 'render_page' )
