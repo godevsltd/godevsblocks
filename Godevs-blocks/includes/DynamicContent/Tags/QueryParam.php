@@ -29,7 +29,7 @@ class QueryParam extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'URL Query Param', 'godevs-block-library' ); }
+		return __( 'URL Query Param', 'godevs-block' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -43,7 +43,7 @@ class QueryParam extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'A value from the URL query string (?key=value).', 'godevs-block-library' ); }
+		return __( 'A value from the URL query string (?key=value).', 'godevs-block' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -70,13 +70,13 @@ class QueryParam extends TagBase {
 				'key'         => 'key',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'Query parameter name (required).', 'godevs-block-library' ),
+				'description' => __( 'Query parameter name (required).', 'godevs-block' ),
 			),
 			array(
 				'key'         => 'fallback',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'Value when parameter is absent.', 'godevs-block-library' ),
+				'description' => __( 'Value when parameter is absent.', 'godevs-block' ),
 			),
 		);
 	}

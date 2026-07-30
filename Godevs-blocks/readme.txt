@@ -1,4 +1,4 @@
-=== GoDevs Blocks ===
+=== GoDevs Block ===
 Contributors: godevs
 Tags: gutenberg, blocks, block-editor, full-site-editing, page-builder
 Requires at least: 6.5
@@ -87,11 +87,11 @@ per-page CSS file served as a static asset.
 = Links =
 
 * [Plugin Page](https://godevs.net/godevs-blocks)
-* [Support Forum](https://wordpress.org/support/plugin/godevs-block-library)
+* [Support Forum](https://wordpress.org/support/plugin/godevs-block)
 
 == Installation ==
 
-1. Upload the `godevs-block-library` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
+1. Upload the `godevs-block` folder to your `/wp-content/plugins/` directory, or install via **Plugins → Add New** in WordPress.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Open any post or page in the block editor.
 4. Find GoDevs Blocks in the block inserter under the **GoDevs Blocks** category.

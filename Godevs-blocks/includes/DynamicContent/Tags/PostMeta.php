@@ -28,7 +28,7 @@ class PostMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Meta', 'godevs-block-library' ); }
+		return __( 'Post Meta', 'godevs-block' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'A custom field value from the current post.', 'godevs-block-library' ); }
+		return __( 'A custom field value from the current post.', 'godevs-block' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,13 +69,13 @@ class PostMeta extends TagBase {
 				'key'         => 'key',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'Meta key (required).', 'godevs-block-library' ),
+				'description' => __( 'Meta key (required).', 'godevs-block' ),
 			),
 			array(
 				'key'         => 'fallback',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'Value to show when meta is empty.', 'godevs-block-library' ),
+				'description' => __( 'Value to show when meta is empty.', 'godevs-block' ),
 			),
 		);
 	}

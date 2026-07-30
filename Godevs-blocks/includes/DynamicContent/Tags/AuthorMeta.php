@@ -30,7 +30,7 @@ class AuthorMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Author Meta', 'godevs-block-library' ); }
+		return __( 'Author Meta', 'godevs-block' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -44,7 +44,7 @@ class AuthorMeta extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'A public meta field from the post author (bio, website, etc.).', 'godevs-block-library' ); }
+		return __( 'A public meta field from the post author (bio, website, etc.).', 'godevs-block' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -71,7 +71,7 @@ class AuthorMeta extends TagBase {
 				'key'         => 'key',
 				'type'        => 'string',
 				'default'     => 'description',
-				'description' => __( 'User field: description, url, user_email, user_url.', 'godevs-block-library' ),
+				'description' => __( 'User field: description, url, user_email, user_url.', 'godevs-block' ),
 			),
 		);
 	}

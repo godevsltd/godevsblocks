@@ -45,8 +45,8 @@ class GlobalStyles {
 	public static function add_submenu_page(): void {
 		add_submenu_page(
 			'goblocks-settings',
-			__( 'GoBlocks — Global Styles', 'godevs-block-library' ),
-			__( 'Global Styles', 'godevs-block-library' ),
+			__( 'GoBlocks — Global Styles', 'godevs-block' ),
+			__( 'Global Styles', 'godevs-block' ),
 			'manage_options',
 			'goblocks-global-styles',
 			array( self::class, 'render_page' )
@@ -62,7 +62,7 @@ class GlobalStyles {
 	 */
 	public static function render_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'godevs-block-library' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'godevs-block' ) );
 		}
 
 		echo '<div id="goblocks-global-styles-root" class="gb-global-styles-root"></div>';
@@ -127,7 +127,7 @@ class GlobalStyles {
 			);
 		}
 
-		wp_set_script_translations( 'goblocks-global-styles', 'godevs-block-library', GOBLOCKS_DIR . 'languages' );
+		wp_set_script_translations( 'goblocks-global-styles', 'godevs-block', GOBLOCKS_DIR . 'languages' );
 
 		wp_localize_script(
 			'goblocks-global-styles',

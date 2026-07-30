@@ -112,7 +112,7 @@ class StylesController extends RestController {
 		if ( ! $post instanceof \WP_Post ) {
 			return $this->error(
 				'goblocks_post_not_found',
-				__( 'Post not found.', 'godevs-block-library' ),
+				__( 'Post not found.', 'godevs-block' ),
 				404
 			);
 		}
@@ -120,7 +120,7 @@ class StylesController extends RestController {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $this->error(
 				'goblocks_forbidden',
-				__( 'You do not have permission to edit this post.', 'godevs-block-library' ),
+				__( 'You do not have permission to edit this post.', 'godevs-block' ),
 				403
 			);
 		}
