@@ -28,7 +28,7 @@ class SiteUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Site URL', 'godevs-block' ); }
+		return __( 'Site URL', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class SiteUrl extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The base URL of the site.', 'godevs-block' ); }
+		return __( 'The base URL of the site.', 'godevs-blocks' ); }
 	/**
 	 * Declared option schema.
 	 *

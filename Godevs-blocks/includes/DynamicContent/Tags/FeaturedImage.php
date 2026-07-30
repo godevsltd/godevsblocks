@@ -28,7 +28,7 @@ class FeaturedImage extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Featured Image', 'godevs-block' ); }
+		return __( 'Featured Image', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class FeaturedImage extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'A URL or attribute of the featured image.', 'godevs-block' ); }
+		return __( 'A URL or attribute of the featured image.', 'godevs-blocks' ); }
 	/**
 	 * Contexts in which this tag is valid.
 	 *
@@ -62,13 +62,13 @@ class FeaturedImage extends TagBase {
 				'key'         => 'size',
 				'type'        => 'string',
 				'default'     => 'large',
-				'description' => __( 'Image size slug.', 'godevs-block' ),
+				'description' => __( 'Image size slug.', 'godevs-blocks' ),
 			),
 			array(
 				'key'         => 'attr',
 				'type'        => 'string',
 				'default'     => 'src',
-				'description' => __( 'Attribute to return: src, alt, width, height, srcset.', 'godevs-block' ),
+				'description' => __( 'Attribute to return: src, alt, width, height, srcset.', 'godevs-blocks' ),
 			),
 		);
 	}

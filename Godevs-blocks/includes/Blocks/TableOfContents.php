@@ -84,12 +84,12 @@ class TableOfContents extends BlockBase {
 		$back_top_html = $show_back_top
 			? sprintf(
 				'<a href="#" class="gb-toc__back-top" aria-label="%s">%s</a>',
-				esc_attr__( 'Back to top of page', 'godevs-block' ),
-				esc_html__( '↑ Back to top', 'godevs-block' )
+				esc_attr__( 'Back to top of page', 'godevs-blocks' ),
+				esc_html__( '↑ Back to top', 'godevs-blocks' )
 			)
 			: '';
 
-		$nav_label = $title ? $title : __( 'Page outline', 'godevs-block' );
+		$nav_label = $title ? $title : __( 'Page outline', 'godevs-blocks' );
 
 		return sprintf(
 			'<nav class="%s" aria-label="%s"%s data-headings="%s" data-collapsible="%s" data-start-collapsed="%s" data-smooth-scroll="%s" data-scroll-offset="%d" data-list-style="%s">%s%s%s</nav>',

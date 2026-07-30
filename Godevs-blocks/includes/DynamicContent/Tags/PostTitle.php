@@ -28,7 +28,7 @@ class PostTitle extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Title', 'godevs-block' ); }
+		return __( 'Post Title', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostTitle extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The title of the current post or page.', 'godevs-block' ); }
+		return __( 'The title of the current post or page.', 'godevs-blocks' ); }
 	/**
 	 * Declared option schema.
 	 *

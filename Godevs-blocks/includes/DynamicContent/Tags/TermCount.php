@@ -28,7 +28,7 @@ class TermCount extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Term Count', 'godevs-block' ); }
+		return __( 'Term Count', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class TermCount extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'Number of terms from a taxonomy assigned to the post.', 'godevs-block' ); }
+		return __( 'Number of terms from a taxonomy assigned to the post.', 'godevs-blocks' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,7 +69,7 @@ class TermCount extends TagBase {
 				'key'         => 'taxonomy',
 				'type'        => 'string',
 				'default'     => 'category',
-				'description' => __( 'Taxonomy slug.', 'godevs-block' ),
+				'description' => __( 'Taxonomy slug.', 'godevs-blocks' ),
 			),
 		);
 	}

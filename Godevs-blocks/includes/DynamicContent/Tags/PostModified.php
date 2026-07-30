@@ -28,7 +28,7 @@ class PostModified extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post Modified Date', 'godevs-block' ); }
+		return __( 'Post Modified Date', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostModified extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The last-modified date of the post.', 'godevs-block' ); }
+		return __( 'The last-modified date of the post.', 'godevs-blocks' ); }
 	/**
 	 * Output escape type applied after resolve().
 	 *
@@ -69,7 +69,7 @@ class PostModified extends TagBase {
 				'key'         => 'format',
 				'type'        => 'string',
 				'default'     => '',
-				'description' => __( 'PHP date format.', 'godevs-block' ),
+				'description' => __( 'PHP date format.', 'godevs-blocks' ),
 			),
 		);
 	}

@@ -28,7 +28,7 @@ class PostId extends TagBase {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return __( 'Post ID', 'godevs-block' ); }
+		return __( 'Post ID', 'godevs-blocks' ); }
 	/**
 	 * Group for the tag picker.
 	 *
@@ -42,7 +42,7 @@ class PostId extends TagBase {
 	 * @return string
 	 */
 	public function get_description(): string {
-		return __( 'The numeric ID of the current post.', 'godevs-block' ); }
+		return __( 'The numeric ID of the current post.', 'godevs-blocks' ); }
 	/**
 	 * Declared option schema.
 	 *
